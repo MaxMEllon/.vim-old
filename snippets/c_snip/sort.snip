@@ -1,0 +1,106 @@
+#======================================================================
+# quick_sort
+#======================================================================
+snippet quick
+alias sort
+	// not safe
+	void quick_sort(Data x[ ], Data left, Data right);
+	void swap_data(Data x[ ], Data i, Data j);
+
+	void quick_sort(Data x[ ], Data left, Data right)
+	{
+		int i, j;
+		Data pivot;
+		i = left; j = right;
+		pivot = x[(left+right)/2];
+		while ( 1 ) {
+			while ( x[i] < pivot ) { i++; }
+			while ( pivot < x[j] ) { j--; }
+			if ( i >= j ) { break; }
+			swap_data(x, i, j);
+			i++; j--;
+		}
+		if ( left < i-1  ) { quick_sort(x, left, i-1);  }
+		if ( j+1 < right ) { quick_sort(x, j+1, right); }
+	}
+
+	void swap_data(Data x[ ], Data i, Data j)
+	{
+		Data temp;
+		temp = x[i];
+		x[i] = x[j];
+		x[j] = temp;
+	}
+
+#======================================================================
+# bubble-sort
+#======================================================================
+snippet bubble
+alias sort
+	// safe
+	void bubble(Data x[], int n);
+
+	void bubble(Data x[], int n)
+	{
+		int i;
+		for ( i = 0; i < n-1; i++) {
+			int j;
+			Data tmp;
+			for ( j = n-1; j > i; j--) {
+				if ( x[j-1] > x[j] ) {
+					tmp = x[j];
+					x[j] = x[j-1];
+					x[j-1] = tmp;
+				}
+			}
+		}
+	}
+
+#======================================================================
+# insert-sort
+#======================================================================
+snippet insert
+alias sort
+	// safe
+	void insert(Data x[], int n);
+
+	void insert(Data x[], int n)
+	{
+		int i, j
+		Data tmp;
+		for ( i = 0; i < n; i++ ) {
+			tmp = x[j];
+			for ( j = i; j > 0 && x[j-1] > tmp; j-- ) {
+				x[j] = x[j-1];
+			}
+			x[j] = tmp;
+		}
+	}
+
+#======================================================================
+# select-sort
+#======================================================================
+snippet insert
+alias sort
+	// not safe
+	void select(Data x[], int n);
+
+	void select(Data x[], int n)
+	{
+		int i, j, k;
+		Data min, tmp;
+		for ( i = 0; i < n-1; i++ ) {
+			min = x[i];
+			k = i;
+			for ( j = i+1; j < n; j++ ) {
+				if ( x[j] < min ) {
+					min = x[j];
+					k = j;
+				}
+			}
+			tmp = x[k];
+			x[i] = data[k];
+			x[k] = tmp;
+		}
+	}
+
