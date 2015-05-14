@@ -1,7 +1,4 @@
 " init {{{
-"=====================================================================
-" 初期設定
-"=====================================================================
 autocmd!
 
 let mapleader='\'
@@ -29,10 +26,6 @@ endif
 " }}}
 
 " plugin {{{
-"======================================================================
-" neobundle
-"======================================================================
-
 set nocompatible               " Be iMproved
 filetype off                   " Required!
 
@@ -73,7 +66,6 @@ NeoBundle 'Shougo/vimproc', {
 "======================================================================
 
 " if_luaが有効ならneocompleteを使う
-"NeoBundle has('lua') ? 'Shougo/neocomplete' : 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neocomplcache'
 
 "neocomplcacheを有効化
@@ -472,7 +464,7 @@ let g:syntastic_warning_symbol='☃ '
 let g:syntastic_mode_map = {
       \  'mode': 'active',
       \  'active_filetypes': ['c', 'c++', 'ruby'],
-      \  'passive_filetypes': []
+      \  'passive_filetypes': ['coffee']
       \ }
 
 augroup AutoSyntastic
@@ -646,6 +638,18 @@ nnoremap [w3mEx]r :W3mTab http://localhost:3000<CR>
 NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
 
 "======================================================================
+" vim-cjsx
+"======================================================================
+
+NeoBundle 'mtscout6/vim-cjsx'
+
+"======================================================================
+" vim-rulerbar
+"======================================================================
+
+NeoBundle 'https://github.com/zenzike/vim-rulerbar'
+
+"======================================================================
 " colorscheme
 "======================================================================
 
@@ -655,10 +659,6 @@ NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'vim-scripts/twilight'
 " molokaiに飽きを感じたころ用
 NeoBundle 'Wombat256.vim'
-" }}}
-
-" 自作プラグイン {{{
-" NeoBundle 'comeblo'
 " }}}
 
 " 基本設定 {{{
@@ -864,6 +864,8 @@ autocmd BufNewFile,BufRead *.coffee set filetype=coffee
 autocmd BufNewFile,BufRead *.scss set filetype=less
 " platuml
 autocmd BufNewFile,BufRead *.pu set filetype=plantuml
+" cjsx
+autocmd BufNewFile,BufRead *.cjsx set filetype=coffee
 " }}}
 
 " swap, backup {{{
@@ -946,10 +948,6 @@ endfunction
 " }}}
 
 " reload {{{
-"======================================================================
-" 戦闘力を上げるために
-"======================================================================
-
 "'\e[v|g]'で.(g)vimrcを編集
 nnoremap <silent><Leader>ev  :<C-u>edit $MYVIMRC<CR> :echo "Opened .vimrc"<CR>
 nnoremap <silent><Leader>eg  :<C-u>edit $MYGVIMRC<CR> :echo "Opened .gvimrc"<CR>
@@ -959,10 +957,7 @@ nnoremap <silent><Leader>rv :<C-u>source $MYVIMRC<CR> :echo "Finish Loading .vim
 nnoremap <silent><Leader>rg :<C-u>source $MYGVIMRC<CR> :echo "Finish Loading .vimrc"<CR>
 " }}}
 
-" bind {{{
-"=====================================================================
-" keybind
-"=====================================================================
+" key-bind {{{
 " 移動を直感的に
 nnoremap <silent> j gj
 nnoremap <silent> gj j
@@ -977,12 +972,12 @@ vnoremap <silent> gk k
 vnoremap <silent> $ g$
 vnoremap <silent> g$ $
 
-"jjでガチノーマルモードへ
+"jjでノーマルモードへ
 inoremap jj <Esc>
 inoremap <C-j><C-j> <Esc>
 vnoremap <C-j><C-j> <Esc>
 
-"vvガチ矩形ビジュアル,vvvでガチ行ビジュアル
+"vv矩形ビジュアル,vvvで行ビジュアル
 vnoremap v  <C-v>
 vnoremap vv <S-v>
 
@@ -1110,10 +1105,6 @@ nnoremap <silent>S viw
 " }}}
 
 " view {{{
-"=====================================================================
-" 視覚化、表示など
-"=====================================================================
-
 "全角スペースを視覚化
 highlight ZenkakuSpace cterm=underline ctermfg=7
 au BufNewFile,BufRead * match ZenkakuSpace /　/
@@ -1156,10 +1147,6 @@ augroup END
 " }}}
 
 " Status-line{{{
-"=================================================
-" インサートモード時に、ステータスラインの色を変更
-" Windowsのときのみ
-"=================================================
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
 
 if has('syntax')
@@ -1196,10 +1183,6 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline(}%=%-14.(%l,%c%V%)\ %P)
 "}}}
 
 " color {{{
-"=====================================================================
-" color
-"=====================================================================
-
 colorscheme molokai
 syntax on
 let g:molokai_original = 1
@@ -1230,9 +1213,6 @@ endfunction
 "}}}
 
 " tab-editer {{{
-"=====================================================================
-" tab-editer
-"=====================================================================
 set showtabline=2 " 常にタブ
 " prefix
 nnoremap [Tag] <Nop>
@@ -1256,10 +1236,6 @@ nnoremap <silent> <F2> :tabprevious<CR>
 "}}}
 
 " comment{{{
-"=====================================================================
-" comment
-"=====================================================================
-
 " コメントブロック作成関数
 function! CommentBlock(comment, ...)
     let introducer =  a:0 >= 1  ?  a:1  :  "//"
@@ -1283,9 +1259,6 @@ inoremap <silent> ;;;; <C-R>=CommentBlock(input("  "), ';;', '=', 70)<CR><CR><Up
 
 " Sento-Ryoku {{{
 " http://d.hatena.ne.jp/thinca/20091031/1257001194
-"======================================================================
-" Sento-Ryoku
-"======================================================================
 function! Scouter(file, ...)
   let pat = '^\s*$\|^\s*"'
   let lines = readfile(a:file)
