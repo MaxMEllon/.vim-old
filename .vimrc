@@ -1,3 +1,14 @@
+"--------------------------------------------------------------------------------------------
+"                       ##     ## #### ##     ## ########   ######
+"                       ##     ##  ##  ###   ### ##     ## ##    ##
+"                       ##     ##  ##  #### #### ##     ## ##
+"                       ##     ##  ##  ## ### ## ########  ##
+"                        ##   ##   ##  ##     ## ##   ##   ##
+"                   ###   ## ##    ##  ##     ## ##    ##  ##    ##
+"                   ###    ###    #### ##     ## ##     ##  ######
+"--------------------------------------------------------------------------------------------
+
+
 " plugin {{{
 set nocompatible               " Be iMproved
 filetype off                   " Required!
@@ -44,9 +55,9 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
   NeoBundle 'mtscout6/vim-cjsx'
   " color
-  NeoBundle 'altercation/vim-colors-solarized'
-  NeoBundle 'vim-scripts/twilight'
-  NeoBundle 'Wombat256.vim'
+  NeoBundleLazy 'altercation/vim-colors-solarized'
+  NeoBundleLazy 'vim-scripts/twilight'
+  NeoBundleLazy 'Wombat256.vim'
 call neobundle#end()
 " }}}
 filetype plugin indent on     " Required!
@@ -452,24 +463,23 @@ set ambiwidth=double
 "}}}
 " }}}
 " autocmd {{{
-autocmd FileType *        setlocal formatoptions-=ro
-autocmd FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
-autocmd FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
-autocmd FileType yaml     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
-autocmd FileType conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2
-autocmd FileType coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-autocmd FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-autocmd FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-autocmd BufNewFile,BufRead *.md     set filetype=markdown
-autocmd BufNewFile,BufRead *.slim   set filetype=slim
-autocmd BufNewFile,BufRead *.less   set filetype=less
-autocmd BufNewFile,BufRead *.coffee set filetype=coffee
-autocmd BufNewFile,BufRead *.scss   set filetype=less
-autocmd BufNewFile,BufRead *.pu     set filetype=plantuml
-autocmd BufNewFile,BufRead *.cjsx   set filetype=coffee
-" 行末のスペースをハイライト
-augroup HighlightTrailingSpaces
+augroup myvimrc
   autocmd!
+  autocmd FileType *        setlocal formatoptions-=ro
+  autocmd FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
+  autocmd FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
+  autocmd FileType yaml     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
+  autocmd FileType conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2
+  autocmd FileType coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+  autocmd FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+  autocmd FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+  autocmd BufNewFile,BufRead *.md     set filetype=markdown
+  autocmd BufNewFile,BufRead *.slim   set filetype=slim
+  autocmd BufNewFile,BufRead *.less   set filetype=less
+  autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+  autocmd BufNewFile,BufRead *.scss   set filetype=less
+  autocmd BufNewFile,BufRead *.pu     set filetype=plantuml
+  autocmd BufNewFile,BufRead *.cjsx   set filetype=coffee
   autocmd VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
   autocmd InsertLeave * match TrailingSpaces /\s\+$/
 augroup END
