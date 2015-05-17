@@ -578,6 +578,8 @@ nnoremap <silent><Leader>ev  :<C-u>edit $MYVIMRC<CR> :echo "Opened .vimrc"<CR>
 nnoremap <silent><Leader>rv  :<C-u>source $MYVIMRC<CR> :echo "Finish Loading .vimrc"<CR>
 
 " tab
+nnoremap [Tag] <Nop>
+nmap t [Tag]
 nnoremap [Tag]e :<C-u>tabedit<Space>
 nnoremap <silent> [Tag]c :tablast <bar> tabnew<CR>
 nnoremap <silent> [Tag]x :tabclose<CR>
@@ -586,12 +588,15 @@ nnoremap <silent> <F3> :tabnext<CR>
 nnoremap <silent> [Tag]p :tabprevious<CR>
 nnoremap <silent> <F2> :tabprevious<CR>
 
-"バックスペースとデリートキーをエイリアス
 inoremap <C-d> <Del>
-"行の先頭へ移動
 nnoremap <Space>h ^
-"行の後ろへ移動
 nnoremap <Space>l $
+nnoremap <Space>m %
+
+nnoremap <c-h>        <c-w>h
+nnoremap <c-j>        <c-w>j
+nnoremap <c-k>        <c-w>k
+nnoremap <c-l>        <c-w>l
 
 "カッコなどを入力したら自動的に中へ
 inoremap {} {}<Left>
@@ -622,7 +627,6 @@ noremap <silent><F4> <ESC>:bp<CR>
 noremap <silent><F5> <ESC>:bn<CR>
 
 nnoremap <F5> :<C-u>setlocal relativenumber!<CR>
-nnoremap <Space><Space> <C-w><C-w>
 
 """ Prefix[,]
 " ,xで行末のスペースを取り除く
@@ -659,6 +663,13 @@ cnoremap <C-n> <Down>
 nnoremap <silent>S viw
 " ハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR><ESC><C-l>
+
+nnoremap } }zz
+nnoremap { {zz
+nnoremap ]] ]]zz
+nnoremap [[ [[zz
+nnoremap [] []zz
+nnoremap ][ ][zz
 
 " Command-line Window {{{
 set cmdwinheight=10 "Command-line windowの行数
@@ -751,9 +762,6 @@ endfunction
 "}}}
 " tab {{{
 set showtabline=2 " 常にタブ
-" prefix
-nnoremap [Tag] <Nop>
-nmap t [Tag]
 " tab jump
 for n in range(1, 9)
   execute 'nnoremap <silent> [Tag]'.n ':<C-u>tabnext'.n.'<CR>'
@@ -794,3 +802,4 @@ endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
       \  echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 "}}}
+
