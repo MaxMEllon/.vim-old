@@ -1,6 +1,6 @@
-" MaxMEllon's .vimrc
+"p MaxMEllon's .vimrc
 "-----------------------------------------------------------------------------------"
-"|                      ##     ## #### ##     ## ########   ######                 |"
+"|p                      ##     ## #### ##     ## ########   ######                 |"
 "|                      ##     ##  ##  ###   ### ##     ## ##    ##                |"
 "|                      ##     ##  ##  #### #### ##     ## ##                      |"
 "|                      ##     ##  ##  ## ### ## ########  ##                      |"
@@ -360,6 +360,8 @@ nnoremap ,sc :<C-u>SyntasticCheck<CR>
 nnoremap ,sct :<C-u>SyntasticToggleMode<CR>
 " undotree key-mappings
 nnoremap ,u :UndotreeToggle<CR>
+" yankround history(using Unite)
+nnoremap ,y :Unite yankround<CR>
 " w3m key-mappings
 nnoremap <F8> [w3m]
 xnoremap <F8> [w3m]
@@ -405,6 +407,9 @@ set list
 set listchars=eol:$,tab:>-,trail:_
 set laststatus=2
 set cmdheight=1
+
+set fileformats=unix,dos,mac " 改行コードの自動認識
+set ambiwidth=double " □とか○の文字があってもカーソル位置がずれないようにする
 
 " encode
 set encoding=utf-8 "文字コード指定
@@ -460,10 +465,6 @@ set fileencodings=utf-8,s-jis " 文字エンコードを次の順番で確認
 "   endfunction
 "   autocmd BufReadPost * call AU_ReCheck_FENC()
 " endif
-" " 改行コードの自動認識
-" set fileformats=unix,dos,mac
-" " □とか○の文字があってもカーソル位置がずれないようにする
-" set ambiwidth=double
 "
 "}}}
 " }}}
