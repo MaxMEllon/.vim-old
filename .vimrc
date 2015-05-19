@@ -269,11 +269,11 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 " yankround.vim key-mappings
 if has('yankround')
   nmap p <Plug>(yankround-p)
-  nmap P <Plug>(yankround-P)
+  xmap P <Plug>(yankround-P)
   nmap gp <Plug>(yankround-gp)
   xmap gp <Plug>(yankround-gp)
-  nmap <C-p> <Plug>(yankround-prev)
   nmap <C-n> <Plug>(yankround-next)
+  nmap <C-p> <Plug>(yankround-prev)
 endif
 " neocomplcache key-mappings.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
