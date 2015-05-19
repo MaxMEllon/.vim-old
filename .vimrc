@@ -1,4 +1,4 @@
-"p MaxMEllon's .vimrc
+" MaxMEllon's .vimrc
 "-----------------------------------------------------------------------------------"
 "|                      ##     ## #### ##     ## ########   ######                 |"
 "|                      ##     ##  ##  ###   ### ##     ## ##    ##                |"
@@ -558,10 +558,10 @@ nnoremap Q  q
 
 " reload
 nnoremap <silent><Leader>ev  :<C-u>edit $MYVIMRC<CR> :echo "Opened .vimrc"<CR>
-nnoremap <silent><Leader>rv  :<C-u>source $MYVIMRC<CR> :echo "Finish Loading .vimrc"<CR>
+nnoremap <silent><Leader>rv  :<C-u>source $MYVIMRC<CR> :echo "Reload"<CR>
 
 " tab
-nnoremap [Tag] <Nop>
+nmap [Tag] <Nop>
 nmap t [Tag]
 nnoremap [Tag]e :<C-u>tabedit<Space>
 nnoremap <silent> [Tag]c :tablast <bar> tabnew<CR>
