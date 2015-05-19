@@ -1,15 +1,15 @@
 " MaxMEllon's .vimrc
-"-------------------------------------------------------------------------------
-"|                  ##     ## #### ##     ## ########   ######                 |＼
-"|                  ##     ##  ##  ###   ### ##     ## ##    ##                |  |
-"|                  ##     ##  ##  #### #### ##     ## ##                      |  |
-"|                  ##     ##  ##  ## ### ## ########  ##                      |  |
-"|                   ##   ##   ##  ##     ## ##   ##   ##                      |  |
-"|              ###   ## ##    ##  ##     ## ##    ##  ##    ##                |  |
-"|              ###    ###    #### ##     ## ##     ##  ######                 |  |
-"-------------------------------------------------------------------------------  |
-" ＼                                                                            ＼
-"   ----------------------------------------------------------------------------
+"----------------------------------------------------------<--------------------
+"|        ##     ## #### ##     ## ########   ######       |                    |＼
+"|        ##     ##  ##  ###   ### ##     ## ##    ##      |                    |  |
+"|        ##     ##  ##  #### #### ##     ## ##            |                    |  |
+"|        ##     ##  ##  ## ### ## ########  ##            |                    |  |
+"|         ##   ##   ##  ##     ## ##   ##   ##            |                    |  |
+"|    ###   ## ##    ##  ##     ## ##    ##  ##    ##      |                    |  |
+"|    ###    ###    #### ##     ## ##     ##  ######       |                    |  |
+"----------------------------------------------------------<--------------------   |
+" ＼                                                        ＼                  ＼
+"   ----------------------------------------------------------<-----------------
 " plugin {{{
 set nocompatible               " Be iMproved
 filetype off                   " Required!
@@ -164,9 +164,9 @@ let g:lightline = {
 set t_Co=256
 
 " 見た目に関する設定
-let g:gitgutter_sign_added = '✚'
-let g:gitgutter_sign_modified = '➜'
-let g:gitgutter_sign_removed = '✘'
+let g:gitgutter_sign_added    = '+'
+let g:gitgutter_sign_modified = '>'
+let g:gitgutter_sign_removed  = 'X'
 
 " gitbranch名
 function! MyFugitive()
@@ -403,6 +403,7 @@ set scrolloff=10
 set modeline
 set modelines=3
 set nf=alpha,hex
+set ruler
 
 " swap
 set swapfile
@@ -418,7 +419,7 @@ set helplang=ja
 set showmatch
 set list
 set listchars=eol:$,tab:>-,trail:_
-set laststatus=2
+set laststatus=2 " ステータス行を常に表示
 set cmdheight=1
 
 set fileformats=unix,dos,mac " 改行コードの自動認識
@@ -429,7 +430,9 @@ set encoding=utf-8 "文字コード指定
 set fileencodings=utf-8,s-jis " 文字エンコードを次の順番で確認
 
 set secure
+set ttyfast " スクロールが滑らかに
 
+"
 " quotation github:Shougo/shougo-s-github
 "----------------------------------------------------------------------
 " https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/encoding.rc.vim
@@ -475,7 +478,7 @@ set hlsearch "ハイライト検索
 if version >=703
   set foldenable         " 折りたたみon
   set foldmethod =marker " 折りたたみ方法:マーカ
-  set foldcolumn =3
+  set foldcolumn =2
   set foldlevel  =0
 endif
 " }}}
