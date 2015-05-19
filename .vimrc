@@ -1,6 +1,6 @@
 "p MaxMEllon's .vimrc
 "-----------------------------------------------------------------------------------"
-"|p                      ##     ## #### ##     ## ########   ######                 |"
+"|                      ##     ## #### ##     ## ########   ######                 |"
 "|                      ##     ##  ##  ###   ### ##     ## ##    ##                |"
 "|                      ##     ##  ##  #### #### ##     ## ##                      |"
 "|                      ##     ##  ##  ## ### ## ########  ##                      |"
@@ -422,7 +422,7 @@ set secure
 
 " quotation github:Shougo/shougo-s-github
 "----------------------------------------------------------------------
-" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/filetype.rc.vim
+" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/encoding.rc.vim
 call s:source_rc('encoding.rc.vim')
 " }}}
 " highlight {{{
@@ -734,12 +734,10 @@ endfor
 
 "}}}
 " comment {{{
-" コメントブロック作成関数
 function! CommentBlock(comment, ...)
     let introducer =  a:0 >= 1  ?  a:1  :  "//"
     let box_char   =  a:0 >= 2  ?  a:2  :  "*"
     let width      =  a:0 >= 3  ?  a:3  :  strlen(a:comment) + 2
-    " blockの出力
     return introducer . repeat(box_char,width) . "\<CR>"
     \    . introducer . " " . a:comment        . "\<CR>"
     \    . introducer . repeat(box_char,width) . "\<CR>"
@@ -755,6 +753,8 @@ inoremap <silent> //// <C-R>=CommentBlock(input("  "), '//', '=', 50)<CR><CR><Up
 inoremap <silent> ;;;; <C-R>=CommentBlock(input("  "), ';;', '=', 50)<CR><CR><Up><Up><Right><Right>
 "}}}
 " Sento-Ryoku {{{
+" quotation
+"----------------------------------------------------------------------
 " http://d.hatena.ne.jp/thinca/20091031/1257001194
 function! Scouter(file, ...)
   let pat = '^\s*$\|^\s*"'
