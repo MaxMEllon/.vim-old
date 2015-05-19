@@ -49,7 +49,7 @@ try
     NeoBundle 'mopp/AOJ.vim'
     NeoBundle 'mattn/webapi-vim'
     NeoBundle "tyru/caw.vim.git"
-    NeoBundle 'LeafCage/yankround.vim'
+    " NeoBundle 'LeafCage/yankround.vim'
     NeoBundle 'mbbill/undotree'
     NeoBundle 'https://github.com/tpope/vim-capslock'
     NeoBundle 'https://github.com/tyru/open-browser.vim'
@@ -267,12 +267,14 @@ let g:undotree_HighlightChangedText = 1
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 " yankround.vim key-mappings
-nmap p <Plug>(yankround-p)
-nmap P <Plug>(yankround-P)
-nmap gp <Plug>(yankround-gp)
-xmap gp <Plug>(yankround-gp)
-nmap <C-p> <Plug>(yankround-prev)
-nmap <C-n> <Plug>(yankround-next)
+if has('yankround')
+  nmap p <Plug>(yankround-p)
+  nmap P <Plug>(yankround-P)
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  nmap <C-p> <Plug>(yankround-prev)
+  nmap <C-n> <Plug>(yankround-next)
+endif
 " neocomplcache key-mappings.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-g> neocomplcache#undo_completion(
