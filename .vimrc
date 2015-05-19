@@ -49,10 +49,10 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
   NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
   " syntax highlight
-  NeoBundle 'slim-template/vim-slim'
-  NeoBundle 'groenewege/vim-less'
-  NeoBundle 'kchmck/vim-coffee-script'
-  NeoBundle 'mtscout6/vim-cjsx'
+  NeoBundle 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ]} }
+  NeoBundle 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ]} }
+  NeoBundle 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ]} }
+  NeoBundle 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ]} }
   " color
   NeoBundleLazy 'altercation/vim-colors-solarized'
   NeoBundleLazy 'vim-scripts/twilight'
@@ -580,10 +580,10 @@ nnoremap <Space>h ^
 nnoremap <Space>l $
 nnoremap <Space>m %
 
-nnoremap <c-h>        <c-w>h
-nnoremap <c-j>        <c-w>j
-nnoremap <c-k>        <c-w>k
-nnoremap <c-l>        <c-w>l
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 
 "カッコなどを入力したら自動的に中へ
 inoremap {} {}<Left>
