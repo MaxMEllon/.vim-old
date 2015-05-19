@@ -1,4 +1,4 @@
-"--------------------------------------------------------------------------------------------
+"------------------------------------------------------------------------------------
 "                       ##     ## #### ##     ## ########   ######
 "                       ##     ##  ##  ###   ### ##     ## ##    ##
 "                       ##     ##  ##  #### #### ##     ## ##
@@ -6,9 +6,7 @@
 "                        ##   ##   ##  ##     ## ##   ##   ##
 "                   ###   ## ##    ##  ##     ## ##    ##  ##    ##
 "                   ###    ###    #### ##     ## ##     ##  ######
-"--------------------------------------------------------------------------------------------
-
-
+"-------------------------------------------------------------------------------------
 " plugin {{{
 set nocompatible               " Be iMproved
 filetype off                   " Required!
@@ -23,7 +21,6 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'Shougo/neocomplcache'
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle 'https://github.com/MaxMEllon/vim-capslock'
   NeoBundle 'itchyny/lightline.vim'
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'airblade/vim-gitgutter'
@@ -37,27 +34,31 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'Shougo/neomru.vim'
   NeoBundle 'osyo-manga/unite-filetype'
   NeoBundle 'basyura/unite-rails'
-  NeoBundle 'git://github.com/basyura/TweetVim.git'
-  NeoBundle 'git://github.com/yomi322/unite-tweetvim.git'
-  NeoBundle 'https://github.com/tyru/open-browser.vim'
-  NeoBundle 'https://github.com/basyura/twibill.vim'
   NeoBundle 'mopp/AOJ.vim'
   NeoBundle 'mattn/webapi-vim'
   NeoBundle "tyru/caw.vim.git"
   NeoBundle 'scrooloose/syntastic'
   NeoBundle 'LeafCage/yankround.vim'
   NeoBundle 'mbbill/undotree'
+  NeoBundle 'yuratomo/w3m.vim'
+  NeoBundle 'https://github.com/tpope/vim-capslock'
+  NeoBundle 'https://github.com/tyru/open-browser.vim'
+  NeoBundle 'https://github.com/basyura/twibill.vim'
+  NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
+  NeoBundle 'https://github.com/MaxMEllon/vim-capslock'
+  NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
+  NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
+  " syntax highlight
   NeoBundle 'slim-template/vim-slim'
   NeoBundle 'groenewege/vim-less'
   NeoBundle 'kchmck/vim-coffee-script'
-  NeoBundle 'surround.vim'
-  NeoBundle 'yuratomo/w3m.vim'
-  NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
   NeoBundle 'mtscout6/vim-cjsx'
   " color
   NeoBundleLazy 'altercation/vim-colors-solarized'
   NeoBundleLazy 'vim-scripts/twilight'
   NeoBundleLazy 'Wombat256.vim'
+  " disalble
+  " NeoBundle 'surround.vim'
 call neobundle#end()
 " }}}
 filetype plugin indent on     " Required!
@@ -258,9 +259,6 @@ let g:undotree_HighlightChangedText = 1
 " neo-snipperts key-mappings.
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" CapsLock.vim key-mappings.
-imap <C-L> <Plug>CapsLockToggle
-nmap ,l    <Plug>CapsLockToggle
 " yankround.vim key-mappings
 nmap p <Plug>(yankround-p)
 nmap P <Plug>(yankround-P)
@@ -268,8 +266,6 @@ nmap gp <Plug>(yankround-gp)
 xmap gp <Plug>(yankround-gp)
 nmap <C-p> <Plug>(yankround-prev)
 nmap <C-n> <Plug>(yankround-next)
-" NERDTree key-mappings
-nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
 " neocomplcache key-mappings.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-g> neocomplcache#undo_completion(
@@ -341,6 +337,10 @@ nnoremap ,rj :<C-u>Unite rails/javascript<CR>
 nnoremap ,rg :<C-u>Unite rails/gemfile<CR>
 nnoremap ,rd :<C-u>Unite rails/db<CR>
 " }}}
+" CapsLock.vim key-mappings.
+nnoremap ,l <Plug>CapsLockToggle
+" NERDTree key-mappings
+nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
 " Tweetvim key-mapping
 nnoremap ,tt :<C-u>Unite tweetvim<CR>
 nnoremap ,ts :<C-u>TweetVimSay<CR>
@@ -353,8 +353,8 @@ nnoremap ,sct :<C-u>SyntasticToggleMode<CR>
 " undotree key-mappings
 nnoremap ,u :UndotreeToggle<CR>
 " w3m key-mappings
-nmap <F8> [w3m]
-xmap <F8> [w3m]
+nnoremap <F8> [w3m]
+xnoremap <F8> [w3m]
 nnoremap [w3m]s :W3mTab google
 nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
 " }}}
@@ -492,45 +492,32 @@ set incsearch "検索ワードの最初の文字を入力した時点から検�
 set hlsearch "ハイライト検索
 " }}}
 " folding {{{
-" 折りたたみon
-set foldenable
-" 折りたたみ方法:マーカ
-set foldmethod=marker
-"
-set foldcolumn=3
-"
-set foldlevel=0
-" 自動オープン
-" set foldopen=all
-" 自動クローズ
-" set foldclose=all
+set foldenable         " 折りたたみon
+set foldmethod =marker " 折りたたみ方法:マーカ
+set foldcolumn =3
+set foldlevel  =0
 "}}}
 " indent, tab{{{
-"タブの代わりに空白文字を挿入する
-set expandtab
-"タブ幅の設定
-set shiftwidth=2
-set tabstop=2
-set softtabstop=2
-"自動インデント
+set expandtab       "タブの代わりに空白文字を挿入する
+set shiftwidth  =2  "タブ幅の設定
+set tabstop     =2
+set softtabstop =2
 set autoindent
-"スマートインデント
 set smartindent
-"スマートタブ
 set smarttab
 " }}}
 " key-bind {{{
-nnoremap <silent> j gj
+nnoremap <silent> j  gj
 nnoremap <silent> gj j
-nnoremap <silent> k gk
+nnoremap <silent> k  gk
 nnoremap <silent> gk k
-nnoremap <silent> $ g$
+nnoremap <silent> $  g$
 nnoremap <silent> g$ $
-vnoremap <silent> j gj
+vnoremap <silent> j  gj
 vnoremap <silent> gj j
-vnoremap <silent> k gk
+vnoremap <silent> k  gk
 vnoremap <silent> gk k
-vnoremap <silent> $ g$
+vnoremap <silent> $  g$
 vnoremap <silent> g$ $
 
 " jjでノーマルモードへ
@@ -546,27 +533,27 @@ vnoremap OA <Up>
 vnoremap OB <Down>
 vnoremap OC <Right>
 vnoremap OD <Left>
-vnoremap A <Up>
-vnoremap B <Down>
-vnoremap C <Right>
-vnoremap D <Left>
+vnoremap A  <Up>
+vnoremap B  <Down>
+vnoremap C  <Right>
+vnoremap D  <Left>
 inoremap OA <Up>
 inoremap OB <Down>
 inoremap OC <Right>
 inoremap OD <Left>
-inoremap A <Up>
-inoremap B <Down>
-inoremap C <Right>
-inoremap D <Left>
+inoremap A  <Up>
+inoremap B  <Down>
+inoremap C  <Right>
+inoremap D  <Left>
 
 nnoremap OA <C-w>- 4
 nnoremap OB <C-w>+ 4
 nnoremap OC <C-w>< 2
 nnoremap OD <C-w>> 2
-nnoremap A <C-w>- 4
-nnoremap B <C-w>+ 4
-nnoremap C <C-w>< 2
-nnoremap D <C-w>> 2
+nnoremap A  <C-w>- 4
+nnoremap B  <C-w>+ 4
+nnoremap C  <C-w>< 2
+nnoremap D  <C-w>> 2
 
 inoremap <C-f><C-h> <Left>
 inoremap <C-f><C-j> <Down>
