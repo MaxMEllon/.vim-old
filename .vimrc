@@ -389,21 +389,29 @@ function! s:source_rc(path)
 endfunction
 " }}}
 " set {{{
-set t_Co=256
-set number
-set relativenumber
 set autoread
-set cursorline
-set nocompatible
-set whichwrap=b,s,h,l,<,>,[,]
-set backspace=indent,eol,start"{{{"}}}
 set autowrite
-set matchpairs+=<:>
-set scrolloff=10
+set backspace=indent,eol,start"{{{"}}}
+set cursorline
+set cmdheight=1
+set list
+set listchars=eol:$,tab:>-,trail:_
+set laststatus=2 " ステータス行を常に表示
 set modeline
+set matchpairs+=<:>
 set modelines=3
+set nocompatible
+set number
 set nf=alpha,hex
+set relativenumber
 set ruler
+set report=0
+set showmatch
+set scrolloff=10
+set secure
+set ttyfast " スクロールが滑らかに
+set t_Co=256
+set whichwrap=b,s,h,l,<,>,[,]
 
 " swap
 set swapfile
@@ -416,21 +424,14 @@ helptags ~/.vim/help/vimdoc-ja/doc
 set runtimepath+=~/.vim/help/vimdoc-ja
 set helplang=ja
 
-set showmatch
-set list
-set listchars=eol:$,tab:>-,trail:_
-set laststatus=2 " ステータス行を常に表示
-set cmdheight=1
 
-set fileformats=unix,dos,mac " 改行コードの自動認識
-set ambiwidth=double " □とか○の文字があってもカーソル位置がずれないようにする
 
 " encode
 set encoding=utf-8 "文字コード指定
 set fileencodings=utf-8,s-jis " 文字エンコードを次の順番で確認
 
-set secure
-set ttyfast " スクロールが滑らかに
+set fileformats=unix,dos,mac " 改行コードの自動認識
+set ambiwidth=double " □とか○の文字があってもカーソル位置がずれないようにする
 
 "
 " quotation github:Shougo/shougo-s-github
