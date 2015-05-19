@@ -51,12 +51,12 @@ try
     NeoBundle "tyru/caw.vim.git"
     NeoBundle 'LeafCage/yankround.vim'
     NeoBundle 'mbbill/undotree'
-    NeoBundleLazy 'yuratomo/w3m.vim'
     NeoBundle 'https://github.com/tpope/vim-capslock'
     NeoBundle 'https://github.com/tyru/open-browser.vim'
     NeoBundle 'https://github.com/basyura/twibill.vim'
     NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
     NeoBundle 'https://github.com/MaxMEllon/vim-capslock'
+    NeoBundleLazy 'yuratomo/w3m.vim', { "autoload" : { "commands" : [ "W3mTab" ] } }
     NeoBundleLazy 'mattn/emmet-vim', { "autoload" : { "filetypes" : [ "html" ]  } }
     NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
     NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
