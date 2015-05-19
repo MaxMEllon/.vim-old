@@ -250,8 +250,11 @@ augroup AutoSyntastic
 augroup END
 
 function! s:syntastic()
-  SyntasticCheck
-  call lightline#update()
+  try
+    SyntasticCheck
+    call lightline#update()
+  catch
+  endtry
 endfunction
 " }}}
 " undotree config {{{
@@ -391,7 +394,7 @@ set autoread
 set cursorline
 set nocompatible
 set whichwrap=b,s,h,l,<,>,[,]
-set backspace=indent,eol,start
+set backspace=indent,eol,start"{{{"}}}
 set autowrite
 set matchpairs+=<:>
 set scrolloff=10
@@ -467,11 +470,13 @@ set incsearch "検索ワードの最初の文字を入力した時点から検�
 set hlsearch "ハイライト検索
 " }}}
 " folding {{{
-set foldenable         " 折りたたみon
-set foldmethod =marker " 折りたたみ方法:マーカ
-set foldcolumn =3
-set foldlevel  =0
-"}}}
+if version >=703
+  set foldenable         " 折りたたみon
+  set foldmethod =marker " 折りたたみ方法:マーカ
+  set foldcolumn =3
+  set foldlevel  =0
+endif
+" }}}
 " indent, tab{{{
 set expandtab       "タブの代わりに空白文字を挿入する
 set shiftwidth  =2  "タブ幅の設定
