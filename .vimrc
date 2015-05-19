@@ -13,53 +13,68 @@ filetype off                   " Required!
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+" neobundle installation check {{{
+try
+  if neobundle#exists_not_installed_bundles()
+    echomsg 'Not installed bundles : ' .
+          \ string(neobundle#get_not_installed_bundle_names())
+    echomsg 'Please execute ":NeoBundleInstall" command.'
+    "finish
+  endif
+catch
+endtry
+" }}}
 " neobundle {{{
-call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  " vimproc {{{
-  NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
-  NeoBundle 'Shougo/neocomplcache'
-  NeoBundle 'Shougo/neosnippet'
-  NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle 'itchyny/lightline.vim'
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'airblade/vim-gitgutter'
-  NeoBundle 'rails.vim'
-  NeoBundle 'The-NERD-tree'
-  NeoBundle 'mattn/emmet-vim'
-  NeoBundle 'Yggdroot/indentLine'
-  NeoBundle 'osyo-manga/vim-over'   "置換強化
-  NeoBundle 'thinca/vim-quickrun'
-  NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'Shougo/neomru.vim'
-  NeoBundle 'osyo-manga/unite-filetype'
-  NeoBundle 'basyura/unite-rails'
-  NeoBundle 'mopp/AOJ.vim'
-  NeoBundle 'mattn/webapi-vim'
-  NeoBundle "tyru/caw.vim.git"
-  NeoBundle 'scrooloose/syntastic'
-  NeoBundle 'LeafCage/yankround.vim'
-  NeoBundle 'mbbill/undotree'
-  NeoBundle 'yuratomo/w3m.vim'
-  NeoBundle 'https://github.com/tpope/vim-capslock'
-  NeoBundle 'https://github.com/tyru/open-browser.vim'
-  NeoBundle 'https://github.com/basyura/twibill.vim'
-  NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
-  NeoBundle 'https://github.com/MaxMEllon/vim-capslock'
-  NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
-  NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
-  " syntax highlight
-  NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ]} }
-  NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ]} }
-  NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ]} }
-  NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ]} }
-  " color
-  NeoBundleLazy 'altercation/vim-colors-solarized'
-  NeoBundleLazy 'vim-scripts/twilight'
-  NeoBundleLazy 'Wombat256.vim'
-  " disalble
-  " NeoBundle 'surround.vim'
-call neobundle#end()
+try
+  call neobundle#begin(expand('~/.vim/bundle/'))
+    NeoBundleFetch 'Shougo/neobundle.vim'
+    " vimproc {{{
+    NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
+    NeoBundle 'Shougo/neocomplcache'
+    NeoBundle 'Shougo/neosnippet'
+    NeoBundle 'Shougo/neosnippet-snippets'
+    NeoBundle 'itchyny/lightline.vim'
+    NeoBundle 'tpope/vim-fugitive'
+    NeoBundle 'airblade/vim-gitgutter'
+    NeoBundle 'rails.vim'
+    NeoBundle 'The-NERD-tree'
+    NeoBundle 'mattn/emmet-vim'
+    NeoBundle 'Yggdroot/indentLine'
+    NeoBundle 'osyo-manga/vim-over'   "置換強化
+    NeoBundle 'thinca/vim-quickrun'
+    NeoBundle 'Shougo/unite.vim'
+    NeoBundle 'Shougo/neomru.vim'
+    NeoBundle 'osyo-manga/unite-filetype'
+    NeoBundle 'basyura/unite-rails'
+    NeoBundle 'mopp/AOJ.vim'
+    NeoBundle 'mattn/webapi-vim'
+    NeoBundle "tyru/caw.vim.git"
+    NeoBundle 'scrooloose/syntastic'
+    NeoBundle 'LeafCage/yankround.vim'
+    NeoBundle 'mbbill/undotree'
+    NeoBundle 'yuratomo/w3m.vim'
+    NeoBundle 'https://github.com/tpope/vim-capslock'
+    NeoBundle 'https://github.com/tyru/open-browser.vim'
+    NeoBundle 'https://github.com/basyura/twibill.vim'
+    NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
+    NeoBundle 'https://github.com/MaxMEllon/vim-capslock'
+    NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
+    NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
+    " syntax highlight
+    NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ]} }
+    NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ]} }
+    NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ]} }
+    NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ]} }
+    " color
+    NeoBundleLazy 'altercation/vim-colors-solarized'
+    NeoBundleLazy 'vim-scripts/twilight'
+    NeoBundleLazy 'Wombat256.vim'
+    " disalble
+    " NeoBundle 'surround.vim'
+  call neobundle#end()
+catch
+  echo " Please run '$ sh ./neo_bundle_install.sh'"
+endtry
 " }}}
 filetype plugin indent on     " Required!
 " plugin config {{{
@@ -73,14 +88,6 @@ let g:neosnippet#snipqets_directory='~/.vim/snippets'
 " w3m conifg
 let g:w3m#external_browser = 'firefox'
 let g:w3m#hit_a_hint_key = 'f'
-" neobundle installation check {{{
-if neobundle#exists_not_installed_bundles()
-  echomsg 'Not installed bundles : ' .
-        \ string(neobundle#get_not_installed_bundle_names())
-  echomsg 'Please execute ":NeoBundleInstall" command.'
-  "finish
-endif
-" }}}
 " neocomplcache {{{
 "neocomplcacheを有効化
 let g:neocomplcache_enable_at_startup = 1
