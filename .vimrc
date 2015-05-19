@@ -462,26 +462,32 @@ set ambiwidth=double
 
 "}}}
 " }}}
+" highlight {{{
+highlight ZenkakuSpace cterm=underline ctermfg=7
+"ステータスラインの色を変更(ノーマルモード時)
+highlight StatusLine ctermfg=black ctermbg=cyan
+" }}}
 " autocmd {{{
 augroup myvimrc
-  autocmd!
-  autocmd FileType *        setlocal formatoptions-=ro
-  autocmd FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
-  autocmd FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
-  autocmd FileType yaml     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
-  autocmd FileType conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2
-  autocmd FileType coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-  autocmd FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-  autocmd FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-  autocmd BufNewFile,BufRead *.md     set filetype=markdown
-  autocmd BufNewFile,BufRead *.slim   set filetype=slim
-  autocmd BufNewFile,BufRead *.less   set filetype=less
-  autocmd BufNewFile,BufRead *.coffee set filetype=coffee
-  autocmd BufNewFile,BufRead *.scss   set filetype=less
-  autocmd BufNewFile,BufRead *.pu     set filetype=plantuml
-  autocmd BufNewFile,BufRead *.cjsx   set filetype=coffee
-  autocmd VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
-  autocmd InsertLeave * match TrailingSpaces /\s\+$/
+  au!
+  au FileType *        setlocal formatoptions-=ro
+  au FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
+  au FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
+  au FileType yaml     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
+  au FileType conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2
+  au FileType coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+  au FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+  au FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+  au BufNewFile,BufRead *.md     set filetype=markdown
+  au BufNewFile,BufRead *.slim   set filetype=slim
+  au BufNewFile,BufRead *.less   set filetype=less
+  au BufNewFile,BufRead *.coffee set filetype=coffee
+  au BufNewFile,BufRead *.scss   set filetype=less
+  au BufNewFile,BufRead *.pu     set filetype=plantuml
+  au BufNewFile,BufRead *.cjsx   set filetype=coffee
+  au InsertLeave        * match TrailingSpaces /\s\+$/
+  au BufNewFile,BufRead * match ZenkakuSpace /　/
+  au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
 augroup END
 " }}}
 " search {{{
@@ -676,12 +682,6 @@ function! s:init_cmdwin()
 endfunction
 " }}}
 
-" }}}
-" highlight {{{
-highlight ZenkakuSpace cterm=underline ctermfg=7
-au BufNewFile,BufRead * match ZenkakuSpace /　/
-"ステータスラインの色を変更(ノーマルモード時)
-highlight StatusLine ctermfg=black ctermbg=cyan
 " }}}
 " Status-line{{{
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
