@@ -241,7 +241,7 @@ let g:syntastic_mode_map = {
       \ }
 
 augroup AutoSyntastic
-  if v:version > 703
+  if v:version > 503
     autocmd!
     autocmd BufWritePost *.c,*.cpp,*.rb call s:syntastic()
   endif
@@ -788,16 +788,16 @@ function! CommentBlock(comment, ...)
 endfunction
 
 " ruby/shell/perl/python coment block
-inoremap <silent> #### <C-R>=CommentBlock(input("  "), '#', '=', 70)<CR><CR><Up><Up><Right><Right>
+inoremap <silent> #### <C-R>=CommentBlock(input("  "), '#', '=', 50)<CR><CR><Up><Up><Right><Right>
 " vimscript coment block
-inoremap <silent> """" <C-R>=CommentBlock(input("  "), '"', '=', 70)<CR><CR><Up><Up><Right><Right>
+inoremap <silent> """" <C-R>=CommentBlock(input("  "), '"', '=', 50)<CR><CR><Up><Up><Right><Right>
 " C/C++/java/PHP
-inoremap <silent> //// <C-R>=CommentBlock(input("  "), '//', '=', 70)<CR><CR><Up><Up><Right><Right>
+inoremap <silent> //// <C-R>=CommentBlock(input("  "), '//', '=', 50)<CR><CR><Up><Up><Right><Right>
 " lisp/e-lisp
-inoremap <silent> ;;;; <C-R>=CommentBlock(input("  "), ';;', '=', 70)<CR><CR><Up><Up><Right><Right>
+inoremap <silent> ;;;; <C-R>=CommentBlock(input("  "), ';;', '=', 50)<CR><CR><Up><Up><Right><Right>
 "}}}
 " Sento-Ryoku {{{
-" http://d.hatena.ne.jp/thinca/20091031/1257001194
+" http://d.hatena.ne.jp/thinca/20091031/1255001194
 function! Scouter(file, ...)
   let pat = '^\s*$\|^\s*"'
   let lines = readfile(a:file)
@@ -809,5 +809,3 @@ endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
       \  echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 "}}}
-
-
