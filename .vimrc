@@ -1,12 +1,13 @@
-"------------------------------------------------------------------------------------
-"                       ##     ## #### ##     ## ########   ######
-"                       ##     ##  ##  ###   ### ##     ## ##    ##
-"                       ##     ##  ##  #### #### ##     ## ##
-"                       ##     ##  ##  ## ### ## ########  ##
-"                        ##   ##   ##  ##     ## ##   ##   ##
-"                   ###   ## ##    ##  ##     ## ##    ##  ##    ##
-"                   ###    ###    #### ##     ## ##     ##  ######
-"-------------------------------------------------------------------------------------
+" MaxMEllon's .vimrc
+"-----------------------------------------------------------------------------------"
+"|                      ##     ## #### ##     ## ########   ######                 |"
+"|                      ##     ##  ##  ###   ### ##     ## ##    ##                |"
+"|                      ##     ##  ##  #### #### ##     ## ##                      |"
+"|                      ##     ##  ##  ## ### ## ########  ##                      |"
+"|                       ##   ##   ##  ##     ## ##   ##   ##                      |"
+"|                  ###   ## ##    ##  ##     ## ##    ##  ##    ##                |"
+"|                  ###    ###    #### ##     ## ##     ##  ######                 |"
+"-----------------------------------------------------------------------------------"
 " plugin {{{
 set nocompatible               " Be iMproved
 filetype off                   " Required!
@@ -284,6 +285,7 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 nnoremap <silent> <Leader>m :OverCommandLine<CR>
 nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+xnoremap s :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 " unite key-mappings {{{
 "Unite用のPrefix-key
 nnoremap m  <nop>
@@ -424,7 +426,7 @@ if has('iconv')
   if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'eucjp-ms'
     let s:enc_jis = 'iso-2022-jp-3'
-  " iconvがJISX0213に対応しているかをチェック
+    " iconvがJISX0213に対応しているかをチェック
   elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
     let s:enc_euc = 'euc-jisx0213'
     let s:enc_jis = 'iso-2022-jp-3'
@@ -568,10 +570,29 @@ nnoremap B  <C-w>+ 4
 nnoremap C  <C-w>< 2
 nnoremap D  <C-w>> 2
 
-inoremap <C-f><C-h> <Left>
-inoremap <C-f><C-j> <Down>
-inoremap <C-f><C-k> <Up>
-inoremap <C-f><C-l> <Right>
+" moving current window
+nnoremap <C-j> <C-w><Down>
+nnoremap <C-k> <C-w><Up>
+nnoremap <Space><Space> <C-w><C-w>
+
+" Paste next line.
+nnoremap <silent> gp o<ESC>p^
+nnoremap <silent> gP O<ESC>P^
+xnoremap <silent> gp o<ESC>p^
+xnoremap <silent> gP O<ESC>P^
+
+" <TAB>: indent.
+xnoremap <TAB>  >
+" <S-TAB>: unindent.
+xnoremap <S-TAB>  <
+
+" Indent
+nnoremap > >>
+nnoremap < <<
+xnoremap > >gv
+xnoremap < <gv
+" Disable Ex-mode.
+nnoremap Q  q
 
 " reload
 nnoremap <silent><Leader>ev  :<C-u>edit $MYVIMRC<CR> :echo "Opened .vimrc"<CR>
@@ -593,10 +614,10 @@ nnoremap <Space>h ^
 nnoremap <Space>l $
 nnoremap <Space>m %
 
-nnoremap <c-h> <c-w>h
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
+nnoremap <C-h> <c-w>h
+nnoremap <C-j> <c-w>j
+nnoremap <C-k> <c-w>k
+nnoremap <C-l> <c-w>l
 
 "カッコなどを入力したら自動的に中へ
 inoremap {} {}<Left>
@@ -796,4 +817,5 @@ endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
       \  echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 "}}}
+
 
