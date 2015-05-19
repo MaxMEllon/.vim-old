@@ -26,7 +26,7 @@ catch
 endtry
 " }}}
 " neobundle {{{
-if version >= 730
+if version >= 703
   try
     call neobundle#begin(expand('~/.vim/bundle/'))
       NeoBundleFetch 'Shougo/neobundle.vim'
