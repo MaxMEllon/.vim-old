@@ -535,6 +535,13 @@ vnoremap <silent> gk k
 vnoremap <silent> $  g$
 vnoremap <silent> g$ $
 
+nnoremap } }zz
+nnoremap { {zz
+nnoremap ]] ]]zz
+nnoremap [[ [[zz
+nnoremap [] []zz
+nnoremap ][ ][zz
+
 " jjでノーマルモードへ
 inoremap jj <Esc>
 inoremap <C-j><C-j> <Esc>
@@ -614,11 +621,6 @@ nnoremap <Space>h ^
 nnoremap <Space>l $
 nnoremap <Space>m %
 
-nnoremap <C-h> <c-w>h
-nnoremap <C-j> <c-w>j
-nnoremap <C-k> <c-w>k
-nnoremap <C-l> <c-w>l
-
 "カッコなどを入力したら自動的に中へ
 inoremap {} {}<Left>
 inoremap () ()<Left>
@@ -684,13 +686,6 @@ cnoremap <C-n> <Down>
 nnoremap <silent>S viw
 " ハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR><ESC><C-l>
-
-nnoremap } }zz
-nnoremap { {zz
-nnoremap ]] ]]zz
-nnoremap [[ [[zz
-nnoremap [] []zz
-nnoremap ][ ][zz
 
 " Command-line Window {{{
 set cmdwinheight=10 "Command-line windowの行数
