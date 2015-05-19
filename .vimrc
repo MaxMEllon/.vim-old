@@ -241,7 +241,7 @@ let g:syntastic_mode_map = {
       \ }
 
 augroup AutoSyntastic
-  if v:version > 503
+  if v:version > 703
     autocmd!
     autocmd BufWritePost *.c,*.cpp,*.rb call s:syntastic()
   endif
@@ -797,7 +797,7 @@ inoremap <silent> //// <C-R>=CommentBlock(input("  "), '//', '=', 50)<CR><CR><Up
 inoremap <silent> ;;;; <C-R>=CommentBlock(input("  "), ';;', '=', 50)<CR><CR><Up><Up><Right><Right>
 "}}}
 " Sento-Ryoku {{{
-" http://d.hatena.ne.jp/thinca/20091031/1255001194
+" http://d.hatena.ne.jp/thinca/20091031/1257001194
 function! Scouter(file, ...)
   let pat = '^\s*$\|^\s*"'
   let lines = readfile(a:file)
