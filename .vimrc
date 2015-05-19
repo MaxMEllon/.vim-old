@@ -697,7 +697,9 @@ function! s:GetHighlight(hi)
 endfunction
 
 " git branch
-set statusline=%<%f\ %h%m%r%{fugitive#statusline(}%=%-14.(%l,%c%V%)\ %P)
+if has('fugitive')
+  set statusline=%<%f\ %h%m%r%{fugitive#statusline(}%=%-14.(%l,%c%V%)\ %P)
+endif
 "}}}
 " color {{{
 colorscheme molokai
