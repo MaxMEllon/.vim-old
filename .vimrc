@@ -51,7 +51,7 @@ try
     NeoBundle "tyru/caw.vim.git"
     NeoBundle 'LeafCage/yankround.vim'
     NeoBundle 'mbbill/undotree'
-    NeoBundle 'yuratomo/w3m.vim'
+    NeoBundleLazy 'yuratomo/w3m.vim'
     NeoBundle 'https://github.com/tpope/vim-capslock'
     NeoBundle 'https://github.com/tyru/open-browser.vim'
     NeoBundle 'https://github.com/basyura/twibill.vim'
