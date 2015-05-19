@@ -374,6 +374,7 @@ let mapleader='\'
 augroup MyAutoCmd
   autocmd!
 augroup END
+
 function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
@@ -431,7 +432,7 @@ highlight ZenkakuSpace cterm=underline ctermfg=7
 highlight StatusLine ctermfg=black ctermbg=cyan
 " }}}
 " autocmd {{{
-augroup myvimrc
+aug myvimrc
   au!
   au FileType *        setlocal formatoptions-=ro
   au FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
@@ -452,7 +453,7 @@ augroup myvimrc
   au BufNewFile,BufRead * match ZenkakuSpace /  /
   au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
-augroup END
+aug END
 " }}}
 " search {{{
 set ignorecase "検索文字列が小文字の場合は大文字小文字を区別なく検索する
