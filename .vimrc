@@ -49,10 +49,10 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
   NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
   " syntax highlight
-  NeoBundle 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ]} }
-  NeoBundle 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ]} }
-  NeoBundle 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ]} }
-  NeoBundle 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ]} }
+  NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ]} }
+  NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ]} }
+  NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ]} }
+  NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ]} }
   " color
   NeoBundleLazy 'altercation/vim-colors-solarized'
   NeoBundleLazy 'vim-scripts/twilight'
