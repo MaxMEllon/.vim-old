@@ -49,7 +49,7 @@ try
     NeoBundle 'mopp/AOJ.vim'
     NeoBundle 'mattn/webapi-vim'
     NeoBundle "tyru/caw.vim.git"
-    " NeoBundle 'LeafCage/yankround.vim'
+    NeoBundle 'LeafCage/yankround.vim'
     NeoBundle 'mbbill/undotree'
     NeoBundle 'https://github.com/tpope/vim-capslock'
     NeoBundle 'https://github.com/tyru/open-browser.vim'
