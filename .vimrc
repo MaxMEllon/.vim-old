@@ -284,7 +284,7 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 nnoremap <silent> <Leader>m :OverCommandLine<CR>
 nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
-xnoremap s :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+xnoremap s :<C-u>OverCommandLine<CR>%s///g<Left><Left>
 " unite key-mappings {{{
 "Unite用のPrefix-key
 nnoremap m  <nop>
