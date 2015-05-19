@@ -382,7 +382,6 @@ set cursorline
 set nocompatible
 set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
-autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 set autowrite
 set matchpairs+=<:>
 set scrolloff=10
@@ -494,6 +493,7 @@ augroup myvimrc
   au InsertLeave        * match TrailingSpaces /\s\+$/
   au BufNewFile,BufRead * match ZenkakuSpace /  /
   au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 augroup END
 " }}}
 " search {{{
