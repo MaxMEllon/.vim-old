@@ -38,7 +38,6 @@ try
     NeoBundle 'airblade/vim-gitgutter'
     NeoBundle 'rails.vim'
     NeoBundle 'The-NERD-tree'
-    NeoBundle 'mattn/emmet-vim'
     NeoBundle 'Yggdroot/indentLine'
     NeoBundle 'osyo-manga/vim-over'   "置換強化
     NeoBundle 'thinca/vim-quickrun'
@@ -58,13 +57,14 @@ try
     NeoBundle 'https://github.com/basyura/twibill.vim'
     NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
     NeoBundle 'https://github.com/MaxMEllon/vim-capslock'
+    NeoBundleLazy 'mattn/emmet-vim', { "autoload" : { "filetypes" : [ "html" ]  } }
     NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
     NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
     " syntax highlight
-    NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ]} }
-    NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ]} }
-    NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ]} }
-    NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ]} }
+    NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ] } }
+    NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ] } }
+    NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ] } }
+    NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ] } }
     " color
     NeoBundleLazy 'altercation/vim-colors-solarized'
     NeoBundleLazy 'vim-scripts/twilight'
