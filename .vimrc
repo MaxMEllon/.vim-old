@@ -700,7 +700,6 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline(}%=%-14.(%l,%c%V%)\ %P)
 colorscheme molokai
 syntax on
 let g:molokai_original = 1
-let g:rehash256 = 1
 
 " syntaxと行番号をoff
 function! Alloff()
