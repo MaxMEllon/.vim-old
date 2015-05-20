@@ -424,7 +424,30 @@ helptags ~/.vim/help/vimdoc-ja/doc
 set runtimepath+=~/.vim/help/vimdoc-ja
 set helplang=ja
 
-
+" search {{{
+set ignorecase "検索文字列が小文字の場合は大文字小文字を区別なく検索する
+set smartcase  "検索文字列に大文字が含まれている場合は区別して検索する
+set nowrapscan "検索をファイルの先頭へループしない
+set incsearch "検索ワードの最初の文字を入力した時点から検索開始
+set hlsearch "ハイライト検索
+" }}}
+" folding {{{
+if version >=703
+  set foldenable         " 折りたたみon
+  set foldmethod =marker " 折りたたみ方法:マーカ
+  set foldcolumn =2
+  set foldlevel  =0
+endif
+" }}}
+" indent, tab{{{
+set expandtab       "タブの代わりに空白文字を挿入する
+set shiftwidth  =2  "タブ幅の設定
+set tabstop     =2
+set softtabstop =2
+set autoindent
+set smartindent
+set smarttab
+" }}}
 
 " encode
 set encoding=utf-8 "文字コード指定
@@ -467,30 +490,6 @@ aug myvimrc
   au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 aug END
-" }}}
-" search {{{
-set ignorecase "検索文字列が小文字の場合は大文字小文字を区別なく検索する
-set smartcase  "検索文字列に大文字が含まれている場合は区別して検索する
-set nowrapscan "検索をファイルの先頭へループしない
-set incsearch "検索ワードの最初の文字を入力した時点から検索開始
-set hlsearch "ハイライト検索
-" }}}
-" folding {{{
-if version >=703
-  set foldenable         " 折りたたみon
-  set foldmethod =marker " 折りたたみ方法:マーカ
-  set foldcolumn =2
-  set foldlevel  =0
-endif
-" }}}
-" indent, tab{{{
-set expandtab       "タブの代わりに空白文字を挿入する
-set shiftwidth  =2  "タブ幅の設定
-set tabstop     =2
-set softtabstop =2
-set autoindent
-set smartindent
-set smarttab
 " }}}
 " key-bind {{{
 nnoremap <silent> j  gj
