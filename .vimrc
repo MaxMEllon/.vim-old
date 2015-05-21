@@ -10,6 +10,7 @@
 "----------------------------------------------------------<--------------------   |
 " ＼                                                        ＼                  ＼
 "   ----------------------------------------------------------<-----------------
+scriptencoding utf-8
 " plugin {{{
 set nocompatible               " Be iMproved
 filetype off                   " Required!
@@ -33,11 +34,13 @@ if version >= 703
     call neobundle#begin(expand('~/.vim/bundle/'))
       call neobundle#load_cache()
       NeoBundleFetch 'Shougo/neobundle.vim'
+      NeoBundle 'Shougo/neomru.vim'
+      NeoBundle 'Shougo/unite.vim'
       " vimproc {{{
       NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
       NeoBundle 'Shougo/neocomplcache'
-      NeoBundle 'Shougo/neosnippet'
-      NeoBundle 'Shougo/neosnippet-snippets'
+      NeoBundleLazy 'Shougo/neosnippet', { 'depends': 'Shougo/neocomplcache' }
+      NeoBundleLazy 'Shougo/neosnippet-snippets', { 'depends' : 'Shougo/neosnippet' }
       NeoBundle 'itchyny/lightline.vim'
       NeoBundle 'tpope/vim-fugitive'
       NeoBundle 'airblade/vim-gitgutter'
@@ -46,8 +49,6 @@ if version >= 703
       NeoBundle 'Yggdroot/indentLine'
       NeoBundle 'osyo-manga/vim-over'   "置換強化
       NeoBundle 'thinca/vim-quickrun'
-      NeoBundle 'Shougo/unite.vim'
-      NeoBundle 'Shougo/neomru.vim'
       NeoBundle 'osyo-manga/unite-filetype'
       NeoBundle 'basyura/unite-rails'
       NeoBundle 'mopp/AOJ.vim'
