@@ -80,7 +80,6 @@ if version >= 703
   endtry
 endif
 " }}}
-filetype plugin indent on     " Required!
 " plugin config {{{
 " aoj config
 let g:aoj#user_id = 'mozi_kke'
@@ -377,7 +376,7 @@ xnoremap <F8> [w3m]
 nnoremap [w3m]s :W3mTab google
 nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
 " }}}
-
+filetype plugin indent on     " Required!
 " }}}
 " init {{{
 let mapleader='\'
@@ -625,7 +624,7 @@ noremap <silent><F5> <ESC>:bn<CR>
 
 nnoremap <F5> :<C-u>setlocal relativenumber!<CR>
 
-""" Prefix[,]
+" Prefix[,] {{{
 " ,xで行末のスペースを取り除く
 nnoremap <silent> ,x :%s/\s\+$//e<CR>
 vnoremap <silent> ,x :%s/\s\+$//e<CR>
@@ -638,18 +637,21 @@ nnoremap <silent> ,p :set paste!<CR>
 nnoremap <silent> ,j :<C-u>jumps<CR>
 " ,vでカーソルから行末までヤンク
 nnoremap ,v v$hy
-""" Prefix[\]
+" ,hでヘルプ
+nnoremap <silent> ,h :<C-u>h <C-r><C-w><CR>
+" }}}
+" Prefix[\] {{{
 " 行番号とシンタックスを無効化
 nnoremap <silent> <Leader>f :call Alloff()<CR>
 " 行番号とシンタックスを有効化
 nnoremap <silent> <Leader>g :call Allon()<CR>
 " 任意の文字コードで再オープン
 nnoremap <Leader>e :e ++enc=
-
 " バッファを指定して移動できるように
 for k in range(1, 9)
   execute 'nnoremap <Leader>'.k ':e #'.k.'<CR>'
 endfor
+" }}}
 
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
