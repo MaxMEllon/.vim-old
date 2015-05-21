@@ -392,29 +392,29 @@ function! s:source_rc(path)
 endfunction
 " }}}
 " set {{{
-set autoread
-set autowrite
+set autoread                  " vim外で編集された時の自動み込み
+set autowrite                 " bufferが切り替わるときの自動保存
 set backspace=indent,eol,start"{{{"}}}
 set cursorline
 set cmdheight=1
+set laststatus=2              " ステータス行を常に表示
 set list
 set listchars=eol:$,tab:>-,trail:_
-set laststatus=2 " ステータス行を常に表示
 set modeline
-set matchpairs+=<:>
 set modelines=3
+set matchpairs+=<:>
 set nocompatible
-set number
-set nf=alpha,hex
+set nf=alpha,hex              " アルファベットと16シンスうをC-a C-xで増減可能に
 set relativenumber
+set report=0                  " 変更された行数の報告がでる最小値
 set ruler
-set report=0
-set showmatch
 set scrolloff=10
-set secure
-set ttyfast " スクロールが滑らかに
+set secure                    " 安全モード
+set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
+set ttyfast                   " スクロールが滑らかに
 set t_Co=256
-set whichwrap=b,s,h,l,<,>,[,]
+set vb t_vb=                  " no beep no flash
+set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 
 " swap
 set swapfile
