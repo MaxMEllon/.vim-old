@@ -377,6 +377,7 @@ xnoremap <F8> [w3m]
 nnoremap [w3m]s :W3mTab google
 nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
 " }}}
+
 " }}}
 " init {{{
 let mapleader='\'
@@ -456,7 +457,8 @@ set fileencodings=utf-8,s-jis " 文字エンコードを次の順番で確認
 set fileformats=unix,dos,mac " 改行コードの自動認識
 set ambiwidth=double " □とか○の文字があってもカーソル位置がずれないようにする
 
-"
+" }}}
+" source {{{
 " quotation github:Shougo/shougo-s-github
 "----------------------------------------------------------------------
 " https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/encoding.rc.vim
@@ -470,6 +472,15 @@ highlight StatusLine ctermfg=black ctermbg=cyan
 " autocmd {{{
 aug myvimrc
   au!
+  au BufNewFile,BufRead *.md     set filetype=markdown
+  au BufNewFile,BufRead *.slim   set filetype=slim
+  au BufNewFile,BufRead *.less   set filetype=less
+  au BufNewFile,BufRead *.coffee set filetype=coffee
+  au BufNewFile,BufRead *.scss   set filetype=less
+  au BufNewFile,BufRead *.pu     set filetype=plantuml
+  au BufNewFile,BufRead *.cjsx   set filetype=coffee
+  au BufNewFile,BufRead *.jflex  set filetype=jflex
+  au Syntax jflex :call s:source_rc('syntax/jflex.vim')
   au FileType *        setlocal formatoptions-=ro
   au FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
   au FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
@@ -478,13 +489,6 @@ aug myvimrc
   au FileType coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
   au FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
   au FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-  au BufNewFile,BufRead *.md     set filetype=markdown
-  au BufNewFile,BufRead *.slim   set filetype=slim
-  au BufNewFile,BufRead *.less   set filetype=less
-  au BufNewFile,BufRead *.coffee set filetype=coffee
-  au BufNewFile,BufRead *.scss   set filetype=less
-  au BufNewFile,BufRead *.pu     set filetype=plantuml
-  au BufNewFile,BufRead *.cjsx   set filetype=coffee
   au InsertLeave        * match TrailingSpaces /\s\+$/
   au BufNewFile,BufRead * match ZenkakuSpace /  /
   au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
