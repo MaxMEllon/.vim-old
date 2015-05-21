@@ -31,6 +31,7 @@ endtry
 if version >= 703
   try
     call neobundle#begin(expand('~/.vim/bundle/'))
+      call neobundle#load_cache()
       NeoBundleFetch 'Shougo/neobundle.vim'
       " vimproc {{{
       NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
@@ -74,6 +75,7 @@ if version >= 703
       NeoBundleLazy 'Wombat256.vim'
       " disalble
       " NeoBundle 'surround.vim'
+      NeoBundleSaveCache
     call neobundle#end()
   catch
     echo " Please run '$ sh ./neo_bundle_install.sh'"
