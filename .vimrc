@@ -495,6 +495,7 @@ aug myvimrc
 aug END
 " }}}
 " key-bind {{{
+" 感覚的移動mapping"{{{
 nnoremap <silent> j  gj
 nnoremap <silent> gj j
 nnoremap <silent> k  gk
@@ -507,23 +508,14 @@ vnoremap <silent> k  gk
 vnoremap <silent> gk k
 vnoremap <silent> $  g$
 vnoremap <silent> g$ $
-
 nnoremap } }zz
 nnoremap { {zz
 nnoremap ]] ]]zz
 nnoremap [[ [[zz
 nnoremap [] []zz
 nnoremap ][ ][zz
-
-" jjでノーマルモードへ
-inoremap jj <Esc>
-inoremap <C-j><C-j> <Esc>
-vnoremap <C-j><C-j> <Esc>
-
-" vv矩形ビジュアル,vvvで行ビジュアル
-vnoremap v  <C-v>
-vnoremap vv <S-v>
-
+"}}}
+" カーソルキーmapping"{{{
 vnoremap OA <Up>
 vnoremap OB <Down>
 vnoremap OC <Right>
@@ -549,6 +541,31 @@ nnoremap A  <C-w>- 4
 nnoremap B  <C-w>+ 4
 nnoremap C  <C-w>< 2
 nnoremap D  <C-w>> 2
+"}}}
+" tab {{{
+nmap [Tag] <Nop>
+nmap t [Tag]
+nnoremap [Tag]e :<C-u>tabedit<Space>
+nnoremap <silent> [Tag]c :tablast <bar> tabnew<CR>
+nnoremap <silent> [Tag]x :tabclose<CR>
+nnoremap <silent> [Tag]n :tabnext<CR>
+nnoremap <silent> <F3> :tabnext<CR>
+nnoremap <silent> [Tag]p :tabprevious<CR>
+nnoremap <silent> <F2> :tabprevious<CR>
+"}}}
+" Disable key {{{
+nnoremap Q  q
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+"}}}
+" jjでノーマルモードへ
+inoremap jj <Esc>
+inoremap <C-j><C-j> <Esc>
+vnoremap <C-j><C-j> <Esc>
+
+" vv矩形ビジュアル,vvvで行ビジュアル
+vnoremap v  <C-v>
+vnoremap vv <S-v>
 
 " moving current window
 nnoremap <C-j> <C-w><Down>
@@ -571,30 +588,15 @@ nnoremap > >>
 nnoremap < <<
 xnoremap > >gv
 xnoremap < <gv
-" Disable Ex-mode.
-nnoremap Q  q
 
 " reload
 nnoremap <silent><Leader>ev  :<C-u>edit $MYVIMRC<CR> :echo "Opened .vimrc"<CR>
 nnoremap <silent><Leader>rv  :<C-u>source $MYVIMRC<CR> :echo "Reload"<CR>
 
-" tab
-nmap [Tag] <Nop>
-nmap t [Tag]
-nnoremap [Tag]e :<C-u>tabedit<Space>
-nnoremap <silent> [Tag]c :tablast <bar> tabnew<CR>
-nnoremap <silent> [Tag]x :tabclose<CR>
-nnoremap <silent> [Tag]n :tabnext<CR>
-nnoremap <silent> <F3> :tabnext<CR>
-nnoremap <silent> [Tag]p :tabprevious<CR>
-nnoremap <silent> <F2> :tabprevious<CR>
-
+" delete char
 inoremap <C-d> <Del>
-nnoremap <Space>h ^
-nnoremap <Space>l $
-nnoremap <Space>m %
 
-"カッコなどを入力したら自動的に中へ
+" カッコなどを入力したら自動的に中へ
 inoremap {} {}<Left>
 inoremap () ()<Left>
 inoremap "" ""<Left>
@@ -624,6 +626,11 @@ noremap <silent><F5> <ESC>:bn<CR>
 
 nnoremap <F5> :<C-u>setlocal relativenumber!<CR>
 
+" Prefix <Space> {{{
+nnoremap <Space>h ^
+nnoremap <Space>l $
+nnoremap <Space>m %
+" }}}
 " Prefix[,] {{{
 " ,xで行末のスペースを取り除く
 nnoremap <silent> ,x :%s/\s\+$//e<CR>
@@ -653,8 +660,6 @@ for k in range(1, 9)
 endfor
 " }}}
 
-nnoremap ZZ <Nop>
-nnoremap ZQ <Nop>
 " コマンドラインの履歴移動
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
