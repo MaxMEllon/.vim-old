@@ -403,6 +403,7 @@ set listchars=eol:$,tab:>-,trail:_
 set modeline
 set modelines=3
 set matchpairs+=<:>
+set number
 set nocompatible
 set nf=alpha,hex              " アルファベットと16シンスうをC-a C-xで増減可能に
 set relativenumber
