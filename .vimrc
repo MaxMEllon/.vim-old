@@ -43,37 +43,39 @@ if version >= 703
       NeoBundle 'itchyny/lightline.vim'
       NeoBundle 'tpope/vim-fugitive'
       NeoBundle 'airblade/vim-gitgutter'
-      NeoBundle 'rails.vim'
       NeoBundle 'The-NERD-tree'
       NeoBundle 'Yggdroot/indentLine'
       NeoBundle 'osyo-manga/vim-over'   "置換強化
       NeoBundle 'thinca/vim-quickrun'
       NeoBundle 'osyo-manga/unite-filetype'
-      NeoBundle 'basyura/unite-rails'
       NeoBundle 'mopp/AOJ.vim'
       NeoBundle 'mattn/webapi-vim'
-      NeoBundle "tyru/caw.vim.git"
+      NeoBundle 'tyru/caw.vim.git'
       NeoBundle 'LeafCage/yankround.vim'
       NeoBundle 'mbbill/undotree'
       NeoBundle 'https://github.com/tpope/vim-capslock'
       NeoBundle 'https://github.com/tyru/open-browser.vim'
       NeoBundle 'https://github.com/basyura/twibill.vim'
       NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
-      NeoBundle 'https://github.com/MaxMEllon/vim-capslock'
       NeoBundleLazy 'yuratomo/w3m.vim', { "autoload" : { "commands" : [ "W3mTab" ] } }
       NeoBundleLazy 'mattn/emmet-vim', { "autoload" : { "filetypes" : [ "html" ]  } }
       NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
       NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
-      " syntax highlight
+      " languages
+      NeoBundleLazy 'vim-ruby/vim-ruby', { "autoload" : { "filetypes" : [ "ruby" ] } }
       NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ] } }
       NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ] } }
       NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ] } }
       NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ] } }
+      " framework
+      NeoBundle 'rails.vim'
+      NeoBundle 'basyura/unite-rails'
       " color
       NeoBundleLazy 'altercation/vim-colors-solarized'
       NeoBundleLazy 'vim-scripts/twilight'
       NeoBundleLazy 'Wombat256.vim'
       " disalble
+      " NeoBundle 'scrooloose/syntastic'
       " NeoBundle 'surround.vim'
       NeoBundleSaveCache
     call neobundle#end()
@@ -82,88 +84,105 @@ if version >= 703
   endtry
 endif
 " }}}
+" neosnippet {{{
+if neobundle#tap('neosnippet')
+  let g:neosnippet#snipqets_directory='~/.vim/snippets'
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  call neobundle#untap()
+endif
+" }}}
+" vim-rails {{{
+if neobundle#tap('rails.vim')
+  let g:rails_level = 4
+  let g:rails_defalut_database = 'postgresql'
+  call neobundle#untap()
+endif
+" }}}
+" neocomplcache {{{
+if neobundle#tap('neocomplecache')
+  "neocomplcacheを有効化
+  let g:neocomplcache_enable_at_startup = 1
+  "ポップアップメニューに表示する候補最大数
+  let g:neocomplcache_max_list = 50
+  "補完候補とするキーワードの最小の長さ
+  let g:neocomplcache_min_keyword_length = 3
+  "補完候補とするシンタックスの最小の長さ
+  let g:neocomplcache_min_syntax_length = 3
+  "数字を選択するクイックマッチを有効化
+  let g:neocomplcache_enable_quick_match = 1
+  "ワイルドカード展開をする
+  let g:neocomplcache_enable_wildcard = 1
+  "自動補完を開始する長さ
+  let g:neocomplcache_auto_completion_start_length = 2
+  "CursorHoldIを使用しない
+  let g:neocomplcache_enable_cursor_hold_i = 0
+  "入力してから補完候補を表示するまでの時間(ms)
+  let g:neocomplcache_cursor_hold_i_time = 100
+  "手動補完を開始する長さ
+  let g:neocomplcache_manual_completion_start_length = 0
+  "自動補完開始時、自動的に候補を選択しない
+  let g:neocomplcache_enable_auto_select = 0
+  "camel case補完(大文字をワイルドカードのように扱う)
+  let g:neocomplcache_enable_camel_case_completion = 1
+  "fuzzy補完 よくわからんので無効化
+  let g:neocomplcache_enable_fuzzy_completion = 0
+  "_(underbar)区切りの補完をしない
+  let g:neocomplcache_enable_underbar_completion = 0
+  let g:neocomplcache_dictionary_filetype_lists = {
+        \ 'default' : '',
+        \ 'java' : $HOME . './.vim/dict/java.dict',
+        \ 'ruby' : $HOME . './.vim/dict/ruby.dict',
+        \ 'c'    : $HOME . './.vim/dict/c.dict',
+        \ 'cpp'  : $HOME . './.vim/dict/cpp.dict',
+        \ }
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><C-g> neocomplcache#undo_completion(
+  inoremap <expr><C-l> neocomplcache#complete_common_string())
+  call neobundle#untap()
+endif
+" }}}
+" lightline.vim {{{
+if neobundle#tap('lightline.vim')
+  let g:lightline = {
+        \   'colorscheme': 'solarized',
+        \   'component': {
+        \     'readonly': '%{&readonly?"\u2b64":""}',
+        \   },
+        \   'separator': { 'left': "\u2b80", 'right': "\u2b82" },
+        \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
+        \   'active': {
+        \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
+        \                [ 'fugitive', 'gitgutter' ],
+        \                [ 'filename' ] ],
+        \     'right': [ [ 'filetype' ],
+        \                [ 'fileencoding' ],
+        \                [ 'fileformat' ] ]
+        \   },
+        \   'component_expand': {
+        \     'syntastic': 'SynasticStatuslineFlag',
+        \   },
+        \   'component_type': {
+        \     'syntastic': 'error',
+        \   },
+        \   'component_function': {
+        \     'capstatus' : 'CapsLockSTATUSLINE',
+        \     'fugitive' : 'MyFugitive',
+        \     'gitgutter' : 'MyGitGutter'
+        \   }
+        \ }
+  call neobundle#untap()
+endif
+"}}}
+
 " plugin config {{{
 " aoj config
 let g:aoj#user_id = 'mozi_kke'
-" vim-rails config
-let g:rails_level = 4
-let g:rails_defalut_database = 'postgresql'
-" neosnipets config
-let g:neosnippet#snipqets_directory='~/.vim/snippets'
 " w3m conifg
 let g:w3m#external_browser = 'firefox'
 let g:w3m#hit_a_hint_key = 'f'
-" neocomplcache {{{
-"neocomplcacheを有効化
-let g:neocomplcache_enable_at_startup = 1
-"ポップアップメニューに表示する候補最大数
-let g:neocomplcache_max_list = 50
-"補完候補とするキーワードの最小の長さ
-let g:neocomplcache_min_keyword_length = 3
-"補完候補とするシンタックスの最小の長さ
-let g:neocomplcache_min_syntax_length = 3
-"数字を選択するクイックマッチを有効化
-let g:neocomplcache_enable_quick_match = 1
-"ワイルドカード展開をする
-let g:neocomplcache_enable_wildcard = 1
-"自動補完を開始する長さ
-let g:neocomplcache_auto_completion_start_length = 2
-"CursorHoldIを使用しない
-let g:neocomplcache_enable_cursor_hold_i = 0
-"入力してから補完候補を表示するまでの時間(ms)
-let g:neocomplcache_cursor_hold_i_time = 100
-"手動補完を開始する長さ
-let g:neocomplcache_manual_completion_start_length = 0
-"自動補完開始時、自動的に候補を選択しない
-let g:neocomplcache_enable_auto_select = 0
-"camel case補完(大文字をワイルドカードのように扱う)
-let g:neocomplcache_enable_camel_case_completion = 1
-"fuzzy補完 よくわからんので無効化
-let g:neocomplcache_enable_fuzzy_completion = 0
-"_(underbar)区切りの補完をしない
-let g:neocomplcache_enable_underbar_completion = 0
-" dictionary {{{
-let g:neocomplcache_dictionary_filetype_lists = {
-      \ 'default' : '',
-      \ 'java' : $HOME . './.vim/dict/java.dict',
-      \ 'ruby' : $HOME . './.vim/dict/ruby.dict',
-      \ 'c'    : $HOME . './.vim/dict/c.dict',
-      \ 'cpp'  : $HOME . './.vim/dict/cpp.dict',
-      \ }
-" }}}
 " }}}
 " lightline {{{
-let g:lightline = {
-      \   'colorscheme': 'solarized',
-      \   'component': {
-      \     'readonly': '%{&readonly?"\u2b64":""}',
-      \   },
-      \   'separator': { 'left': "\u2b80", 'right': "\u2b82" },
-      \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
-      \   'active': {
-      \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
-      \                [ 'fugitive', 'gitgutter' ],
-      \                [ 'filename' ] ],
-      \     'right': [ [ 'filetype' ],
-      \                [ 'fileencoding' ],
-      \                [ 'fileformat' ] ]
-      \   },
-      \   'component_expand': {
-      \     'syntastic': 'SynasticStatuslineFlag',
-      \   },
-      \   'component_type': {
-      \     'syntastic': 'error',
-      \   },
-      \   'component_function': {
-      \     'capstatus' : 'CapsLockSTATUSLINE',
-      \     'fugitive' : 'MyFugitive',
-      \     'gitgutter' : 'MyGitGutter'
-      \   }
-      \ }
-
-" lightline config {{{
-set t_Co=256
-
 " 見た目に関する設定
 let g:gitgutter_sign_added    = '+'
 let g:gitgutter_sign_modified = '>'
@@ -202,103 +221,113 @@ function! MyGitGutter()
   return join(ret, ' ')
 endfunction
 " }}}
-" }}}
-" NERDTree config {{{
-" バッファがNERDTreeのみになったときNERDTreeをとじる
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
-  \ && b:NERDTreeType == "primary") | q | endif
-" NERDTREE ignore
-let g:NERDTreeIgnore = ['\.clean$', '\.swp$', '\.bak$', '\~$']
-" 隠しファイルの表示設定 0 非表示 1,  表示
-let g:NERDTreeShowHidden = 0
-" 綺麗にディレクトリ構造を表示する
-let g:NERDTreeDirArrows = 0
-" }}}
-" indentLine config {{{
-let g:indentLine_color_term = 239
-let g:indentLine_color_tty_light = 59
-let g:indentLine_color_dark = 1
-" }}}
-" vim quickrun config {{{
-let g:quickrun_config = {
-      \  '_': {
-      \     'runner' : 'vimproc',
-      \     'runner/vimproc/updatetime' : 60,
-      \     'outputter/buffer/split' : ':botright 8sp',
-      \     'hook/time/enable': '1',
-      \   }
-      \ }
-let g:quickrun_config['slim'] = {'command' : 'slimrb', 'exec' : ['%c -p %s']}
 
-set splitbelow
+" NERDTree {{{
+if neobundle#tap('NERDTree')
+  " バッファがNERDTreeのみになったときNERDTreeをとじる
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
+    \ && b:NERDTreeType == "primary") | q | endif
+  " NERDTREE ignore
+  let g:NERDTreeIgnore = ['\.clean$', '\.swp$', '\.bak$', '\~$']
+  " 隠しファイルの表示設定 0 非表示 1,  表示
+  let g:NERDTreeShowHidden = 0
+  " 綺麗にディレクトリ構造を表示する
+  let g:NERDTreeDirArrows = 0
+  nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
+  call neobundle#untap()
+endif
+"}}}
+" indentLine {{{
+if neobundle#tap('indentLine')
+  let g:indentLine_color_term = 239
+  let g:indentLine_color_tty_light = 59
+  let g:indentLine_color_dark = 1
+  call neobundle#untap()
+endif
 " }}}
-" syntastic config {{{
-let g:syntastic_enable_signs  = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_enable_signs  = 1
-let g:syntastic_ruby_checkers =['rubocop']
-let g:syntastic_error_symbol  ='☠ '
-let g:syntastic_warning_symbol='☃ '
-let g:syntastic_mode_map = {
-      \  'mode': 'active',
-      \  'active_filetypes': ['c', 'c++', 'ruby'],
-      \  'passive_filetypes': ['coffee']
-      \ }
+" vim-quickrun {{{
+if neobundle#tap('vim-quickrun')
+  let g:quickrun_config = {
+        \  '_': {
+        \     'runner' : 'vimproc',
+        \     'runner/vimproc/updatetime' : 60,
+        \     'outputter/buffer/split' : ':botright 8sp',
+        \     'hook/time/enable': '1',
+        \   }
+        \ }
+  let g:quickrun_config['slim'] = {'command' : 'slimrb', 'exec' : ['%c -p %s']}
+  nnoremap <silent><C-q> :QuickRun<CR>
+  nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
+  call neobundle#untap()
+endif
+" }}}
+" syntastic {{{
+if neobundle#tap('syntastic')
+  let g:syntastic_enable_signs  = 1
+  let g:syntastic_auto_loc_list = 2
+  let g:syntastic_enable_signs  = 1
+  let g:syntastic_ruby_checkers =['rubocop']
+  let g:syntastic_error_symbol  ='☠ '
+  let g:syntastic_warning_symbol='☃ '
+  let g:syntastic_mode_map = {
+        \  'mode': 'active',
+        \  'active_filetypes': ['c', 'c++', 'ruby'],
+        \  'passive_filetypes': ['coffee']
+        \ }
+  augroup AutoSyntastic
+    if v:version > 703
+      autocmd!
+      autocmd BufWritePost *.c,*.cpp,*.rb call s:syntastic()
+    endif
+  augroup END
 
-augroup AutoSyntastic
-  if v:version > 703
-    autocmd!
-    autocmd BufWritePost *.c,*.cpp,*.rb call s:syntastic()
-  endif
-augroup END
-
-function! s:syntastic()
-  try
-    SyntasticCheck
-    call lightline#update()
-  catch
-  endtry
-endfunction
+  function! s:syntastic()
+    try
+      SyntasticCheck
+      call lightline#update()
+    catch
+    endtry
+  endfunction
+  nnoremap ,sc :<C-u>SyntasticCheck<CR>
+  nnoremap ,sct :<C-u>SyntasticToggleMode<CR>
+  call neobundle#untap()
+endif
 " }}}
-" undotree config {{{
-let g:undotree_SetFocusWhenToggle = 1
-let g:undotree_SplitWidth = 35
-let g:undotree_diffAutoOpen = 1
-let g:undotree_diffpanelHeight = 25
-let g:undotree_RelativeTimestamp = 1
-let g:undotree_TreeNodeShape = '*'
-let g:undotree_HighlightChangedText = 1
+" undotree {{{
+if neobundle#tap('undotree')
+  let g:undotree_SetFocusWhenToggle = 1
+  let g:undotree_SplitWidth = 35
+  let g:undotree_diffAutoOpen = 1
+  let g:undotree_diffpanelHeight = 25
+  let g:undotree_RelativeTimestamp = 1
+  let g:undotree_TreeNodeShape = '*'
+  let g:undotree_HighlightChangedText = 1
+  nnoremap ,u :UndotreeToggle<CR>
+  call neobundle#untap()
+endif
 " }}}
-" }}}
-" plugin mapping {{{
-" neo-snipperts key-mappings.
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" yankround.vim key-mappings
-if has('yankround')
+" yankround {{{
+if neobundle#tap('yankround')
   nmap p <Plug>(yankround-p)
   xmap P <Plug>(yankround-P)
   nmap gp <Plug>(yankround-gp)
   xmap gp <Plug>(yankround-gp)
   nmap <C-n> <Plug>(yankround-next)
   nmap <C-p> <Plug>(yankround-prev)
+  nnoremap ,y :Unite yankround<CR>
+  call neobundle#untap()
 endif
-" quickrun
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-" neocomplcache key-mappings.
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-g> neocomplcache#undo_completion(
-inoremap <expr><C-l> neocomplcache#complete_common_string())
-" cuickrun key-mappings.
-nnoremap <silent><C-q> :QuickRun<CR>
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
-" vimover key-mappings.
-nnoremap <silent> <Leader>m :OverCommandLine<CR>
-nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
-xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///g<Left><Left>
-" unite key-mappings {{{
-"Unite用のPrefix-key
+" }}}
+" vim-over {{{
+if neobundle#tap('vim-over')
+  nnoremap <silent> <Leader>m :OverCommandLine<CR>
+  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+  nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+  xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///g<Left><Left>
+  call neobundle#untap()
+endif
+" }}}
+" unite {{{
 nnoremap m  <nop>
 xnoremap m  <Nop>
 nnoremap [unite] <Nop>
@@ -306,7 +335,6 @@ xnoremap [unite] <Nop>
 nmap m [unite]
 xmap m [unite]
 
-"Unite向けのマッピング
 "uでUnite
 nnoremap [unite]u :<C-u>Unite<Space>
 ";でUnite
@@ -348,6 +376,7 @@ nnoremap [unite]s :<C-u>Unite source<CR>
 nnoremap [unite]y :<C-u>Unite yankround<CR>
 "eでUnite file/async
 nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
+nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
 " }}}
 " unite-rails key-mappings {{{
 nnoremap ,rc :<C-u>Unite rails/controller<CR>
@@ -359,30 +388,35 @@ nnoremap ,rj :<C-u>Unite rails/javascript<CR>
 nnoremap ,rg :<C-u>Unite rails/gemfile<CR>
 nnoremap ,rd :<C-u>Unite rails/db<CR>
 " }}}
-" CapsLock.vim key-mappings.
-nmap ,l <Plug>CapsLockToggle
-" caw.vim key-mappings
-nmap ,c <Plug>(caw:i:toggle)
-vmap ,c <Plug>(caw:i:toggle)
-" NERDTree key-mappings
-nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
-" Tweetvim key-mapping
-nnoremap ,tt :<C-u>Unite tweetvim<CR>
-nnoremap ,ts :<C-u>TweetVimSay<CR>
-" syntastic key-mappings
-nnoremap ,sc :<C-u>SyntasticCheck<CR>
-nnoremap ,sct :<C-u>SyntasticToggleMode<CR>
-" undotree key-mappings
-nnoremap ,u :UndotreeToggle<CR>
-" yankround history(using Unite)
-nnoremap ,y :Unite yankround<CR>
-" Unite file/async
-nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
-" w3m key-mappings
-nnoremap <F8> [w3m]
-xnoremap <F8> [w3m]
-nnoremap [w3m]s :W3mTab google
-nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
+" vim-capslock {{{
+if neobundle#tap('vim-capslock')
+  nmap ,l <Plug>CapsLockToggle
+  call neobundle#untap()
+endif
+" }}}
+" caw.vim {{{
+if neobundle#tap('caw.vim')
+  nmap ,c <Plug>(caw:i:toggle)
+  vmap ,c <Plug>(caw:i:toggle)
+  call neobundle#untap()
+endif
+" }}}
+" TweetVim {{{
+if neobundle#tap('TweetVim')
+  nnoremap ,tt :<C-u>Unite tweetvim<CR>
+  nnoremap ,ts :<C-u>TweetVimSay<CR>
+  call neobundle#untap()
+endif
+" }}}
+" w3m.vim {{{
+if neobundle#tap('w3m.vim')
+  nnoremap <F8> [w3m]
+  xnoremap <F8> [w3m]
+  nnoremap [w3m]s :W3mTab google
+  " rails デバッグ用
+  nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
+  call neobundle#untap()
+endif
 " }}}
 filetype plugin indent on     " Required!
 " }}}
@@ -417,6 +451,7 @@ set report=0                  " 変更された行数の報告がでる最小値
 set ruler
 set scrolloff=10
 set secure                    " 安全モード
+set splitbelow
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set ttyfast                   " スクロールが滑らかに
 set t_Co=256
@@ -427,10 +462,10 @@ set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 if !isdirectory($HOME.'/.vim/_swap')
   call mkdir($HOME.'/.vim/_swap', 'p')
 endif
-set swapfile
-set backup
 set directory=~/.vim/_swap
 set backupdir=~/.vim/_swap
+set swapfile
+set backup
 
 " undofile
 if !isdirectory($HOME.'/.vim/_undo')
