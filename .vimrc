@@ -421,6 +421,11 @@ if neobundle#tap('w3m.vim')
 endif
 " }}}
 filetype plugin indent on     " Required!
+NeoBundleCheck
+
+if !has('vim_starting')
+  call neobundle#call_hook('on_source')
+endif
 " }}}
 " init {{{
 let mapleader='\'
