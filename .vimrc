@@ -461,6 +461,7 @@ set smarttab
 " encode
 set encoding=utf-8 "文字コード指定
 set fileencodings=utf-8,s-jis " 文字エンコードを次の順番で確認
+scriptencoding utf-8
 
 set fileformats=unix,dos,mac " 改行コードの自動認識
 set ambiwidth=double " □とか○の文字があってもカーソル位置がずれないようにする
