@@ -174,54 +174,54 @@ if neobundle#tap('lightline.vim')
   call neobundle#untap()
 endif
 "}}}
-
-" plugin config {{{
-" aoj config
-let g:aoj#user_id = 'mozi_kke'
-" w3m conifg
-let g:w3m#external_browser = 'firefox'
-let g:w3m#hit_a_hint_key = 'f'
+" AOJ.vim {{{
+if neobundle#tap('AOJ.vim')
+  " aoj config
+  let g:aoj#user_id = 'mozi_kke'
+  call neobundle#untap()
+endif
 " }}}
-" lightline {{{
-" 見た目に関する設定
-let g:gitgutter_sign_added    = '+'
-let g:gitgutter_sign_modified = '>'
-let g:gitgutter_sign_removed  = 'X'
+" vim-gitgutter {{{
+if neobundle#tap('vim-gitgutter')
+  let g:gitgutter_sign_added    = '+'
+  let g:gitgutter_sign_modified = '>'
+  let g:gitgutter_sign_removed  = 'X'
 
-" gitbranch名
-function! MyFugitive()
-  try
-    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
-      let _ = fugitive#head()
-      return strlen(_) ? '⭠ '._ : ''
-    endif
-  catch
-  endtry
-  return ''
-endfunction
-
-function! MyGitGutter()
-  if ! exists('*GitGutterGetHunkSummary')
-        \ || ! get(g:, 'gitgutter_enabled', 0)
-        \ || winwidth('.') <= 90
+  " gitbranch名
+  function! MyFugitive()
+    try
+      if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
+        let _ = fugitive#head()
+        return strlen(_) ? '⭠ '._ : ''
+      endif
+    catch
+    endtry
     return ''
-  endif
-  let symbols = [
-        \ g:gitgutter_sign_added . ' ',
-        \ g:gitgutter_sign_modified . ' ',
-        \ g:gitgutter_sign_removed . ' '
-        \ ]
-  let hunks = GitGutterGetHunkSummary()
-  let ret = []
-  for i in [0, 1, 2]
-    if hunks[i] > 0
-      call add(ret, symbols[i] . hunks[i])
-    endif
-  endfor
-  return join(ret, ' ')
-endfunction
-" }}}
+  endfunction
 
+  function! MyGitGutter()
+    if ! exists('*GitGutterGetHunkSummary')
+          \ || ! get(g:, 'gitgutter_enabled', 0)
+          \ || winwidth('.') <= 90
+      return ''
+    endif
+    let symbols = [
+          \ g:gitgutter_sign_added . ' ',
+          \ g:gitgutter_sign_modified . ' ',
+          \ g:gitgutter_sign_removed . ' '
+          \ ]
+    let hunks = GitGutterGetHunkSummary()
+    let ret = []
+    for i in [0, 1, 2]
+      if hunks[i] > 0
+        call add(ret, symbols[i] . hunks[i])
+      endif
+    endfor
+    return join(ret, ' ')
+  endfunction
+  call neobundle#untap()
+endif
+" }}}
 " NERDTree {{{
 if neobundle#tap('NERDTree')
   " バッファがNERDTreeのみになったときNERDTreeをとじる
@@ -410,6 +410,8 @@ endif
 " }}}
 " w3m.vim {{{
 if neobundle#tap('w3m.vim')
+  let g:w3m#external_browser = 'firefox'
+  let g:w3m#hit_a_hint_key = 'f'
   nnoremap <F8> [w3m]
   xnoremap <F8> [w3m]
   nnoremap [w3m]s :W3mTab google
