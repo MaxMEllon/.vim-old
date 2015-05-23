@@ -10,7 +10,6 @@
 "----------------------------------------------------------<--------------------   |
 " ＼                                                        ＼                  ＼
 "   ----------------------------------------------------------<-----------------
-scriptencoding utf-8
 " plugin {{{
 set nocompatible               " Be iMproved
 filetype off                   " Required!
@@ -284,13 +283,15 @@ if has('yankround')
   nmap <C-n> <Plug>(yankround-next)
   nmap <C-p> <Plug>(yankround-prev)
 endif
+" quickrun
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 " neocomplcache key-mappings.
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-g> neocomplcache#undo_completion(
 inoremap <expr><C-l> neocomplcache#complete_common_string())
 " cuickrun key-mappings.
 nnoremap <silent><C-q> :QuickRun<CR>
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
 " vimover key-mappings.
 nnoremap <silent> <Leader>m :OverCommandLine<CR>
 nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
@@ -377,7 +378,6 @@ nnoremap ,u :UndotreeToggle<CR>
 nnoremap ,y :Unite yankround<CR>
 " Unite file/async
 nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
-
 " w3m key-mappings
 nnoremap <F8> [w3m]
 xnoremap <F8> [w3m]
@@ -402,6 +402,7 @@ set autowrite                 " bufferが切り替わるときの自動保存
 set backspace=indent,eol,start"{{{"}}}
 set cursorline
 set cmdheight=1
+set history=10000             " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
 set listchars=eol:$,tab:>-,trail:_
@@ -423,10 +424,20 @@ set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 
 " swap
+if !isdirectory($HOME.'/.vim/_swap')
+  call mkdir($HOME.'/.vim/_swap', 'p')
+endif
 set swapfile
 set backup
-set directory=~/.vim/_tmp
-set backupdir=~/.vim/_tmp
+set directory=~/.vim/_swap
+set backupdir=~/.vim/_swap
+
+" undofile
+if !isdirectory($HOME.'/.vim/_undo')
+  call mkdir($HOME.'/.vim/_undo', 'p')
+endif
+set undodir=~/.vim/undo
+set undofile
 
 " help
 helptags ~/.vim/help/vimdoc-ja/doc

@@ -1,4 +1,5 @@
-/_tmp/*
+/_swap/*
+/_undo/*
 /.netrwhist
 /bundle/*
 !.keep
