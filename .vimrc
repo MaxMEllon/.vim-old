@@ -22,7 +22,11 @@ function! s:source_rc(path)
 endfunction
 " }}}
 " source plugin {{{
-call s:source_rc('plugin.rc.vim')
+try
+  call s:source_rc('plugin.rc.vim')
+catch
+  echo " Please run '$ sh ./neo_bundle_install.sh'"
+endtry
 " }}}
 " set {{{
 set autoread                  " vim外で編集された時の自動み込み
@@ -405,9 +409,13 @@ if has('fugitive')
 endif
 "}}}
 " color {{{
-colorscheme molokai
+try
+  colorscheme molokai
+  let g:molokai_original = 1
+catch
+  colorscheme koehler
+endtry
 syntax on
-let g:molokai_original = 1
 "}}}
 " tab {{{
 set showtabline=2 " 常にタブ
