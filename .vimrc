@@ -56,9 +56,8 @@ if version >= 703
       NeoBundle 'https://github.com/tpope/vim-capslock'
       NeoBundle 'https://github.com/tyru/open-browser.vim'
       NeoBundle 'https://github.com/basyura/twibill.vim'
-      NeoBundle 'https://github.com/MaxMEllon/plantuml-syntax'
       NeoBundleLazy 'yuratomo/w3m.vim', { "autoload" : { "commands" : [ "W3mTab" ] } }
-      NeoBundleLazy 'mattn/emmet-vim', { "autoload" : { "filetypes" : [ "html" ]  } }
+      NeoBundleLazy 'mattn/emmet-vim', { "autoload" : { "filetypes" : [ "html" ] } }
       NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
       NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
       " languages
@@ -67,6 +66,7 @@ if version >= 703
       NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ] } }
       NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ] } }
       NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ] } }
+      NeoBundleLazy 'MaxMEllon/plantuml-syntax', { "autoload" : { "filetypes" : [ "plantuml" ] } }
       " framework
       NeoBundle 'rails.vim'
       NeoBundle 'basyura/unite-rails'
