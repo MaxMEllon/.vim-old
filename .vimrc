@@ -1,15 +1,15 @@
 " MaxMEllon's .vimrc
-"----------------------------------------------------------<--------------------
-"|        ##     ## #### ##     ## ########   ######       |                    |＼
-"|        ##     ##  ##  ###   ### ##     ## ##    ##      |                    |  |
-"|        ##     ##  ##  #### #### ##     ## ##            |                    |  |
-"|        ##     ##  ##  ## ### ## ########  ##            |                    |  |
-"|         ##   ##   ##  ##     ## ##   ##   ##            |                    |  |
-"|    ###   ## ##    ##  ##     ## ##    ##  ##    ##      |                    |  |
-"|    ###    ###    #### ##     ## ##     ##  ######       |                    |  |
-"----------------------------------------------------------<--------------------   |
-" ＼                                                        ＼                  ＼
-"   ----------------------------------------------------------<-----------------
+"---------------------------------------------------------<-------------
+"|       ##     ## #### ##     ## ########   ######       |             |＼
+"|       ##     ##  ##  ###   ### ##     ## ##    ##      |             |  |
+"|       ##     ##  ##  #### #### ##     ## ##            |             |  |
+"|       ##     ##  ##  ## ### ## ########  ##            |             |  |
+"|        ##   ##   ##  ##     ## ##   ##   ##            |             |  |
+"|   ###   ## ##    ##  ##     ## ##    ##  ##    ##      |             |  |
+"|   ###    ###    #### ##     ## ##     ##  ######       |             |  |
+"---------------------------------------------------------<-------------   |
+" ＼                                                        ＼           ＼
+"   ---------------------------------------------------------<----------
 " plugin {{{
 set nocompatible               " Be iMproved
 filetype off                   " Required!
@@ -329,65 +329,71 @@ if neobundle#tap('vim-over')
 endif
 " }}}
 " unite {{{
-nnoremap m  <nop>
-xnoremap m  <Nop>
-nnoremap [unite] <Nop>
-xnoremap [unite] <Nop>
-nmap m [unite]
-xmap m [unite]
+if neobundle#tap('unite.vim')
+  nnoremap m  <nop>
+  xnoremap m  <Nop>
+  nnoremap [unite] <Nop>
+  xnoremap [unite] <Nop>
+  nmap m [unite]
+  xmap m [unite]
 
-"uでUnite
-nnoremap [unite]u :<C-u>Unite<Space>
-";でUnite
-nnoremap [unite]; :<C-u>Unite command<CR>
+  "uでUnite
+  nnoremap [unite]u :<C-u>Unite<Space>
+  ";でUnite
+  nnoremap [unite]; :<C-u>Unite command<CR>
 
-""""" unite neobundle
-"neでUnite neobundle
-nnoremap [unite]ne :<C-u>Unite -no-split neobundle/
-"nuでUnite neobundle/update
-nnoremap [unite]nu :<C-u>Unite -no-split neobundle/update<CR>
-"bでUnite buffer
-nnoremap [unite]b :<C-u>Unite buffer -winheight=5<CR>
+  """"" unite neobundle
+  "neでUnite neobundle
+  nnoremap [unite]ne :<C-u>Unite -no-split neobundle/
+  "nuでUnite neobundle/update
+  nnoremap [unite]nu :<C-u>Unite -no-split neobundle/update<CR>
+  "bでUnite buffer
+  nnoremap [unite]b :<C-u>Unite buffer -winheight=5<CR>
 
-""""" unite filer
-"fでUnite file_point, file, file_mru
-nnoremap [unite]f :<C-u>Unite -buffer-name=files file_point file file_mru<CR>
-"hfでUnite file_mru(最近アクセスしたファイルリストを取得)
-nnoremap [unite]hf :<C-u>Unite -buffer-name=files file_mru<CR>
-"rfでUnite file_rec(カレント以下を再帰的に非同期取得)
-nnoremap [unite]rf :<C-u>Unite -buffer-name=files file_rec<CR>
-"tでUnite filetype
-nnoremap [unite]t :<C-u>Unite -start-insert -vertical -winwidth=20 filetype<CR>
-"dでUnite directory, directory_mru
-nnoremap [unite]d :<C-u>Unite -buffer-name=files directory directory_mru<CR>
+  """"" unite filer
+  "fでUnite file_point, file, file_mru
+  nnoremap [unite]f :<C-u>Unite -buffer-name=files file_point file file_mru<CR>
+  "hfでUnite file_mru(最近アクセスしたファイルリストを取得)
+  nnoremap [unite]hf :<C-u>Unite -buffer-name=files file_mru<CR>
+  "rfでUnite file_rec(カレント以下を再帰的に非同期取得)
+  nnoremap [unite]rf :<C-u>Unite -buffer-name=files file_rec<CR>
+  "tでUnite filetype
+  nnoremap [unite]t :<C-u>Unite -start-insert -vertical -winwidth=20 filetype<CR>
+  "dでUnite directory, directory_mru
+  nnoremap [unite]d :<C-u>Unite -buffer-name=files directory directory_mru<CR>
 
-"maでUnite mapping
-nnoremap [unite]ma :<C-u>Unite mapping<CR>
-"hでUnite help
-nnoremap [unite]he :<C-u>Unite -start-insert -winheight=32 help<CR>
-"lでUnite locate
-nnoremap [unite]l :<C-u>Unite -start-insert locate<CR>
-"gでUnite grep
-nnoremap [unite]g :<C-u>Unite -buffer-name=search -winheight=20 -no-quit grep<CR>
-"wでUnite window
-nnoremap [unite]w :<C-u>Unite window<CR>
-"sでUnite source
-nnoremap [unite]s :<C-u>Unite source<CR>
-"yでUnite yankround
-nnoremap [unite]y :<C-u>Unite yankround<CR>
-"eでUnite file/async
-nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
-nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
+  "maでUnite mapping
+  nnoremap [unite]ma :<C-u>Unite mapping<CR>
+  "hでUnite help
+  nnoremap [unite]he :<C-u>Unite -start-insert -winheight=32 help<CR>
+  "lでUnite locate
+  nnoremap [unite]l :<C-u>Unite -start-insert locate<CR>
+  "gでUnite grep
+  nnoremap [unite]g :<C-u>Unite -buffer-name=search -winheight=20 -no-quit grep<CR>
+  "wでUnite window
+  nnoremap [unite]w :<C-u>Unite window<CR>
+  "sでUnite source
+  nnoremap [unite]s :<C-u>Unite source<CR>
+  "yでUnite yankround
+  nnoremap [unite]y :<C-u>Unite yankround<CR>
+  "eでUnite file/async
+  nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
+  nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
+  call neobundle#untap()
+endif
 " }}}
-" unite-rails key-mappings {{{
-nnoremap ,rc :<C-u>Unite rails/controller<CR>
-nnoremap ,rm :<C-u>Unite rails/model<CR>
-nnoremap ,rv :<C-u>Unite rails/view<CR>
-nnoremap ,rh :<C-u>Unite rails/helper<CR>
-nnoremap ,rs :<C-u>Unite rails/stylesheet<CR>
-nnoremap ,rj :<C-u>Unite rails/javascript<CR>
-nnoremap ,rg :<C-u>Unite rails/gemfile<CR>
-nnoremap ,rd :<C-u>Unite rails/db<CR>
+" unite-rails {{{
+if neobundle#tap('unite-rails')
+  nnoremap ,rc :<C-u>Unite rails/controller<CR>
+  nnoremap ,rm :<C-u>Unite rails/model<CR>
+  nnoremap ,rv :<C-u>Unite rails/view<CR>
+  nnoremap ,rh :<C-u>Unite rails/helper<CR>
+  nnoremap ,rs :<C-u>Unite rails/stylesheet<CR>
+  nnoremap ,rj :<C-u>Unite rails/javascript<CR>
+  nnoremap ,rg :<C-u>Unite rails/gemfile<CR>
+  nnoremap ,rd :<C-u>Unite rails/db<CR>
+  call neobundle#untap()
+endif
 " }}}
 " vim-capslock {{{
 if neobundle#tap('vim-capslock')
