@@ -71,6 +71,7 @@ if version >= 703
       NeoBundle 'rails.vim'
       NeoBundle 'basyura/unite-rails'
       " color
+      NeoBundle 'MaxMellon/molokai'
       NeoBundleLazy 'altercation/vim-colors-solarized'
       NeoBundleLazy 'vim-scripts/twilight'
       NeoBundleLazy 'Wombat256.vim'
