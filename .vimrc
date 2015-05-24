@@ -494,18 +494,18 @@ set runtimepath+=~/.vim/help/vimdoc-ja
 set helplang=ja
 
 " search {{{
-set ignorecase "検索文字列が小文字の場合は大文字小文字を区別なく検索する
-set smartcase  "検索文字列に大文字が含まれている場合は区別して検索する
-set nowrapscan "検索をファイルの先頭へループしない
-set incsearch "検索ワードの最初の文字を入力した時点から検索開始
-set hlsearch "ハイライト検索
+set ignorecase  " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
+set smartcase   " 検索文字列に大文字が含まれている場合は区別して検索する
+set nowrapscan  " 検索をファイルの先頭へループしない
+set incsearch   " 検索ワードの最初の文字を入力した時点から検索開始
+set hlsearch    " ハイライト検索
 " }}}
 " folding {{{
 if version >=703
   set foldenable         " 折りたたみon
   set foldmethod =marker " 折りたたみ方法:マーカ
-  set foldcolumn =2
-  set foldlevel  =0
+  set foldcolumn =0      " 折りたたみの補助線幅
+  set foldlevel  =0      " foldをどこまで一気に開くか
 endif
 " }}}
 " indent, tab{{{
@@ -519,12 +519,12 @@ set smarttab
 " }}}
 
 " encode
-set encoding=utf-8 "文字コード指定
+set encoding     =utf-8       " 文字コード指定
 set fileencodings=utf-8,s-jis " 文字エンコードを次の順番で確認
-scriptencoding utf-8
+scriptencoding    utf-8
 
-set fileformats=unix,dos,mac " 改行コードの自動認識
-set ambiwidth=double " □とか○の文字があってもカーソル位置がずれないようにする
+set fileformats=unix,dos,mac  " 改行コードの自動認識
+set ambiwidth=double          " ２バイト特殊文字の幅調整
 
 " }}}
 " source {{{
@@ -694,8 +694,6 @@ nnoremap K <C-U>
 noremap <silent><F4> <ESC>:bp<CR>
 noremap <silent><F5> <ESC>:bn<CR>
 
-nnoremap <F5> :<C-u>setlocal relativenumber!<CR>
-
 " Prefix <Space> {{{
 nnoremap <Space>h ^
 nnoremap <Space>l $
@@ -804,14 +802,23 @@ endfor
 
 "}}}
 " function {{{
+" copymode {{{
+function! CopyModeToggle()
+  set number!
+  set relativenumber!
+  GitGutterSignsToggle
+  IndentLinesToggle
+endfunction
+nnoremap <silent> <F6> :<C-u>call CopyModeToggle()<CR>
+" }}}
 " comment {{{
 function! CommentBlock(comment, ...)
-    let introducer =  a:0 >= 1  ?  a:1  :  "//"
-    let box_char   =  a:0 >= 2  ?  a:2  :  "*"
-    let width      =  a:0 >= 3  ?  a:3  :  strlen(a:comment) + 2
-    return introducer . repeat(box_char,width) . "\<CR>"
-    \    . introducer . " " . a:comment        . "\<CR>"
-    \    . introducer . repeat(box_char,width) . "\<CR>"
+  let introducer =  a:0 >= 1  ?  a:1  :  "//"
+  let box_char   =  a:0 >= 2  ?  a:2  :  "*"
+  let width      =  a:0 >= 3  ?  a:3  :  strlen(a:comment) + 2
+  return introducer . repeat(box_char,width) . "\<CR>"
+  \    . introducer . " " . a:comment        . "\<CR>"
+  \    . introducer . repeat(box_char,width) . "\<CR>"
 endfunction
 
 " ruby/shell/perl/python coment block
@@ -839,3 +846,4 @@ command! -bar -bang -nargs=? -complete=file Scouter
       \  echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 "}}}
 " }}}
+
