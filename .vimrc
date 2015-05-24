@@ -711,10 +711,6 @@ nnoremap ,v v$hy
 nnoremap <silent> ,h :<C-u>h <C-r><C-w><CR>
 " }}}
 " Prefix[\] {{{
-" 行番号とシンタックスを無効化
-nnoremap <silent> <Leader>f :call Alloff()<CR>
-" 行番号とシンタックスを有効化
-nnoremap <silent> <Leader>g :call Allon()<CR>
 " 任意の文字コードで再オープン
 nnoremap <Leader>e :e ++enc=
 " バッファを指定して移動できるように
@@ -791,29 +787,6 @@ endif
 colorscheme molokai
 syntax on
 let g:molokai_original = 1
-
-" syntaxと行番号をoff
-function! Alloff()
-  set relativenumber!
-  silent set nonumber
-  silent syntax off
-  " silent IndentGuidesDisable
-  silent IndentLinesToggle
-  silent SyntasticToggleMode
-  silent set listchars-=eol:$
-endfunction
-
-" syntaxと行番号をon
-function! Allon()
-  set relativenumber!
-  silent set number
-  silent syntax on
-  silent set cursorline
-  " silent IndentGuidesEnable
-  silent IndentLinesToggle
-  silent SyntasticToggleMode
-  silent set listchars=eol:$,tab:>-,trail:_
-endfunction
 "}}}
 " tab {{{
 set showtabline=2 " 常にタブ
@@ -823,6 +796,7 @@ for n in range(1, 9)
 endfor
 
 "}}}
+" function {{{
 " comment {{{
 function! CommentBlock(comment, ...)
     let introducer =  a:0 >= 1  ?  a:1  :  "//"
@@ -857,3 +831,4 @@ endfunction
 command! -bar -bang -nargs=? -complete=file Scouter
       \  echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 "}}}
+" }}}
