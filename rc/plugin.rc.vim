@@ -124,7 +124,6 @@ endif
 " lightline.vim {{{
 if neobundle#tap('lightline.vim')
   let g:lightline = {
-        \   'colorscheme': 'solarized',
         \   'component': {
         \     'readonly': '%{&readonly?"\u2b64":""}',
         \   },
