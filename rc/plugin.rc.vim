@@ -19,9 +19,9 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'Shougo/unite.vim'
   " vimproc {{{
   NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
-  NeoBundle 'Shougo/neocomplcache'
-  NeoBundleLazy 'Shougo/neosnippet', { 'depends': 'Shougo/neocomplcache' }
-  NeoBundleLazy 'Shougo/neosnippet-snippets', { 'depends' : 'Shougo/neosnippet' }
+  NeoBundle 'Shougo/neocomplcache.vim'
+  NeoBundle 'Shougo/neosnippet'
+  NeoBundle 'Shougo/neosnippet-snippets'
   NeoBundle 'itchyny/lightline.vim'
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'airblade/vim-gitgutter'
@@ -62,14 +62,6 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   " NeoBundle 'surround.vim'
   NeoBundleSaveCache
 call neobundle#end()
-" }}}
-" neosnippet {{{
-if neobundle#tap('neosnippet')
-  let g:neosnippet#snipqets_directory='~/.vim/snippets'
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  call neobundle#untap()
-endif
 " }}}
 " vim-rails {{{
 if neobundle#tap('rails.vim')
@@ -118,6 +110,14 @@ if neobundle#tap('neocomplecache')
   inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   inoremap <expr><C-g> neocomplcache#undo_completion(
   inoremap <expr><C-l> neocomplcache#complete_common_string())
+  call neobundle#untap()
+endif
+" }}}
+" neosnippet {{{
+if neobundle#tap('neosnippet')
+  let g:neosnippet#snipqets_directory='~/.vim/snippets'
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
   call neobundle#untap()
 endif
 " }}}
@@ -405,8 +405,8 @@ if neobundle#tap('w3m.vim')
 endif
 " }}}
 filetype plugin indent on     " Required!
-NeoBundleCheck
-
+" NeoBundleCheck
+"
 if !has('vim_starting')
   call neobundle#call_hook('on_source')
 endif
