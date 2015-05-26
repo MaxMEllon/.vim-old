@@ -21,6 +21,15 @@ function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
 " }}}
+
+
+" source plugin
+try
+  call s:source_rc('plugin.rc.vim')
+catch
+  echo " Please run '$ sh ./neo_bundle_install.sh'"
+endtry
+
 " set {{{
 set autoread                  " vim外で編集された時の自動み込み
 set autowrite                 " bufferが切り替わるときの自動保存
@@ -230,13 +239,6 @@ command! -bar -bang -nargs=? -complete=file Scouter
       \  echo Scouter(empty(<q-args>) ? $MYVIMRC : expand(<q-args>), <bang>0)
 "}}}
 " }}}
-
-" source plugin
-try
-  call s:source_rc('plugin.rc.vim')
-catch
-  echo " Please run '$ sh ./neo_bundle_install.sh'"
-endtry
 
 " source key-mapping
 call s:source_rc('mapping.rc.vim')

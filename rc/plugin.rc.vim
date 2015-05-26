@@ -71,7 +71,7 @@ if neobundle#tap('rails.vim')
 endif
 " }}}
 " neocomplcache {{{
-if neobundle#tap('neocomplecache')
+" if neobundle#tap('neocomplecache')
   "neocomplcacheを有効化
   let g:neocomplcache_enable_at_startup = 1
   "ポップアップメニューに表示する候補最大数
@@ -110,8 +110,8 @@ if neobundle#tap('neocomplecache')
   inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   inoremap <expr><C-g> neocomplcache#undo_completion(
   inoremap <expr><C-l> neocomplcache#complete_common_string())
-  call neobundle#untap()
-endif
+"   call neobundle#untap()
+" endif
 " }}}
 " neosnippet {{{
 if neobundle#tap('neosnippet')
