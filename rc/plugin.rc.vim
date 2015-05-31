@@ -19,7 +19,13 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'Shougo/unite.vim'
   " vimproc {{{
   NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
-  NeoBundle 'Shougo/neocomplcache.vim'
+  if s:meet_neocomplete_requirements()
+    NeoBundle 'Shougo/neocomplete.vim'
+    NeoBundle 'supermomonga/neocomplete-rsense.vim'
+  else
+    NeoBundle 'Shougo/neocomplcache.vim'
+    NeoBundle 'Shougo/neocomplcache-rsense.vim'
+  endif
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
   NeoBundle 'itchyny/lightline.vim'
@@ -31,6 +37,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'thinca/vim-quickrun'
   NeoBundle 'osyo-manga/unite-filetype'
   NeoBundle 'mopp/AOJ.vim'
+  NeoBundle 'mattn/gist-vim'
   NeoBundle 'mattn/webapi-vim'
   NeoBundle 'tyru/caw.vim.git'
   NeoBundle 'LeafCage/yankround.vim'
