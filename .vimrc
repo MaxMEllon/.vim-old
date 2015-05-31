@@ -20,15 +20,13 @@ augroup END
 function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
+
+set nocompatible               " Be iMproved
+filetype off                   " Required!
 " }}}
 
-
 " source plugin
-try
-  call s:source_rc('plugin.rc.vim')
-catch
-  echo " Please run '$ sh ./neo_bundle_install.sh'"
-endtry
+call s:source_rc('plugin.rc.vim')
 
 " set {{{
 set autoread                  " vim外で編集された時の自動み込み

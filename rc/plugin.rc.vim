@@ -1,6 +1,4 @@
 
-set nocompatible               " Be iMproved
-filetype off                   " Required!
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
@@ -11,6 +9,14 @@ if neobundle#exists_not_installed_bundles()
   echomsg 'Please execute ":NeoBundleInstall" command.'
 endif
 " }}}
+
+" 参考 morygonzalez
+" https://github.com/morygonzalez/dotfiles/blob/master/.vimrc#L33-35
+"-----------------------------------------------------------------------
+function! s:meet_neocomplete_requirements()
+  return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
+endfunction
+
 " neobundle {{{
 call neobundle#begin(expand('~/.vim/bundle/'))
   call neobundle#load_cache()
@@ -21,10 +27,8 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
   if s:meet_neocomplete_requirements()
     NeoBundle 'Shougo/neocomplete.vim'
-    NeoBundle 'supermomonga/neocomplete-rsense.vim'
   else
     NeoBundle 'Shougo/neocomplcache.vim'
-    NeoBundle 'Shougo/neocomplcache-rsense.vim'
   endif
   NeoBundle 'Shougo/neosnippet'
   NeoBundle 'Shougo/neosnippet-snippets'
@@ -37,11 +41,12 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundle 'thinca/vim-quickrun'
   NeoBundle 'osyo-manga/unite-filetype'
   NeoBundle 'mopp/AOJ.vim'
-  NeoBundle 'mattn/gist-vim'
   NeoBundle 'mattn/webapi-vim'
   NeoBundle 'tyru/caw.vim.git'
   NeoBundle 'LeafCage/yankround.vim'
   NeoBundle 'mbbill/undotree'
+  NeoBundle 'koron/nyancat-vim'
+  NeoBundle 'mattn/gist-vim'
   NeoBundle 'https://github.com/tpope/vim-capslock'
   NeoBundle 'https://github.com/tyru/open-browser.vim'
   NeoBundle 'https://github.com/basyura/twibill.vim'
