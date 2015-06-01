@@ -56,7 +56,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
   " languages
   NeoBundleLazy 'vim-ruby/vim-ruby', { "autoload" : { "filetypes" : [ "ruby" ] } }
-  NeoBundleLazy 'MaxMEllon/ruby-matchit', { "autoload" : { "filetypes" : [ "ruby" ] } }
+  NeoBundleLazy 'MaxMEllon/ruby_matchit', { "autoload" : { "filetypes" : [ "ruby" ] } }
   NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ] } }
   NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ] } }
   NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ] } }
