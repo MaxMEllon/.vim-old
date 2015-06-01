@@ -50,8 +50,10 @@ set ruler
 set scrolloff=10
 set secure                    " 安全モード
 set splitbelow
+set splitright
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set ttyfast                   " スクロールが滑らかに
+set ttyscroll=300
 set t_Co=256
 set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
@@ -71,6 +73,7 @@ if !isdirectory($HOME.'/.vim/_undo')
 endif
 set undodir=~/.vim/undo
 set undofile
+set undolevels=200
 
 " help
 helptags ~/.vim/help/vimdoc-ja/doc
@@ -132,7 +135,7 @@ aug myvimrc
   au BufNewFile,BufRead *.pu     set filetype=plantuml
   au BufNewFile,BufRead *.cjsx   set filetype=coffee
   au BufNewFile,BufRead *.jflex  set filetype=jflex
-  au Syntax jflex :call s:source_rc('syntax/jflex.vim')
+  au Syntax jflex call s:source_rc('syntax/jflex.vim')
   au FileType *        setlocal formatoptions-=ro
   au FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
   au FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
