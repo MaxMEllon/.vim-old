@@ -30,49 +30,49 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   else
     NeoBundle 'Shougo/neocomplcache.vim'
   endif
-  NeoBundle 'Shougo/neosnippet'
-  NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle 'itchyny/lightline.vim'
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'airblade/vim-gitgutter'
-  NeoBundle 'The-NERD-tree'
-  NeoBundle 'Yggdroot/indentLine'
-  NeoBundle 'osyo-manga/vim-over'   "置換強化
-  NeoBundle 'thinca/vim-quickrun'
-  NeoBundle 'osyo-manga/unite-filetype'
-  NeoBundle 'mopp/AOJ.vim'
-  NeoBundle 'mattn/webapi-vim'
-  NeoBundle 'tyru/caw.vim.git'
-  NeoBundle 'LeafCage/yankround.vim'
-  NeoBundle 'mbbill/undotree'
-  NeoBundle 'koron/nyancat-vim'
-  NeoBundle 'mattn/gist-vim'
-  NeoBundle 'https://github.com/tpope/vim-capslock'
-  NeoBundle 'https://github.com/tyru/open-browser.vim'
-  NeoBundle 'https://github.com/basyura/twibill.vim'
-  NeoBundleLazy 'yuratomo/w3m.vim', { "autoload" : { "commands" : [ "W3mTab" ] } }
-  NeoBundleLazy 'mattn/emmet-vim', { "autoload" : { "filetypes" : [ "html" ] } }
-  NeoBundleLazy 'git://github.com/basyura/TweetVim.git'
-  NeoBundleLazy 'git://github.com/yomi322/unite-tweetvim.git'
+  NeoBundle     'Shougo/neosnippet'
+  NeoBundle     'Shougo/neosnippet-snippets'
+  NeoBundle     'itchyny/lightline.vim'
+  NeoBundle     'tpope/vim-fugitive'
+  NeoBundle     'airblade/vim-gitgutter'
+  NeoBundle     'The-NERD-tree'
+  NeoBundle     'Yggdroot/indentLine'
+  NeoBundle     'osyo-manga/vim-over'   "置換強化
+  NeoBundle     'thinca/vim-quickrun'
+  NeoBundle     'osyo-manga/unite-filetype'
+  NeoBundle     'mopp/AOJ.vim'
+  NeoBundle     'mattn/webapi-vim'
+  NeoBundle     'tyru/caw.vim.git'
+  NeoBundle     'LeafCage/yankround.vim'
+  NeoBundle     'mbbill/undotree'
+  NeoBundle     'koron/nyancat-vim'
+  NeoBundle     'mattn/gist-vim'
+  NeoBundle     'tpope/vim-capslock'
+  NeoBundle     'tyru/open-browser.vim'
+  NeoBundle     'basyura/twibill.vim'
+  NeoBundleLazy 'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
+  NeoBundleLazy 'mattn/emmet-vim', { 'autoload' : { 'filetypes' : [ 'html' ] } }
+  NeoBundleLazy 'basyura/TweetVim.git'
+  NeoBundleLazy 'yomi322/unite-tweetvim.git'
   " languages
-  NeoBundleLazy 'vim-ruby/vim-ruby', { "autoload" : { "filetypes" : [ "ruby" ] } }
-  NeoBundleLazy 'MaxMEllon/ruby_matchit', { "autoload" : { "filetypes" : [ "ruby" ] } }
-  NeoBundleLazy 'slim-template/vim-slim', { "autoload" : { "filetypes" : [ "slim" ] } }
-  NeoBundleLazy 'groenewege/vim-less', { "autoload" : { "filetypes" : [ "less" ] } }
-  NeoBundleLazy 'kchmck/vim-coffee-script', { "autoload" : { "filetypes" : [ "coffee" ] } }
-  NeoBundleLazy 'mtscout6/vim-cjsx', { "autoload" : { "filetypes" : [ "coffee" ] } }
-  NeoBundleLazy 'MaxMEllon/plantuml-syntax', { "autoload" : { "filetypes" : [ "plantuml" ] } }
+  NeoBundleLazy 'vim-ruby/vim-ruby', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
+  NeoBundleLazy 'MaxMEllon/ruby_matchit', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
+  NeoBundleLazy 'slim-template/vim-slim', { 'autoload' : { 'filetypes' : [ 'slim' ] } }
+  NeoBundleLazy 'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] } }
+  NeoBundleLazy 'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
+  NeoBundleLazy 'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
+  NeoBundleLazy 'MaxMEllon/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
   " framework
   NeoBundle 'rails.vim'
   NeoBundle 'basyura/unite-rails'
   " color
-  NeoBundle 'MaxMellon/molokai'
+  NeoBundle     'MaxMellon/molokai'
   NeoBundleLazy 'altercation/vim-colors-solarized'
   NeoBundleLazy 'vim-scripts/twilight'
   NeoBundleLazy 'Wombat256.vim'
   " disalble
-  " NeoBundle 'scrooloose/syntastic'
-  " NeoBundle 'surround.vim'
+  " NeoBundle   'scrooloose/syntastic'
+  " NeoBundle   'surround.vim'
   NeoBundleSaveCache
 call neobundle#end()
 " }}}
@@ -418,8 +418,8 @@ if neobundle#tap('w3m.vim')
 endif
 " }}}
 filetype plugin indent on     " Required!
-" NeoBundleCheck
-"
+NeoBundleCheck
+
 if !has('vim_starting')
   call neobundle#call_hook('on_source')
 endif
