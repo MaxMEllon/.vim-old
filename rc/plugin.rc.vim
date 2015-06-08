@@ -21,55 +21,56 @@ endfunction
 call neobundle#begin(expand('~/.vim/bundle/'))
   call neobundle#load_cache()
   NeoBundleFetch 'Shougo/neobundle.vim'
-  NeoBundle 'Shougo/neomru.vim'
-  NeoBundle 'Shougo/unite.vim'
+  NeoBundle      'Shougo/neomru.vim'
+  NeoBundle      'Shougo/unite.vim'
   " vimproc {{{
   NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
   if s:meet_neocomplete_requirements()
-    NeoBundle 'Shougo/neocomplete.vim'
+    NeoBundle    'Shougo/neocomplete.vim'
   else
-    NeoBundle 'Shougo/neocomplcache.vim'
+    NeoBundle    'Shougo/neocomplcache.vim'
   endif
-  NeoBundle     'Shougo/neosnippet'
-  NeoBundle     'Shougo/neosnippet-snippets'
-  NeoBundle     'itchyny/lightline.vim'
-  NeoBundle     'tpope/vim-fugitive'
-  NeoBundle     'airblade/vim-gitgutter'
-  NeoBundle     'The-NERD-tree'
-  NeoBundle     'Yggdroot/indentLine'
-  NeoBundle     'osyo-manga/vim-over'   "置換強化
-  NeoBundle     'thinca/vim-quickrun'
-  NeoBundle     'osyo-manga/unite-filetype'
-  NeoBundle     'mopp/AOJ.vim'
-  NeoBundle     'mattn/webapi-vim'
-  NeoBundle     'tyru/caw.vim.git'
-  NeoBundle     'LeafCage/yankround.vim'
-  NeoBundle     'mbbill/undotree'
-  NeoBundle     'koron/nyancat-vim'
-  NeoBundle     'mattn/gist-vim'
-  NeoBundle     'tpope/vim-capslock'
-  NeoBundle     'tyru/open-browser.vim'
-  NeoBundle     'basyura/twibill.vim'
-  NeoBundleLazy 'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
-  NeoBundleLazy 'mattn/emmet-vim', { 'autoload' : { 'filetypes' : [ 'html' ] } }
-  NeoBundleLazy 'basyura/TweetVim.git'
-  NeoBundleLazy 'yomi322/unite-tweetvim.git'
+  NeoBundle      'Shougo/neosnippet'
+  NeoBundle      'Shougo/neosnippet-snippets'
+  NeoBundle      'itchyny/lightline.vim'
+  NeoBundle      'tpope/vim-fugitive'
+  NeoBundle      'airblade/vim-gitgutter'
+  NeoBundle      'The-NERD-tree'
+  NeoBundle      'Yggdroot/indentLine'
+  NeoBundle      'osyo-manga/vim-over'   "置換強化
+  NeoBundle      'thinca/vim-quickrun'
+  NeoBundle      'osyo-manga/unite-filetype'
+  NeoBundle      'mopp/AOJ.vim'
+  NeoBundle      'mattn/webapi-vim'
+  NeoBundle      'tyru/caw.vim.git'
+  NeoBundle      'LeafCage/yankround.vim'
+  NeoBundle      'mbbill/undotree'
+  NeoBundle      'koron/nyancat-vim'
+  NeoBundle      'mattn/gist-vim'
+  NeoBundle      'tpope/vim-capslock'
+  NeoBundle      'tyru/open-browser.vim'
+  NeoBundle      'basyura/twibill.vim'
+  NeoBundle      'mattn/benchvimrc-vim'
+  NeoBundleLazy  'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
+  NeoBundleLazy  'mattn/emmet-vim', { 'autoload' : { 'filetypes' : [ 'html' ] } }
+  NeoBundleLazy  'basyura/TweetVim.git'
+  NeoBundleLazy  'yomi322/unite-tweetvim.git'
   " languages
-  NeoBundleLazy 'vim-ruby/vim-ruby', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
-  NeoBundleLazy 'MaxMEllon/ruby_matchit', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
-  NeoBundleLazy 'slim-template/vim-slim', { 'autoload' : { 'filetypes' : [ 'slim' ] } }
-  NeoBundleLazy 'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] } }
-  NeoBundleLazy 'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
-  NeoBundleLazy 'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
-  NeoBundleLazy 'MaxMEllon/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
+  NeoBundleLazy  'vim-ruby/vim-ruby', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
+  NeoBundleLazy  'MaxMEllon/ruby_matchit', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
+  NeoBundleLazy  'slim-template/vim-slim', { 'autoload' : { 'filetypes' : [ 'slim' ] } }
+  NeoBundleLazy  'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] } }
+  NeoBundleLazy  'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
+  NeoBundleLazy  'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
+  NeoBundleLazy  'MaxMEllon/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
   " framework
-  NeoBundle 'rails.vim'
-  NeoBundle 'basyura/unite-rails'
+  NeoBundle      'rails.vim'
+  NeoBundle      'basyura/unite-rails'
   " color
-  NeoBundle     'MaxMellon/molokai'
-  NeoBundleLazy 'altercation/vim-colors-solarized'
-  NeoBundleLazy 'vim-scripts/twilight'
-  NeoBundleLazy 'Wombat256.vim'
+  NeoBundle      'MaxMellon/molokai'
+  NeoBundleLazy  'altercation/vim-colors-solarized'
+  NeoBundleLazy  'vim-scripts/twilight'
+  NeoBundleLazy  'Wombat256.vim'
   " disalble
   " NeoBundle   'scrooloose/syntastic'
   " NeoBundle   'surround.vim'
