@@ -59,6 +59,7 @@ nnoremap <silent> <F2> :tabprevious<CR>
 "}}}
 " Disable key {{{
 nnoremap Q  q
+nnoremap K  <Nop>
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 "}}}
