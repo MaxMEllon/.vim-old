@@ -1,3 +1,7 @@
+"---------------------------------------------------------------------------
+" Function:
+"
+
 " copymode {{{
 function! CopyModeToggle()
   set number!
