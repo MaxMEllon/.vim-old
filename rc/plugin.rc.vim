@@ -21,6 +21,7 @@ function! s:meet_neocomplete_requirements()
 endfunction
 
 " neobundle {{{
+
 call neobundle#begin(expand('~/.vim/bundle/'))
   call neobundle#load_cache()
   NeoBundleFetch 'Shougo/neobundle.vim'
@@ -65,7 +66,7 @@ call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleLazy  'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] } }
   NeoBundleLazy  'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
   NeoBundleLazy  'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
-  NeoBundleLazy  'MaxMEllon/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
+  NeoBundleLazy  'aklt/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
   " framework
   NeoBundle      'rails.vim'
   NeoBundle      'basyura/unite-rails'
