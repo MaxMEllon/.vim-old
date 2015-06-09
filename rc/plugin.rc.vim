@@ -302,7 +302,7 @@ if neobundle#tap('undotree')
 endif
 " }}}
 " yankround {{{
-if neobundle#tap('yankround')
+if neobundle#tap('yankround.vim')
   nmap p <Plug>(yankround-p)
   xmap P <Plug>(yankround-P)
   nmap gp <Plug>(yankround-gp)
