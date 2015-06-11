@@ -9,8 +9,6 @@
 "                ###    ###    #### ##     ## ##     ##  ######
 "
 
-
-
 " init {{{
 let mapleader='\'
 augroup MyAutoCmd
