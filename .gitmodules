@@ -1,3 +1,6 @@
 [submodule "help/vimdoc-ja"]
 	path = help/vimdoc-ja
 	url = https://github.com/vim-jp/vimdoc-ja.git
+[submodule "bundle/neobundle.vim"]
+	path = bundle/neobundle.vim
+	url = https://github.com/Shougo/neobundle.vim.git
