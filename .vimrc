@@ -15,6 +15,17 @@ augroup MyAutoCmd
   autocmd!
 augroup END
 
+" Startup time.
+" See: https://gist.github.com/thinca/1518874
+if has('vim_starting') && has('reltime')
+  let s:startuptime = reltime()
+  augroup vimrc-startuptime
+    autocmd! VimEnter *
+          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+          \ | unlet s:startuptime
+  augroup END
+endif
+
 function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
