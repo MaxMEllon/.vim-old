@@ -66,9 +66,15 @@ nnoremap K  <Nop>
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 "}}}
+
+" `^ は 挿入モードが終了した場所へのジャンプ
+" ノーマルモードに入った時，カーソルがずれるのを無効化
 " jjでノーマルモードへ
-inoremap jj <Esc>
-inoremap <C-j><C-j> <Esc>
+inoremap <silent> jj     <Esc>`^
+inoremap <silent> <Esc>  <Esc>`^
+inoremap <silent> <C-[>  <Esc>`^
+
+inoremap <C-j><C-j> <Esc>`^
 vnoremap <C-j><C-j> <Esc>
 
 " vv矩形ビジュアル,vvvで行ビジュアル
