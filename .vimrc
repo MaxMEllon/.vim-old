@@ -26,12 +26,11 @@ if has('vim_starting') && has('reltime')
   augroup END
 endif
 
+" easy source
+" See: https://github.com/Shougo/shougo-s-github/blob/master/vim/vimrc#16-18
 function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
-
-set nocompatible               " Be iMproved
-filetype off                   " Required!
 " }}}
 
 " source plugin
@@ -46,12 +45,12 @@ call s:source_rc('set.rc.vim')
 call s:source_rc('encoding.rc.vim')
 
 " highlight {{{
+au InsertLeave        * match TrailingSpaces /\s\+$/
+au BufNewFile,BufRead * match ZenkakuSpace /  /
 highlight ZenkakuSpace cterm=underline ctermfg=7
-"ステータスラインの色を変更(ノーマルモード時)
-highlight StatusLine ctermfg=black ctermbg=cyan
 " }}}
 " autocmd {{{
-aug myvimrc
+aug filegroup
   au!
   au BufNewFile,BufRead *.md     set filetype=markdown
   au BufNewFile,BufRead *.slim   set filetype=slim
@@ -70,14 +69,11 @@ aug myvimrc
   au FileType coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
   au FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
   au FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-  au InsertLeave        * match TrailingSpaces /\s\+$/
-  au BufNewFile,BufRead * match ZenkakuSpace /  /
-  au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
-  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g`\"" | endif
 aug END
 " }}}
 " Status-line{{{
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
+highlight StatusLine ctermfg=black ctermbg=cyan
 
 if has('syntax')
   augroup InsertHook
