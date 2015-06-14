@@ -44,11 +44,6 @@ call s:source_rc('set.rc.vim')
 " https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/encoding.rc.vim
 call s:source_rc('encoding.rc.vim')
 
-" highlight {{{
-au InsertLeave        * match TrailingSpaces /\s\+$/
-au BufNewFile,BufRead * match ZenkakuSpace /  /
-highlight ZenkakuSpace cterm=underline ctermfg=7
-" }}}
 " autocmd {{{
 aug filegroup
   au!
