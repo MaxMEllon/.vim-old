@@ -4,8 +4,7 @@
 
 " copymode {{{
 function! CopyModeToggle()
-  set number!
-  set relativenumber!
+  set nolist! number! relativenumber!
   GitGutterSignsToggle
   IndentLinesToggle
 endfunction
