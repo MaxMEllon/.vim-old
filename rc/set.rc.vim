@@ -55,6 +55,7 @@ set helplang=ja
 
 " search {{{
 set ignorecase  " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
+set wrapscan
 set smartcase   " 検索文字列に大文字が含まれている場合は区別して検索する
 set nowrapscan  " 検索をファイルの先頭へループしない
 set incsearch   " 検索ワードの最初の文字を入力した時点から検索開始
