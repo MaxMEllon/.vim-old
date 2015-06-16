@@ -172,10 +172,6 @@ xnoremap id  i"
 nnoremap +  <C-a>
 nnoremap -  <C-x>
 
-" : without
-nnoremap ;  :
-vnoremap ;  :
-
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
 " _ : Quick horizontal splits
 nnoremap _     :sp .<CR>
@@ -224,7 +220,10 @@ nnoremap <ESC><ESC> :nohlsearch<CR><ESC><C-l>
 
 " Command-line Window {{{
 " enable command line
-nnoremap : q:
+" : without
+nnoremap ; q:
+vnoremap ; q:
+
 " コマンドラインの履歴移動
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
