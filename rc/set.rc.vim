@@ -31,6 +31,13 @@ set t_Co=256
 set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 
+" spelling
+" set spelllang=en_us
+" ignore japanese
+" set spelllang+=cjk
+" enable spell check
+" set spell!
+
 " swap
 if !isdirectory($HOME.'/.vim/_swap')
   call mkdir($HOME.'/.vim/_swap', 'p')
