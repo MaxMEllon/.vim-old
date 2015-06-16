@@ -39,9 +39,8 @@ call s:source_rc('plugin.rc.vim')
 " source set
 call s:source_rc('set.rc.vim')
 
-" quotation github:Shougo/shougo-s-github
-"----------------------------------------------------------------------
-" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/encoding.rc.vim
+" encoding configure
+" See: https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/encoding.rc.vim
 call s:source_rc('encoding.rc.vim')
 
 " autocmd {{{
