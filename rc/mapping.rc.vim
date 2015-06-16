@@ -143,9 +143,7 @@ inoremap <C-e> <End>
 " Useless command.
 nnoremap M m
 
-" Shougo-s-github
-"----------------------------------------------------------------------
-"https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L555-L578
+" See: https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L555-L578
 " <angle>
 onoremap aa  a>
 xnoremap aa  a>
@@ -169,6 +167,20 @@ onoremap ad  a"
 xnoremap ad  a"
 onoremap id  i"
 xnoremap id  i"
+
+" Increment [1,2]
+nnoremap +  <C-a>
+nnoremap -  <C-x>
+
+" : without
+nnoremap ;  :
+vnoremap ;  :
+
+" See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
+" _ : Quick horizontal splits
+nnoremap _     :sp<CR>
+" | : Quick vertical splits
+nnoremap <bar> :vsp<CR>
 
 " カーソル行空行化
 nnoremap cc 0D
