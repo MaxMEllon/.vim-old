@@ -178,9 +178,9 @@ vnoremap ;  :
 
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
 " _ : Quick horizontal splits
-nnoremap _     :sp<CR>
+nnoremap _     :sp .<CR>
 " | : Quick vertical splits
-nnoremap <bar> :vsp<CR>
+nnoremap <bar> :vsp .<CR>
 
 " カーソル行空行化
 nnoremap cc 0D
@@ -228,7 +228,7 @@ nnoremap : q:
 " コマンドラインの履歴移動
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-set cmdwinheight=3 "Command-line windowの行数
+set cmdwinheight=1 "Command-line windowの行数
 nnoremap <sid>vcommand-line-enter) q:
 xnoremap <sid>(command-line-enter) q:
 nnoremap <sid>(command-line-norange) q:<C-u>
