@@ -205,16 +205,18 @@ for k in range(1, 9)
 endfor
 " }}}
 
-" コマンドラインの履歴移動
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
 " Shift-Sで単語をビジュアル選択
 nnoremap <silent>S viw
 " ハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR><ESC><C-l>
 
 " Command-line Window {{{
-set cmdwinheight=10 "Command-line windowの行数
+" enable command line
+nnoremap : q:
+" コマンドラインの履歴移動
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+set cmdwinheight=3 "Command-line windowの行数
 nnoremap <sid>vcommand-line-enter) q:
 xnoremap <sid>(command-line-enter) q:
 nnoremap <sid>(command-line-norange) q:<C-u>
@@ -223,9 +225,9 @@ autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
   nnoremap <buffer> q :<C-u>quit<CR>
   nnoremap <buffer> <TAB> :<C-u>quit<CR>
-  inoremap <buffer><expr><CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
-  inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
-  inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+  inoremap <buffer><expr><CR>   pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+  inoremap <buffer><expr><C-h>  pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
+  inoremap <buffer><expr><BS>   pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
   inoremap <buffer><expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
   startinsert!
 endfunction
