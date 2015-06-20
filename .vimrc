@@ -64,11 +64,12 @@ aug filegroup
   au FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
   au FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 aug END
-augroup vimrcEx
+augroup lastline
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
   \ exe "normal g`\"" | endif
 augroup END
 " }}}
+
 " Status-line{{{
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
 highlight StatusLine ctermfg=black ctermbg=cyan

@@ -1,17 +1,14 @@
 "---------------------------------------------------------------------------
 " Function:
 "
-
-" copymode {{{
-function! CopyModeToggle()
+function! CopyModeToggle() " {{{
   set nolist! number! relativenumber!
   GitGutterSignsToggle
   IndentLinesToggle
 endfunction
 " }}}
 
-" comment {{{
-function! CommentBlock(comment, ...)
+function! CommentBlock(comment, ...) " {{{
   let introducer =  a:0 >= 1  ?  a:1  :  "//"
   let box_char   =  a:0 >= 2  ?  a:2  :  "*"
   let width      =  a:0 >= 3  ?  a:3  :  strlen(a:comment) + 2
@@ -22,11 +19,8 @@ endfunction
 
 "}}}
 
-" Sento-Ryoku {{{
-" quotation
-"----------------------------------------------------------------------
-" http://d.hatena.ne.jp/thinca/20091031/1257001194
-function! Scouter(file, ...)
+function! Scouter(file, ...) " {{{
+" See: http://d.hatena.ne.jp/thinca/20091031/1257001194
   let pat = '^\s*$\|^\s*"'
   let lines = readfile(a:file)
   if !a:0 || !a:1

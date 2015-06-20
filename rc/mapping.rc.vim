@@ -109,6 +109,7 @@ nnoremap <silent><Leader>rv  :<C-u>source $MYVIMRC<CR> :echo "Reload"<CR>
 
 " delete char
 inoremap <C-d> <Del>
+nnoremap <BS>  X
 
 " カッコなどを入力したら自動的に中へ
 inoremap {} {}<Left>
@@ -227,7 +228,7 @@ vnoremap ; q:
 " コマンドラインの履歴移動
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-set cmdwinheight=1 "Command-line windowの行数
+set cmdwinheight=5 "Command-line windowの行数
 nnoremap <sid>vcommand-line-enter) q:
 xnoremap <sid>(command-line-enter) q:
 nnoremap <sid>(command-line-norange) q:<C-u>
