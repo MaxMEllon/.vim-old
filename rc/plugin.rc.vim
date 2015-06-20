@@ -14,7 +14,7 @@ endif
 " }}}
 
 " 参考 morygonzalez
-" https://github.com/morygonzalez/dotfiles/blob/master/.vimrc#L33-35
+" See: https://github.com/morygonzalez/dotfiles/blob/master/.vimrc#L33-35
 "-----------------------------------------------------------------------
 function! s:meet_neocomplete_requirements()
   return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -23,64 +23,68 @@ endfunction
 " neobundle {{{
 
 call neobundle#begin(expand('~/.vim/bundle/'))
-  call neobundle#load_cache()
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  NeoBundle      'Shougo/neomru.vim'
-  NeoBundle      'Shougo/unite.vim'
-  " vimproc {{{
-  NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
-  if s:meet_neocomplete_requirements()
-    NeoBundle    'Shougo/neocomplete.vim'
-  else
-    NeoBundle    'Shougo/neocomplcache.vim'
-  endif
-  NeoBundle      'Shougo/neosnippet'
-  NeoBundle      'Shougo/neosnippet-snippets'
-  NeoBundle      'itchyny/lightline.vim'
-  NeoBundle      'tpope/vim-fugitive'
-  NeoBundle      'airblade/vim-gitgutter'
-  NeoBundle      'The-NERD-tree'
-  NeoBundle      'Yggdroot/indentLine'
-  NeoBundle      'osyo-manga/vim-over'   "置換強化
-  NeoBundle      'thinca/vim-quickrun'
-  NeoBundle      'osyo-manga/unite-filetype'
-  NeoBundle      'mopp/AOJ.vim'
-  NeoBundle      'mattn/webapi-vim'
-  NeoBundle      'tyru/caw.vim.git'
-  NeoBundle      'LeafCage/yankround.vim'
-  NeoBundle      'mbbill/undotree'
-  NeoBundle      'koron/nyancat-vim'
-  NeoBundle      'mattn/gist-vim'
-  NeoBundle      'tpope/vim-capslock'
-  NeoBundle      'tyru/open-browser.vim'
-  NeoBundle      'basyura/twibill.vim'
-  NeoBundle      'mattn/benchvimrc-vim'
-  NeoBundleLazy  'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
-  NeoBundleLazy  'mattn/emmet-vim', { 'autoload' : { 'filetypes' : [ 'html' ] } }
-  NeoBundleLazy  'basyura/TweetVim.git'
-  NeoBundleLazy  'yomi322/unite-tweetvim.git'
-  " languages
-  NeoBundleLazy  'vim-ruby/vim-ruby', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
-  NeoBundleLazy  'MaxMEllon/ruby_matchit', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
-  NeoBundleLazy  'slim-template/vim-slim', { 'autoload' : { 'filetypes' : [ 'slim' ] } }
-  NeoBundleLazy  'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] } }
-  NeoBundleLazy  'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
-  NeoBundleLazy  'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
-  NeoBundleLazy  'aklt/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
-  " framework
-  NeoBundle      'rails.vim'
-  NeoBundle      'basyura/unite-rails'
-  " color
-  NeoBundle      'MaxMellon/molokai'
-  NeoBundleLazy  'altercation/vim-colors-solarized'
-  NeoBundleLazy  'vim-scripts/twilight'
-  NeoBundleLazy  'Wombat256.vim'
-  " disalble
-  " NeoBundle   'scrooloose/syntastic'
-  " NeoBundle   'surround.vim'
-  NeoBundleSaveCache
+call neobundle#load_cache()
+
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle      'Shougo/neomru.vim'
+NeoBundle      'Shougo/unite.vim'
+" vimproc {{{
+NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, } " }}}
+if s:meet_neocomplete_requirements()
+  NeoBundle    'Shougo/neocomplete.vim'
+else
+  NeoBundle    'Shougo/neocomplcache.vim'
+endif
+NeoBundle      'Shougo/neosnippet'
+NeoBundle      'Shougo/neosnippet-snippets'
+NeoBundle      'itchyny/lightline.vim'
+NeoBundle      'tpope/vim-fugitive'
+NeoBundle      'airblade/vim-gitgutter'
+NeoBundle      'The-NERD-tree'
+NeoBundle      'Yggdroot/indentLine'
+NeoBundle      'osyo-manga/vim-over'
+NeoBundle      'mopp/AOJ.vim'
+NeoBundle      'mattn/webapi-vim'
+NeoBundle      'tyru/caw.vim.git'
+NeoBundle      'LeafCage/yankround.vim'
+NeoBundle      'mbbill/undotree'
+NeoBundle      'koron/nyancat-vim'
+NeoBundle      'mattn/gist-vim'
+NeoBundle      'tpope/vim-capslock'
+NeoBundle      'tyru/open-browser.vim'
+NeoBundle      'basyura/twibill.vim'
+NeoBundle      'mattn/benchvimrc-vim'
+NeoBundleLazy  'basyura/TweetVim.git'
+" depend-vimproc
+NeoBundle      'thinca/vim-quickrun'
+NeoBundle      'Shougo/vimshell.vim', { 'depends' : [ 'Shougo/vimproc' ] }
+NeoBundleLazy  'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
+" depend-unite
+NeoBundle      'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundle      'osyo-manga/unite-filetype', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy  'yomi322/unite-tweetvim.git'
+" languages
+NeoBundleLazy  'vim-ruby/vim-ruby', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
+NeoBundleLazy  'MaxMEllon/ruby_matchit', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
+NeoBundleLazy  'slim-template/vim-slim', { 'autoload' : { 'filetypes' : [ 'slim' ] } }
+NeoBundleLazy  'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] } }
+NeoBundleLazy  'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
+NeoBundleLazy  'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
+NeoBundleLazy  'aklt/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
+" framework
+NeoBundle      'rails.vim'
+" color
+NeoBundle      'MaxMellon/molokai'
+NeoBundleLazy  'altercation/vim-colors-solarized'
+NeoBundleLazy  'vim-scripts/twilight'
+NeoBundleLazy  'Wombat256.vim'
+" disalble
+" NeoBundle   'scrooloose/syntastic'
+" NeoBundle   'surround.vim'
+NeoBundleSaveCache
 call neobundle#end()
 " }}}
+
 " vim-rails {{{
 if neobundle#tap('rails.vim')
   let g:rails_level = 4
@@ -257,6 +261,15 @@ if neobundle#tap('vim-quickrun')
   call neobundle#untap()
 endif
 " }}}
+" vimshell {{{
+if neobundle#tap('vimshell.vim')
+  nnoremap <Space>sh :VimShellPop -toggle<CR>
+  nnoremap <Space>cd :VimShellCurrentDir<CR>
+  nnoremap <Space>rb :VimShellInteractive irb<CR>
+  nnoremap <Space>rc :VimShellInteractive rails c<CR>
+  " nnoremap ,pry :VimShellInteractive pry<CR>
+endif
+" }}}
 " syntastic {{{
 if neobundle#tap('syntastic')
   let g:syntastic_enable_signs  = 1
@@ -333,9 +346,7 @@ if neobundle#tap('unite.vim')
   xmap m [unite]
 
   "uでUnite
-  nnoremap [unite]u :<C-u>Unite<Space>
-  ";でUnite
-  nnoremap [unite]; :<C-u>Unite command<CR>
+  nnoremap [unite]u :<C-u>Unite<CR>
 
   """"" unite neobundle
   "neでUnite neobundle

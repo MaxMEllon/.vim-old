@@ -1,0 +1,11 @@
+alias h='history'
+alias c='clear'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias :q='exit'
+alias be='bundle exec'
+alias uml='java -jar /home/maxmellon/local/bin/plantuml.jar -tpng'
+alias edit=vim -split=tabedit $$args
+alias e='edit'
+
