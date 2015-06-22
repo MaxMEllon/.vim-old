@@ -61,7 +61,8 @@ nnoremap <silent> [Tag]p :tabprevious<CR>
 nnoremap <silent> <F2> :tabprevious<CR>
 "}}}
 " Disable key {{{
-nnoremap Q  q
+nnoremap M m
+nnoremap Q q
 nnoremap K  <Nop>
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
@@ -93,9 +94,9 @@ xnoremap <silent> gp o<ESC>p^
 xnoremap <silent> gP O<ESC>P^
 
 " <TAB>: indent.
-xnoremap <TAB>  >
+xnoremap <TAB>  >gv
 " <S-TAB>: unindent.
-xnoremap <S-TAB>  <
+xnoremap <S-TAB>  <gv
 
 " Indent
 nnoremap > >>
@@ -128,6 +129,7 @@ nnoremap <silent><C-l> :nohlsearch<CR>
 " nnoremap N Nzz
 " nnoremap * *zz
 " nnoremap # #zz
+"=> Use anzu
 nnoremap g* g*zz
 nnoremap g# g#zz
 
@@ -141,8 +143,8 @@ nnoremap Y y$
 " C-eで行末
 inoremap <C-e> <End>
 
-" Useless command.
-nnoremap M m
+" 誤爆防止
+inoremap  <Esc>
 
 " See: https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L555-L578
 " <angle>
