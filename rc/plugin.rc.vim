@@ -1,4 +1,4 @@
-"---------------------------------------------------------------------------
+" ---------------------------------------------------------------------------
 " Plugin:
 "
 
@@ -50,10 +50,11 @@ NeoBundle      'LeafCage/yankround.vim'
 NeoBundle      'mbbill/undotree'
 NeoBundle      'koron/nyancat-vim'
 NeoBundle      'mattn/gist-vim'
-NeoBundle      'tpope/vim-capslock'
 NeoBundle      'tyru/open-browser.vim'
 NeoBundle      'basyura/twibill.vim'
 NeoBundle      'mattn/benchvimrc-vim'
+NeoBundle      'osyo-manga/vim-anzu'
+NeoBundle      'Lokaltog/vim-easymotion'
 NeoBundleLazy  'basyura/TweetVim.git'
 " depend-vimproc
 NeoBundle      'thinca/vim-quickrun'
@@ -85,15 +86,14 @@ NeoBundleSaveCache
 call neobundle#end()
 " }}}
 
-" vim-rails {{{
-if neobundle#tap('rails.vim')
+if neobundle#tap('rails.vim') " {{{
   let g:rails_level = 4
   let g:rails_defalut_database = 'postgresql'
   call neobundle#untap()
 endif
 " }}}
-" neocomplcache {{{
-" if neobundle#tap('neocomplecache')
+
+" if neobundle#tap('neocomplecache') " {{{
   "neocomplcacheを有効化
   let g:neocomplcache_enable_at_startup = 1
   "ポップアップメニューに表示する候補最大数
@@ -135,16 +135,16 @@ endif
 "   call neobundle#untap()
 " endif
 " }}}
-" neosnippet {{{
-if neobundle#tap('neosnippet')
+
+if neobundle#tap('neosnippet') " {{{
   let g:neosnippet#snipqets_directory='~/.vim/snippets'
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-k> <Plug>(neosnippet_expand_or_jump)
   call neobundle#untap()
 endif
 " }}}
-" lightline.vim {{{
-if neobundle#tap('lightline.vim')
+
+if neobundle#tap('lightline.vim') " {{{
   let g:lightline = {
         \   'component': {
         \     'readonly': '%{&readonly?"\u2b64":""}',
@@ -155,7 +155,7 @@ if neobundle#tap('lightline.vim')
         \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
         \                [ 'fugitive', 'gitgutter' ],
         \                [ 'filename' ] ],
-        \     'right': [ [ 'filetype' ],
+        \     'right': [ [ 'anzu', 'filetype' ],
         \                [ 'fileencoding' ],
         \                [ 'fileformat' ] ]
         \   },
@@ -166,6 +166,7 @@ if neobundle#tap('lightline.vim')
         \     'syntastic': 'error',
         \   },
         \   'component_function': {
+        \     'anzu' : 'anzu#search_status',
         \     'capstatus' : 'CapsLockSTATUSLINE',
         \     'fugitive' : 'MyFugitive',
         \     'gitgutter' : 'MyGitGutter'
@@ -174,15 +175,15 @@ if neobundle#tap('lightline.vim')
   call neobundle#untap()
 endif
 "}}}
-" AOJ.vim {{{
-if neobundle#tap('AOJ.vim')
+
+if neobundle#tap('AOJ.vim') " {{{
   " aoj config
   let g:aoj#user_id = 'mozi_kke'
   call neobundle#untap()
 endif
 " }}}
-" vim-gitgutter {{{
-if neobundle#tap('vim-gitgutter')
+
+if neobundle#tap('vim-gitgutter') " {{{
   let g:gitgutter_sign_added    = '+'
   let g:gitgutter_sign_modified = '>'
   let g:gitgutter_sign_removed  = 'X'
@@ -222,12 +223,12 @@ if neobundle#tap('vim-gitgutter')
   call neobundle#untap()
 endif
 " }}}
-" NERDTree {{{
-if neobundle#tap('The-NERD-tree')
+
+if neobundle#tap('The-NERD-tree') " {{{
   " バッファがNERDTreeのみになったときNERDTreeをとじる
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
     \ && b:NERDTreeType == "primary") | q | endif
-  " NERDTREE ignore
+  " NERDTREE ignor'e
   let g:NERDTreeIgnore = ['\.clean$', '\.swp$', '\.bak$', '\~$']
   " 隠しファイルの表示設定 0 非表示 1,  表示
   let g:NERDTreeShowHidden = 0
@@ -237,16 +238,16 @@ if neobundle#tap('The-NERD-tree')
   call neobundle#untap()
 endif
 "}}}
-" indentLine {{{
-if neobundle#tap('indentLine')
+
+if neobundle#tap('indentLine') " {{{
   let g:indentLine_color_term = 239
   let g:indentLine_color_tty_light = 59
   let g:indentLine_color_dark = 1
   call neobundle#untap()
 endif
 " }}}
-" vim-quickrun {{{
-if neobundle#tap('vim-quickrun')
+
+if neobundle#tap('vim-quickrun') " {{{
   let g:quickrun_config = {
         \  '_': {
         \     'runner' : 'vimproc',
@@ -261,8 +262,8 @@ if neobundle#tap('vim-quickrun')
   call neobundle#untap()
 endif
 " }}}
-" vimshell {{{
-if neobundle#tap('vimshell.vim')
+
+if neobundle#tap('vimshell.vim') "{{{
   nnoremap <Space>sh :VimShellPop -toggle<CR>
   nnoremap <Space>cd :VimShellCurrentDir<CR>
   nnoremap <Space>rb :VimShellInteractive irb<CR>
@@ -270,8 +271,8 @@ if neobundle#tap('vimshell.vim')
   " nnoremap ,pry :VimShellInteractive pry<CR>
 endif
 " }}}
-" syntastic {{{
-if neobundle#tap('syntastic')
+
+if neobundle#tap('syntastic') "{{{
   let g:syntastic_enable_signs  = 1
   let g:syntastic_auto_loc_list = 2
   let g:syntastic_enable_signs  = 1
@@ -302,8 +303,8 @@ if neobundle#tap('syntastic')
   call neobundle#untap()
 endif
 " }}}
-" undotree {{{
-if neobundle#tap('undotree')
+
+if neobundle#tap('undotree') " {{{
   let g:undotree_SetFocusWhenToggle = 1
   let g:undotree_SplitWidth = 35
   let g:undotree_diffAutoOpen = 1
@@ -315,8 +316,8 @@ if neobundle#tap('undotree')
   call neobundle#untap()
 endif
 " }}}
-" yankround {{{
-if neobundle#tap('yankround.vim')
+
+if neobundle#tap('yankround.vim') "{{{
   nmap p <Plug>(yankround-p)
   xmap P <Plug>(yankround-P)
   nmap gp <Plug>(yankround-gp)
@@ -327,8 +328,8 @@ if neobundle#tap('yankround.vim')
   call neobundle#untap()
 endif
 " }}}
-" vim-over {{{
-if neobundle#tap('vim-over')
+
+if neobundle#tap('vim-over') " {{{
   nnoremap <silent> <Leader>m :OverCommandLine<CR>
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
   nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
@@ -336,8 +337,8 @@ if neobundle#tap('vim-over')
   call neobundle#untap()
 endif
 " }}}
-" unite {{{
-if neobundle#tap('unite.vim')
+
+if neobundle#tap('unite.vim') "{{{
   nnoremap m  <nop>
   xnoremap m  <Nop>
   nnoremap [unite] <Nop>
@@ -388,8 +389,8 @@ if neobundle#tap('unite.vim')
   call neobundle#untap()
 endif
 " }}}
-" unite-rails {{{
-if neobundle#tap('unite-rails')
+
+if neobundle#tap('unite-rails') " {{{
   nnoremap ,rc :<C-u>Unite rails/controller<CR>
   nnoremap ,rm :<C-u>Unite rails/model<CR>
   nnoremap ,rv :<C-u>Unite rails/view<CR>
@@ -401,28 +402,22 @@ if neobundle#tap('unite-rails')
   call neobundle#untap()
 endif
 " }}}
-" vim-capslock {{{
-if neobundle#tap('vim-capslock')
-  nmap ,l <Plug>CapsLockToggle
-  call neobundle#untap()
-endif
-" }}}
-" caw.vim {{{
-if neobundle#tap('caw.vim')
+
+if neobundle#tap('caw.vim') "{{{
   nmap ,c <Plug>(caw:i:toggle)
   vmap ,c <Plug>(caw:i:toggle)
   call neobundle#untap()
 endif
 " }}}
-" TweetVim {{{
-if neobundle#tap('TweetVim')
+
+if neobundle#tap('TweetVim') "{{{
   nnoremap ,tt :<C-u>Unite tweetvim<CR>
   nnoremap ,ts :<C-u>TweetVimSay<CR>
   call neobundle#untap()
 endif
 " }}}
-" w3m.vim {{{
-if neobundle#tap('w3m.vim')
+
+if neobundle#tap('w3m.vim') "{{{
   let g:w3m#external_browser = 'firefox'
   let g:w3m#hit_a_hint_key = 'f'
   nnoremap <F8> [w3m]
@@ -433,6 +428,39 @@ if neobundle#tap('w3m.vim')
   call neobundle#untap()
 endif
 " }}}
+
+if neobundle#tap('vim-anzu') " {{{
+  nmap n <Plug>(anzu-n-with-echo) zz
+  nmap N <Plug>(anzu-N-with-echo) zz
+  nmap * <Plug>(anzu-star-with-echo) zz
+  nmap # <Plug>(anzu-sharp-with-echo) zz
+  nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+endif
+" }}}
+
+if neobundle#tap('vim-easymotion') " {{{
+  " configure
+  let g:EasyMotion_do_mapping = 0
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_startofline = 0
+  let g:EasyMotion_keys = '123456789;:'
+  let g:EasyMotion_use_upper = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  " keymapping
+  nmap s <Plug>(easymotion-s2)
+  xmap s <Plug>(easymotion-s2)
+  omap z <Plug>(easymotion-s2)
+  nmap g/ <Plug>(easymotion-sn)
+  xmap g/ <Plug>(easymotion-sn)
+  omap g/ <Plug>(easymotion-tn)
+  map <Leader>j <Plug>(easymotion-j)
+  map <Leader>k <Plug>(easymotion-k)
+
+  hi EasyMotionTarget guifg=#80a0ff ctermfg=81
+endif
+" }}}
+
 filetype plugin indent on     " Required!
 NeoBundleCheck
 
