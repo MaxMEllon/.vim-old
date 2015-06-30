@@ -45,6 +45,7 @@ NeoBundle      'Yggdroot/indentLine'
 NeoBundle      'osyo-manga/vim-over'
 NeoBundle      'mopp/AOJ.vim'
 NeoBundle      'mattn/webapi-vim'
+NeoBundle      'thinca/vim-scouter'
 NeoBundle      'tyru/caw.vim.git'
 NeoBundle      'LeafCage/yankround.vim'
 NeoBundle      'mbbill/undotree'
@@ -130,7 +131,7 @@ endif
         \ 'cpp'  : $HOME . './.vim/dict/cpp.dict',
         \ }
   inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-  inoremap <expr><C-g> neocomplcache#undo_completion(
+  " inoremap <expr><C-g> neocomplcache#undo_completion(
   inoremap <expr><C-l> neocomplcache#complete_common_string())
 "   call neobundle#untap()
 " endif

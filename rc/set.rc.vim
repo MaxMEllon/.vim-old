@@ -100,5 +100,5 @@ set fileencodings =utf-8,s-jis " 文字エンコードを次の順番で確認
 scriptencoding     utf-8
 
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
-set ambiwidth     =double          " ２バイト特殊文字の幅調整
+set ambiwidth     =double        " ２バイト特殊文字の幅調整
 
