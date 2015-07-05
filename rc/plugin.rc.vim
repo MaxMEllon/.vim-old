@@ -77,7 +77,7 @@ NeoBundleLazy  'aklt/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantum
 NeoBundle      'rails.vim'
 " color
 NeoBundle      'MaxMellon/molokai'
-NeoBundleLazy  'altercation/vim-colors-solarized'
+NeoBundle      'altercation/vim-colors-solarized'
 NeoBundleLazy  'vim-scripts/twilight'
 NeoBundleLazy  'Wombat256.vim'
 " disalble
