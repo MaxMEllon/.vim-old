@@ -1,5 +1,7 @@
 "---------------------------------------------------------------------------
 " Encoding:
+" See:
+" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/encoding.rc.vim
 "
 " The automatic recognition of the character code.
 
