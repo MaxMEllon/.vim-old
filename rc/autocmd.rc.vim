@@ -12,8 +12,6 @@ aug filegroup
   au BufNewFile,BufRead *.less   set filetype=less
   au BufNewFile,BufRead *.pu     set filetype=plantuml
   au BufNewFile,BufRead *.cjsx   set filetype=coffee
-  au BufNewFile,BufRead *.jflex  set filetype=jflex
-  au Syntax jflex call s:source_rc('syntax/jflex.vim')
   au FileType *        setlocal formatoptions-=ro
   au FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
   au FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
