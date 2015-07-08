@@ -154,9 +154,9 @@ if neobundle#tap('lightline.vim') " {{{
         \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
         \   'active': {
         \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
-        \                [ 'fugitive', 'gitgutter' ],
+        \                [ 'anzu', 'fugitive', 'gitgutter' ],
         \                [ 'filename' ] ],
-        \     'right': [ [ 'anzu', 'filetype' ],
+        \     'right': [ [ 'filetype' ],
         \                [ 'fileencoding' ],
         \                [ 'fileformat' ] ]
         \   },
@@ -435,7 +435,7 @@ if neobundle#tap('vim-anzu') " {{{
   nmap N <Plug>(anzu-N-with-echo) zz
   nmap * <Plug>(anzu-star-with-echo) zz
   nmap # <Plug>(anzu-sharp-with-echo) zz
-  nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+  nmap Esc><Esc> <Plug>(anzu-clear-search-status)
 endif
 " }}}
 

@@ -36,6 +36,14 @@ endfunction
 " source plugin
 call s:source_rc('plugin.rc.vim')
 
+" minimal style {{{
+" source minimal plugin
+" call s:source_rc('minimal.plugin.rc.vim')
+
+" source statusline
+" call s:source_rc('statusline.rc.vim')
+" }}}
+
 " source set
 call s:source_rc('set.rc.vim')
 
@@ -45,45 +53,6 @@ call s:source_rc('encoding.rc.vim')
 
 " source autocomd
 call s:source_rc('autocmd.rc.vim')
-
-" Status-line{{{
-let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
-highlight StatusLine ctermfg=black ctermbg=cyan
-
-if has('syntax')
-  augroup InsertHook
-    autocmd!
-    autocmd InsertEnter * call s:StatusLine('Enter')
-    autocmd InsertLeave * call s:StatusLine('Leave')
-  augroup END
-endif
-
-let s:slhlcmd = ''
-
-function! s:StatusLine(mode)
-  if a:mode == 'Enter'
-    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
-    silent exec g:hi_insert
-  else
-    highlight clear StatusLine
-    silent exec s:slhlcmd
-  endif
-endfunction
-
-function! s:GetHighlight(hi)
-  redir => hl
-  exec 'highlight '.a:hi
-  redir END
-  let hl = substitute(hl, '[\r\n]', '', 'g')
-  let hl = substitute(hl, 'xxx', '', '')
-  return hl
-endfunction
-
-" git branch
-if has('fugitive')
-  set statusline=%<%f\ %h%m%r%{fugitive#statusline(}%=%-14.(%l,%c%V%)\ %P)
-endif
-"}}}
 
 " source function
 call s:source_rc('function.rc.vim')
@@ -96,7 +65,7 @@ try
   colorscheme molokai
   let g:molokai_original = 1
 catch
-  colorscheme koehler
+  colorscheme desert
 endtry
 syntax on
 "}}}

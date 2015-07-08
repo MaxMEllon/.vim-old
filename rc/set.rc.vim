@@ -25,6 +25,7 @@ set secure                    " 安全モード
 set splitbelow
 set splitright
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
+set showcmd                   " ステータスラインに常にコメンド表示
 set ttyfast                   " スクロールが滑らかに
 set ttyscroll=300
 set t_Co=256
