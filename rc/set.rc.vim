@@ -1,4 +1,4 @@
-"---------------------------------------------------------------------------
+" ---------------------------------------------------------------------------
 " Set:
 "
 
@@ -7,23 +7,26 @@ set autowrite                 " bufferが切り替わるときの自動保存
 set backspace=indent,eol,start"{{{"}}}
 set cursorline
 set cmdheight=1
+set display=lastline          " 画面を超える長い１行も表示
 set history=10000             " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
 set listchars=eol:$,tab:>-
-set modeline
-set modelines=3
-set matchpairs+=<:>
+set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
+set modelines=3               " 上の設定をファイル先頭3行にあるかないか調べる
+set matchpairs+=<:>           " 対応カッコのマッチを追加
+set matchtime=1               " 対応するカッコを表示する時間
 set number
-set nocompatible
+set nocompatible              " VI互換を無効化
 set nf=alpha,hex              " アルファベットと16シンスうをC-a C-xで増減可能に
-set relativenumber
+set pumheight=5               " 補完ウィンドウの行数
+set relativenumber            " 相対行番号
 set report=0                  " 変更された行数の報告がでる最小値
 set ruler
-set scrolloff=10
+set scrolloff=10              " 常に10行表示
 set secure                    " 安全モード
-set splitbelow
-set splitright
+set splitbelow                " 横分割時、新しいウィンドウは下
+set splitright                " 縦分割時、新しいウィンドウは右
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set showcmd                   " ステータスラインに常にコメンド表示
 set ttyfast                   " スクロールが滑らかに
@@ -47,7 +50,6 @@ set directory=~/.vim/_swap
 set backupdir=~/.vim/_swap
 set swapfile
 set backup
-
 " undofile
 if !isdirectory($HOME.'/.vim/_undo')
   call mkdir($HOME.'/.vim/_undo', 'p')
