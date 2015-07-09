@@ -1,6 +1,8 @@
 "---------------------------------------------------------------------------
 " Autocmd:
 "
+
+" syntax
 aug filegroup
   au!
   au BufNewFile,BufRead *.md     set filetype=markdown
@@ -21,7 +23,16 @@ aug filegroup
   au FileType slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
   au FileType plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 aug END
-augroup lastline
+
+" lastline
+aug lastline
   au BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
   \ exe "normal g`\"" | endif
-augroup END
+aug END
+
+" tails space highlight
+aug HighlightTrailingSpaces
+  au!
+  au BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+  au BufNewFile,BufRead,VimEnter,WinEnter * match TrailingSpaces /\s\+$/
+aug END

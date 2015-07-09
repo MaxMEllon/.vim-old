@@ -10,7 +10,7 @@ set cmdheight=1
 set history=10000             " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
-set listchars=eol:$,tab:>-,trail:_
+set listchars=eol:$,tab:>-
 set modeline
 set modelines=3
 set matchpairs+=<:>
