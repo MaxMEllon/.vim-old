@@ -6,7 +6,7 @@ set autoread                  " vim外で編集された時の自動み込み
 set autowrite                 " bufferが切り替わるときの自動保存
 set backspace=indent,eol,start"{{{"}}}
 set cursorline
-set cmdheight=1
+set cmdheight=2
 set history=10000             " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
