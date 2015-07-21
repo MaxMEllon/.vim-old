@@ -34,6 +34,8 @@ set ttyscroll=300
 set t_Co=256
 set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
+set wildmenu                  " cmdline補完
+set wildmode=longest:full,full
 
 " " spelling
 " set spelllang=en_us
