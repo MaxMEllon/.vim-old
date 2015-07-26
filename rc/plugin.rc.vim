@@ -1,17 +1,14 @@
 " ---------------------------------------------------------------------------
 " Plugin:
 "
+if 0 | endif
 
 if has('vim_starting')
+  if &compatible
+    set nocompatible
+  endif
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-" neobundle installation check {{{
-if neobundle#exists_not_installed_bundles()
-  echomsg 'Not installed bundles : ' .
-        \ string(neobundle#get_not_installed_bundle_names())
-  echomsg 'Please execute ":NeoBundleInstall" command.'
-endif
-" }}}
 
 " 参考 morygonzalez
 " See: https://github.com/morygonzalez/dotfiles/blob/master/.vimrc#L33-35
@@ -66,6 +63,8 @@ NeoBundle      'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundle      'osyo-manga/unite-filetype', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy  'yomi322/unite-tweetvim.git'
 " languages
+NeoBundle      'mattn/emmet-vim'
+NeoBundleLazy  'violetyk/neocomplete-php.vim', { 'autoload' : { 'filetypes' : [ 'php' ] } }
 NeoBundleLazy  'vim-ruby/vim-ruby', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
 NeoBundleLazy  'MaxMEllon/ruby_matchit', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
 NeoBundleLazy  'slim-template/vim-slim', { 'autoload' : { 'filetypes' : [ 'slim' ] } }
@@ -472,6 +471,11 @@ if neobundle#tap('phpcomplete-extended') " {{{
     au!
     au FileType php setlocal omnifunc=phpcomplete_extended
   aug END
+endif
+" }}}
+
+if neobundle#tap('neocomplete-php.vim') " {{{
+  let g:neocomplete_php_locale = 'ja'
 endif
 " }}}
 
