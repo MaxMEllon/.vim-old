@@ -16,6 +16,7 @@ aug filegroup
   au BufNewFile,BufRead *.cjsx   set filetype=coffee
   au FileType *        setlocal formatoptions-=ro
   au FileType python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
+  au FileType php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
   au FileType make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
   au FileType yaml     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
   au FileType conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2

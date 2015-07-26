@@ -50,7 +50,7 @@ NeoBundle      'tyru/caw.vim.git'
 NeoBundle      'LeafCage/yankround.vim'
 NeoBundle      'mbbill/undotree'
 NeoBundle      'koron/nyancat-vim'
-NeoBundle      'mattn/gist-vim'
+NeoBundle      'mattn/gist-vim', { 'dpends': 'mattn/webapi-vim' }
 NeoBundle      'tyru/open-browser.vim'
 NeoBundle      'basyura/twibill.vim'
 NeoBundle      'mattn/benchvimrc-vim'
@@ -73,8 +73,12 @@ NeoBundleLazy  'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] 
 NeoBundleLazy  'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
 NeoBundleLazy  'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
 NeoBundleLazy  'aklt/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
+" NeoBundle      'm2mdas/phpcomplete-extended'
+
 " framework
-NeoBundle      'rails.vim'
+NeoBundle      'tpope/rails.vim'
+" NeoBundle      'm2mdas/phpcomplete-extended-laravel'
+
 " color
 NeoBundle      'MaxMellon/molokai'
 NeoBundle      'altercation/vim-colors-solarized'
@@ -459,6 +463,15 @@ if neobundle#tap('vim-easymotion') " {{{
   map <Leader>k <Plug>(easymotion-k)
 
   hi EasyMotionTarget guifg=#80a0ff ctermfg=81
+endif
+" }}}
+
+if neobundle#tap('phpcomplete-extended') " {{{
+  let g:phpcomplete_index_composer_command = 'composer'
+  aug phpcomp
+    au!
+    au FileType php setlocal omnifunc=phpcomplete_extended
+  aug END
 endif
 " }}}
 
