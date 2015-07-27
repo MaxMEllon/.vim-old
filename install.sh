@@ -9,4 +9,3 @@ elif [ $1 = "minimal" ]; then
 else
   echo "no such option ${1}"
 fi
-vim +":NeoBundleInstall"+:q
