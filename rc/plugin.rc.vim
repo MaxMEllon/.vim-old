@@ -53,6 +53,9 @@ NeoBundle      'basyura/twibill.vim'
 NeoBundle      'mattn/benchvimrc-vim'
 NeoBundle      'osyo-manga/vim-anzu'
 NeoBundle      'Lokaltog/vim-easymotion'
+NeoBundle      'AndrewRadev/splitjoin.vim'
+NeoBundle      'AndrewRadev/switch.vim'
+NeoBundle      'mhinz/vim-startify'
 NeoBundleLazy  'basyura/TweetVim.git'
 " depend-vimproc
 NeoBundle      'thinca/vim-quickrun'
@@ -478,6 +481,25 @@ if neobundle#tap('neocomplete-php.vim') " {{{
   let g:neocomplete_php_locale = 'ja'
 endif
 " }}}
+
+if neobundle#tap('splitjoin.vim') " {{{
+  let g:splitjoin_join_mapping = ',j'
+  let g:splitjoin_split_mapping = ',s'
+endif
+"}}}
+
+if neobundle#tap('switch.vim') " {{{
+  let g:switch_custom_definitions =
+      \  [
+      \     {
+      \         '\(\k\+\)'    : '''\1''',
+      \       '''\(.\{-}\)''' :  '"\1"',
+      \        '"\(.\{-}\)"'  :   '\1',
+      \     },
+      \  ]
+  nnoremap <Space>t :<C-u>Switch<CR>
+endif
+"}}}
 
 filetype plugin indent on     " Required!
 NeoBundleCheck

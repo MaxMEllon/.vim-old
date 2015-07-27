@@ -210,7 +210,7 @@ vnoremap <silent> ,z :%s/  /  /g<CR>
 " ,pでpaste-modeとの切り替え
 nnoremap <silent> ,p :set paste!<CR>
 " ,jでjumplistを開く
-nnoremap <silent> ,j :<C-u>jumps<CR>
+" nnoremap <silent> ,j :<C-u>jumps<CR>
 " ,hでヘルプ
 nnoremap <silent> ,h :<C-u>h <C-r><C-w><CR>
 " }}}
