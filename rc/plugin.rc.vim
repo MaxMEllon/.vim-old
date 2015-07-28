@@ -143,6 +143,65 @@ endif
 " endif
 " }}}
 
+if neobundle#tap('neocomplete.vim') " {{{
+  " Disable AutoComplPop
+  let g:acp_enableAtStartup = 0
+  " Use neocomplete.
+  let g:neocomplete#enable_at_startup = 1
+  " Use smartcase.
+  let g:neocomplete#enable_smart_case = 1
+  " Set minimum syntax keyword length.
+  let g:neocomplete#sources#syntax#min_keyword_length = 2
+  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  " Define dictionary.
+  let g:neocomplete#sources#dictionary#dictionaries = {
+      \ 'default' : '',
+      \ 'vimshell' : $HOME.'/.vimshell_hist',
+      \ 'scheme' : $HOME.'/.gosh_completions'
+      \ }
+
+  " Define keyword.
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+  " Plugin key-mappings.
+  inoremap <expr><C-g>     neocomplete#undo_completion()
+  inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+  " Recommended key-mappings.
+  " <CR>: close popup and save indent.
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function()
+    return neocomplete#close_popup() . "\<CR>"
+  endfunction
+  " <TAB>: completion.
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  " <C-h>, <BS>: close popup and delete backword char.
+  inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  inoremap <expr><C-y>  neocomplete#close_popup()
+  inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+  " Enable omni completion.
+  aug Neocomplete
+    au!
+    au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    au FileType python setlocal omnifunc=pythoncomplete#Complete
+    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  aug END
+
+  " Enable heavy omni completion.
+  if !exists('g:neocomplete#sources#omni#input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  call neobundle#untap()
+endif
+" }}}
+
 if neobundle#tap('neosnippet') " {{{
   let g:neosnippet#snipqets_directory='~/.vim/snippets'
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -442,6 +501,7 @@ if neobundle#tap('vim-anzu') " {{{
   nmap * <Plug>(anzu-star-with-echo) zz
   nmap # <Plug>(anzu-sharp-with-echo) zz
   nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+  call neobundle#untap()
 endif
 " }}}
 
@@ -465,6 +525,7 @@ if neobundle#tap('vim-easymotion') " {{{
   map <Leader>k <Plug>(easymotion-k)
 
   hi EasyMotionTarget guifg=#80a0ff ctermfg=81
+  call neobundle#untap()
 endif
 " }}}
 
@@ -474,11 +535,13 @@ if neobundle#tap('phpcomplete-extended') " {{{
     au!
     au FileType php setlocal omnifunc=phpcomplete_extended
   aug END
+  call neobundle#untap()
 endif
 " }}}
 
 if neobundle#tap('neocomplete-php.vim') " {{{
   let g:neocomplete_php_locale = 'ja'
+  call neobundle#untap()
 endif
 " }}}
 
@@ -498,6 +561,7 @@ if neobundle#tap('switch.vim') " {{{
       \     },
       \  ]
   nnoremap <Space>s :<C-u>Switch<CR>
+  call neobundle#untap()
 endif
 "}}}
 
