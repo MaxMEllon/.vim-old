@@ -77,6 +77,13 @@ set undolevels=200
 " set runtimepath+=~/.vim/help/vimdoc-ja
 " set helplang=ja
 
+" colorcolumn
+" See: http://mattn.kaoriya.net/software/vim/20150209151638.htm
+if (exists('+colorcolumn'))
+  set colorcolumn=80,100,120
+  highlight ColorColumn ctermbg=9
+endif
+
 
 " search {{{
 set hlsearch    " ハイライト検索
