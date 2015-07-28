@@ -74,6 +74,8 @@ nnoremap ZQ <Nop>
 inoremap <silent> jj     <Esc>`^
 inoremap <silent> <Esc>  <Esc>`^
 inoremap <silent> <C-[>  <Esc>`^
+" insertモード強制終了の封印
+inoremap <C-c> <Esc>`^
 
 inoremap <C-j><C-j> <Esc>`^
 vnoremap <C-j><C-j> <Esc>
@@ -81,6 +83,9 @@ vnoremap <C-j><C-j> <Esc>
 " vv矩形ビジュアル,vvvで行ビジュアル
 vnoremap v  <C-v>
 vnoremap vv <S-v>
+
+nnoremap <expr> 0
+  \ col('.') ==# 1 ? '^' : '0'
 
 " moving current window
 nnoremap <C-j> <C-w><Down>
@@ -132,6 +137,9 @@ nnoremap <silent><C-l> :nohlsearch<CR>
 "=> Use anzu
 nnoremap g* g*zz
 nnoremap g# g#zz
+
+nnoremap <C-j> *
+nnoremap <C-k> #
 
 " JとDで半ページ移動
 nnoremap J <C-D>
@@ -211,8 +219,6 @@ vnoremap <silent> ,z :%s/  /  /g<CR>
 nnoremap <silent> ,p :set paste!<CR>
 " ,jでjumplistを開く
 " nnoremap <silent> ,j :<C-u>jumps<CR>
-" ,hでヘルプ
-nnoremap <silent> ,h :<C-u>h <C-r><C-w><CR>
 " }}}
 " Prefix[\] {{{
 " 任意の文字コードで再オープン
@@ -254,10 +260,3 @@ function! s:init_cmdwin()
 endfunction
 " }}}
 
-" my function execute mapping
-nnoremap <silent> <F6> :<C-u>call CopyModeToggle()<CR>
-nnoremap <silent> <C-c> :<C-u>call CopyModeToggle()<CR>
-inoremap <silent> #### <C-R>=CommentBlock(input("  "), '#', '=', 50)<CR><CR><Up><Up><Right><Right>
-inoremap <silent> """" <C-R>=CommentBlock(input("  "), '"', '=', 50)<CR><CR><Up><Up><Right><Right>
-inoremap <silent> //// <C-R>=CommentBlock(input("  "), '//', '=', 50)<CR><CR><Up><Up><Right><Right>
-inoremap <silent> ;;;; <C-R>=CommentBlock(input("  "), ';;', '=', 50)<CR><CR><Up><Up><Right><Right>
