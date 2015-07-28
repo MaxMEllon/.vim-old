@@ -3,6 +3,10 @@
 "
 if 0 | endif
 
+if v:version < 702
+  finish
+endif
+
 if has('vim_starting')
   if &compatible
     set nocompatible
@@ -237,9 +241,21 @@ if neobundle#tap('lightline.vim') " {{{
         \     'anzu' : 'anzu#search_status',
         \     'capstatus' : 'CapsLockSTATUSLINE',
         \     'fugitive' : 'MyFugitive',
-        \     'gitgutter' : 'MyGitGutter'
+        \     'gitgutter' : 'MyGitGutter',
+        \     'mode' : 'MyMode'
         \   }
         \ }
+
+  function! MyMode()
+    let fname = expand('%:t')
+     return  fname =~ 'NERD_tree' ? 'NERDTree' :
+          \ &ft == 'unite' ? 'Unite' :
+          \ &ft == 'vimfiler' ? 'VimFiler' :
+          \ &ft == 'vimshell' ? 'VimShell' :
+          \ &ft == 'undotree' ? 'UndoTree' :
+          \ winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
+
   call neobundle#untap()
 endif
 "}}}
