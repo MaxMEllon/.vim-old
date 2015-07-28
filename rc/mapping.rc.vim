@@ -90,7 +90,8 @@ nnoremap <expr> 0
 " moving current window
 nnoremap <C-j> <C-w><Down>
 nnoremap <C-k> <C-w><Up>
-nnoremap <Space><Space> <C-w><C-w>
+" nnoremap <Space><Space> <C-w><C-w>
+nnoremap <Tab><Tab> <C-w><C-w>
 
 " Paste next line.
 nnoremap <silent> gp o<ESC>p^
