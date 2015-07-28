@@ -58,7 +58,8 @@ NeoBundleLazy  'osyo-manga/vim-anzu', {'autoload': {'unite_sources': ['anzu'], '
 NeoBundleLazy  'osyo-manga/vim-over', {'autoload': {'mappings': [['n', '<Plug>(over-restore-']], 'commands': ['OverCommandLineNoremap', 'OverCommandLineMap', 'OverCommandLine', 'OverCommandLineUnmap']}}
 NeoBundleLazy  'thinca/vim-scouter', {'autoload': {'commands': [{'complete': 'file', 'name': 'Scouter'}]}}
 " depend-vimproc
-NeoBundle      'Shougo/vimshell.vim', { 'depends' : [ 'Shougo/vimproc' ] }
+NeoBundleLazy  'Shougo/vimshell.vim', {'depends' : 'Shougo/vimproc'}
+NeoBundleLazy  'supermomonga/vimshell-pure.vim', {'depends' : 'Shougo/vimshell.vim'}
 NeoBundle      'thinca/vim-quickrun', { 'depends' : [ 'Shoguo/vimproc' ] }
 NeoBundleLazy  'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
 " depend-unite
@@ -330,13 +331,28 @@ endif
 " }}}
 
 if neobundle#tap('vimshell.vim') "{{{
+  call neobundle#config({
+    \   'autoload' : {
+    \      'commands' : ['VimShell', 'VimShellPop']
+    \   }
+    \ })
   nnoremap <Space>sh :VimShellPop -toggle<CR>
   nnoremap <Space>cd :VimShellCurrentDir<CR>
   nnoremap <Space>rb :VimShellInteractive irb<CR>
   nnoremap <Space>rc :VimShellInteractive rails c<CR>
   " nnoremap ,pry :VimShellInteractive pry<CR>
+  call neobundle#untap()
 endif
 " }}}
+
+if neobundle#tap('vimshell-pure.vim') "{{{
+  call neobundle#config({
+    \   'autoload' : {
+    \       'on_source' : ['vimshell.vim']
+    \   }
+    \ })
+endif
+"}}}
 
 if neobundle#tap('syntastic') "{{{
   let g:syntastic_enable_signs  = 1
