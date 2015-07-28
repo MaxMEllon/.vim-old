@@ -78,7 +78,7 @@ NeoBundleLazy  'aklt/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantum
 " NeoBundle      'm2mdas/phpcomplete-extended'
 
 " framework
-NeoBundle      'tpope/rails.vim'
+NeoBundle      'tpope/vim-rails'
 " NeoBundle      'm2mdas/phpcomplete-extended-laravel'
 
 " color
@@ -92,6 +92,7 @@ NeoBundleLazy  'Wombat256.vim'
 NeoBundleSaveCache
 call neobundle#end()
 " }}}
+
 
 if neobundle#tap('rails.vim') " {{{
   let g:rails_level = 4
