@@ -90,8 +90,7 @@ nnoremap <expr> 0
 " moving current window
 nnoremap <C-j> <C-w><Down>
 nnoremap <C-k> <C-w><Up>
-" nnoremap <Space><Space> <C-w><C-w>
-nnoremap <Tab><Tab> <C-w><C-w>
+" nnoremap <Tab><Tab> <C-w><C-w>
 
 " Paste next line.
 nnoremap <silent> gp o<ESC>p^
@@ -203,11 +202,11 @@ nnoremap cc 0D
 noremap <silent><F4> <ESC>:bp<CR>
 noremap <silent><F5> <ESC>:bn<CR>
 
-
 " Prefix <Space> {{{
 nnoremap <Space>h ^
 nnoremap <Space>l $
 nnoremap <Space>m %
+nnoremap <Space><Space> <C-w><C-w>
 " }}}
 " Prefix[,] {{{
 " ,xで行末のスペースを取り除く

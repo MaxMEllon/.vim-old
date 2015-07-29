@@ -365,7 +365,6 @@ if neobundle#tap('lightline.vim') " {{{
         \   },
         \   'component_function': {
         \     'anzu' : 'anzu#search_status',
-        \     'capstatus' : 'CapsLockSTATUSLINE',
         \     'fugitive' : 'MyFugitive',
         \     'gitgutter' : 'MyGitGutter',
         \     'mode' : 'MyMode'
@@ -610,7 +609,7 @@ if neobundle#tap('unite.vim') "{{{
   "eでUnite file/async
   nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
   nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
-  nnoremap <Space><Space> :<C-u>Unite -start-insert file_rec/async<CR>
+  nnoremap <Space>a :<C-u>Unite -start-insert file_rec/async<CR>
   "Space-rでキャッシュクリア
   nnoremap <Space>r <Plug>(unite_restart)
   call neobundle#untap()
