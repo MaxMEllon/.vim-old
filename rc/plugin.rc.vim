@@ -29,39 +29,159 @@ call neobundle#load_cache()
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimproc', { 'build' : { 'windows' : 'make -f make_mingw32.mak', 'cygwin' : 'make -f make_cygwin.mak', 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
-if             s:meet_neocomplete_requirements()
+NeoBundle 'Shougo/vimproc', {
+      \   'build' :
+      \   {
+      \     'windows' : 'make -f make_mingw32.mak',
+      \     'cygwin' : 'make -f make_cygwin.mak',
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak'
+      \   }
+      \ }
+if s:meet_neocomplete_requirements()
   NeoBundle 'Shougo/neocomplete.vim'
 else
   NeoBundle 'Shougo/neocomplcache.vim'
 endif
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'AndrewRadev/switch.vim'
+NeoBundle 'LeafCage/foldCC.vim'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'The-NERD-tree'
 NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-startify'
+NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/caw.vim.git'
-NeoBundle 'tyru/open-browser.vim'
-NeoBundleLazy 'LeafCage/nebula.vim', {'autoload': {'commands': ['NebulaPutLazy', 'NebulaPutFromClipboard', 'NebulaYankOptions', 'NebulaYankConfig', 'NebulaPutConfig', 'NebulaYankTap']}}
-NeoBundleLazy 'LeafCage/yankround.vim', {'autoload': {'unite_sources': ['yankround'], 'mappings': [['cxn', '<Plug>(yankround-']]}}
-NeoBundleLazy 'Lokaltog/vim-easymotion', {'autoload': {'mappings': [['sxno', '<Plug>(easymotion-']], 'commands': ['EMCommandLineNoreMap', 'EMCommandLineMap', 'EMCommandLineUnMap']}}
+NeoBundleLazy 'The-NERD-tree', {
+      \   'autoload':
+      \   {
+      \     'commands' : ['NERDTree', 'NERDTreeToggle']
+      \   }
+      \ }
+NeoBundleLazy 'LeafCage/nebula.vim', {
+      \   'autoload':
+      \   { 'commands': [ 'NebulaPutLazy', 'NebulaPutFromClipboard',
+      \                 'NebulaYankOptions', 'NebulaYankConfig',
+      \                 'NebulaPutConfig', 'NebulaYankTap']
+      \   }
+      \ }
+NeoBundleLazy 'LeafCage/yankround.vim', {
+      \   'autoload':
+      \   {
+      \     'unite_sources': ['yankround'],
+      \     'mappings': ['cxn', '<Plug>(yankround-']
+      \   }
+      \ }
+NeoBundleLazy 'Lokaltog/vim-easymotion', {
+      \   'autoload':
+      \   {
+      \     'mappings': ['sxno', '<Plug>(easymotion-'],
+      \     'commands': ['EMCommandLineNoreMap',
+      \                  'EMCommandLineMap',
+      \                  'EMCommandLineUnMap']
+      \   }
+      \ }
 NeoBundleLazy 'basyura/TweetVim.git'
-NeoBundleLazy 'junegunn/vim-easy-align', {'autoload': {'mappings': ['<Plug>(EasyAlignOperator)', ['sxn', '<Plug>(EasyAlign)'], ['sxn', '<Plug>(LiveEasyAlign)'], ['sxn', '<Plug>(EasyAlignRepeat)']], 'commands': ['EasyAlign', 'LiveEasyAlign']}}
-NeoBundleLazy 'koron/nyancat-vim', {'autoload': {'commands': ['Nyancat2', 'Nyancat']}}
-NeoBundleLazy 'mattn/benchvimrc-vim', {'autoload': {'commands': [{'complete': 'file', 'name': 'BenchVimrc'}]}}
-NeoBundleLazy 'mattn/gist-vim', {'autoload': {'commands': [{'complete': 'customlist,s:CompleteArgs', 'name': 'Gist'}]}}
-NeoBundleLazy 'mbbill/undotree', {'autoload': {'commands': ['UndotreeToggle', 'UndotreeShow', 'UndotreeHide', 'UndotreeFocus']}}
-NeoBundleLazy 'mopp/AOJ.vim', {'autoload': {'unite_sources': ['AOJ_Problems', 'AOJ_Statistics'], 'commands': ['AOJSubmit', 'AOJSubmitByProblemID', 'AOJViewProblems', 'AOJViewStaticticsLogs']}}
-NeoBundleLazy 'osyo-manga/vim-anzu', {'autoload': {'unite_sources': ['anzu'], 'mappings': [['sxno', '<Plug>(anzu-']], 'commands': ['AnzuUpdateSearchStatus', 'AnzuClearSearchCache', 'AnzuUpdateSearchStatusOutput', 'AnzuClearSearchStatus', 'AnzuSignMatchLine', 'AnzuClearSignMatchLine']}}
-NeoBundleLazy 'osyo-manga/vim-over', {'autoload': {'mappings': [['n', '<Plug>(over-restore-']], 'commands': ['OverCommandLineNoremap', 'OverCommandLineMap', 'OverCommandLine', 'OverCommandLineUnmap']}}
-NeoBundleLazy 'thinca/vim-scouter', {'autoload': {'commands': [{'complete': 'file', 'name': 'Scouter'}]}}
+NeoBundleLazy 'junegunn/vim-easy-align', {
+      \   'autoload':
+      \   {
+      \     'mappings': ['<Plug>(EasyAlignOperator)',
+      \                   ['sxn', '<Plug>(EasyAlign)'],
+      \                   ['sxn', '<Plug>(LiveEasyAlign)'],
+      \                   ['sxn', '<Plug>(EasyAlignRepeat)']],
+      \     'commands': ['EasyAlign', 'LiveEasyAlign']
+      \   }
+      \ }
+NeoBundleLazy 'koron/nyancat-vim', {
+      \   'autoload':
+      \   {
+      \     'commands': ['Nyancat2', 'Nyancat']
+      \   }
+      \ }
+NeoBundleLazy 'mattn/benchvimrc-vim', {
+      \   'autoload':
+      \   {
+      \     'commands': [{'complete': 'file', 'name': 'BenchVimrc'}]
+      \   }
+      \ }
+NeoBundleLazy 'mattn/gist-vim', {
+      \   'autoload':
+      \   {
+      \     'commands': [
+      \       {
+      \         'complete': 'customlist, s:CompleteArgs', 'name': 'Gist'
+      \       }
+      \     ]
+      \   }
+      \ }
+NeoBundleLazy 'mbbill/undotree', {
+      \   'autoload':
+      \   {
+      \     'commands': ['UndotreeToggle',
+      \                  'UndotreeShow',
+      \                  'UndotreeHide',
+      \                  'UndotreeFocus']
+      \   }
+      \ }
+NeoBundleLazy 'mopp/AOJ.vim', {
+      \   'autoload':
+      \   {
+      \     'unite_sources': ['AOJ_Problems', 'AOJ_Statistics'],
+      \     'commands': ['AOJSubmit',
+      \                  'AOJSubmitByProblemID',
+      \                  'AOJViewProblems',
+      \                  'AOJViewStaticticsLogs']
+      \   }
+      \ }
+NeoBundleLazy 'osyo-manga/vim-anzu', {
+      \   'autoload':
+      \   {
+      \     'unite_sources': ['anzu'],
+      \     'mappings': ['sxno', '<Plug>(anzu-'],
+      \     'commands': ['AnzuUpdateSearchStatus',
+      \                  'AnzuClearSearchCache',
+      \                  'AnzuUpdateSearchStatusOutput',
+      \                  'AnzuClearSearchStatus',
+      \                  'AnzuSignMatchLine',
+      \                  'AnzuClearSignMatchLine']
+      \   }
+      \ }
+NeoBundleLazy 'osyo-manga/vim-over', {
+      \   'autoload':
+      \   {
+      \     'mappings': ['n', '<Plug>(over-restore-'],
+      \     'commands': ['OverCommandLineNoremap',
+      \                  'OverCommandLineMap',
+      \                  'OverCommandLine',
+      \                  'OverCommandLineUnmap']
+      \   }
+      \ }
+NeoBundleLazy 'thinca/vim-scouter', {
+      \   'autoload':
+      \   {
+      \     'commands': [{'complete': 'file', 'name': 'Scouter'}]
+      \   }
+      \ }
+NeoBundleLazy 'tyru/open-browser.vim', {
+      \   'autoload':
+      \   {
+      \     'mappings': ['sxn', '<Plug>(openbrowser-'],
+      \     'commands': [
+      \         {
+      \           'complete': 'customlist,openbrowser#_cmd_complete',
+      \           'name': 'OpenBrowserSearch'
+      \         },
+      \         {
+      \           'complete': 'customlist,openbrowser#_cmd_complete',
+      \           'name': 'OpenBrowserSmartSearch'
+      \         }, 'OpenBrowser']
+      \   }
+      \ }
 " depend-vimproc
 NeoBundleLazy 'Shougo/vimshell.vim', {'depends' : 'Shougo/vimproc'}
 NeoBundleLazy 'supermomonga/vimshell-pure.vim', {'depends' : 'Shougo/vimshell.vim'}
@@ -70,28 +190,34 @@ NeoBundleLazy 'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
 " depend-unite
 NeoBundle     'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundle     'osyo-manga/unite-filetype', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy 'Shougo/unite-outline', {
+      \   'autoload':
+      \   {
+      \     'unite_sources': ['outline'],
+      \     'mappings': ['n', '<Plug>(unite_source_outline_loop_cursor_']
+      \   }
+      \ }
 NeoBundleLazy 'yomi322/unite-tweetvim.git'
 " languages
-NeoBundleLazy 'MaxMEllon/ruby_matchit', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
-NeoBundleLazy 'aklt/plantuml-syntax', { 'autoload' : { 'filetypes' : [ 'plantuml' ] } }
-NeoBundleLazy 'groenewege/vim-less', { 'autoload' : { 'filetypes' : [ 'less' ] } }
-NeoBundleLazy 'kchmck/vim-coffee-script', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
-NeoBundleLazy 'mattn/emmet-vim', {'autoload': {'commands': ['Emmet', 'EmmetInstall']}}
-NeoBundleLazy 'mtscout6/vim-cjsx', { 'autoload' : { 'filetypes' : [ 'coffee' ] } }
-NeoBundleLazy 'slim-template/vim-slim', { 'autoload' : { 'filetypes' : [ 'slim' ] } }
-NeoBundleLazy 'vim-ruby/vim-ruby', { 'autoload' : { 'filetypes' : [ 'ruby' ] } }
-NeoBundleLazy 'violetyk/neocomplete-php.vim', { 'autoload' : { 'filetypes' : [ 'php' ] } }
+NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
+NeoBundleLazy 'aklt/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
+NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
+NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee' ]}}
+NeoBundleLazy 'mattn/emmet-vim', {'autoload':{'filetypes':['html', 'php', 'markdown']}}
+NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
+NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
+NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
+NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
 
 " framework
 NeoBundle     'tpope/vim-rails'
 
 " color
 NeoBundle     'MaxMellon/molokai'
-NeoBundleLazy 'altercation/vim-colors-solarized', {'autoload': {'mappings': [['sxin', '<Plug>ToggleBackground']], 'commands': ['ToggleBG']}}
+NeoBundleLazy 'altercation/vim-colors-solarized'
 NeoBundleLazy 'Wombat256.vim'
 NeoBundleLazy 'vim-scripts/twilight'
 " disalble
-" NeoBundle      'scrooloose/syntastic'
 " NeoBundle      'surround.vim'
 " NeoBundle      'm2mdas/phpcomplete-extended-laravel'
 " NeoBundle      'm2mdas/phpcomplete-extended'
@@ -376,8 +502,8 @@ if neobundle#tap('syntastic') "{{{
   let g:syntastic_auto_loc_list = 2
   let g:syntastic_enable_signs  = 1
   let g:syntastic_ruby_checkers =['rubocop']
-  let g:syntastic_error_symbol  ='☠ '
-  let g:syntastic_warning_symbol='☃ '
+  let g:syntastic_error_symbol  ='E'
+  let g:syntastic_warning_symbol='W'
   let g:syntastic_mode_map = {
         \  'mode': 'active',
         \  'active_filetypes': ['c', 'c++', 'ruby'],
@@ -385,8 +511,8 @@ if neobundle#tap('syntastic') "{{{
         \ }
   augroup AutoSyntastic
     if v:version > 703
-      autocmd!
-      autocmd BufWritePost *.c,*.cpp,*.rb call s:syntastic()
+      au!
+      au BufWritePost *.c,*.cpp,*.rb call s:syntastic()
     endif
   augroup END
 
@@ -398,7 +524,6 @@ if neobundle#tap('syntastic') "{{{
     endtry
   endfunction
   nnoremap ,sc :<C-u>SyntasticCheck<CR>
-  nnoremap ,sct :<C-u>SyntasticToggleMode<CR>
   call neobundle#untap()
 endif
 " }}}
@@ -505,6 +630,14 @@ if neobundle#tap('unite-rails') " {{{
 endif
 " }}}
 
+if neobundle#tap('unite-outline') "{{{
+  let g:unite_winwidth = 30
+  let g:unite_spliit_rule = "rightbelow"
+  nnoremap ,o :<C-u>Unite -vertical outline<CR>
+  call neobundle#untap()
+endif
+"}}}
+
 if neobundle#tap('caw.vim') "{{{
   nmap ,c <Plug>(caw:i:toggle)
   vmap ,c <Plug>(caw:i:toggle)
@@ -605,7 +738,7 @@ if neobundle#tap('vim-easy-align') "{{{
   vnoremap <Enter> :EasyAlign<CR>
   call neobundle#untap()
 endif
-" }}}
+"}}}
 
 filetype plugin indent on     " Required!
 NeoBundleCheck
