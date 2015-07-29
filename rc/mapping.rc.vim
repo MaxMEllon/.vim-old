@@ -142,6 +142,12 @@ nnoremap g# g#zz
 nnoremap <C-j> *
 nnoremap <C-k> #
 
+" See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
+" Remap H and L (top, bottom of screen to left and right end of line)
+nnoremap H ^
+nnoremap L $
+vnoremap H ^
+vnoremap L g_
 " JとDで半ページ移動
 nnoremap J <C-D>
 nnoremap K <C-U>
@@ -197,12 +203,6 @@ nnoremap cc 0D
 noremap <silent><F4> <ESC>:bp<CR>
 noremap <silent><F5> <ESC>:bn<CR>
 
-" See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
-" Remap H and L (top, bottom of screen to left and right end of line)
-nnoremap H ^
-nnoremap L $
-vnoremap H ^
-vnoremap L g_
 
 " Prefix <Space> {{{
 nnoremap <Space>h ^

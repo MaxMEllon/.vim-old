@@ -34,20 +34,6 @@ set ttyfast                   " スクロールが滑らかに
 set ttyscroll=300
 set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
-set wildmenu " cmdline補完
-set wildmode=longest:full,full
-
-" wildignores
-set wildignore=*.o,*.obj,*~
-set wildignore+=*vim/backups*
-set wildignore+=*sass-cache*
-set wildignore+=*DS_Store*
-set wildignore+=vendor/rails/**
-set wildignore+=vendor/cache/**
-set wildignore+=*.gem
-set wildignore+=log/**
-set wildignore+=tmp/**
-set wildignore+=*.png,*.jpg,*.gif
 
 " " spelling
 " set spelllang=en_us
@@ -84,7 +70,6 @@ if (exists('+colorcolumn'))
   highlight ColorColumn ctermbg=9
 endif
 
-
 " search {{{
 set hlsearch    " ハイライト検索
 set ignorecase  " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
@@ -99,9 +84,13 @@ if version >=703
   set foldmethod =marker " 折りたたみ方法:マーカ
   set foldcolumn =0      " 折りたたみの補助線幅
   set foldlevel  =0      " foldをどこまで一気に開くか
+  if (!exists('FoldCCText'))
+    set foldtext=FoldCCtext()
+    set fillchars=vert:\|
+  endif
 endif
 " }}}
-" indent, tab2space {{{
+" indent {{{
 set expandtab       "タブの代わりに空白文字を挿入する
 set shiftwidth  =2  "タブ幅の設定
 set tabstop     =2
@@ -118,6 +107,20 @@ for n in range(1, 9)
 endfor
 
 "}}}
+" wildmenu {{{
+set wildmenu " cmdline補完
+set wildmode=longest:full,full
+set wildignore=*.o,*.obj,*~
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+" }}}
 
 " encode
 set encoding      =utf-8       " 文字コード指定
