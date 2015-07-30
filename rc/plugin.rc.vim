@@ -23,7 +23,7 @@ endfunction
 
 " neobundle {{{
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+call neobundle#begin()
 call neobundle#load_cache()
 
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -61,6 +61,12 @@ NeoBundleLazy 'The-NERD-tree', {
       \   'autoload':
       \   {
       \     'commands' : ['NERDTree', 'NERDTreeToggle']
+      \   }
+      \ }
+NeoBundleLazy 'AndrewRadev/switch.vim', {
+      \   'autoload':
+      \   {
+      \     'commands': ['Switch']
       \   }
       \ }
 NeoBundleLazy 'LeafCage/nebula.vim', {
@@ -103,6 +109,12 @@ NeoBundleLazy 'koron/nyancat-vim', {
       \     'commands': ['Nyancat2', 'Nyancat']
       \   }
       \ }
+NeoBundleLazy 'koron/codic-vim', {
+      \   'autoload':
+      \   {
+      \     'commands': ['Codic']
+      \   }
+      \ }
 NeoBundleLazy 'mattn/benchvimrc-vim', {
       \   'autoload':
       \   {
@@ -112,11 +124,7 @@ NeoBundleLazy 'mattn/benchvimrc-vim', {
 NeoBundleLazy 'mattn/gist-vim', {
       \   'autoload':
       \   {
-      \     'commands': [
-      \       {
-      \         'complete': 'customlist, s:CompleteArgs', 'name': 'Gist'
-      \       }
-      \     ]
+      \     'commands': ['Gist']
       \   }
       \ }
 NeoBundleLazy 'mbbill/undotree', {
@@ -198,6 +206,7 @@ NeoBundleLazy 'Shougo/unite-outline', {
       \   }
       \ }
 NeoBundleLazy 'yomi322/unite-tweetvim.git'
+
 " languages
 NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
 NeoBundleLazy 'aklt/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
@@ -500,7 +509,7 @@ if neobundle#tap('syntastic') "{{{
   let g:syntastic_enable_signs  = 1
   let g:syntastic_auto_loc_list = 2
   let g:syntastic_enable_signs  = 1
-  let g:syntastic_ruby_checkers =['rubocop']
+  " let g:syntastic_ruby_checkers =['rubocop']
   let g:syntastic_error_symbol  ='E'
   let g:syntastic_warning_symbol='W'
   let g:syntastic_mode_map = {
@@ -735,6 +744,12 @@ endif
 
 if neobundle#tap('vim-easy-align') "{{{
   vnoremap <Enter> :EasyAlign<CR>
+  call neobundle#untap()
+endif
+"}}}
+
+if neobundle#tap('codic-vim') "{{{
+  nnoremap <Space>c :<C-u>Codic<CR>
   call neobundle#untap()
 endif
 "}}}
