@@ -1,12 +1,6 @@
 " ---------------------------------------------------------------------------
 " Plugin:
 "
-if 0 | endif
-
-if v:version < 702
-  finish
-endif
-
 if has('vim_starting')
   if &compatible
     set nocompatible
@@ -47,6 +41,7 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'haya14busa/incsearch.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-startify'
@@ -276,14 +271,11 @@ if neobundle#tap('neocomplete.vim') " {{{
   inoremap <expr><C-e>  neocomplete#cancel_popup()
 
   " Enable omni completion.
-  aug Neocomplete
-    au!
-    au FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    au FileType python setlocal omnifunc=pythoncomplete#Complete
-    au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  aug END
+  AutocmdFT css setlocal omnifunc=csscomplete#CompleteCSS
+  AutocmdFT html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  AutocmdFT javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
+  AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
 
   " Enable heavy omni completion.
   if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -469,14 +461,8 @@ if neobundle#tap('syntastic') "{{{
   let g:syntastic_mode_map = {
         \  'mode': 'active',
         \  'active_filetypes': ['c', 'c++', 'ruby'],
-        \  'passive_filetypes': ['coffee']
         \ }
-  augroup AutoSyntastic
-    if v:version > 703
-      au!
-      au BufWritePost *.c,*.cpp,*.rb call s:syntastic()
-    endif
-  augroup END
+  Autocmd BufWritePost *.c,*.cpp,*.rb,*.coffee call s:syntastic()
 
   function! s:syntastic()
     try
@@ -662,10 +648,7 @@ endif
 
 if neobundle#tap('phpcomplete-extended') " {{{
   let g:phpcomplete_index_composer_command = 'composer'
-  aug phpcomp
-    au!
-    au FileType php setlocal omnifunc=phpcomplete_extended
-  aug END
+  AutocmdFT php setlocal omnifunc=phpcomplete_extended
   call neobundle#untap()
 endif
 " }}}
@@ -708,11 +691,16 @@ if neobundle#tap('codic-vim') "{{{
 endif
 "}}}
 
-if neobundle#tap('vim-monster') "{{{
-  let g:monster#completion#rcodetools#backend = "async_rct_complete"
+if neobundle#tap('incsearch.vim') "{{{
+  map /  <Plug>(incsearch-forward)
+  map ?  <Plug>(incsearch-backward)
+  map g/ <Plug>(incsearch-stay)
   call neobundle#untap()
 endif
 "}}}
+
+if neobundle#tap('vim-monster') "{{{
+endif
 
 filetype plugin indent on     " Required!
 NeoBundleCheck

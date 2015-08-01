@@ -10,10 +10,17 @@
 "
 
 " init {{{
+if !1 | finish | endif
+if !&compatible | set nocompatible | endif
+
 let mapleader='\'
-augroup MyAutoCmd
+augroup MyVimrc
   autocmd!
 augroup END
+
+" See: https://github.com/rhysd/dotfiles/blob/master/vimrc#23-27
+command! -nargs=* Autocmd autocmd MyVimrc <args>
+command! -nargs=* AutocmdFT autocmd MyVimrc FileType <args>
 
 " Startup time.
 " See: https://gist.github.com/thinca/1518874

@@ -15,10 +15,7 @@ function! LoadHelp() "{{{
   set runtimepath+=~/.vim/help/vimdoc-ja
   set helplang=ja
 endfunction
-aug myhelp
-  au!
-  au FileType help call LoadHelp()
-aug END
+  AutocmdFT help call LoadHelp()
 nnoremap <silent> ,h :<C-u>call LoadHelp()<CR> :help <C-r><C-w><CR>
 "}}}
 

@@ -88,7 +88,7 @@ function! s:ReCheck_FENC() "{{{
   endif
 endfunction"}}}
 
-autocmd MyAutoCmd BufReadPost * call s:ReCheck_FENC()
+autocmd MyVimrc BufReadPost * call s:ReCheck_FENC()
 
 " Default fileformat.
 set fileformat=unix

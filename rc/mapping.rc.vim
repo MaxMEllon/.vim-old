@@ -248,7 +248,7 @@ nnoremap <sid>vcommand-line-enter) q:
 xnoremap <sid>(command-line-enter) q:
 nnoremap <sid>(command-line-norange) q:<C-u>
 
-autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
+au MyVimrc CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
   nnoremap <buffer> q :<C-u>quit<CR>
   nnoremap <buffer> <TAB> :<C-u>quit<CR>
