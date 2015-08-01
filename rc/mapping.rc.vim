@@ -51,7 +51,7 @@ nnoremap D  <C-w>> 2
 "}}}
 " tab {{{
 nmap [Tag] <Nop>
-nmap t [Tag]
+nmap g [Tag]
 nnoremap [Tag]e :<C-u>tabedit<Space>
 nnoremap <silent> [Tag]c :tablast <bar> tabnew<CR>
 nnoremap <silent> [Tag]x :tabclose<CR>

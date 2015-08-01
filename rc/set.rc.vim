@@ -30,6 +30,7 @@ set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬
 set splitbelow                " 横分割時、新しいウィンドウは下
 set splitright                " 縦分割時、新しいウィンドウは右
 set t_Co=256
+set textwidth=0
 set ttyfast                   " スクロールが滑らかに
 set ttyscroll=300
 set vb t_vb=                  " no beep no flash

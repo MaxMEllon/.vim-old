@@ -45,6 +45,7 @@ NeoBundle 'haya14busa/incsearch.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-startify'
+NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'tpope/vim-fugitive'
@@ -462,7 +463,6 @@ if neobundle#tap('syntastic') "{{{
         \  'mode': 'active',
         \  'active_filetypes': ['c', 'c++', 'ruby'],
         \ }
-  Autocmd BufWritePost *.c,*.cpp,*.rb,*.coffee call s:syntastic()
 
   function! s:syntastic()
     try
@@ -471,6 +471,8 @@ if neobundle#tap('syntastic') "{{{
     catch
     endtry
   endfunction
+
+  Autocmd BufWritePost *.c,*.cpp,*.coffee call s:syntastic()
   nnoremap ,sc :<C-u>SyntasticCheck<CR>
   call neobundle#untap()
 endif
@@ -700,7 +702,18 @@ endif
 "}}}
 
 if neobundle#tap('vim-monster') "{{{
+  let g:monster#completion#rcodetools#backend = "async_rct_complete"
 endif
+" }}}
+
+if neobundle#tap('clever-f.vim') " {{{
+  let g:clever_f_use_migemo            = 1   " migemo likeな検索
+  let g:clever_f_ignore_case           = 1   " ignore case
+  let g:clever_f_across_no_line        = 1   " 行をまたがない
+  let g:clever_f_fix_key_direction     = 1   " 方向固定
+  let g:clever_f_chars_match_any_signs = ';' " 記号は;
+endif
+" }}}
 
 filetype plugin indent on     " Required!
 NeoBundleCheck
