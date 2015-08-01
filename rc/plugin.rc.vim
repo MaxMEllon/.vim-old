@@ -30,14 +30,11 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimproc', {
-      \   'build' :
-      \   {
+      \ 'build' : {
       \     'windows' : 'make -f make_mingw32.mak',
       \     'cygwin' : 'make -f make_cygwin.mak',
       \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak'
-      \   }
-      \ }
+      \     'unix' : 'make -f make_unix.mak' } }
 if s:meet_neocomplete_requirements()
   NeoBundle 'Shougo/neocomplete.vim'
 else
@@ -58,138 +55,87 @@ NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/caw.vim.git'
 NeoBundleLazy 'The-NERD-tree', {
-      \   'autoload':
-      \   {
-      \     'commands' : ['NERDTree', 'NERDTreeToggle']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands' : ['NERDTree', 'NERDTreeToggle' ] } }
 NeoBundleLazy 'AndrewRadev/switch.vim', {
-      \   'autoload':
-      \   {
-      \     'commands': ['Switch']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands': ['Switch'] } }
 NeoBundleLazy 'LeafCage/nebula.vim', {
-      \   'autoload':
-      \   { 'commands': [ 'NebulaPutLazy', 'NebulaPutFromClipboard',
+      \ 'autoload': {
+      \   'commands': [ 'NebulaPutLazy', 'NebulaPutFromClipboard',
       \                 'NebulaYankOptions', 'NebulaYankConfig',
-      \                 'NebulaPutConfig', 'NebulaYankTap']
-      \   }
-      \ }
+      \                 'NebulaPutConfig', 'NebulaYankTap'] } }
 NeoBundleLazy 'LeafCage/yankround.vim', {
-      \   'autoload':
-      \   {
+      \ 'autoload': {
       \     'unite_sources': ['yankround'],
-      \     'mappings': ['cxn', '<Plug>(yankround-']
-      \   }
-      \ }
+      \     'mappings': ['cxn', '<Plug>(yankround-'] } }
 NeoBundleLazy 'Lokaltog/vim-easymotion', {
-      \   'autoload':
-      \   {
-      \     'mappings': ['sxno', '<Plug>(easymotion-'],
-      \     'commands': ['EMCommandLineNoreMap',
-      \                  'EMCommandLineMap',
-      \                  'EMCommandLineUnMap']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'mappings': ['sxno', '<Plug>(easymotion-'],
+      \   'commands': ['EMCommandLineNoreMap',
+      \                'EMCommandLineMap',
+      \                'EMCommandLineUnMap'] } }
 NeoBundleLazy 'basyura/TweetVim.git'
 NeoBundleLazy 'junegunn/vim-easy-align', {
-      \   'autoload':
-      \   {
-      \     'mappings': ['<Plug>(EasyAlignOperator)',
-      \                   ['sxn', '<Plug>(EasyAlign)'],
-      \                   ['sxn', '<Plug>(LiveEasyAlign)'],
-      \                   ['sxn', '<Plug>(EasyAlignRepeat)']],
-      \     'commands': ['EasyAlign', 'LiveEasyAlign']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'mappings': ['<Plug>(EasyAlignOperator)',
+      \                 ['sxn', '<Plug>(EasyAlign)'],
+      \                 ['sxn', '<Plug>(LiveEasyAlign)'],
+      \                 ['sxn', '<Plug>(EasyAlignRepeat)']],
+      \   'commands': ['EasyAlign', 'LiveEasyAlign'] } }
 NeoBundleLazy 'koron/nyancat-vim', {
-      \   'autoload':
-      \   {
-      \     'commands': ['Nyancat2', 'Nyancat']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands': ['Nyancat2', 'Nyancat'] } }
 NeoBundleLazy 'koron/codic-vim', {
-      \   'autoload':
-      \   {
-      \     'commands': ['Codic']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands': ['Codic'] } }
 NeoBundleLazy 'mattn/benchvimrc-vim', {
-      \   'autoload':
-      \   {
-      \     'commands': [{'complete': 'file', 'name': 'BenchVimrc'}]
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands': [{'complete': 'file', 'name': 'BenchVimrc'}] } }
 NeoBundleLazy 'mattn/gist-vim', {
-      \   'autoload':
-      \   {
-      \     'commands': ['Gist']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands': ['Gist'] } }
 NeoBundleLazy 'mbbill/undotree', {
-      \   'autoload':
-      \   {
-      \     'commands': ['UndotreeToggle',
-      \                  'UndotreeShow',
-      \                  'UndotreeHide',
-      \                  'UndotreeFocus']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands': ['UndotreeToggle',
+      \                'UndotreeShow',
+      \                'UndotreeHide',
+      \                'UndotreeFocus'] } }
 NeoBundleLazy 'mopp/AOJ.vim', {
-      \   'autoload':
-      \   {
-      \     'unite_sources': ['AOJ_Problems', 'AOJ_Statistics'],
-      \     'commands': ['AOJSubmit',
-      \                  'AOJSubmitByProblemID',
-      \                  'AOJViewProblems',
-      \                  'AOJViewStaticticsLogs']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'unite_sources': ['AOJ_Problems', 'AOJ_Statistics'],
+      \   'commands': ['AOJSubmit',
+      \                'AOJSubmitByProblemID',
+      \                'AOJViewProblems',
+      \                'AOJViewStaticticsLogs'] } }
 NeoBundleLazy 'osyo-manga/vim-anzu', {
-      \   'autoload':
-      \   {
-      \     'unite_sources': ['anzu'],
-      \     'mappings': ['sxno', '<Plug>(anzu-'],
-      \     'commands': ['AnzuUpdateSearchStatus',
-      \                  'AnzuClearSearchCache',
-      \                  'AnzuUpdateSearchStatusOutput',
-      \                  'AnzuClearSearchStatus',
-      \                  'AnzuSignMatchLine',
-      \                  'AnzuClearSignMatchLine']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'unite_sources': ['anzu'],
+      \   'mappings': ['sxno', '<Plug>(anzu-'],
+      \   'commands': ['AnzuUpdateSearchStatus',
+      \                'AnzuClearSearchCache',
+      \                'AnzuUpdateSearchStatusOutput',
+      \                'AnzuClearSearchStatus',
+      \                'AnzuSignMatchLine',
+      \                'AnzuClearSignMatchLine'] } }
 NeoBundleLazy 'osyo-manga/vim-over', {
-      \   'autoload':
-      \   {
-      \     'mappings': ['n', '<Plug>(over-restore-'],
-      \     'commands': ['OverCommandLineNoremap',
-      \                  'OverCommandLineMap',
-      \                  'OverCommandLine',
-      \                  'OverCommandLineUnmap']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'mappings': ['n', '<Plug>(over-restore-'],
+      \   'commands': ['OverCommandLineNoremap',
+      \                'OverCommandLineMap',
+      \                'OverCommandLine',
+      \                'OverCommandLineUnmap'] } }
 NeoBundleLazy 'thinca/vim-scouter', {
-      \   'autoload':
-      \   {
-      \     'commands': [{'complete': 'file', 'name': 'Scouter'}]
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'commands': [{'complete': 'file', 'name': 'Scouter'}] } }
 NeoBundleLazy 'tyru/open-browser.vim', {
-      \   'autoload':
-      \   {
-      \     'mappings': ['sxn', '<Plug>(openbrowser-'],
-      \     'commands': [
-      \         {
-      \           'complete': 'customlist,openbrowser#_cmd_complete',
-      \           'name': 'OpenBrowserSearch'
-      \         },
-      \         {
-      \           'complete': 'customlist,openbrowser#_cmd_complete',
-      \           'name': 'OpenBrowserSmartSearch'
-      \         }, 'OpenBrowser']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'mappings': ['sxn', '<Plug>(openbrowser-'],
+      \   'commands': [ {
+      \         'complete': 'customlist,openbrowser#_cmd_complete',
+      \         'name': 'OpenBrowserSearch' }, {
+      \         'complete': 'customlist,openbrowser#_cmd_complete',
+      \         'name': 'OpenBrowserSmartSearch' }, 'OpenBrowser'] } }
 " depend-vimproc
 NeoBundleLazy 'Shougo/vimshell.vim', {'depends' : 'Shougo/vimproc'}
 NeoBundleLazy 'supermomonga/vimshell-pure.vim', {'depends' : 'Shougo/vimshell.vim'}
@@ -199,21 +145,25 @@ NeoBundleLazy 'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
 NeoBundle     'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundle     'osyo-manga/unite-filetype', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/unite-outline', {
-      \   'autoload':
-      \   {
-      \     'unite_sources': ['outline'],
-      \     'mappings': ['n', '<Plug>(unite_source_outline_loop_cursor_']
-      \   }
-      \ }
+      \ 'autoload': {
+      \   'unite_sources': ['outline'] } }
 NeoBundleLazy 'yomi322/unite-tweetvim.git'
 
 " languages
 NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
 NeoBundleLazy 'aklt/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
+NeoBundleLazy 'cakebaker/scss-syntax.vim', {
+      \ 'autoload': {
+      \   'filetypes': ['sass', 'css'] } }
 NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee' ]}}
 NeoBundleLazy 'mattn/emmet-vim', {'autoload':{'filetypes':['html', 'php', 'markdown']}}
 NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
+NeoBundleLazy 'osyo-manga/vim-monster', {
+      \   'depends':
+      \       ['Shougo/neocomplete.vim', 'Shougo/vimproc'],
+      \   'autoload':  {
+      \     'filetypes': ['ruby'] } }
 NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
 NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
 NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
@@ -339,6 +289,10 @@ if neobundle#tap('neocomplete.vim') " {{{
   if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
   endif
+  let g:neocomplete#sources#omni#input_patterns = {
+  \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+  \}
+
   call neobundle#untap()
 endif
 " }}}
@@ -750,6 +704,12 @@ endif
 
 if neobundle#tap('codic-vim') "{{{
   nnoremap <Space>c :<C-u>Codic<CR>
+  call neobundle#untap()
+endif
+"}}}
+
+if neobundle#tap('vim-monster') "{{{
+  let g:monster#completion#rcodetools#backend = "async_rct_complete"
   call neobundle#untap()
 endif
 "}}}
