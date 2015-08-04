@@ -47,12 +47,11 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tmux-plugins/vim-tmux'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tyru/caw.vim.git'
 NeoBundleLazy 'The-NERD-tree', {
       \ 'autoload': {
-      \   'commands' : ['NERDTree', 'NERDTreeToggle' ] } }
+      \   'commands' : ['NERDTree', 'NERDTreeToggle', 'sp', 'vs'] } }
 NeoBundleLazy 'AndrewRadev/switch.vim', {
       \ 'autoload': {
       \   'commands': ['Switch'] } }
@@ -151,9 +150,12 @@ NeoBundleLazy 'aklt/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
 NeoBundleLazy 'cakebaker/scss-syntax.vim', {
       \ 'autoload': {
       \   'filetypes': ['sass', 'css'] } }
+NeoBundle     'elixir-lang/vim-elixir'
 NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee' ]}}
-NeoBundleLazy 'mattn/emmet-vim', {'autoload':{'filetypes':['html', 'php', 'markdown']}}
+NeoBundleLazy 'mattn/emmet-vim', {
+      \ 'autoload':{
+      \   'filetypes': ['html', 'php', 'markdown', 'coffee', 'js'] } }
 NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
 NeoBundleLazy 'osyo-manga/vim-monster', {
       \   'depends':
@@ -161,6 +163,7 @@ NeoBundleLazy 'osyo-manga/vim-monster', {
       \   'autoload':  {
       \     'filetypes': ['ruby'] } }
 NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
+NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
 NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
 NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
 
@@ -453,27 +456,10 @@ endif
 "}}}
 
 if neobundle#tap('syntastic') "{{{
-  let g:syntastic_enable_signs  = 1
-  let g:syntastic_auto_loc_list = 2
-  let g:syntastic_enable_signs  = 1
-  " let g:syntastic_ruby_checkers =['rubocop']
-  let g:syntastic_error_symbol  ='E'
-  let g:syntastic_warning_symbol='W'
-  let g:syntastic_mode_map = {
-        \  'mode': 'active',
-        \  'active_filetypes': ['c', 'c++', 'ruby'],
-        \ }
-
-  function! s:syntastic()
-    try
-      SyntasticCheck
-      call lightline#update()
-    catch
-    endtry
-  endfunction
-
-  Autocmd BufWritePost *.c,*.cpp,*.coffee call s:syntastic()
-  nnoremap ,sc :<C-u>SyntasticCheck<CR>
+  let g:jsx_ext_required = 0
+  let g:jsx_pragma_required = 1
+  let g:syntastic_javascript_checkers = ['jsxhint']
+  let g:syntastic_coffee_checkers     = ['jsxhint']
   call neobundle#untap()
 endif
 " }}}
@@ -634,9 +620,8 @@ if neobundle#tap('vim-easymotion') " {{{
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
   " keymapping
-  nmap s <Plug>(easymotion-s2)
-  xmap s <Plug>(easymotion-s2)
-  omap z <Plug>(easymotion-s2)
+  nmap ,f <Plug>(easymotion-s2)
+  xmap ,f <Plug>(easymotion-s2)
   nmap g/ <Plug>(easymotion-sn)
   xmap g/ <Plug>(easymotion-sn)
   omap g/ <Plug>(easymotion-tn)
@@ -676,7 +661,7 @@ if neobundle#tap('switch.vim') " {{{
       \        '"\(.\{-}\)"'  :   '\1',
       \     },
       \  ]
-  nnoremap <Space>s :<C-u>Switch<CR>
+  nnoremap <Space>sw :<C-u>Switch<CR>
   call neobundle#untap()
 endif
 "}}}

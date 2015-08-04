@@ -51,9 +51,10 @@ nnoremap D  <C-w>> 2
 "}}}
 " tab {{{
 nmap [Tag] <Nop>
-nmap g [Tag]
+nmap s [Tag]
 nnoremap [Tag]e :<C-u>tabedit<Space>
 nnoremap <silent> [Tag]c :tablast <bar> tabnew<CR>
+nnoremap <silent> [Tag]n :tabnew<CR>
 nnoremap <silent> [Tag]x :tabclose<CR>
 nnoremap <silent> [Tag]n :tabnext<CR>
 nnoremap <silent> <F3> :tabnext<CR>
@@ -196,7 +197,7 @@ nnoremap _     :sp .<CR>
 nnoremap <bar> :vsp .<CR>
 
 " カーソル行空行化
-nnoremap cc 0D
+nnoremap cc 0Di
 
 " バッファをキーで移動
 noremap <silent><F4> <ESC>:bp<CR>
