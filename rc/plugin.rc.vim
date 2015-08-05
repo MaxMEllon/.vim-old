@@ -48,6 +48,7 @@ NeoBundle 'mhinz/vim-startify'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tyru/caw.vim.git'
 NeoBundleLazy 'The-NERD-tree', {
       \ 'autoload': {
@@ -150,7 +151,9 @@ NeoBundleLazy 'aklt/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
 NeoBundleLazy 'cakebaker/scss-syntax.vim', {
       \ 'autoload': {
       \   'filetypes': ['sass', 'css'] } }
-NeoBundle     'elixir-lang/vim-elixir'
+NeoBundleLazy 'elixir-lang/vim-elixir', {
+      \ 'autoload': {
+      \   'filetypes': ['elixir'] } }
 NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee' ]}}
 NeoBundleLazy 'mattn/emmet-vim', {
