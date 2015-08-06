@@ -34,6 +34,7 @@ if s:meet_neocomplete_requirements()
 else
   NeoBundle 'Shougo/neocomplcache.vim'
 endif
+NeoBundle 'The-NERD-tree'
 NeoBundle 'AndrewRadev/splitjoin.vim'
 NeoBundle 'AndrewRadev/switch.vim'
 NeoBundle 'LeafCage/foldCC.vim'
@@ -50,9 +51,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tyru/caw.vim.git'
-NeoBundleLazy 'The-NERD-tree', {
-      \ 'autoload': {
-      \   'commands' : ['NERDTree', 'NERDTreeToggle', 'sp', 'vs'] } }
 NeoBundleLazy 'AndrewRadev/switch.vim', {
       \ 'autoload': {
       \   'commands': ['Switch'] } }
@@ -223,12 +221,12 @@ if neobundle#tap('neocomplcache.vim') " {{{
   "_(underbar)区切りの補完をしない
   let g:neocomplcache_enable_underbar_completion = 0
   let g:neocomplcache_dictionary_filetype_lists = {
-        \ 'default' : '',
-        \ 'java' : $HOME . './.vim/dict/java.dict',
-        \ 'ruby' : $HOME . './.vim/dict/ruby.dict',
-        \ 'c'    : $HOME . './.vim/dict/c.dict',
-        \ 'cpp'  : $HOME . './.vim/dict/cpp.dict',
-        \ }
+      \   'default' : '',
+      \   'java' : $HOME . './.vim/dict/java.dict',
+      \   'ruby' : $HOME . './.vim/dict/ruby.dict',
+      \   'c'    : $HOME . './.vim/dict/c.dict',
+      \   'cpp'  : $HOME . './.vim/dict/cpp.dict',
+      \ }
   inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   " inoremap <expr><C-g> neocomplcache#undo_completion()
   inoremap <expr><C-l> neocomplcache#complete_common_string()
@@ -289,8 +287,8 @@ if neobundle#tap('neocomplete.vim') " {{{
     let g:neocomplete#sources#omni#input_patterns = {}
   endif
   let g:neocomplete#sources#omni#input_patterns = {
-  \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
-  \}
+    \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+    \ }
 
   call neobundle#untap()
 endif
