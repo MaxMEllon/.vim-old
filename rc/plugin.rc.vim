@@ -45,6 +45,7 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'haya14busa/incsearch.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/vim-maketable'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'scrooloose/syntastic'
@@ -89,6 +90,9 @@ NeoBundleLazy 'mattn/benchvimrc-vim', {
 NeoBundleLazy 'mattn/gist-vim', {
       \ 'autoload': {
       \   'commands': ['Gist'] } }
+NeoBundleLazy 'mattn/vim-maketable', {
+      \ 'autoload': {
+      \   'commands': ['MakeTable' ] } }
 NeoBundleLazy 'mbbill/undotree', {
       \ 'autoload': {
       \   'commands': ['UndotreeToggle',
