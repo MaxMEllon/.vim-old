@@ -70,6 +70,12 @@ NeoBundleLazy 'Lokaltog/vim-easymotion', {
       \   'commands': ['EMCommandLineNoreMap',
       \                'EMCommandLineMap',
       \                'EMCommandLineUnMap'] } }
+NeoBundleLazy 'alpaca-tc/neorspec.vim', {
+      \ 'depends' : 'tpope/vim-rails',
+      \ 'autoload' : {
+      \   'commands' : [
+      \       'RSpecAll', 'RSpecNearest', 'RSpecRetry',
+      \       'RSpecCurrent', 'RSpec' ] }}
 NeoBundleLazy 'basyura/TweetVim.git'
 NeoBundleLazy 'junegunn/vim-easy-align', {
       \ 'autoload': {
@@ -126,6 +132,9 @@ NeoBundleLazy 'osyo-manga/vim-over', {
 NeoBundleLazy 'thinca/vim-scouter', {
       \ 'autoload': {
       \   'commands': [{'complete': 'file', 'name': 'Scouter'}] } }
+NeoBundleLazy 'tpope/vim-dispatch', {
+      \ 'autoload' : {
+      \   'commands' : ['Dispatch', 'FocusDispatch', 'Start'] }}
 NeoBundleLazy 'tyru/open-browser.vim', {
       \ 'autoload': {
       \   'mappings': ['sxn', '<Plug>(openbrowser-'],
