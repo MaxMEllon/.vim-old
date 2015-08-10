@@ -167,16 +167,17 @@ NeoBundleLazy 'elixir-lang/vim-elixir', {
       \   'filetypes': ['elixir'] } }
 NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee' ]}}
+NeoBundleLazy 'NigoroJr/rsense', {
+      \ 'autoload': {
+      \   'filetypes': 'ruby', }, }
 NeoBundleLazy 'mattn/emmet-vim', {
       \ 'autoload':{
       \   'filetypes': ['html', 'php', 'markdown', 'coffee', 'js'] } }
 NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
-NeoBundleLazy 'osyo-manga/vim-monster', {
-      \   'depends':
-      \       ['Shougo/neocomplete.vim', 'Shougo/vimproc'],
-      \   'autoload':  {
-      \     'filetypes': ['ruby'] } }
 NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
+NeoBundle     'supermomonga/neocomplete-rsense.vim', {
+      \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
+      \ }
 NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
 NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
 NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
@@ -711,6 +712,11 @@ if neobundle#tap('clever-f.vim') " {{{
   let g:clever_f_across_no_line        = 1   " 行をまたがない
   let g:clever_f_fix_key_direction     = 1   " 方向固定
   let g:clever_f_chars_match_any_signs = ';' " 記号は;
+endif
+" }}}
+
+if neobundle#tap('neocomplete-rsense.vim') "{{{
+  let g:rsenseUseOmniFunc = 1
 endif
 " }}}
 
