@@ -167,6 +167,7 @@ NeoBundleLazy 'elixir-lang/vim-elixir', {
       \   'filetypes': ['elixir'] } }
 NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
 NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee' ]}}
+NeoBundleLazy 'keith/rspec.vim', {'autoload':{'filetypes':[ 'rspec' ]}}
 NeoBundleLazy 'NigoroJr/rsense', {
       \ 'autoload': {
       \   'filetypes': 'ruby', }, }
