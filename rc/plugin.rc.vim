@@ -45,7 +45,6 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'haya14busa/incsearch.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mattn/vim-maketable'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'scrooloose/syntastic'
@@ -181,6 +180,7 @@ NeoBundle     'supermomonga/neocomplete-rsense.vim', {
       \ }
 NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
 NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
+NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
 NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
 
 " framework
@@ -636,8 +636,8 @@ if neobundle#tap('vim-easymotion') " {{{
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
   " keymapping
-  nmap ,f <Plug>(easymotion-s2)
-  xmap ,f <Plug>(easymotion-s2)
+  nmap <C-s> <Plug>(easymotion-s2)
+  xmap <C-s> <Plug>(easymotion-s2)
   nmap g/ <Plug>(easymotion-sn)
   xmap g/ <Plug>(easymotion-sn)
   omap g/ <Plug>(easymotion-tn)
@@ -720,6 +720,19 @@ if neobundle#tap('neocomplete-rsense.vim') "{{{
   let g:rsenseUseOmniFunc = 1
 endif
 " }}}
+
+if neobundle#tap('php.vim') "{{{
+  function! PhpSyntaxOverride()
+    hi! def link phpDocTags  phpDefine
+    hi! def link phpDocParam phpType
+  endfunction
+
+  augroup phpSyntaxOverride
+    autocmd!
+    autocmd FileType php call PhpSyntaxOverride()
+  augroup END
+endif
+"}}}
 
 filetype plugin indent on     " Required!
 NeoBundleCheck
