@@ -124,8 +124,11 @@ inoremap () ()<Left>
 inoremap "" ""<Left>
 inoremap '' ''<Left>
 inoremap <> <><Left>
-inoremap {% {%<Space><Space>%}<Left><Left><Left>
 inoremap [] []<Left>
+inoremap <bar><bar> <bar><bar><Left>
+inoremap {% {%<Space><Space>%}<Left><Left><Left>
+inoremap {}<CR> {}<Left><CR><Up><End><Left><CR><Esc>o
+inoremap (){}<CR> (){}<Left><CR><Up><End><Left><CR><Esc>o
 
 " 検索時のハイライトを解除
 nnoremap <silent><C-l> :nohlsearch<CR>
@@ -187,12 +190,14 @@ onoremap id  i"
 xnoremap id  i"
 
 " Increment [1,2]
-nnoremap +  <C-a>
-nnoremap -  <C-x>
+noremap + <C-a>
+noremap - <C-x>
+vnoremap <C-a> <C-a>gv
+vnoremap <C-x> <C-x>gv
 
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
 " _ : Quick horizontal splits
-nnoremap _     :sp .<CR>
+nnoremap _ :sp .<CR>
 " | : Quick vertical splits
 nnoremap <bar> :vsp .<CR>
 

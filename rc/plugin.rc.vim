@@ -178,10 +178,12 @@ NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
 NeoBundle     'supermomonga/neocomplete-rsense.vim', {
       \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
       \ }
+NeoBundleLazy 'joker1007/vim-markdown-quote-syntax', {'autoload':{'filetyle':['markdown']}}
 NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
 NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
 NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
 NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
+NeoBundle     'othree/javascript-libraries-syntax.vim'
 
 " framework
 NeoBundle     'tpope/vim-rails'
@@ -731,6 +733,21 @@ if neobundle#tap('php.vim') "{{{
     autocmd!
     autocmd FileType php call PhpSyntaxOverride()
   augroup END
+endif
+"}}}
+
+if neobundle#tap('vim-markdown-quote-syntax') "{{{
+  let g:markdown_quote_syntax_filetypes = {
+      \   "coffee" : {
+      \     "start" : "coffee",
+      \  },
+      \   "css" : {
+      \     "start" : "\\%(css\\|scss\\)",
+      \  },
+      \   "mustache" : {
+      \     "start" : "mustache",
+      \  },
+  \}
 endif
 "}}}
 
