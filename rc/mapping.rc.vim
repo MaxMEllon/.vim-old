@@ -243,8 +243,9 @@ nnoremap <ESC><ESC> :nohlsearch<CR><ESC><C-l>
 " Command-line Window {{{
 " enable command line
 " : without
-nnoremap ; q:
-vnoremap ; q:
+nnoremap : q:
+vnoremap : q:
+nnoremap ; :
 
 " コマンドラインの履歴移動
 cnoremap <C-p> <Up>
