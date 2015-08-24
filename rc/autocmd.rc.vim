@@ -24,6 +24,7 @@ AutocmdFT conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2
 AutocmdFT coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
 
 " lastline
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
