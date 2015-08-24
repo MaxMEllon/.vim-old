@@ -127,8 +127,8 @@ inoremap <> <><Left>
 inoremap [] []<Left>
 inoremap <bar><bar> <bar><bar><Left>
 inoremap {% {%<Space><Space>%}<Left><Left><Left>
-inoremap {}<CR> {}<Left><CR><Up><End><Left><CR><Esc>o
-inoremap (){}<CR> (){}<Left><CR><Up><End><Left><CR><Esc>o
+" inoremap {}<CR> {}<Left><CR><Up><End><Left><CR><Esc>o
+" inoremap (){}<CR> (){}<Left><CR><Up><End><Left><CR><Esc>o
 
 " 検索時のハイライトを解除
 nnoremap <silent><C-l> :nohlsearch<CR>
