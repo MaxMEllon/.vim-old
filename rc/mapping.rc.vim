@@ -241,13 +241,13 @@ nnoremap ; :
 " コマンドラインの履歴移動
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-set cmdwinheight=5 "Command-line windowの行数
 nnoremap <sid>vcommand-line-enter) q:
 xnoremap <sid>(command-line-enter) q:
 nnoremap <sid>(command-line-norange) q:<C-u>
 
 au MyVimrc CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
+  setlocal nolist! number! relativenumber!
   nnoremap <buffer> q :<C-u>quit<CR>
   nnoremap <buffer> <TAB> :<C-u>quit<CR>
   inoremap <buffer><expr><CR>   pumvisible() ? "\<C-y>\<CR>" : "\<CR>"

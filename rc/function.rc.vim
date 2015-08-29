@@ -2,7 +2,7 @@
 " Function:
 "
 function! CopyModeToggle() " {{{
-  set nolist! number! relativenumber!
+  setlocal nolist! number! relativenumber!
   GitGutterSignsToggle
   IndentLinesToggle
 endfunction
