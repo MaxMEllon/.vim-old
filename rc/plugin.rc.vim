@@ -20,8 +20,8 @@ if !has('vim_starting')
   call neobundle#call_hook('on_source')
 endif
 if neobundle#load_cache()
-  call neobundle#begin()
   " neobundle {{{
+  call neobundle#begin()
   NeoBundleFetch 'Shougo/neobundle.vim'
   NeoBundle 'Shougo/neomru.vim'
   NeoBundle 'Shougo/unite.vim'
@@ -160,7 +160,7 @@ if neobundle#load_cache()
 
   " languages
   NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
-  NeoBundleLazy 'aklt/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
+  NeoBundleLazy 'MaxMellon/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
   NeoBundleLazy 'cakebaker/scss-syntax.vim', {
         \ 'autoload': {
         \   'filetypes': ['sass', 'css'] } }
@@ -200,9 +200,7 @@ if neobundle#load_cache()
   " NeoBundle      'surround.vim'
   " NeoBundle      'm2mdas/phpcomplete-extended-laravel'
   " NeoBundle      'm2mdas/phpcomplete-extended'
+  call neobundle#end()
   NeoBundleSaveCache
 " }}}
-  call neobundle#end()
-else
-  finish
 endif
