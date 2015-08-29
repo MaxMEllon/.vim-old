@@ -199,6 +199,10 @@ nnoremap cc 0Di
 noremap <silent><F4> <ESC>:bp<CR>
 noremap <silent><F5> <ESC>:bn<CR>
 
+" for JIS-keyboard
+noremap <C-@>  <Esc>
+inoremap <C-@>  <Esc>
+
 " Prefix <Space> {{{
 nnoremap <Space>h ^
 nnoremap <Space>l $
