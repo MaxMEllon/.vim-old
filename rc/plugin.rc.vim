@@ -19,10 +19,14 @@ endfunction
 if !has('vim_starting')
   call neobundle#call_hook('on_source')
 endif
-if neobundle#load_cache()
+
+if ! neobundle#load_cache()
+  finish
+else
   " neobundle {{{
   call neobundle#begin()
   NeoBundleFetch 'Shougo/neobundle.vim'
+  NeoBundleCheck
   NeoBundle 'Shougo/neomru.vim'
   NeoBundle 'Shougo/unite.vim'
   NeoBundle 'Shougo/vimproc', {
