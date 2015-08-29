@@ -24,7 +24,6 @@ set relativenumber            " 相対行番号
 set report=0                  " 変更された行数の報告がでる最小値
 set ruler
 set scrolloff=10              " 常に10行表示
-set secure                    " 安全モード
 set showcmd                   " ステータスラインに常にコメンド表示
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                " 横分割時、新しいウィンドウは下

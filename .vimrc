@@ -79,3 +79,6 @@ endtry
 syntax on
 "}}}
 
+
+" vimrcの最後に記述 vimhelpより
+set secure
