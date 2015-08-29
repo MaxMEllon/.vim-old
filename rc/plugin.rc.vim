@@ -16,15 +16,11 @@ function! s:meet_neocomplete_requirements()
   return has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
 endfunction
 
-call neobundle#begin()
-if !neobundle#load_cache()
-  filetype plugin indent on     " Required!
-  NeoBundleCheck
-
-  if !has('vim_starting')
-    call neobundle#call_hook('on_source')
-  endif
-
+if !has('vim_starting')
+  call neobundle#call_hook('on_source')
+endif
+if neobundle#load_cache()
+  call neobundle#begin()
   " neobundle {{{
   NeoBundleFetch 'Shougo/neobundle.vim'
   NeoBundle 'Shougo/neomru.vim'
@@ -205,7 +201,8 @@ if !neobundle#load_cache()
   " NeoBundle      'm2mdas/phpcomplete-extended-laravel'
   " NeoBundle      'm2mdas/phpcomplete-extended'
   NeoBundleSaveCache
+" }}}
   call neobundle#end()
-  " }}}
+else
   finish
 endif
