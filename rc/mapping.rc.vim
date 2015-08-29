@@ -137,9 +137,6 @@ nnoremap <silent><C-l> :nohlsearch<CR>
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-nnoremap <C-j> *
-nnoremap <C-k> #
-
 " See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
 " Remap H and L (top, bottom of screen to left and right end of line)
 nnoremap H ^
