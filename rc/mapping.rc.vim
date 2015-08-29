@@ -114,14 +114,14 @@ inoremap <C-d> <Del>
 nnoremap <BS>  X
 
 " カッコなどを入力したら自動的に中へ
-inoremap {} {}<Left>
-inoremap () ()<Left>
-inoremap "" ""<Left>
-inoremap '' ''<Left>
-inoremap <> <><Left>
-inoremap [] []<Left>
-inoremap <bar><bar> <bar><bar><Left>
-inoremap {% {%<Space><Space>%}<Left><Left><Left>
+" inoremap {} {}<Left>
+" inoremap () ()<Left>
+" inoremap "" ""<Left>
+" inoremap '' ''<Left>
+" inoremap <> <><Left>
+" inoremap [] []<Left>
+" inoremap <bar><bar> <bar><bar><Left>
+" inoremap {% {%<Space><Space>%}<Left><Left><Left>
 " inoremap {}<CR> {}<Left><CR><Up><End><Left><CR><Esc>o
 " inoremap (){}<CR> (){}<Left><CR><Up><End><Left><CR><Esc>o
 

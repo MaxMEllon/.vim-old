@@ -50,6 +50,7 @@ else
   NeoBundle 'airblade/vim-gitgutter'
   NeoBundle 'haya14busa/incsearch.vim'
   NeoBundle 'itchyny/lightline.vim'
+  NeoBundle 'kana/vim-smartinput'
   NeoBundle 'mattn/webapi-vim'
   NeoBundle 'mhinz/vim-startify'
   NeoBundle 'rhysd/clever-f.vim'
