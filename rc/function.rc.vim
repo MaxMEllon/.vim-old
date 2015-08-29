@@ -87,3 +87,6 @@ command! -bar -nargs=1 SpaceIndent
   \ setlocal expandtab tabstop< softtabstop=<args> shiftwidth=<args>
 " }}}
 
+command! -bar -nargs=* G vimgrep <args> %
+command! -bar -nargs=* Gf vimgrep <args> ./**/*
+
