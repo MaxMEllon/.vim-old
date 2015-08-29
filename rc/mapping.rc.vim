@@ -189,6 +189,11 @@ xnoremap ad  a"
 onoremap id  i"
 xnoremap id  i"
 
+nnoremap cid ci"
+nnoremap ciq ci'
+nnoremap cir ci]
+nnoremap cia ci>
+
 " Increment [1,2]
 noremap + <C-a>
 noremap - <C-x>
