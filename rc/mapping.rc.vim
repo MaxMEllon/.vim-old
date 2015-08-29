@@ -114,20 +114,20 @@ inoremap <C-d> <Del>
 nnoremap <BS>  X
 
 " カッコなどを入力したら自動的に中へ
-" inoremap {} {}<Left>
-" inoremap () ()<Left>
-" inoremap "" ""<Left>
-" inoremap '' ''<Left>
-" inoremap <> <><Left>
-" inoremap [] []<Left>
+inoremap {} {}<Left><Left><CR><Right><CR><ESC><<O
+inoremap () ()<Left>
+inoremap "" ""<Left>
+inoremap '' ''<Left>
+inoremap <> <><Left>
+inoremap [] []<Left>
+inoremap {% {%<Space><Space>%}<Left><Left><Left>
+
 " inoremap <bar><bar> <bar><bar><Left>
-" inoremap {% {%<Space><Space>%}<Left><Left><Left>
 " inoremap {}<CR> {}<Left><CR><Up><End><Left><CR><Esc>o
 " inoremap (){}<CR> (){}<Left><CR><Up><End><Left><CR><Esc>o
 
 " 検索時のハイライトを解除
 nnoremap <silent><C-l> :nohlsearch<CR>
-
 " 検索後にジャンプした際に検索単語を画面中央に持ってくる
 " nnoremap n nzz
 " nnoremap N Nzz
