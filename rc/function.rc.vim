@@ -78,3 +78,12 @@ endfunction
 command! SyntaxInfo call s:get_syn_info()
 " }}}
 
+" See: https://github.com/emonkak/config/blob/d99a647057362a60843c36744e368d1116c002ce/vim/dot.vimrc#L661-L665
+" TabIndent, SpaceIndent {{{
+command! -bar -nargs=1 TabIndent
+  \ setlocal noexpandtab softtabstop< tabstop=<args> shiftwidth=<args>
+
+command! -bar -nargs=1 SpaceIndent
+  \ setlocal expandtab tabstop< softtabstop=<args> shiftwidth=<args>
+" }}}
+
