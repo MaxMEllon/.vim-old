@@ -15,7 +15,6 @@ Autocmd BufNewFile,BufRead *.cjsx    set filetype=coffee
 Autocmd BufNewFile,BufRead *.exs     set filetype=elixir
 Autocmd BufNewFile,BufRead *.ex      set filetype=elixir
 Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
-AutocmdFT *        setlocal formatoptions-=ro
 AutocmdFT python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
 AutocmdFT php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
 AutocmdFT make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
