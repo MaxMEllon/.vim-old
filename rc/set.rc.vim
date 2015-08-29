@@ -44,7 +44,7 @@ set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 " set spell!
 
 " swap
-if !isdirectory($HOME.'/.vim/_swap')
+if !isdirectory(expand('~/.vim/_swap'))
   call mkdir($HOME.'/.vim/_swap', 'p')
 endif
 set directory=~/.vim/_swap
@@ -52,7 +52,7 @@ set backupdir=~/.vim/_swap
 set swapfile
 set backup
 " undofile
-if !isdirectory($HOME.'/.vim/_undo')
+if !isdirectory(expand('~/.vim/_undo'))
   call mkdir($HOME.'/.vim/_undo', 'p')
 endif
 set undodir=~/.vim/undo
@@ -80,15 +80,13 @@ set smartcase   " 検索文字列に大文字が含まれている場合は区�
 set wrapscan
 " }}}
 " folding {{{
-if version >=703
-  set foldenable         " 折りたたみon
-  set foldmethod =marker " 折りたたみ方法:マーカ
-  set foldcolumn =0      " 折りたたみの補助線幅
-  set foldlevel  =0      " foldをどこまで一気に開くか
-  if (!exists('FoldCCText'))
-    set foldtext=FoldCCtext()
-    set fillchars=vert:\|
-  endif
+set foldenable         " 折りたたみon
+set foldmethod =marker " 折りたたみ方法:マーカ
+set foldcolumn =0      " 折りたたみの補助線幅
+set foldlevel  =0      " foldをどこまで一気に開くか
+if (!exists('FoldCCText'))
+  set foldtext=FoldCCtext()
+  set fillchars=vert:\|
 endif
 " }}}
 " indent {{{
@@ -103,8 +101,8 @@ set smarttab
 " tab-editer {{{
 set showtabline=2 " 常にタブ
 " tab jump
-for n in range(1, 9)
-  execute 'nnoremap <silent> [Tag]'.n ':<C-u>tabnext'.n.'<CR>'
+for s:n in range(1, 9)
+  execute 'nnoremap <silent> [Tag]' . s:n ':<C-u>tabnext' . s:n . '<CR>'
 endfor
 
 "}}}

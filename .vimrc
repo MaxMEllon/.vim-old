@@ -43,6 +43,8 @@ endfunction
 " source plugin
 call s:source_rc('plugin.rc.vim')
 
+call s:source_rc('plugin_config.rc.vim')
+
 " minimal style {{{
 " source minimal plugin
 " call s:source_rc('minimal.plugin.rc.vim')

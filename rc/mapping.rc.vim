@@ -88,11 +88,6 @@ vnoremap vv <S-v>
 nnoremap <expr> 0
   \ col('.') ==# 1 ? '^' : '0'
 
-" moving current window
-nnoremap <C-j> <C-w><Down>
-nnoremap <C-k> <C-w><Up>
-" nnoremap <Tab><Tab> <C-w><C-w>
-
 " Paste next line.
 nnoremap <silent> gp o<ESC>p^
 nnoremap <silent> gP O<ESC>P^
@@ -151,18 +146,12 @@ nnoremap H ^
 nnoremap L $
 vnoremap H ^
 vnoremap L g_
-" JとDで半ページ移動
-nnoremap J <C-D>
-nnoremap K <C-U>
 
 " 行末までヤンク
 nnoremap Y y$
 
 " C-eで行末
 inoremap <C-e> <End>
-
-" 誤爆防止
-inoremap  <Esc>
 
 " See: https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L555-L578
 " <angle>
@@ -235,8 +224,8 @@ nnoremap <silent> ,p :set paste!<CR>
 " 任意の文字コードで再オープン
 nnoremap <Leader>e :e ++enc=
 " バッファを指定して移動できるように
-for k in range(1, 9)
-  execute 'nnoremap <Leader>'.k ':e #'.k.'<CR>'
+for s:k in range(1, 9)
+  execute 'nnoremap <Leader>' . s:k ':e #' . s:k . '<CR>'
 endfor
 " }}}
 
