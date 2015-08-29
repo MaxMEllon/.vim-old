@@ -88,5 +88,10 @@ command! -bar -nargs=1 SpaceIndent
 " }}}
 
 command! -bar -nargs=* G vimgrep <args> %
-command! -bar -nargs=* Gf vimgrep <args> ./**/*
+command! -bar Gfunc vimgrep function %
+command! -bar Gdef  vimgrep def %
+
+command! -bar -nargs=* Gf vimgrep <args> ./*
+command! -bar Gffunc vimgrep function ./*
+command! -bar Gfdef  vimgrep def ./*
 
