@@ -1,1 +1,1 @@
-AutocmdFT *        setlocal formatoptions-=ro
+AutocmdFT * setlocal formatoptions-=ro
