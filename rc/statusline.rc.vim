@@ -2,6 +2,8 @@
 " StatusLine:
 "
 
+if HasPlugin('lightline') | finish | endif
+
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
 highlight StatusLine ctermfg=black ctermbg=cyan
 

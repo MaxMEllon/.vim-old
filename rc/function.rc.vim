@@ -87,6 +87,7 @@ command! -bar -nargs=1 SpaceIndent
   \ setlocal expandtab tabstop< softtabstop=<args> shiftwidth=<args>
 " }}}
 
+" vimgrep alias {{{
 command! -bar -nargs=* G vimgrep <args> %
 command! -bar Gfunc vimgrep function %
 command! -bar Gdef  vimgrep def %
@@ -94,4 +95,12 @@ command! -bar Gdef  vimgrep def %
 command! -bar -nargs=* Gf vimgrep <args> ./*
 command! -bar Gffunc vimgrep function ./*
 command! -bar Gfdef  vimgrep def ./*
+" }}}
+
+" has plugin {{{
+function! HasPlugin(plugin)
+  return !empty(globpath(&runtimepath, 'plugin/' . a:plugin . '.vim'))
+  \   || !empty(globpath(&runtimepath, 'autoload/' . a:plugin . '.vim'))
+endfunction
+" }}}
 

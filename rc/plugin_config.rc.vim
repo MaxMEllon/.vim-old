@@ -1,3 +1,10 @@
+"----------------------------------------------------------------------
+" PluginConfig:
+"
+
+" neobndle がないとき読み込まない
+if ! isdirectory(expand('~/.vim/bundle/neobundle.vim')) | finish | endif
+
 if neobundle#tap('rails.vim') " {{{
   let g:rails_level = 4
   let g:rails_defalut_database = 'postgresql'
