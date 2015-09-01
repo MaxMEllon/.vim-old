@@ -3,7 +3,9 @@
 "
 
 " neobndle がないとき読み込まない
-if ! isdirectory(expand('~/.vim/bundle/neobundle.vim')) | finish | endif
+if !HasPlugin('neobundle') | finish | endif
+
+NeoBundleCheck
 
 if neobundle#tap('rails.vim') " {{{
   let g:rails_level = 4

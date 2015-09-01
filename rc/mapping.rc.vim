@@ -122,7 +122,7 @@ inoremap "" ""<Left>
 inoremap '' ''<Left>
 inoremap <> <><Left>
 inoremap [] []<Left>
-inoremap {}<CR> {}<Left><Left><CR><Right><CR><ESC><<O
+inoremap {}<CR> {}<Left><Left><CR><Right><CR><ESC>O
 inoremap {% {%<Space><Space>%}<Left><Left><Left>
 
 " inoremap <bar><bar> <bar><bar><Left>
@@ -188,6 +188,9 @@ noremap + <C-a>
 noremap - <C-x>
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
+
+nnoremap <silent> <F6> :<C-u>call CopyModeToggle()<CR>
+nnoremap <silent> <C-c> :<C-u>call CopyModeToggle()<CR>
 
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
 " _ : Quick horizontal splits

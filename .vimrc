@@ -40,18 +40,8 @@ function! s:source_rc(path)
 endfunction
 " }}}
 
-" source plugin
-call s:source_rc('plugin.rc.vim')
-
-call s:source_rc('plugin_config.rc.vim')
-
-" minimal style {{{
-" source minimal plugin
-" call s:source_rc('minimal.plugin.rc.vim')
-
-" source statusline
-" call s:source_rc('statusline.rc.vim')
-" }}}
+" source function
+call s:source_rc('function.rc.vim')
 
 " source set
 call s:source_rc('set.rc.vim')
@@ -63,11 +53,23 @@ call s:source_rc('encoding.rc.vim')
 " source autocomd
 call s:source_rc('autocmd.rc.vim')
 
-" source function
-call s:source_rc('function.rc.vim')
+" source plugin
+call s:source_rc('plugin.rc.vim')
+
+call s:source_rc('plugin_config.rc.vim')
 
 " source key-mapping
 call s:source_rc('mapping.rc.vim')
+
+" minimal style {{{
+" source minimal plugin
+" call s:source_rc('minimal.plugin.rc.vim')
+
+" source statusline
+" call s:source_rc('statusline.rc.vim')
+" }}}
+
+filetype indent on
 
 " color {{{
 try
@@ -78,7 +80,6 @@ catch
 endtry
 syntax on
 "}}}
-
 
 " vimrcの最後に記述 vimhelpより
 set secure

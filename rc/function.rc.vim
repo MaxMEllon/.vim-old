@@ -6,8 +6,6 @@ function! CopyModeToggle() " {{{
   GitGutterSignsToggle
   IndentLinesToggle
 endfunction
-nnoremap <silent> <F6> :<C-u>call CopyModeToggle()<CR>
-nnoremap <silent> <C-c> :<C-u>call CopyModeToggle()<CR>
 " }}}
 
 function! LoadHelp() "{{{
