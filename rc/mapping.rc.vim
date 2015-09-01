@@ -85,6 +85,8 @@ vnoremap <C-j><C-j> <Esc>
 vnoremap v  <C-v>
 vnoremap vv <S-v>
 
+inoremap <C-l> <Right>
+
 nnoremap <expr> 0
   \ col('.') ==# 1 ? '^' : '0'
 
@@ -235,6 +237,9 @@ endfor
 nnoremap <silent>S viw
 " ハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR><ESC><C-l>
+
+" tags
+nnoremap <C-]> g<C-]>
 
 " Command-line Window {{{
 " enable command line

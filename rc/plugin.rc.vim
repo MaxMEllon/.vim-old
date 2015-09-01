@@ -54,6 +54,7 @@ else
   NeoBundle 'mhinz/vim-startify'
   NeoBundle 'rhysd/clever-f.vim'
   NeoBundle 'scrooloose/syntastic'
+  NeoBundle 'soramugi/auto-ctags.vim'
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'tpope/vim-endwise'
   NeoBundle 'tyru/caw.vim'

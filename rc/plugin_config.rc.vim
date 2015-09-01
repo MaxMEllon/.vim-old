@@ -510,6 +510,7 @@ endif
 
 if neobundle#tap('vim-monster') "{{{
   let g:monster#completion#rcodetools#backend = "async_rct_complete"
+  call neobundle#untap()
 endif
 " }}}
 
@@ -519,11 +520,13 @@ if neobundle#tap('clever-f.vim') " {{{
   let g:clever_f_across_no_line        = 1   " 行をまたがない
   let g:clever_f_fix_key_direction     = 1   " 方向固定
   let g:clever_f_chars_match_any_signs = ';' " 記号は;
+  call neobundle#untap()
 endif
 " }}}
 
 if neobundle#tap('neocomplete-rsense.vim') "{{{
   let g:rsenseUseOmniFunc = 1
+  call neobundle#untap()
 endif
 " }}}
 
@@ -537,6 +540,7 @@ if neobundle#tap('php.vim') "{{{
     autocmd!
     autocmd FileType php call PhpSyntaxOverride()
   augroup END
+  call neobundle#untap()
 endif
 "}}}
 
@@ -551,6 +555,15 @@ if neobundle#tap('vim-markdown-quote-syntax') "{{{
       \   "mustache" : {
       \     "start" : "mustache",
       \  },
-  \}
+      \}
+  call neobundle#untap()
 endif
 "}}}
+
+if neobundle#tap('auto-ctags.vim') "{{{
+  let g:auto_ctags = 1
+  let g:auto_ctags_directory_list = ['.git', '.svn']
+  call neobundle#untap()
+endif
+"}}}
+
