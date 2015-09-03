@@ -200,6 +200,7 @@ nnoremap <bar> :vsp .<CR>
 
 " カーソル行空行化
 nnoremap cc 0Di
+nnoremap cd 0D
 
 " バッファをキーで移動
 noremap <silent><F4> <ESC>:bp<CR>

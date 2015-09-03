@@ -9,6 +9,7 @@ set cmdheight=2
 set cmdwinheight=5            " Command-line windowの行数
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
+set formatoptions=tcq
 set history=10000             " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
