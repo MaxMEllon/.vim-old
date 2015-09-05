@@ -161,6 +161,9 @@ else
   NeoBundleLazy 'Shougo/unite-outline', {
         \ 'autoload': {
         \   'unite_sources': ['outline'] } }
+  NeoBundleLazy 'osyo-manga/unite-quickfix',{
+        \ 'autoload': {
+        \   'unite_sources': ['location_list', 'q', 'quickfix']}}
   NeoBundleLazy 'yomi322/unite-tweetvim'
 
   " languages
@@ -169,28 +172,33 @@ else
   NeoBundleLazy 'cakebaker/scss-syntax.vim', {
         \ 'autoload': {
         \   'filetypes': ['sass', 'css'] } }
+  NeoBundle     'chase/vim-ansible-yaml'
   NeoBundleLazy 'elixir-lang/vim-elixir', {
         \ 'autoload': {
         \   'filetypes': ['elixir'] } }
   NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
-  NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee' ]}}
+  NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee','slim']}}
   NeoBundleLazy 'keith/rspec.vim', {'autoload':{'filetypes':[ 'rspec' ]}}
-  NeoBundleLazy 'NigoroJr/rsense', {
-        \ 'autoload': {
-        \   'filetypes': 'ruby', }, }
   NeoBundleLazy 'mattn/emmet-vim', {
         \ 'autoload':{
         \   'filetypes': ['html', 'php', 'markdown', 'coffee', 'js'] } }
   NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
   NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
-  NeoBundle     'supermomonga/neocomplete-rsense.vim', {
-        \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
-        \ }
+  NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
+  if executable('rct-complete')
+    NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
+  else
+    NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
+    NeoBundle     'supermomonga/neocomplete-rsense.vim', {
+          \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
+          \ 'autoload' : {'filetypes': ['ruby']}
+          \ }
+  endif
   NeoBundleLazy 'joker1007/vim-markdown-quote-syntax', {'autoload':{'filetyle':['markdown']}}
   NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
-  NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
   NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
+  NeoBundleLazy 'PDV--phpDocumentor-for-Vim', {'autoload':{'filetypes':['php']}}
   NeoBundle     'othree/javascript-libraries-syntax.vim'
 
   " framework

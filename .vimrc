@@ -61,13 +61,11 @@ call s:source_rc('plugin_config.rc.vim')
 " source key-mapping
 call s:source_rc('mapping.rc.vim')
 
-" minimal style {{{
 " source minimal plugin
 " call s:source_rc('minimal.plugin.rc.vim')
 
 " source statusline
-" call s:source_rc('statusline.rc.vim')
-" }}}
+call s:source_rc('statusline.rc.vim')
 
 filetype indent on
 

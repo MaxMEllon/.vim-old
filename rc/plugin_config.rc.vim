@@ -65,7 +65,7 @@ if neobundle#tap('neocomplete.vim') " {{{
   " Use smartcase.
   let g:neocomplete#enable_smart_case = 1
   " Set minimum syntax keyword length.
-  let g:neocomplete#sources#syntax#min_keyword_length = 2
+  let g:neocomplete#sources#syntax#min_keyword_length = 1
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
   " Define dictionary.
   let g:neocomplete#sources#dictionary#dictionaries = {
@@ -104,14 +104,6 @@ if neobundle#tap('neocomplete.vim') " {{{
   AutocmdFT javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
   AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-  " Enable heavy omni completion.
-  if !exists('g:neocomplete#sources#omni#input_patterns')
-    let g:neocomplete#sources#omni#input_patterns = {}
-  endif
-  let g:neocomplete#sources#omni#input_patterns = {
-    \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
-    \ }
 
   call neobundle#untap()
 endif
@@ -284,6 +276,10 @@ if neobundle#tap('syntastic') "{{{
   let g:jsx_pragma_required = 1
   let g:syntastic_javascript_checkers = ['jsxhint']
   let g:syntastic_coffee_checkers     = ['jsxhint']
+  " depend on Unite, Unite-QuickFix
+  let g:syntastic_always_populate_loc_list=1
+
+  nnoremap [unite]e :<C-u>Unite location_list -winheight=5<CR>
   call neobundle#untap()
 endif
 " }}}
@@ -315,8 +311,7 @@ endif
 
 if neobundle#tap('vim-over') " {{{
   nnoremap <silent> <Leader>m :OverCommandLine<CR>
-  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-  nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//gc<Left><Left>
   xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///g<Left><Left>
   call neobundle#untap()
 endif
@@ -352,7 +347,6 @@ if neobundle#tap('unite.vim') "{{{
   nnoremap [unite]t :<C-u>Unite -start-insert -vertical -winwidth=20 filetype<CR>
   "dでUnite directory, directory_mru
   nnoremap [unite]d :<C-u>Unite -buffer-name=files directory directory_mru<CR>
-
   "maでUnite mapping
   nnoremap [unite]ma :<C-u>Unite mapping<CR>
   "hでUnite help
@@ -367,12 +361,11 @@ if neobundle#tap('unite.vim') "{{{
   nnoremap [unite]s :<C-u>Unite source<CR>
   "yでUnite yankround
   nnoremap [unite]y :<C-u>Unite yankround<CR>
-  "eでUnite file/async
-  nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
   nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
   nnoremap <Space>a :<C-u>Unite -start-insert file_rec/async<CR>
   "Space-rでキャッシュクリア
   nnoremap <Space>r <Plug>(unite_restart)
+
   call neobundle#untap()
 endif
 " }}}
@@ -512,6 +505,9 @@ endif
 
 if neobundle#tap('vim-monster') "{{{
   let g:monster#completion#rcodetools#backend = "async_rct_complete"
+  let g:neocomplete#sources#omni#input_patterns = {
+      \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+      \}
   call neobundle#untap()
 endif
 " }}}
@@ -527,6 +523,14 @@ endif
 " }}}
 
 if neobundle#tap('neocomplete-rsense.vim') "{{{
+  if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+  endif
+  let g:rsenseUseOmniFunc = 1
+  if filereadable(expand('~/git/rsense/bin/rsense'))
+    let g:rsenseHome = expand('~/git/rsense')
+    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+  endif
   let g:rsenseUseOmniFunc = 1
   call neobundle#untap()
 endif
@@ -568,4 +572,20 @@ if neobundle#tap('auto-ctags.vim') "{{{
   call neobundle#untap()
 endif
 "}}}
+
+if neobundle#tap('PDV--phpDocumentor-for-Vim') "{{{
+  nnoremap <C-P> :set formatoptions&<CR> :call PhpDocSingle()<CR>
+  let g:pdv_re_indent='.'
+  call neobundle#untap()
+endif
+"}}}
+
+if neobundle#tap('vim-ruby') "{{{
+  let g:rubycomplete_rails = 1
+  let g:rubycomplete_buffer_loading = 1
+  let g:rubycomplete_classes_in_global = 1
+  let g:rubycomplete_include_object = 1
+  let g:rubycomplete_include_object_space = 1
+endif
+" }}}
 

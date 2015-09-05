@@ -47,6 +47,15 @@ set statusline=[%n]
 set statusline+=%<%F
 "変更のチェック表示
 set statusline+=%m
+
+" git branch
+if HasPlugin('fugitive')
+  set statusline+=%{fugitive#statusline()}
+endif
+
+" 検索ヒット数
+set statusline+=%{anzu#search_status()}
+
 "読み込み専用かどうか表示
 set statusline+=%r
 "ヘルプページなら[HELP]と表示
@@ -66,6 +75,3 @@ set statusline+=[L=%l/%L]
 "現在行が全体行の何%目か表示
 set statusline+=[%p%%]
 
-if has('fugitive')
-  set statusline+=%{fugitive#statusline(}%=%-14.(%l,%c%V%)\ %P)
-endif
