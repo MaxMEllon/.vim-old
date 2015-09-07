@@ -311,8 +311,8 @@ endif
 
 if neobundle#tap('vim-over') " {{{
   nnoremap <silent> <Leader>m :OverCommandLine<CR>
-  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//gc<Left><Left>
-  xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///g<Left><Left>
+  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//gc<Left><Left><Left>
+  xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///gc<Left><Left><Left>
   call neobundle#untap()
 endif
 " }}}
@@ -437,8 +437,8 @@ if neobundle#tap('vim-easymotion') " {{{
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
   " keymapping
-  nmap <C-s> <Plug>(easymotion-s2)
-  xmap <C-s> <Plug>(easymotion-s2)
+  nmap <Leader>s <Plug>(easymotion-s2)
+  xmap <Leader>s <Plug>(easymotion-s2)
   nmap g/ <Plug>(easymotion-sn)
   xmap g/ <Plug>(easymotion-sn)
   omap g/ <Plug>(easymotion-tn)
@@ -515,8 +515,8 @@ endif
 if neobundle#tap('clever-f.vim') " {{{
   let g:clever_f_use_migemo            = 1   " migemo likeな検索
   let g:clever_f_ignore_case           = 1   " ignore case
-  let g:clever_f_across_no_line        = 1   " 行をまたがない
-  let g:clever_f_fix_key_direction     = 1   " 方向固定
+  let g:clever_f_fix_key_direction     = 1   " 行方向固定
+  let g:clever_f_across_no_line        = 0   " 行をまたがない
   let g:clever_f_chars_match_any_signs = ';' " 記号は;
   call neobundle#untap()
 endif
