@@ -65,7 +65,7 @@ if neobundle#tap('neocomplete.vim') " {{{
   " Use smartcase.
   let g:neocomplete#enable_smart_case = 1
   " Set minimum syntax keyword length.
-  let g:neocomplete#sources#syntax#min_keyword_length = 1
+  let g:neocomplete#sources#syntax#min_keyword_length = 2
   let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
   " Define dictionary.
   let g:neocomplete#sources#dictionary#dictionaries = {
@@ -133,7 +133,7 @@ if neobundle#tap('lightline.vim') " {{{
         \                [ 'fileformat' ] ]
         \   },
         \   'component_expand': {
-        \     'syntastic': 'SynasticStatuslineFlag',
+        \     'syntastic': 'SyntasticStatuslineFlag',
         \   },
         \   'component_type': {
         \     'syntastic': 'error',

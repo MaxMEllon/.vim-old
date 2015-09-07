@@ -49,7 +49,7 @@ else
   NeoBundle 'Yggdroot/indentLine'
   NeoBundle 'airblade/vim-gitgutter'
   NeoBundle 'haya14busa/incsearch.vim'
-  NeoBundle 'itchyny/lightline.vim'
+  " NeoBundle 'itchyny/lightline.vim'
   NeoBundle 'mattn/webapi-vim'
   NeoBundle 'mhinz/vim-startify'
   NeoBundle 'rhysd/clever-f.vim'
@@ -185,15 +185,15 @@ else
   NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
   NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
   NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
-  if executable('rct-complete')
-    NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
-  else
+  " if executable('rct-complete')
+  "   " NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
+  " else
     NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
     NeoBundle     'supermomonga/neocomplete-rsense.vim', {
           \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
           \ 'autoload' : {'filetypes': ['ruby']}
           \ }
-  endif
+  " endif
   NeoBundleLazy 'joker1007/vim-markdown-quote-syntax', {'autoload':{'filetyle':['markdown']}}
   NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
   NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
