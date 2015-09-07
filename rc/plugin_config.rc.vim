@@ -574,8 +574,8 @@ endif
 "}}}
 
 if neobundle#tap('PDV--phpDocumentor-for-Vim') "{{{
-  nnoremap <C-P> :set formatoptions&<CR> :call PhpDocSingle()<CR>
-  let g:pdv_re_indent='.'
+  nnoremap <Leader>p :set formatoptions&<CR> :call PhpDocSingle()<CR>
+  let g:pdv_re_indent=''
   call neobundle#untap()
 endif
 "}}}
@@ -586,6 +586,18 @@ if neobundle#tap('vim-ruby') "{{{
   let g:rubycomplete_classes_in_global = 1
   let g:rubycomplete_include_object = 1
   let g:rubycomplete_include_object_space = 1
+  call neobundle#untap()
 endif
 " }}}
 
+if neobundle#tap('ctrlp.vim') "{{{
+  let g:ctrlp_map = '<Nop>'
+  let g:ctrlp_open_new_file = 'r'
+  let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
+  let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:18'
+  nnoremap t <Nop>
+  nnoremap tt :<C-u>CtrlPMixed<CR>
+  nnoremap tb :<C-u>CtrlPBuffer<CR>
+  call neobundle#untap()
+endif
+" }}}
