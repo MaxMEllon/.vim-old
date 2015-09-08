@@ -4,8 +4,7 @@
 
 if HasPlugin('lightline') | finish | endif
 
-let g:hi_insert = 'highlight StatusLine ctermfg=black ctermbg=cyan cterm=NONE guifg=red guibg=yellow'
-highlight StatusLine ctermfg=black ctermbg=cyan
+let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
 
 if has('syntax')
   augroup InsertHook
@@ -44,7 +43,7 @@ set laststatus=2
 " ファイルナンバー表示
 set statusline=[%n]
 " ファイル名表示
-set statusline+=%<%t
+set statusline+=%<%t:
 " 検索ヒット数
 set statusline+=%{anzu#search_status()}
 " git branch
