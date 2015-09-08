@@ -149,6 +149,15 @@ else
   NeoBundleLazy 'thinca/vim-scouter', {
         \ 'autoload': {
         \   'commands': [{'complete': 'file', 'name': 'Scouter'}] } }
+  NeoBundleLazy 'thinca/vim-ref', {
+        \ 'autoload': {
+        \   'unite_sources': ['ref'],
+        \   'mappings': [['sxn', '<Plug>(ref-keyword)']],
+        \   'commands': [{
+        \     'complete':
+        \       'customlist,ref#complete',
+        \       'name': 'Ref'},
+        \       'RefHistory']}}
   NeoBundleLazy 'tpope/vim-dispatch', {
         \ 'autoload' : {
         \   'commands' : ['Dispatch', 'FocusDispatch', 'Start'] }}
