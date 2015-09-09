@@ -378,7 +378,12 @@ if neobundle#tap('unite-rails') " {{{
   nnoremap ,rs :<C-u>Unite rails/stylesheet<CR>
   nnoremap ,rj :<C-u>Unite rails/javascript<CR>
   nnoremap ,rg :<C-u>Unite rails/gemfile<CR>
-  nnoremap ,rd :<C-u>Unite rails/db<CR>
+  call neobundle#untap()
+endif
+" }}}
+
+if neobundle#tap('unite-rails-fat') " {{{
+  nnoremap ,rd :<C-u>Unite rails/decorator<CR>
   call neobundle#untap()
 endif
 " }}}
@@ -602,7 +607,7 @@ if neobundle#tap('ctrlp.vim') "{{{
 endif
 " }}}
 
-if neobundle#tap('vim-startify')
+if neobundle#tap('vim-startify') " {{{
   let g:startify_custom_header = [
           \ '                                 ________  __ __',
           \ '            __                  /\_____  \/\ \\ \',
@@ -614,5 +619,6 @@ if neobundle#tap('vim-startify')
           \ '',
           \ '',
           \ ]
+  call neobundle#untap()
 endif
-
+" }}}

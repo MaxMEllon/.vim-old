@@ -69,7 +69,7 @@ else
         \                 'NebulaPutConfig', 'NebulaYankTap'] } }
   NeoBundleLazy 'LeafCage/yankround.vim', {
         \ 'autoload': {
-        \     'unite_sources': ['yankround'],
+        \     'tennunite_sources': ['yankround'],
         \     'mappings': ['cxn', '<Plug>(yankround-'] } }
   NeoBundleLazy 'Lokaltog/vim-easymotion', {
         \ 'autoload': {
@@ -175,7 +175,8 @@ else
   NeoBundle     'thinca/vim-quickrun', { 'depends' : [ 'Shoguo/vimproc' ] }
   NeoBundleLazy 'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
   " depend-unite
-  NeoBundle     'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
+  NeoBundle     'basyura/unite-rails', {'autoload': {'unite_sources': ['rails']}}
+  NeoBundle     'iyuuya/unite-rails-fat', { 'depends' : [ 'basyura/unite-rails' ] }
   NeoBundle     'osyo-manga/unite-filetype', { 'depends' : [ 'Shougo/unite.vim' ] }
   NeoBundleLazy 'Shougo/unite-outline', {
         \ 'autoload': {
@@ -207,11 +208,10 @@ else
   " if executable('rct-complete')
   "   " NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
   " else
-    NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
-    NeoBundle     'supermomonga/neocomplete-rsense.vim', {
-          \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
-          \ 'autoload' : {'filetypes': ['ruby']}
-          \ }
+  NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
+  NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
+        \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
+        \ 'autoload' : {'filetypes': ['ruby']} }
   " endif
   NeoBundleLazy 'joker1007/vim-markdown-quote-syntax', {'autoload':{'filetyle':['markdown']}}
   NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
