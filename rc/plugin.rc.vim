@@ -58,7 +58,21 @@ else
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'tpope/vim-endwise'
   NeoBundle 'tyru/caw.vim'
-
+  NeoBundle 'matchit.zip'
+  NeoBundle 'vimtaku/hl_matchit.vim'
+  NeoBundle 't9md/vim-quickhl'
+  NeoBundleLazy 't9md/vim-quickhl', {'augroup':
+        \ 'QuickhlManual',
+        \   'autoload': {
+        \     'mappings':
+        \       [['sxn', '<Plug>(quickhl-']],
+        \ 'commands': ['QuickhlManualUnlockWindow', 'QuickhlManualDelete',
+        \   'QuickhlTagToggle', 'QuickhlManualDisable', 'QuickhlTagDisable',
+        \   'QuickhlManualAdd', 'QuickhlManualColors', 'QuickhlManualReset',
+        \   'QuickhlManualLockToggle', 'QuickhlManualLock', 'QuickhlManualEnable',
+        \   'QuickhlManualList', 'QuickhlCwordEnable', 'QuickhlManualUnlock',
+        \   'QuickhlCwordDisable', 'QuickhlTagEnable', 'QuickhlManualLockWindowToggle',
+        \   'QuickhlManualLockWindow', 'QuickhlCwordToggle']}}
   NeoBundleLazy 'AndrewRadev/switch.vim', {
         \ 'autoload': {
         \   'commands': ['Switch'] } }
@@ -187,7 +201,7 @@ else
   NeoBundleLazy 'yomi322/unite-tweetvim'
 
   " languages
-  NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
+  " NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
   NeoBundleLazy 'MaxMellon/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
   NeoBundleLazy 'cakebaker/scss-syntax.vim', {
         \ 'autoload': {

@@ -579,7 +579,7 @@ endif
 "}}}
 
 if neobundle#tap('PDV--phpDocumentor-for-Vim') "{{{
-  nnoremap <Leader>p :set formatoptions&<CR> :call PhpDocSingle()<CR>
+  nnoremap <Leader>p :set formatoptions&<CR>:call PhpDocSingle()<CR>kv/func<CR>k=:%s/\s\+$//e<CR>
   let g:pdv_re_indent=''
   call neobundle#untap()
 endif
@@ -619,6 +619,20 @@ if neobundle#tap('vim-startify') " {{{
           \ '',
           \ '',
           \ ]
+  call neobundle#untap()
+endif
+" }}}
+
+if neobundle#tap('hl_matchit.vim') " {{{
+  let g:hl_matchit_enable_on_vim_startup = 1
+  let g:hl_matchit_hl_groupname = 'cursorlinenr'
+  call neobundle#untap()
+endif
+" }}}
+
+if neobundle#tap('vim-quickhl') " {{{
+  map ,m <Plug>(quickhl-manual-this)
+  map ,M <Plug>(quickhl-manual-reset)
   call neobundle#untap()
 endif
 " }}}
