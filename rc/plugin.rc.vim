@@ -61,18 +61,21 @@ else
   NeoBundle 'matchit.zip'
   NeoBundle 'vimtaku/hl_matchit.vim'
   NeoBundle 't9md/vim-quickhl'
-  NeoBundleLazy 't9md/vim-quickhl', {'augroup':
-        \ 'QuickhlManual',
-        \   'autoload': {
-        \     'mappings':
-        \       [['sxn', '<Plug>(quickhl-']],
+  NeoBundleLazy 't9md/vim-quickhl', {
+        \ 'augroup':
+        \   'QuickhlManual',
+        \ 'autoload': {
+        \   'mappings':
+        \     [['sxn', '<Plug>(quickhl-']],
         \ 'commands': ['QuickhlManualUnlockWindow', 'QuickhlManualDelete',
-        \   'QuickhlTagToggle', 'QuickhlManualDisable', 'QuickhlTagDisable',
-        \   'QuickhlManualAdd', 'QuickhlManualColors', 'QuickhlManualReset',
-        \   'QuickhlManualLockToggle', 'QuickhlManualLock', 'QuickhlManualEnable',
-        \   'QuickhlManualList', 'QuickhlCwordEnable', 'QuickhlManualUnlock',
-        \   'QuickhlCwordDisable', 'QuickhlTagEnable', 'QuickhlManualLockWindowToggle',
-        \   'QuickhlManualLockWindow', 'QuickhlCwordToggle']}}
+        \     'QuickhlTagToggle', 'QuickhlManualDisable', 'QuickhlTagDisable',
+        \     'QuickhlManualAdd', 'QuickhlManualColors',
+        \     'QuickhlManualReset', 'QuickhlManualLockToggle',
+        \     'QuickhlManualLock', 'QuickhlManualEnable',
+        \     'QuickhlManualList', 'QuickhlCwordEnable',
+        \     'QuickhlManualUnlock', 'QuickhlCwordDisable',
+        \     'QuickhlTagEnable', 'QuickhlManualLockWindowToggle',
+        \     'QuickhlManualLockWindow', 'QuickhlCwordToggle']}}
   NeoBundleLazy 'AndrewRadev/switch.vim', {
         \ 'autoload': {
         \   'commands': ['Switch'] } }
@@ -223,6 +226,7 @@ else
   "   " NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
   " else
   NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
+  NeoBundle     'todesking/ruby_hl_lvar.vim'
   NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
         \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
         \ 'autoload' : {'filetypes': ['ruby']} }
