@@ -8,7 +8,7 @@ Autocmd BufNewFile,BufRead *.slim    set filetype=slim
 Autocmd BufNewFile,BufRead *.less    set filetype=less
 Autocmd BufNewFile,BufRead *.coffee  set filetype=coffee
 Autocmd BufNewFile,BufRead *.scss    set filetype=scss
-Autocmd BufNewFile,BufRead *.scss    set filetype=scss
+Autocmd BufNewFile,BufRead *.sass    set filetype=sass
 Autocmd BufNewFile,BufRead *.less    set filetype=less
 Autocmd BufNewFile,BufRead *.pu      set filetype=plantuml
 Autocmd BufNewFile,BufRead *.cjsx    set filetype=coffee
@@ -26,7 +26,7 @@ AutocmdFT coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
-AutocmdFT scss,css setlocal iskeyword+=-
+AutocmdFT sass,scss,css setlocal iskeyword+=-
 
 " lastline
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$") |
