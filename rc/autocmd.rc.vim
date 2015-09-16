@@ -16,6 +16,7 @@ Autocmd BufNewFile,BufRead *.exs     set filetype=elixir
 Autocmd BufNewFile,BufRead *.ex      set filetype=elixir
 Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
 Autocmd QuickFixCmdPost make,*grep* cwindow
+Autocmd VimEnter COMMIT_EDITMSG if getline(1) == '' | execute 1 | startinsert | endif
 Autocmd InsertLeave * set nopaste
 AutocmdFT python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
 AutocmdFT php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
