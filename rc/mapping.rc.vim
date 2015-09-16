@@ -124,6 +124,8 @@ inoremap <> <><Left>
 inoremap [] []<Left>
 inoremap {}<CR> {}<Left><Left><CR><Right><CR><ESC>O
 inoremap {% {%<Space><Space>%}<Left><Left><Left>
+inoremap , ,<Space>
+inoremap <C-Tab> <C-v><Tab>
 
 " inoremap <bar><bar> <bar><bar><Left>
 " inoremap {}<CR> {}<Left><CR><Up><End><Left><CR><Esc>o
@@ -242,9 +244,6 @@ nnoremap <silent>S viw
 " ハイライト消去
 nnoremap <ESC><ESC> :nohlsearch<CR><ESC><C-l>
 
-" tags
-nnoremap <C-]> g<C-]>
-
 " Command-line Window {{{
 " enable command line
 " : without
@@ -262,8 +261,8 @@ nnoremap <sid>(command-line-norange) q:<C-u>
 au MyVimrc CmdwinEnter * call s:init_cmdwin()
 function! s:init_cmdwin()
   setlocal nolist! number! relativenumber!
-  nnoremap <buffer> q :<C-u>quit<CR>
-  nnoremap <buffer> <TAB> :<C-u>quit<CR>
+  nnoremap <silent><buffer>q          :<C-u>q<CR>
+  nnoremap <silent><buffer><CR>       A<CR>
   inoremap <buffer><expr><CR>   pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
   inoremap <buffer><expr><C-h>  pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
   inoremap <buffer><expr><BS>   pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"

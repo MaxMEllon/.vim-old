@@ -7,6 +7,7 @@ set autowrite                 " bufferが切り替わるときの自動保存
 set backspace=indent,eol,start"{{{"}}}
 set cmdheight=2
 set cmdwinheight=5            " Command-line windowの行数
+set cscopetag
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
 set formatoptions=tcq
@@ -131,4 +132,15 @@ scriptencoding     utf-8
 
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
 set ambiwidth     =double        " ２バイト特殊文字の幅調整
+
+let g:markdown_fenced_languages = [
+      \  'css',
+      \  'erb=eruby',
+      \  'javascript',
+      \  'js=javascript',
+      \  'json=javascript',
+      \  'ruby',
+      \  'sass',
+      \  'xml',
+      \]
 
