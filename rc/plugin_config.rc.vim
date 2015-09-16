@@ -227,6 +227,7 @@ if neobundle#tap('indentLine') " {{{
   let g:indentLine_color_term = 239
   let g:indentLine_color_tty_light = 59
   let g:indentLine_color_dark = 1
+  let g:indentLine_bufNameExclude = ['NERD_tree.*']
   call neobundle#untap()
 endif
 " }}}
@@ -384,6 +385,7 @@ endif
 
 if neobundle#tap('unite-rails-fat') " {{{
   nnoremap ,rd :<C-u>Unite rails/decorator<CR>
+  nnoremap ,ra :<C-u>Unite rails/api<CR>
   call neobundle#untap()
 endif
 " }}}
@@ -579,7 +581,7 @@ endif
 "}}}
 
 if neobundle#tap('PDV--phpDocumentor-for-Vim') "{{{
-  nnoremap <Leader>p :set formatoptions&<CR>:call PhpDocSingle()<CR>kv/func<CR>k=:%s/\s\+$//e<CR>
+  nnoremap <Leader>p :set formatoptions&<CR>:call PhpDocSingle()<CR>kv/func<CR>k=:%s/\s\+$//e<CR><C-o>
   let g:pdv_re_indent=''
   call neobundle#untap()
 endif

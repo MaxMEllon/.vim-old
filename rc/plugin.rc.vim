@@ -193,7 +193,7 @@ else
   NeoBundleLazy 'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
   " depend-unite
   NeoBundle     'basyura/unite-rails', {'autoload': {'unite_sources': ['rails']}}
-  NeoBundle     'iyuuya/unite-rails-fat', { 'depends' : [ 'basyura/unite-rails' ] }
+  NeoBundle     'MaxMEllon/unite-rails-fat', { 'depends' : [ 'basyura/unite-rails' ] }
   NeoBundle     'osyo-manga/unite-filetype', { 'depends' : [ 'Shougo/unite.vim' ] }
   NeoBundleLazy 'Shougo/unite-outline', {
         \ 'autoload': {
@@ -206,13 +206,9 @@ else
   " languages
   " NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
   NeoBundleLazy 'MaxMellon/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
-  NeoBundleLazy 'cakebaker/scss-syntax.vim', {
-        \ 'autoload': {
-        \   'filetypes': ['sass', 'css'] } }
+  NeoBundleLazy 'AtsushiM/sass-compile.vim', { 'autoload': { 'filetypes': ['sass'] } }
   NeoBundle     'chase/vim-ansible-yaml'
-  NeoBundleLazy 'elixir-lang/vim-elixir', {
-        \ 'autoload': {
-        \   'filetypes': ['elixir'] } }
+  NeoBundleLazy 'elixir-lang/vim-elixir', { 'autoload': { 'filetypes': ['elixir'] } }
   NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
   NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee','slim']}}
   NeoBundleLazy 'keith/rspec.vim', {'autoload':{'filetypes':[ 'rspec' ]}}
@@ -231,12 +227,22 @@ else
         \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
         \ 'autoload' : {'filetypes': ['ruby']} }
   " endif
-  NeoBundleLazy 'joker1007/vim-markdown-quote-syntax', {'autoload':{'filetyle':['markdown']}}
   NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
   NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
   NeoBundleLazy 'PDV--phpDocumentor-for-Vim', {'autoload':{'filetypes':['php']}}
-  NeoBundle     'othree/javascript-libraries-syntax.vim'
+  NeoBundleLazy 'othree/javascript-libraries-syntax.vim' , {
+        \ 'autoload':{
+        \   'filetypes': ['html', 'markdown', 'coffee', 'js'] } }
+
+  " textobj
+  NeoBundle 'surround.vim'
+  NeoBundle 'glts/vim-textobj-comment'
+  NeoBundle 'kana/vim-textobj-fold'
+  NeoBundle 'kana/vim-textobj-line'
+  NeoBundle 'kana/vim-textobj-user'
+  NeoBundle 'mattn/vim-textobj-url'
+  NeoBundle 'rhysd/vim-textobj-ruby'
 
   " framework
   NeoBundle     'tpope/vim-rails'
@@ -247,10 +253,10 @@ else
   NeoBundleLazy 'Wombat256.vim'
   NeoBundleLazy 'vim-scripts/twilight'
   " disalble
-  " NeoBundle      'surround.vim'
-  " NeoBundle      'm2mdas/phpcomplete-extended-laravel'
-  " NeoBundle      'm2mdas/phpcomplete-extended'
-  " NeoBundle      'kana/vim-smartinput'
+  " NeoBundle     'rhysd/vim-operator-surround'
+  " NeoBundle     'm2mdas/phpcomplete-extended-laravel'
+  " NeoBundle     'm2mdas/phpcomplete-extended'
+  " NeoBundle     'kana/vim-smartinput'
   call neobundle#end()
   NeoBundleSaveCache
 " }}}
