@@ -222,7 +222,9 @@ else
   "   " NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
   " else
   NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
-  NeoBundle     'todesking/ruby_hl_lvar.vim'
+  if has('ruby')
+    NeoBundle     'todesking/ruby_hl_lvar.vim'
+  endif
   NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
         \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
         \ 'autoload' : {'filetypes': ['ruby']} }
