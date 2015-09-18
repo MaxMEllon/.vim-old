@@ -36,7 +36,9 @@ set tags+=.svn/tags
 set tags+=.git/tags
 set textwidth=0
 set ttyfast                   " スクロールが滑らかに
-set ttyscroll=300
+if ! has('nvim')
+  set ttyscroll=300
+endif
 set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 

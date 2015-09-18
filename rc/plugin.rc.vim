@@ -223,7 +223,7 @@ else
   " else
   NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
   if has('ruby')
-    NeoBundle     'todesking/ruby_hl_lvar.vim'
+    NeoBundle 'todesking/ruby_hl_lvar.vim'
   endif
   NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
         \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
@@ -245,6 +245,7 @@ else
   NeoBundle 'kana/vim-textobj-user'
   NeoBundle 'mattn/vim-textobj-url'
   NeoBundle 'rhysd/vim-textobj-ruby'
+  NeoBundle 'osyo-manga/vim-textobj-multiblock'
 
   " framework
   NeoBundle     'tpope/vim-rails'
