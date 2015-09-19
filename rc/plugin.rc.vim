@@ -178,6 +178,10 @@ else
   NeoBundleLazy 'tpope/vim-dispatch', {
         \ 'autoload' : {
         \   'commands' : ['Dispatch', 'FocusDispatch', 'Start'] }}
+  NeoBundleLazy 'tyru/capture.vim', {
+        \ 'autoload': {
+        \   'commands': [{
+        \     'complete': 'command', 'name': 'Capture'}]}}
   NeoBundleLazy 'tyru/open-browser.vim', {
         \ 'autoload': {
         \   'mappings': ['sxn', '<Plug>(openbrowser-'],
