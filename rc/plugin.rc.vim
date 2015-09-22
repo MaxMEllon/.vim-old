@@ -60,15 +60,15 @@ else
   NeoBundle 'tyru/caw.vim'
   NeoBundle 'matchit.zip'
   NeoBundle 'vimtaku/hl_matchit.vim'
-  NeoBundle 't9md/vim-quickhl'
   NeoBundleLazy 't9md/vim-quickhl', {
         \ 'augroup':
         \   'QuickhlManual',
         \ 'autoload': {
         \   'mappings':
         \     [['sxn', '<Plug>(quickhl-']],
-        \ 'commands': ['QuickhlManualUnlockWindow', 'QuickhlManualDelete',
-        \     'QuickhlTagToggle', 'QuickhlManualDisable', 'QuickhlTagDisable',
+        \ 'commands': ['QuickhlManualUnlockWindow',
+        \      'QuickhlManualDelete', 'QuickhlTagDisable',
+        \     'QuickhlTagToggle', 'QuickhlManualDisable',
         \     'QuickhlManualAdd', 'QuickhlManualColors',
         \     'QuickhlManualReset', 'QuickhlManualLockToggle',
         \     'QuickhlManualLock', 'QuickhlManualEnable',
