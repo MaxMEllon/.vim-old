@@ -259,8 +259,11 @@ if neobundle#tap('vimshell.vim') "{{{
   nnoremap <Space>rb :VimShellInteractive irb<CR>
   nnoremap <Space>rc :VimShellInteractive rails c<CR>
   " nnoremap ,pry :VimShellInteractive pry<CR>
+  let g:vimshell_prompt_expr = 'getcwd()." > "'
+  let g:vimshell_prompt_pattern = '^\f\+ > '
   call neobundle#untap()
 endif
+
 " }}}
 
 if neobundle#tap('vimshell-pure.vim') "{{{
@@ -379,6 +382,7 @@ if neobundle#tap('unite-rails') " {{{
   nnoremap ,rs :<C-u>Unite rails/stylesheet<CR>
   nnoremap ,rj :<C-u>Unite rails/javascript<CR>
   nnoremap ,rg :<C-u>Unite rails/gemfile<CR>
+  nnoremap ,rt :<C-u>Unite rails/spec<CR>
   call neobundle#untap()
 endif
 " }}}
@@ -638,3 +642,9 @@ if neobundle#tap('vim-quickhl') " {{{
   call neobundle#untap()
 endif
 " }}}
+
+if neobundle#tap('vim-singleton') "{{{
+  call singleton#enable()
+endif
+"}}}
+

@@ -55,6 +55,7 @@ else
   NeoBundle 'rhysd/clever-f.vim'
   NeoBundle 'scrooloose/syntastic'
   NeoBundle 'soramugi/auto-ctags.vim'
+  NeoBundle 'thinca/vim-singleton'
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'tpope/vim-endwise'
   NeoBundle 'tyru/caw.vim'
@@ -193,7 +194,11 @@ else
   " depend-vimproc
   NeoBundleLazy 'Shougo/vimshell.vim', {'depends' : 'Shougo/vimproc'}
   NeoBundleLazy 'supermomonga/vimshell-pure.vim', {'depends' : 'Shougo/vimshell.vim'}
-  NeoBundle     'thinca/vim-quickrun', { 'depends' : [ 'Shoguo/vimproc' ] }
+  NeoBundleLazy 'thinca/vim-quickrun', {
+        \ 'autoload': {
+        \   'mappings': [['sxn', '<Plug>(quickrun']],
+        \   'commands': [{'complete': 'customlist,quickrun#complete'
+        \ ,               'name': 'QuickRun'}]}}
   NeoBundleLazy 'yuratomo/w3m.vim', { 'autoload' : { 'commands' : [ 'W3mTab' ] } }
   " depend-unite
   NeoBundle     'basyura/unite-rails', {'autoload': {'unite_sources': ['rails']}}
@@ -236,6 +241,8 @@ else
   NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
   NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
+  " NeoBundleLazy 'xsbeats/vim-blade',  {'autoload':{'filetype':['php']}}
+  NeoBundle 'xsbeats/vim-blade'
   NeoBundleLazy 'PDV--phpDocumentor-for-Vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'othree/javascript-libraries-syntax.vim' , {
         \ 'autoload':{
