@@ -11,7 +11,6 @@
 
 " init {{{
 if !1 | finish | endif
-if !&compatible | set nocompatible | endif
 
 let mapleader='\'
 augroup MyVimrc

@@ -443,18 +443,18 @@ if neobundle#tap('vim-easymotion') " {{{
   let g:EasyMotion_do_mapping = 0
   let g:EasyMotion_smartcase = 1
   let g:EasyMotion_startofline = 0
-  let g:EasyMotion_keys = '123456789;:'
+  let g:EasyMotion_keys = 'hjklasdgyuiopqwertnmzxcvb;:f'
   let g:EasyMotion_use_upper = 1
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
   " keymapping
-  nmap <Leader>s <Plug>(easymotion-s2)
-  xmap <Leader>s <Plug>(easymotion-s2)
+  nmap <Space>e <Plug>(easymotion-s2)
+  xmap <Space>e <Plug>(easymotion-s2)
   nmap g/ <Plug>(easymotion-sn)
   xmap g/ <Plug>(easymotion-sn)
   omap g/ <Plug>(easymotion-tn)
-  map <Leader>j <Plug>(easymotion-j)
-  map <Leader>k <Plug>(easymotion-k)
+  map <Space>j <Plug>(easymotion-j)
+  map <Space>k <Plug>(easymotion-k)
 
   hi EasyMotionTarget guifg=#80a0ff ctermfg=81
   call neobundle#untap()
@@ -645,6 +645,13 @@ endif
 
 if neobundle#tap('vim-singleton') "{{{
   call singleton#enable()
+  call neobundle#untap()
 endif
 "}}}
 
+if neobundle#tap('jscomplete-vim') "{{{
+  AutocmdFT javascript setlocal omnifunc=jscomplete#CompleteJS
+  AutocmdFT coffee     setlocal omnifunc=jscomplete#CompleteJS
+  call neobundle#untap()
+endif
+"}}}

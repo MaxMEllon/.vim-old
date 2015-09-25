@@ -89,7 +89,7 @@ else
         \ 'autoload': {
         \     'tennunite_sources': ['yankround'],
         \     'mappings': ['cxn', '<Plug>(yankround-'] } }
-  NeoBundleLazy 'Lokaltog/vim-easymotion', {
+  NeoBundleLazy 'easymotion/vim-easymotion', {
         \ 'autoload': {
         \   'mappings': ['sxno', '<Plug>(easymotion-'],
         \   'commands': ['EMCommandLineNoreMap',
@@ -221,6 +221,7 @@ else
   NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
   NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee','slim']}}
   NeoBundleLazy 'keith/rspec.vim', {'autoload':{'filetypes':[ 'rspec' ]}}
+  NeoBundleLazy 'mattn/jscomplete-vim', {'autoload':{'filetypes':[ 'js', 'coffee' ]}}
   NeoBundleLazy 'mattn/emmet-vim', {
         \ 'autoload':{
         \   'filetypes': ['html', 'php', 'markdown', 'coffee', 'js'] } }
@@ -241,8 +242,6 @@ else
   NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
   NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
-  " NeoBundleLazy 'xsbeats/vim-blade',  {'autoload':{'filetype':['php']}}
-  NeoBundle 'xsbeats/vim-blade'
   NeoBundleLazy 'PDV--phpDocumentor-for-Vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'othree/javascript-libraries-syntax.vim' , {
         \ 'autoload':{
