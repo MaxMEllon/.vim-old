@@ -4,7 +4,7 @@
 
 set autoread                  " vim外で編集された時の自動み込み
 set autowrite                 " bufferが切り替わるときの自動保存
-set backspace=indent,eol,start"{{{"}}}
+set backspace=indent,eol,start
 set cmdheight=2
 set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
@@ -73,8 +73,7 @@ set undolevels=200
 " colorcolumn
 " See: http://mattn.kaoriya.net/software/vim/20150209151638.htm
 if (exists('+colorcolumn'))
-  set colorcolumn=80,100,120
-  highlight ColorColumn ctermbg=9
+  set colorcolumn=90,100,120
 endif
 
 " search {{{

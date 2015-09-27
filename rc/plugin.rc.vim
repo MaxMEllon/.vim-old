@@ -87,7 +87,7 @@ else
         \                 'NebulaPutConfig', 'NebulaYankTap'] } }
   NeoBundleLazy 'LeafCage/yankround.vim', {
         \ 'autoload': {
-        \     'tennunite_sources': ['yankround'],
+        \     'unite_sources': ['yankround'],
         \     'mappings': ['cxn', '<Plug>(yankround-'] } }
   NeoBundleLazy 'easymotion/vim-easymotion', {
         \ 'autoload': {
@@ -212,40 +212,60 @@ else
         \   'unite_sources': ['location_list', 'q', 'quickfix']}}
   NeoBundleLazy 'yomi322/unite-tweetvim'
 
-  " languages
-  " NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
-  NeoBundleLazy 'MaxMellon/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
-  NeoBundleLazy 'AtsushiM/sass-compile.vim', { 'autoload': { 'filetypes': ['sass'] } }
-  NeoBundle     'chase/vim-ansible-yaml'
-  NeoBundleLazy 'elixir-lang/vim-elixir', { 'autoload': { 'filetypes': ['elixir'] } }
+  " languages {{{
+  " css " {{{
   NeoBundleLazy 'groenewege/vim-less', {'autoload':{'filetypes':['less']}}
-  NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee','slim']}}
-  NeoBundleLazy 'keith/rspec.vim', {'autoload':{'filetypes':[ 'rspec' ]}}
+  NeoBundleLazy 'AtsushiM/sass-compile.vim', { 'autoload': { 'filetypes': ['sass'] } }
+  " }}}
+
+  " js " {{{
   NeoBundleLazy 'mattn/jscomplete-vim', {'autoload':{'filetypes':[ 'js', 'coffee' ]}}
+  NeoBundleLazy 'kchmck/vim-coffee-script', {'autoload':{'filetypes':[ 'coffee','slim']}}
+  NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
+  NeoBundleLazy 'othree/javascript-libraries-syntax.vim' , {
+        \ 'autoload':{
+        \   'filetypes': ['html', 'coffee', 'js'] } }
+  " }}}
+
+  " html {{{
   NeoBundleLazy 'mattn/emmet-vim', {
         \ 'autoload':{
         \   'filetypes': ['html', 'php', 'markdown', 'coffee', 'js'] } }
-  NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
   NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
+  " }}}
+
+  " ruby {{{
+  NeoBundleLazy 'keith/rspec.vim', {'autoload':{'filetypes':[ 'rspec' ]}}
   NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
   " if executable('rct-complete')
   "   " NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
   " else
   NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
+  " endif
+  " NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
   if has('ruby')
     NeoBundle 'todesking/ruby_hl_lvar.vim'
   endif
   NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
         \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
         \ 'autoload' : {'filetypes': ['ruby']} }
-  " endif
-  NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
+  " }}}
+
+  " php {{{
+  NeoBundleLazy 'm2mdas/phpcomplete-extended', {
+        \ 'autoload': {'unite_sources': ['phpcomplete']}}
   NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
   NeoBundleLazy 'PDV--phpDocumentor-for-Vim', {'autoload':{'filetypes':['php']}}
-  NeoBundleLazy 'othree/javascript-libraries-syntax.vim' , {
-        \ 'autoload':{
-        \   'filetypes': ['html', 'markdown', 'coffee', 'js'] } }
+  " }}}
+
+  " etc " {{{
+  NeoBundleLazy 'MaxMellon/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
+  NeoBundle     'chase/vim-ansible-yaml'
+  NeoBundleLazy 'elixir-lang/vim-elixir', { 'autoload': { 'filetypes': ['elixir'] } }
+  NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
+  " }}}
+  " }}}
 
   " textobj
   NeoBundle 'surround.vim'
@@ -268,7 +288,6 @@ else
   " disalble
   " NeoBundle     'rhysd/vim-operator-surround'
   " NeoBundle     'm2mdas/phpcomplete-extended-laravel'
-  " NeoBundle     'm2mdas/phpcomplete-extended'
   " NeoBundle     'kana/vim-smartinput'
   call neobundle#end()
   NeoBundleSaveCache
