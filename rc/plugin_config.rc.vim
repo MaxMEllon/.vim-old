@@ -119,6 +119,19 @@ endif
 
 if neobundle#tap('lightline.vim') " {{{
   let g:lightline = {
+        \   'mode_map': {
+        \     'n' : 'N',
+        \     'i' : 'I',
+        \     'R' : 'R',
+        \     'v' : 'V',
+        \     'V' : 'V-L',
+        \     'c' : 'COMMAND',
+        \     "\<C-v>": 'V-B',
+        \     's' : 'SELECT',
+        \     'S' : 'S-L',
+        \     "\<C-s>": 'S-B',
+        \     '?': '      '
+        \   },
         \   'component': {
         \     'readonly': '%{&readonly?"\u2b64":""}',
         \   },

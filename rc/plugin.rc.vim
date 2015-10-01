@@ -128,6 +128,10 @@ else
   NeoBundleLazy 'mattn/benchvimrc-vim', {
         \ 'autoload': {
         \   'commands': [{'complete': 'file', 'name': 'BenchVimrc'}] } }
+  NeoBundleLazy 'mattn/emoji-vim', {
+        \ 'autoload': {
+        \   'mappings': [['in', '<Plug>(emoji-selector-']],
+        \   'commands': ['Emoji']}}
   NeoBundleLazy 'mattn/gist-vim', {
         \ 'autoload': {
         \   'commands': ['Gist'] } }
