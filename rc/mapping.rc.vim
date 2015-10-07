@@ -96,6 +96,10 @@ nnoremap <silent> gP O<ESC>P^
 xnoremap <silent> gp o<ESC>p^
 xnoremap <silent> gP O<ESC>P^
 
+" next and prev buffer
+nnoremap <silent> bp :bprevious<CR>
+nnoremap <silent> bn :bnext<CR>
+
 " <TAB>: indent.
 xnoremap <TAB>  >gv
 " <S-TAB>: unindent.

@@ -48,19 +48,26 @@ else
   NeoBundle 'Shougo/neosnippet-snippets'
   NeoBundle 'Yggdroot/indentLine'
   NeoBundle 'airblade/vim-gitgutter'
+  NeoBundle 'cohama/vim-hier'
+  NeoBundle 'dannyob/quickfixstatus'
   NeoBundle 'haya14busa/incsearch.vim'
   " NeoBundle 'itchyny/lightline.vim'
+  " NeoBundle 'KazuakiM/vim-qfstatusline'
+  " NeoBundle 'KazuakiM/vim-qfsigns'
+  NeoBundle 'matchit.zip'
   NeoBundle 'mattn/webapi-vim'
   NeoBundle 'mhinz/vim-startify'
+  NeoBundle 'osyo-manga/shabadou.vim'
+  NeoBundle 'osyo-manga/vim-watchdogs'
   NeoBundle 'rhysd/clever-f.vim'
-  NeoBundle 'scrooloose/syntastic'
+  " NeoBundle 'scrooloose/syntastic'
   NeoBundle 'soramugi/auto-ctags.vim'
   NeoBundle 'thinca/vim-singleton'
-  NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'tpope/vim-endwise'
+  NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'tyru/caw.vim'
-  NeoBundle 'matchit.zip'
   NeoBundle 'vimtaku/hl_matchit.vim'
+  NeoBundle 'yonchu/accelerated-smooth-scroll'
   NeoBundleLazy 't9md/vim-quickhl', {
         \ 'augroup':
         \   'QuickhlManual',
@@ -119,6 +126,10 @@ else
         \                 ['sxn', '<Plug>(LiveEasyAlign)'],
         \                 ['sxn', '<Plug>(EasyAlignRepeat)']],
         \   'commands': ['EasyAlign', 'LiveEasyAlign'] } }
+  NeoBundleLazy 'kana/vim-altr', {
+        \ 'autoload': {
+        \   'filetypes' : ['c', 'cpp'],
+        \   'mappings': [['scxino', '<Plug>(altr-']]}}
   NeoBundleLazy 'koron/nyancat-vim', {
         \ 'autoload': {
         \   'commands': ['Nyancat2', 'Nyancat'] } }
@@ -151,6 +162,7 @@ else
         \                'AOJSubmitByProblemID',
         \                'AOJViewProblems',
         \                'AOJViewStaticticsLogs'] } }
+  NeoBundleLazy 'osyo-manga/vim-reunions'
   NeoBundleLazy 'osyo-manga/vim-anzu', {
         \ 'autoload': {
         \   'unite_sources': ['anzu'],
@@ -168,6 +180,10 @@ else
         \                'OverCommandLineMap',
         \                'OverCommandLine',
         \                'OverCommandLineUnmap'] } }
+  NeoBundleLazy 'terryma/vim-multiple-cursors', {
+        \ 'autoload': {
+        \   'mappings': [['xin', '<Plug>(multiple-cursors-']],
+        \   'commands': ['MultipleCursorsFind']}}
   NeoBundleLazy 'thinca/vim-scouter', {
         \ 'autoload': {
         \   'commands': [{'complete': 'file', 'name': 'Scouter'}] } }
@@ -261,6 +277,16 @@ else
   NeoBundleLazy 'StanAngeloff/php.vim', {'autoload':{'filetypes':['php']}}
   NeoBundleLazy 'violetyk/neocomplete-php.vim', {'autoload':{ 'filetypes':['php']}}
   NeoBundleLazy 'PDV--phpDocumentor-for-Vim', {'autoload':{'filetypes':['php']}}
+  " }}}
+
+  " cpp {{{
+  NeoBundleLazy 'osyo-manga/vim-marching',  {
+        \ 'depends' : ['Shougo/vimproc.vim',  'osyo-manga/vim-reunions'],
+        \ 'autoload' : {'filetypes' : ['c', 'cpp'] } }
+  NeoBundleLazy 'octol/vim-cpp-enhanced-highlight', {
+        \ 'autoload' : {'filetypes' : ['c',  'cpp']} }
+  NeoBundleLazy 'vim-jp/cpp-vim', {
+        \ 'autoload' : {'filetypes' : ['c', 'cpp']} }
   " }}}
 
   " etc " {{{

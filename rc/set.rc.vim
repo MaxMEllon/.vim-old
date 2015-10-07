@@ -47,7 +47,7 @@ set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 " ignore japanese
 " set spelllang+=cjk
 " enable spell check
-" set spell!
+" set spell
 
 " swap
 if !isdirectory(expand('~/.vim/_swap'))

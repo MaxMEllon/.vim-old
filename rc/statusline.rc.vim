@@ -54,6 +54,9 @@ endif
 if HasPlugin('syntastic')
   set statusline+=%{SyntasticStatuslineFlag()}
 endif
+if HasPlugin('qfstatusline')
+  set statusline+=%{StatuslineUpdate()}
+endif
 " 変更のチェック表示
 set statusline+=%m
 " 読み込み専用かどうか表示

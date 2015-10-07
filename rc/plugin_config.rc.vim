@@ -248,8 +248,12 @@ endif
 if neobundle#tap('vim-quickrun') " {{{
   let g:quickrun_config = {
         \  '_': {
+        \     'hock/close_buffer/enable_hock_loaded' : 1,
+        \     'hock/close_buffer/enable_empty_data' : 1,
+        \     'hock/close_buffer/enable_success' : 1,
         \     'runner' : 'vimproc',
         \     'runner/vimproc/updatetime' : 60,
+        \     'outputter' : 'multi:buffer:quickfix',
         \     'outputter/buffer/split' : ':botright 8sp',
         \     'hook/time/enable': '1',
         \   }
@@ -295,7 +299,7 @@ if neobundle#tap('syntastic') "{{{
   let g:syntastic_coffee_checkers     = ['jsxhint']
   " depend on Unite, Unite-QuickFix
   let g:syntastic_always_populate_loc_list=1
-
+  let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
   nnoremap [unite]e :<C-u>Unite location_list -winheight=5<CR>
   call neobundle#untap()
 endif
@@ -507,6 +511,19 @@ if neobundle#tap('switch.vim') " {{{
 endif
 "}}}
 
+if neobundle#tap('surround.vim') "{{{
+  nmap ,( csw(
+  nmap ,) csw)
+  nmap ,{ csw{
+  nmap ,} csw}
+  nmap ,[ csw[
+  nmap ,] csw]
+  nmap ,' csw'
+  nmap ," csw"
+  call neobundle#untap()
+endif
+" }}}
+
 if neobundle#tap('vim-easy-align') "{{{
   vnoremap <Enter> :EasyAlign<CR>
   call neobundle#untap()
@@ -668,3 +685,99 @@ if neobundle#tap('jscomplete-vim') "{{{
   call neobundle#untap()
 endif
 "}}}
+
+if neobundle#tap('vim-altr') " {{{
+  nnoremap <Space>a <Plug>(altr-forward)
+  call neobundle#untap()
+endif
+"}}}
+
+if neobundle#tap('vim-marching') "{{{
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.cpp =
+        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:marching_enable_neocomplete = 1
+  call neobundle#untap()
+endif
+" }}}
+
+if neobundle#tap('vim-watchdogs') "{{{
+  let g:quickrun_config["watchdogs_checker/_"] = {
+      \   "runner" : "vimproc",
+      \   "runner/vimproc/sleep" : 10,
+      \   "runner/vimproc/updatetime" : 500,
+      \   "outputter" : "error",
+      \   "outputter/error/success" : "buffer",
+      \   "outputter/error/error"   : "quickfix",
+      \   "outputter/quickfix/open_cmd" : "copen",
+      \   "outputter/buffer/split" : ":botright 8sp",
+      \ }
+  let g:watchdogs_check_BufWritePost_enable_on_wq = 0
+  let g:quickrun_config['watchdogs_checker/clang++'] = {
+      \   'command': 'clang++',
+      \   'exec':    '%c %o -Wall -Wextra -std=c++1y -stdlib=libc++ -fsyntax-only %s:p',
+      \ }
+  let g:quickrun_config['watchdogs_checker/g++'] = {
+      \   'command': 'g++',
+      \   'exec':    '%c %o -Wall -Wextra -std=c++11 -fsyntax-only %s:p',
+      \ }
+  let g:quickrun_config['cpp/watchdogs_checker'] = {
+      \   'type': 'watchdogs_checker/g++',
+      \ }
+  if executable('sass')
+    let g:quickrun_config['watchdogs_checker/sass'] = {
+          \   'command':     'sass',
+          \   'exec':        '%c %o --check --compass --trace --no-cache %s:p',
+          \   'errorformat': '%f:%l:%m\ (Sass::SyntaxError),%-G%.%#',
+          \ }
+    let g:quickrun_config['sass/watchdogs_checker'] = {
+          \   'type': 'watchdogs_checker/sass',
+          \ }
+
+    let g:quickrun_config['watchdogs_checker/scss'] = {
+          \   'command': 'sass',
+          \   'exec': '%c %o --check --compass --trace --no-cache %s:p',
+          \   'errorformat': '%f:%l:%m\ (Sass::SyntaxError),%-G%.%#',
+          \ }
+    let g:quickrun_config['scss/watchdogs_checker'] = {
+          \   'type': 'watchdogs_checker/scss',
+          \ }
+  endif
+  if executable('rubocop')
+    let g:quickrun_config['ruby/watchdogs_checker'] = {
+          \   "type" : "watchdogs_checker/rubocop"
+          \ }
+  endif
+  if executable('slimrb')
+    let g:quickrun_config['watchdogs_checker/slim'] = {
+          \   'command': 'slimrb',
+          \   'exec':    '%c %o > /dev/null %s:p',
+          \   'errorformat': '(Slim::Parser::SyntaxError)',
+          \ }
+    let g:quickrun_config['slim/watchdogs_checker'] = {
+          \   'type': 'watchdogs_checker/slim',
+          \ }
+  end
+  let g:watchdogs_check_BufWritePost_enable = 1
+  let g:watchdogs_check_BufWritePost_enables = {
+      \   "cpp"    : 1,
+      \   "python" : 0,
+      \   "vim"    : 0,
+      \   "php"    : 1,
+      \   "ruby"   : 1
+      \ }
+  let g:watchdogs_check_CursorHold_enable = 0
+  call watchdogs#setup(g:quickrun_config)
+  call neobundle#untap()
+endif
+" }}}
+
+if neobundle#tap('vim-qfstatusline') " {{{
+  function! StatuslineUpdate()
+      return qfstatusline#Update()
+  endfunction
+  let g:Qfstatusline#UpdateCmd = function('StatuslineUpdate')
+endif
+" }}}
