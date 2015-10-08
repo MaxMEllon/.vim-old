@@ -248,14 +248,12 @@ endif
 if neobundle#tap('vim-quickrun') " {{{
   let g:quickrun_config = {
         \  '_': {
-        \     'hock/close_buffer/enable_hock_loaded' : 1,
-        \     'hock/close_buffer/enable_empty_data' : 1,
-        \     'hock/close_buffer/enable_success' : 1,
         \     'runner' : 'vimproc',
         \     'runner/vimproc/updatetime' : 60,
-        \     'outputter' : 'multi:buffer:quickfix',
         \     'outputter/buffer/split' : ':botright 8sp',
         \     'hook/time/enable': '1',
+        \     "hook/back_window/enable" : 1,
+        \     "hook/back_window/enable_exit" : 1,
         \   }
         \ }
   let g:quickrun_config['slim'] = {'command' : 'slimrb', 'exec' : ['%c -p %s']}
@@ -704,15 +702,18 @@ endif
 " }}}
 
 if neobundle#tap('vim-watchdogs') "{{{
-  let g:quickrun_config["watchdogs_checker/_"] = {
-      \   "runner" : "vimproc",
-      \   "runner/vimproc/sleep" : 10,
-      \   "runner/vimproc/updatetime" : 500,
-      \   "outputter" : "error",
-      \   "outputter/error/success" : "buffer",
-      \   "outputter/error/error"   : "quickfix",
-      \   "outputter/quickfix/open_cmd" : "copen",
-      \   "outputter/buffer/split" : ":botright 8sp",
+  let g:quickrun_config['watchdogs_checker/_'] = {
+      \   'runner' : 'vimproc',
+      \   'runner/vimproc/sleep' : 10,
+      \   'runner/vimproc/updatetime' : 500,
+      \   'hook/echo/enable' : 1,
+      \   'hook/echo/output_success': '> No Errors Found.',
+      \   'hook/back_window/enable' : 1,
+      \   'hook/back_window/enable_exit' : 1,
+      \   'hock/close_buffer/enable_hock_loaded' : 1,
+      \   'hock/close_buffer/enable_success' : 1,
+      \   'hook/qfstatusline_update/enable_exit' : 1,
+      \   'hook/qfstatusline_update/priority_exit' : 4,
       \ }
   let g:watchdogs_check_BufWritePost_enable_on_wq = 0
   let g:quickrun_config['watchdogs_checker/clang++'] = {
