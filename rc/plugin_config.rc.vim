@@ -607,6 +607,12 @@ endif
 
 if neobundle#tap('auto-ctags.vim') "{{{
   let g:auto_ctags = 1
+
+  augroup AutoCtags
+    autocmd!
+    autocmd FileType coffee let g:auto_ctags = 0
+  augroup END
+
   let g:auto_ctags_directory_list = ['.git', '.svn']
   call neobundle#untap()
 endif
@@ -767,7 +773,9 @@ if neobundle#tap('vim-watchdogs') "{{{
       \   "python" : 0,
       \   "vim"    : 0,
       \   "php"    : 1,
-      \   "ruby"   : 1
+      \   "ruby"   : 0,
+      \   "slim"   : 1,
+      \   "sass"   : 1,
       \ }
   let g:watchdogs_check_CursorHold_enable = 0
   call watchdogs#setup(g:quickrun_config)
