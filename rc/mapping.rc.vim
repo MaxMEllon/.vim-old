@@ -82,8 +82,8 @@ inoremap <C-j><C-j> <Esc>`^
 vnoremap <C-j><C-j> <Esc>
 
 " vv矩形ビジュアル,vvvで行ビジュアル
-vnoremap v  <C-v>
-vnoremap vv <S-v>
+vnoremap v  <S-v>
+vnoremap vv <C-v>
 
 inoremap <C-l> <Right>
 

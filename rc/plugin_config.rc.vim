@@ -700,8 +700,7 @@ if neobundle#tap('vim-marching') "{{{
   if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
   endif
-  let g:neocomplete#force_omni_input_patterns.cpp =
-        \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
   let g:marching_enable_neocomplete = 1
   call neobundle#untap()
 endif
