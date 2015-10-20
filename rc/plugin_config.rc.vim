@@ -374,6 +374,12 @@ if neobundle#tap('unite.vim') "{{{
   nnoremap [unite]l :<C-u>Unite -start-insert locate<CR>
   "gでUnite grep
   nnoremap [unite]g :<C-u>Unite -buffer-name=search -winheight=20 -no-quit grep<CR>
+  nnoremap ,g :<C-u>Unite -buffer-name=search -winheight=20 -no-quit grep<CR>
+  if executable('hw')
+    let g:unite_source_grep_command = 'hw'
+    let g:unite_source_grep_default_opts = '--no-group --no-color'
+    let g:unite_source_grep_recursive_opt = ''
+  endif
   "wでUnite window
   nnoremap [unite]w :<C-u>Unite window<CR>
   "sでUnite source
