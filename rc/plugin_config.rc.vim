@@ -373,13 +373,13 @@ if neobundle#tap('unite.vim') "{{{
   "lでUnite locate
   nnoremap [unite]l :<C-u>Unite -start-insert locate<CR>
   "gでUnite grep
-  nnoremap [unite]g :<C-u>Unite -buffer-name=search -winheight=20 -no-quit grep<CR>
-  nnoremap ,g :<C-u>Unite -buffer-name=search -winheight=20 -no-quit grep<CR>
-  if executable('hw')
-    let g:unite_source_grep_command = 'hw'
-    let g:unite_source_grep_default_opts = '--no-group --no-color'
-    let g:unite_source_grep_recursive_opt = ''
-  endif
+  nnoremap [unite]g :<C-u>Unite -buffer-name=search-buffer -winheight=20 -no-quit grep<CR>
+  nnoremap ,g :<C-u>Unite grep:. -buffer-name=search-buffer -no-quit<CR>
+  " if executable('hw')
+  "   let g:unite_source_grep_command = 'hw'
+  "   let g:unite_source_grep_default_opts = '--no-group --no-color'
+  "   let g:unite_source_grep_recursive_opt = ''
+  " endif
   "wでUnite window
   nnoremap [unite]w :<C-u>Unite window<CR>
   "sでUnite source
@@ -779,8 +779,8 @@ if neobundle#tap('vim-watchdogs') "{{{
       \   "vim"    : 0,
       \   "php"    : 1,
       \   "ruby"   : 0,
-      \   "slim"   : 1,
-      \   "sass"   : 1,
+      \   "slim"   : 0,
+      \   "sass"   : 0,
       \ }
   let g:watchdogs_check_CursorHold_enable = 0
   call watchdogs#setup(g:quickrun_config)
