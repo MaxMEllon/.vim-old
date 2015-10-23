@@ -141,15 +141,18 @@ if neobundle#tap('lightline.vim') " {{{
         \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
         \                [ 'anzu', 'fugitive', 'gitgutter' ],
         \                [ 'filename' ] ],
-        \     'right': [ [ 'filetype' ],
+        \     'right': [ [ 'qfstatusline' ],
+        \                [ 'filetype' ],
         \                [ 'fileencoding' ],
         \                [ 'fileformat' ] ]
         \   },
         \   'component_expand': {
         \     'syntastic': 'SyntasticStatuslineFlag',
+        \     'qfstatusline' : 'qfstatusline#Update'
         \   },
         \   'component_type': {
         \     'syntastic': 'error',
+        \     'qfstatusline': 'error',
         \   },
         \   'component_function': {
         \     'anzu' : 'anzu#search_status',
@@ -158,6 +161,8 @@ if neobundle#tap('lightline.vim') " {{{
         \     'mode' : 'MyMode'
         \   }
         \ }
+
+  let g:Qfstatusline#UpdateCmd = function('lightline#update')
 
   function! MyMode()
     let fname = expand('%:t')
