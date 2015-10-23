@@ -49,6 +49,7 @@ else
   NeoBundle 'Yggdroot/indentLine'
   NeoBundle 'airblade/vim-gitgutter'
   NeoBundle 'cohama/vim-hier'
+  NeoBundle 'cohama/lexima.vim'
   NeoBundle 'dannyob/quickfixstatus'
   NeoBundle 'haya14busa/incsearch.vim'
   NeoBundle 'itchyny/lightline.vim'
@@ -63,7 +64,7 @@ else
   " NeoBundle 'scrooloose/syntastic'
   NeoBundle 'soramugi/auto-ctags.vim'
   NeoBundle 'thinca/vim-singleton'
-  NeoBundle 'tpope/vim-endwise'
+  " NeoBundle 'tpope/vim-endwise'
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'tyru/caw.vim'
   NeoBundle 'vimtaku/hl_matchit.vim'
@@ -281,7 +282,7 @@ else
 
   " cpp {{{
   NeoBundleLazy 'osyo-manga/vim-marching',  {
-        \ 'depends' : ['Shougo/vimproc.vim',  'osyo-manga/vim-reunions'],
+        \ 'depends' : ['Shougo/vimproc',  'osyo-manga/vim-reunions'],
         \ 'autoload' : {'filetypes' : ['c', 'cpp'] } }
   NeoBundleLazy 'octol/vim-cpp-enhanced-highlight', {
         \ 'autoload' : {'filetypes' : ['c',  'cpp']} }
@@ -323,3 +324,4 @@ else
   NeoBundleSaveCache
 " }}}
 endif
+
