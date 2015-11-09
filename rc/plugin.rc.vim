@@ -110,16 +110,6 @@ else
         \       'RSpecAll', 'RSpecNearest', 'RSpecRetry',
         \       'RSpecCurrent', 'RSpec' ] }}
   NeoBundleLazy 'basyura/TweetVim'
-  NeoBundleLazy 'ctrlpvim/ctrlp.vim', {
-        \ 'autoload': {
-        \   'commands': ['CtrlPMixed', 'CtrlPClearAllCaches', 'CtrlPCurWD',
-        \                'CtrlP', 'CtrlPRTS', 'CtrlPBuffer', 'CtrlPMRUFiles',
-        \                'CtrlPBookmarkDirAdd', 'CtrlPDir', 'CtrlPRoot',
-        \                'CtrlPChange', 'ClearCtrlPCache', 'CtrlPLine',
-        \                'ClearAllCtrlPCaches', 'CtrlPBufTagAll',
-        \                'CtrlPClearCache', 'CtrlPQuickfix', 'CtrlPBufTag',
-        \                'CtrlPTag', 'CtrlPCurFile', 'CtrlPLastMode',
-        \                'CtrlPUndo', 'CtrlPChangeAll', 'CtrlPBookmarkDir']}}
   NeoBundleLazy 'junegunn/vim-easy-align', {
         \ 'autoload': {
         \   'mappings': ['<Plug>(EasyAlignOperator)',
