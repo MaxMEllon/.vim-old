@@ -691,7 +691,6 @@ endif
 " }}}
 
 if neobundle#tap('vim-singleton') "{{{
-  call singleton#enable()
   call neobundle#untap()
 endif
 "}}}
@@ -787,6 +786,7 @@ if neobundle#tap('vim-watchdogs') "{{{
       \   "php"    : 1,
       \   "ruby"   : 0,
       \   "slim"   : 0,
+      \   "java"   : 0,
       \   "sass"   : 0,
       \ }
   let g:watchdogs_check_CursorHold_enable = 0
