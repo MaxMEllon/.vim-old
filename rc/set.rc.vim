@@ -34,6 +34,9 @@ set splitright                " 縦分割時、新しいウィンドウは右
 set t_Co=256
 set tags+=.svn/tags
 set tags+=.git/tags
+if has("path_extra")
+  set tags+=tags;
+endif
 set textwidth=0
 set ttyfast                   " スクロールが滑らかに
 if ! has('nvim')
@@ -144,4 +147,3 @@ let g:markdown_fenced_languages = [
       \  'sass',
       \  'xml',
       \]
-

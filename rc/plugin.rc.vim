@@ -146,6 +146,12 @@ else
         \                'UndotreeShow',
         \                'UndotreeHide',
         \                'UndotreeFocus'] } }
+  NeoBundleLazy "majutsushi/tagbar", {
+        \ "autoload": { "commands": ["TagbarToggle"] }}
+  if ! empty(neobundle#get("tagbar"))
+    let g:tagbar_width = 20
+    nnoremap <silent> <leader>t :TagbarToggle<CR>
+  endif
   NeoBundleLazy 'mopp/AOJ.vim', {
         \ 'autoload': {
         \   'unite_sources': ['AOJ_Problems', 'AOJ_Statistics'],
@@ -215,6 +221,7 @@ else
   NeoBundle     'basyura/unite-rails', {'autoload': {'unite_sources': ['rails']}}
   NeoBundle     'MaxMEllon/unite-rails-fat', { 'depends' : [ 'basyura/unite-rails' ] }
   NeoBundle     'osyo-manga/unite-filetype', { 'depends' : [ 'Shougo/unite.vim' ] }
+  NeoBundle     'Shougo/unite-build', { 'depends' : [ 'Shougo/unite.vim' ] }
   NeoBundleLazy 'Shougo/unite-outline', {
         \ 'autoload': {
         \   'unite_sources': ['outline'] } }
@@ -243,6 +250,19 @@ else
         \ 'autoload':{
         \   'filetypes': ['html', 'php', 'markdown', 'coffee', 'js'] } }
   NeoBundleLazy 'slim-template/vim-slim', {'autoload':{'filetypes':['slim']}}
+  " }}}
+
+  " java {{{
+  NeoBundleLazy 'vim-scripts/javacomplete', {
+        \ 'autoload':{
+        \   'filetypes': ['java']},
+        \ 'build': {
+        \     'cygwin': 'javac autoload/Reflection.java',
+        \     'mac': 'javac autoload/Reflection.java',
+        \     'unix': 'javac autoload/Reflection.java', }, }
+  NeoBundleLazy 'moznion/jcommenter.vim', {
+        \ 'autoload':{
+        \   'filetypes': ['java'] } }
   " }}}
 
   " ruby {{{

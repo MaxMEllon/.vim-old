@@ -20,6 +20,7 @@ Autocmd VimEnter COMMIT_EDITMSG if getline(1) == '' | execute 1 | startinsert | 
 Autocmd InsertLeave * set nopaste
 AutocmdFT python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
 AutocmdFT php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
+AutocmdFT java     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
 AutocmdFT make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
 AutocmdFT yaml     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2

@@ -167,7 +167,7 @@ if neobundle#tap('lightline.vim') " {{{
   function! MyMode()
     let fname = expand('%:t')
      return  fname =~ 'NERD_tree' ? 'NERDTree' :
-          \ &ft == 'unite' ? 'Unite' :
+          \ &ft == 'utenite' ? 'Unite' :
           \ &ft == 'vimfiler' ? 'VimFiler' :
           \ &ft == 'vimshell' ? 'VimShell' :
           \ &ft == 'undotree' ? 'UndoTree' :
@@ -400,6 +400,12 @@ if neobundle#tap('unite.vim') "{{{
 endif
 " }}}
 
+if neobundle#tap('unite-build') " {{{
+  nnoremap ,b :<C-u>Unite build:make -buffer-name=unite-build -winheight=20<CR>
+  call neobundle#untap()
+endif
+" }}}
+
 if neobundle#tap('unite-rails') " {{{
   nnoremap ,rc :<C-u>Unite rails/controller<CR>
   nnoremap ,rm :<C-u>Unite rails/model<CR>
@@ -426,7 +432,7 @@ if neobundle#tap('unite-outline') "{{{
   nnoremap ,o :<C-u>Unite -vertical outline<CR>
   call neobundle#untap()
 endif
-"}}}
+" }}}
 
 if neobundle#tap('caw.vim') "{{{
   nmap ,c <Plug>(caw:i:toggle)
