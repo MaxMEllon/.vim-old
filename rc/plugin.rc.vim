@@ -323,6 +323,7 @@ else
 
   " color
   NeoBundle     'MaxMellon/molokai'
+  NeoBundle     'vim-scripts/AnsiEsc.vim'
   NeoBundleLazy 'altercation/vim-colors-solarized'
   NeoBundleLazy 'Wombat256.vim'
   NeoBundleLazy 'vim-scripts/twilight'
