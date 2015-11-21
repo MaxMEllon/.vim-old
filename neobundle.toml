@@ -1,0 +1,124 @@
+[[plugins]]
+repository = 'MaxMellon/molokai'
+
+[[plugins]]
+repository = 'Shougo/neomru.vim'
+
+[[plugins]]
+repository = 'Shougo/unite.vim'
+
+[[plugins]]
+repository = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
+repository = 'The-NERD-tree'
+
+[[plugins]]
+repository = 'AndrewRadev/splitjoin.vim'
+
+[[plugins]]
+repository = 'AndrewRadev/switch.vim'
+
+[[plugins]]
+repository = 'LeafCage/foldCC.vim'
+
+# [[plugins]]
+# repository = 'Shougo/neosnippet'
+
+# [[plugins]]
+# repository = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repository = 'Yggdroot/indentLine'
+
+[[plugins]]
+repository = 'airblade/vim-gitgutter'
+
+[[plugins]]
+repository = 'cohama/vim-hier'
+
+[[plugins]]
+repository = 'cohama/lexima.vim'
+
+[[plugins]]
+repository = 'dannyob/quickfixstatus'
+
+[[plugins]]
+repository = 'haya14busa/incsearch.vim'
+
+[[plugins]]
+repository = 'itchyny/lightline.vim'
+
+[[plugins]]
+repository = 'KazuakiM/vim-qfstatusline'
+
+[[plugins]]
+repository = 'matchit.zip'
+
+[[plugins]]
+repository = 'mattn/webapi-vim'
+
+[[plugins]]
+repository = 'mhinz/vim-startify'
+
+[[plugins]]
+repository = 'osyo-manga/shabadou.vim'
+
+[[plugins]]
+repository = 'osyo-manga/vim-watchdogs'
+
+[[plugins]]
+repository = 'rhysd/clever-f.vim'
+
+[[plugins]]
+repository = 'soramugi/auto-ctags.vim'
+
+[[plugins]]
+repository = 'thinca/vim-singleton'
+
+[[plugins]]
+repository = 'tpope/vim-fugitive'
+
+[[plugins]]
+repository = 'tyru/caw.vim'
+
+[[plugins]]
+repository = 'vimtaku/hl_matchit.vim'
+
+[[plugins]]
+repository = 'yonchu/accelerated-smooth-scroll'
+
+[[plugins]]
+repository = 'basyura/unite-rails'
+unite_sources = ['rails']
+
+[[plugins]]
+repository = 'MaxMEllon/unite-rails-fat'
+depends = [ 'basyura/unite-rails' ]
+
+[[plugins]]
+repository = 'osyo-manga/unite-filetype'
+depends = [ 'Shougo/unite.vim' ]
+
+[[plugins]]
+repository = 'Shougo/unite-build'
+depends = [ 'Shougo/unite.vim' ]
+
+[[plugins]]
+repository = 'chase/vim-ansible-yaml'
+
+[[plugins]]
+repository = 'cespare/vim-toml'
+filetypes = 'toml'
+
+[[plugins]]
+repository = 'Shougo/neocomplete.vim'
+depends = 'Shougo/context_filetype.vim'
+insert = 1
+
+[[plugins]]
+repository = 'Shougo/deoplete.nvim'
+depends = 'Shougo/context_filetype.vim'
+insert = 1
+neovim = 1
