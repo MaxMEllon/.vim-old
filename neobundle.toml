@@ -2,6 +2,9 @@
 repository = 'MaxMellon/molokai'
 
 [[plugins]]
+repository = 'altercation/vim-colors-solarized'
+
+[[plugins]]
 repository = 'Shougo/neomru.vim'
 
 [[plugins]]

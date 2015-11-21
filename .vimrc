@@ -123,7 +123,7 @@ set backup
 if !isdirectory(expand('~/.vim/_undo'))
   call mkdir($HOME.'/.vim/_undo', 'p')
 endif
-set undodir=~/.vim/undo
+set undodir=~/.vim/_undo
 set undofile
 set undolevels=200
 " }}}
@@ -577,11 +577,8 @@ if neobundle#tap('vimshell.vim') "{{{
     \      'commands' : ['VimShell', 'VimShellPop']
     \   }
     \ })
-  nnoremap <Space>sh :VimShellPop -toggle<CR>
+  nnoremap <Space>vsh :VimShellPop -toggle<CR>
   nnoremap <Space>cd :VimShellCurrentDir<CR>
-  nnoremap <Space>rb :VimShellInteractive irb<CR>
-  nnoremap <Space>rc :VimShellInteractive rails c<CR>
-  " nnoremap ,pry :VimShellInteractive pry<CR>
   let g:vimshell_prompt_expr = 'getcwd()." > "'
   let g:vimshell_prompt_pattern = '^\f\+ > '
   if IsMac()
