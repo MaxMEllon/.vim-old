@@ -473,7 +473,7 @@ if neobundle#load_cache()
         \                'OverCommandLineUnmap'] } }
   " }}}
   " depend-vimproc {{{
-  NeoBundleLazy 'Shougo/vimshell.vim', {'depends' : 'Shougo/vimproc'}
+  NeoBundleLazy 'Shougo/vimshell.vim', {'depends' : 'Shougo/vimproc.vim'}
   NeoBundleLazy 'supermomonga/vimshell-pure.vim', {'depends' : 'Shougo/vimshell.vim'}
   NeoBundleLazy 'thinca/vim-quickrun', {
         \ 'autoload': {
