@@ -1,6 +1,11 @@
-<p align="center">
-  <h2>.vimrc</h2>
-</p>
+<div align="center">
+  <img src='./img/logo.png'>
+</div>
 
 - - -
+
+## .vimrc
+
+  - .nvimrc #=> .config/nvim/init.vim
+  - .gvimrc
 
