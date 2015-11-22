@@ -582,8 +582,8 @@ if neobundle#tap('lightline.vim') " {{{
         \   'component': {
         \     'readonly': '%{&readonly?"\u2b64":""}',
         \   },
-        \   'separator': { 'left': "\u2b80", 'right': "\u2b82" },
-        \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
+        \   'separator': { 'left': "|", 'right': "|" },
+        \   'subseparator': { 'left': "|", 'right': "|" },
         \   'active': {
         \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
         \                [ 'anzu', 'fugitive', 'gitgutter' ],
