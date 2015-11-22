@@ -380,17 +380,16 @@ if neobundle#load_cache()
   " ruby {{{
   NeoBundleLazy 'keith/rspec.vim', {'autoload':{'filetypes':[ 'rspec' ]}}
   NeoBundleLazy 'vim-ruby/vim-ruby', {'autoload':{'filetypes':['ruby']}}
-  " if executable('rct-complete')
-  "   " NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
-  " else
-  NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
-  " endif
-  " NeoBundleLazy 'MaxMEllon/ruby_matchit', {'autoload':{'filetypes':['ruby']}}
+  if executable('rct-complete')
+    NeoBundleLazy 'osyo-manga/vim-monster', {'autoload':{'filetype': ['ruby']}}
+  else
+    NeoBundleLazy 'NigoroJr/rsense', { 'autoload': { 'filetypes': 'ruby', }, }
+  endif
   if has('ruby')
     NeoBundle 'todesking/ruby_hl_lvar.vim'
   endif
   NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', {
-        \ 'depends': ['Shougo/neocomplete.vim', 'marcus/rsense'],
+        \ 'depends': ['Shougo/neocomplete.vim', 'NigoroJr/rsense'],
         \ 'autoload' : {'filetypes': ['ruby']} }
   " }}}
   " php {{{
@@ -415,16 +414,6 @@ if neobundle#load_cache()
   NeoBundleLazy 'elixir-lang/vim-elixir', { 'autoload': { 'filetypes': ['elixir'] } }
   NeoBundleLazy 'tmux-plugins/vim-tmux', {'autoload':{'filetypes':['conf','tmux']}}
   " }}}
-  " }}}
-  " textobj {{{
-  NeoBundle 'surround.vim'
-  NeoBundle 'glts/vim-textobj-comment'
-  NeoBundle 'kana/vim-textobj-fold'
-  NeoBundle 'kana/vim-textobj-line'
-  NeoBundle 'kana/vim-textobj-user'
-  NeoBundle 'mattn/vim-textobj-url'
-  NeoBundle 'rhysd/vim-textobj-ruby'
-  NeoBundle 'osyo-manga/vim-textobj-multiblock'
   " }}}
   " neobundle#config {{{
 if neobundle#tap('vimshell.vim') "{{{
@@ -453,8 +442,6 @@ if neobundle#tap('vimshell-pure.vim') "{{{
 endif
 "}}}
   " }}}
-  " framework
-  NeoBundle     'tpope/vim-rails'
   " }}}
   NeoBundleSaveCache
 endif
@@ -563,6 +550,11 @@ if neobundle#tap('neocomplete.vim') " {{{
   AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
   AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
 
+  call neobundle#untap()
+endif
+" }}}
+if neobundle#tap('deoplete.nvim') " {{{
+  let g:deoplete#enable_at_startup = 1
   call neobundle#untap()
 endif
 " }}}
@@ -976,11 +968,10 @@ if neobundle#tap('neocomplete-rsense.vim') "{{{
     let g:neocomplcache_omni_patterns = {}
   endif
   let g:rsenseUseOmniFunc = 1
-  if filereadable(expand('~/git/rsense/bin/rsense'))
-    let g:rsenseHome = expand('~/git/rsense')
+  if filereadable(expand('/usr/local/bin/rsense'))
+    let g:rsenseHome = expand('/usr/local/bin/rsense')
     let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
   endif
-  let g:rsenseUseOmniFunc = 1
   call neobundle#untap()
 endif
 " }}}
@@ -1009,6 +1000,16 @@ if neobundle#tap('vim-markdown-quote-syntax') "{{{
       \     "start" : "mustache",
       \  },
       \}
+let g:markdown_fenced_languages = [
+      \  'css',
+      \  'erb=eruby',
+      \  'javascript',
+      \  'js=javascript',
+      \  'json=javascript',
+      \  'ruby',
+      \  'sass',
+      \  'xml',
+      \]
   call neobundle#untap()
 endif
 "}}}
@@ -1352,18 +1353,6 @@ scriptencoding     utf-8
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
 set ambiwidth     =double        " ２バイト特殊文字の幅調整
 " }}}
-" etc {{{
-let g:markdown_fenced_languages = [
-      \  'css',
-      \  'erb=eruby',
-      \  'javascript',
-      \  'js=javascript',
-      \  'json=javascript',
-      \  'ruby',
-      \  'sass',
-      \  'xml',
-      \]
-" }}}
 " }}}
 " autocmd {{{
 " filetype {{{
@@ -1391,6 +1380,7 @@ AutocmdFT yaml     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2
 AutocmdFT coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
+AutocmdFT toml     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 AutocmdFT plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 " }}}
 " QuickFix {{{

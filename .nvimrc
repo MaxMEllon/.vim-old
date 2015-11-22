@@ -3,4 +3,3 @@ if has('nvim')
         \  . expand('~/.vim/after/') . ', ' . &rtp
   runtime! plugin/python_setup.vim
 endif
-source ~/.vim/.vimrc
