@@ -582,8 +582,8 @@ if neobundle#tap('lightline.vim') " {{{
         \   'component': {
         \     'readonly': '%{&readonly?"\u2b64":""}',
         \   },
-        \   'separator': { 'left': "|", 'right': "|" },
-        \   'subseparator': { 'left': "|", 'right': "|" },
+        \   'separator': { 'left': " ", 'right': " " },
+        \   'subseparator': { 'left': " ", 'right': " " },
         \   'active': {
         \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
         \                [ 'anzu', 'fugitive', 'gitgutter' ],
@@ -1353,6 +1353,27 @@ scriptencoding     utf-8
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
 set ambiwidth     =double        " ２バイト特殊文字の幅調整
 " }}}
+" clpum {{{
+if exists('+clpum')
+  set clpum
+  set clpumheight=40
+  set clcompleteopt+=noinsert
+  set clcompletefunc=UserDefinedClComplete
+  function! UserDefinedClComplete(findstart, base)
+    if a:findstart
+      return 0
+    else
+      return [
+      \   { 'word': 'Jan', 'menu': 'January' },
+      \   { 'word': 'Feb', 'menu': 'February' },
+      \   { 'word': 'Mar', 'menu': 'March' },
+      \   { 'word': 'Apr', 'menu': 'April' },
+      \   { 'word': 'May', 'menu': 'May' },
+      \ ]
+    endif
+  endfunc
+endif
+" }}}
 " }}}
 " autocmd {{{
 " filetype {{{
@@ -1549,6 +1570,7 @@ xnoremap < <gv
 " }}}
 " insert {{{
 inoremap <C-Tab> <C-v><Tab>
+inoremap <S-Tab> <C-v><Tab>
 inoremap <C-l> <Right>
 inoremap <C-e> <End>
 " }}}
@@ -1613,6 +1635,7 @@ vnoremap ; :
 " history {{{
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+cnoremap <Tab> <C-d>
 nnoremap <sid>vcommand-line-enter) q:
 xnoremap <sid>(command-line-enter) q:
 nnoremap <sid>(command-line-norange) q:<C-u>
@@ -1628,6 +1651,7 @@ function! s:init_cmdwin()
   setlocal nolist! number! relativenumber!
   nnoremap <silent><buffer>q :<C-u>q<CR>
   nnoremap <silent><buffer><CR> A<CR>
+  inoremap <buffer><silent> <Tab> <C-d>
   inoremap <buffer><expr><CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
   inoremap <buffer><expr><C-h> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
   inoremap <buffer><expr><BS> pumvisible() ? "\<C-y>\<C-h>" : "\<C-h>"
