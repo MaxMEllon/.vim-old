@@ -20,6 +20,17 @@
 
 " start up {{{
 if !1 | finish | endif
+" Startup time. {{{
+" See: https://gist.github.com/thinca/1518874
+if has('vim_starting') && has('reltime')
+  let s:startuptime = reltime()
+  augroup vimrc-startuptime
+    autocmd! VimEnter *
+          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+          \ | unlet s:startuptime
+  augroup END
+endif
+"}}}
 " autocmd {{{
 " See: https://github.com/rhysd/dotfiles/blob/master/vimrc#23-27
 augroup MyVimrc
@@ -46,17 +57,6 @@ function! IsMac()
       \     system('uname') =~? '^darwin'))
 endfunction
 " }}}
-" Startup time. {{{
-" See: https://gist.github.com/thinca/1518874
-if has('vim_starting') && has('reltime')
-  let s:startuptime = reltime()
-  augroup vimrc-startuptime
-    autocmd! VimEnter *
-          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
-          \ | unlet s:startuptime
-  augroup END
-endif
-"}}}
 "}}}
 " encoding {{{
 " See:
@@ -929,6 +929,19 @@ if neobundle#tap('surround.vim') "{{{
   call neobundle#untap()
 endif
 " }}}
+if neobundle#tap('SrcExpr') " {{{
+  " プレビューウインドウの高さ
+  let g:SrcExpl_WinHeight     = 9
+  " tagsは自動で作成する
+  let g:SrcExpl_UpdateTags    = 1
+  " マッピング
+  let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
+  let g:SrcExpl_RefreshMapKey = "<Space>"
+  let g:SrcExpl_GoBackMapKey  = "<C-b>"
+  nmap <F8> :SrcExplToggle<CR>
+  call neobundle#untap()
+endif
+" }}}
 if neobundle#tap('vim-easy-align') "{{{
   vnoremap <Enter> :EasyAlign<CR>
   call neobundle#untap()
@@ -1262,7 +1275,7 @@ endif
 set textwidth=0
 set ttyfast                   " スクロールが滑らかに
 if ! has('nvim')
-  set ttyscroll=3000
+  set ttyscroll=1
 endif
 set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
@@ -1294,7 +1307,7 @@ set undolevels=200
 " colorcolumn {{{
 " See: http://mattn.kaoriya.net/software/vim/20150209151638.htm
 if (exists('+colorcolumn'))
-  set colorcolumn=90,100,120
+  set colorcolumn=80,100
 endif
 " }}}
 " search {{{
@@ -1322,6 +1335,7 @@ set tabstop     =2
 set softtabstop =2
 set autoindent
 set smartindent
+set cindent
 set smarttab
 " }}}
 " tab-editer {{{
@@ -1356,22 +1370,30 @@ set ambiwidth     =double        " ２バイト特殊文字の幅調整
 " clpum {{{
 if exists('+clpum')
   set clpum
-  set clpumheight=40
+  set clpumheight=20
   set clcompleteopt+=noinsert
-  set clcompletefunc=UserDefinedClComplete
-  function! UserDefinedClComplete(findstart, base)
-    if a:findstart
-      return 0
-    else
-      return [
-      \   { 'word': 'Jan', 'menu': 'January' },
-      \   { 'word': 'Feb', 'menu': 'February' },
-      \   { 'word': 'Mar', 'menu': 'March' },
-      \   { 'word': 'Apr', 'menu': 'April' },
-      \   { 'word': 'May', 'menu': 'May' },
-      \ ]
-    endif
-  endfunc
+endif
+" }}}
+" fast scroll {{{
+"" Fast vertical scroll
+" source: http://qiita.com/kefir_/items/c725731d33de4d8fb096
+" Use vsplit mode
+if has('vim_starting') && !has('gui_running') && has('vertsplit')
+  function! g:EnableVsplitMode()
+    " enable origin mode and left/right margins
+    let &t_CS = "y"
+    let &t_ti = &t_ti . "\e[?6;69h"
+    let &t_te = "\e[?6;69l" . &t_te
+    let &t_CV = "\e[%i%p1%d;%p2%ds"
+    call writefile([ "\e[?6h\e[?69h" ], "/dev/tty", "a")
+  endfunction
+  " old vim does not ignore CPR
+  map <special> <Esc>[3;9R <Nop>
+  " new vim can't handle CPR with direct mapping
+  " map <expr> ^[[3;3R g:EnableVsplitMode()
+  set t_F9=^[[3;3R
+  map <expr> <t_F9> g:EnableVsplitMode()
+  let &t_RV .= "\e[?6;69h\e[1;3s\e[3;9H\e[6n\e[0;0s\e[?6;69l"
 endif
 " }}}
 " }}}
@@ -1390,9 +1412,6 @@ Autocmd BufNewFile,BufRead *.exs     set filetype=elixir
 Autocmd BufNewFile,BufRead *.ex      set filetype=elixir
 Autocmd BufNewFile,BufRead *.toml    set filetype=toml
 Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
-Autocmd QuickFixCmdPost make,*grep* cwindow
-Autocmd VimEnter COMMIT_EDITMSG if getline(1) == '' | execute 1 | startinsert | endif
-Autocmd InsertLeave * set nopaste
 AutocmdFT python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
 AutocmdFT php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
 AutocmdFT java     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
@@ -1413,9 +1432,6 @@ Autocmd VimEnter COMMIT_EDITMSG if getline(1) == ''
 " }}}
 AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
 AutocmdFT sass,scss,css setlocal iskeyword+=-
-Autocmd BufRead *   if line("'\"") > 0 && line("'\"") <= line("$")
-                \ |   exe "normal g`\""
-                \ | endif
 " tails space highlight
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
     \ * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
@@ -1435,7 +1451,7 @@ function! LoadHelp() "{{{
   set runtimepath+=~/.vim/help/vimdoc-ja
   set helplang=ja
 endfunction
-  AutocmdFT help call LoadHelp()
+AutocmdFT help call LoadHelp()
 nnoremap <silent> ,h :<C-u>call LoadHelp()<CR> :help <C-r><C-w><CR>
 "}}}
 function! RemoveFancyCharacters() "{{{
@@ -1745,5 +1761,6 @@ endtry
 syntax on
 "}}}
 " END {{{
+filetype indent on
 set secure " vimrcの最後に記述 vimhelpより
 " }}}

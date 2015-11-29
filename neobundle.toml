@@ -157,8 +157,12 @@ repository = 'tpope/vim-rails'
 repository = 'tyru/caw.vim'
 # }}}
 # V {{{
-[[plugins]]
-repository = 'vimtaku/hl_matchit.vim'
+# [[plugins]]
+# repository = 'vimtaku/hl_matchit.vim'
+# }}}
+# W {{{
+# [[plugins]]
+# repository = 'wesleyche/SrcExpl'
 # }}}
 # Y {{{
 [[plugins]]
