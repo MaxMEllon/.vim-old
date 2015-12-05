@@ -357,7 +357,7 @@ if neobundle#load_cache()
   NeoBundleLazy 'mtscout6/vim-cjsx', {'autoload':{'filetypes':['coffee']}}
   NeoBundleLazy 'othree/javascript-libraries-syntax.vim' , {
         \ 'autoload':{
-        \   'filetypes': ['html', 'coffee', 'js'] } }
+        \   'filetypes': ['coffee', 'js'] } }
   " }}}
   " html {{{
   NeoBundleLazy 'mattn/emmet-vim', {
@@ -407,6 +407,8 @@ if neobundle#load_cache()
         \ 'autoload' : {'filetypes' : ['c',  'cpp']} }
   NeoBundleLazy 'vim-jp/cpp-vim', {
         \ 'autoload' : {'filetypes' : ['c', 'cpp']} }
+  NeoBundleLazy 'Shougo/neoinclude.vim', {
+        \ 'autoload' : {'filetypes' : ['c', 'cpp'] } }
   " }}}
   " etc " {{{
   NeoBundleLazy 'MaxMellon/plantuml-syntax', {'autoload':{'filetypes':['plantuml']}}
@@ -1437,6 +1439,7 @@ Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
     \ * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
     \ * match TrailingSpaces /\s\+$/
+Autocmd InsertLeave * set nopaste
 " }}}
 " function {{{
 function! CopyModeToggle() " {{{
