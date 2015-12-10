@@ -1184,6 +1184,7 @@ if neobundle#tap('vim-watchdogs') "{{{
   end
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_BufWritePost_enables = {
+      \   "c"      : 0,
       \   "cpp"    : 1,
       \   "python" : 0,
       \   "vim"    : 0,
@@ -1442,22 +1443,23 @@ Autocmd BufNewFile,BufRead,VimEnter,WinEnter
 Autocmd InsertLeave * set nopaste
 " }}}
 " function {{{
-function! CopyModeToggle() " {{{
+function! s:copy_mode_toggle() " {{{
   setlocal nolist! number! relativenumber!
   GitGutterSignsToggle
   IndentLinesToggle
 endfunction
-nnoremap <silent> <C-c> :<C-u>call CopyModeToggle()<CR>
+command! CopyModeToggle :call s:copy_mode_toggle()
+nnoremap <silent> <C-c> :<C-u>CopyModeToggle<CR>
 " }}}
-function! LoadHelp() "{{{
+function! s:load_help() "{{{
   helptags ~/.vim/help/vimdoc-ja/doc
   set runtimepath+=~/.vim/help/vimdoc-ja
   set helplang=ja
 endfunction
-AutocmdFT help call LoadHelp()
-nnoremap <silent> ,h :<C-u>call LoadHelp()<CR> :help <C-r><C-w><CR>
+AutocmdFT help call load_help()
+nnoremap <silent> ,h :<C-u>call load_help()<CR> :help <C-r><C-w><CR>
 "}}}
-function! RemoveFancyCharacters() "{{{
+function! s:remove_fancy_characters() "{{{
   let typo = {}
   let typo["“"] = '"'
   let typo["”"] = '"'
@@ -1471,12 +1473,13 @@ function! RemoveFancyCharacters() "{{{
   :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 
-command! RemoveFancyCharacters :call RemoveFancyCharacters()
+command! RemoveFancyCharacters :call s:remove_fancy_characters()
 "}}}
-function! HasPlugin(plugin) " {{{
+function! s:has_plugin(plugin) " {{{
   return !empty(globpath(&runtimepath, 'plugin/' . a:plugin . '.vim'))
   \   || !empty(globpath(&runtimepath, 'autoload/' . a:plugin . '.vim'))
 endfunction
+command! HasPlugin -nargs=? :call s:has_plugin(<f-args>)
 " }}}
 " }}}
 " command {{{
@@ -1679,6 +1682,10 @@ function! s:init_cmdwin()
 endfunction
 " }}}
 " }}}
+" etc {{{
+nnoremap <C-m> :<C-u>G<Space>
+inoremap <C-m> :<C-u>G<Space>
+" }}}
 " clear screan
 nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR><ESC>
@@ -1725,14 +1732,14 @@ set statusline=[%n]
 " ファイル名表示
 set statusline+=%<%t:
 " git branch
-if HasPlugin('fugitive')
+if s:has_plugin('fugitive')
   set statusline+=%{fugitive#statusline()}
 endif
 " 構文チェック
-if HasPlugin('syntastic')
+if s:has_plugin('syntastic')
   set statusline+=%{SyntasticStatuslineFlag()}
 endif
-if HasPlugin('qfstatusline')
+if s:has_plugin('qfstatusline')
   set statusline+=%{StatuslineUpdate()}
 endif
 " 変更のチェック表示
