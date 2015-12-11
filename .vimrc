@@ -973,7 +973,7 @@ if neobundle#tap('clever-f.vim') " {{{
   let g:clever_f_use_migemo            = 1   " migemo likeな検索
   let g:clever_f_ignore_case           = 1   " ignore case
   let g:clever_f_fix_key_direction     = 1   " 行方向固定
-  let g:clever_f_across_no_line        = 0   " 行をまたがない
+  let g:clever_f_across_no_line        = 1   " 行をまたがない
   let g:clever_f_chars_match_any_signs = ';' " 記号は;
   call neobundle#untap()
 endif
@@ -1456,8 +1456,8 @@ function! s:load_help() "{{{
   set runtimepath+=~/.vim/help/vimdoc-ja
   set helplang=ja
 endfunction
-AutocmdFT help call load_help()
-nnoremap <silent> ,h :<C-u>call load_help()<CR> :help <C-r><C-w><CR>
+AutocmdFT help call s:load_help()
+nnoremap <silent> ,h :<C-u>call s:load_help()<CR> :help <C-r><C-w><CR>
 "}}}
 function! s:remove_fancy_characters() "{{{
   let typo = {}
@@ -1683,8 +1683,7 @@ endfunction
 " }}}
 " }}}
 " etc {{{
-nnoremap <C-m> :<C-u>G<Space>
-inoremap <C-m> :<C-u>G<Space>
+nnoremap <C-p> :<C-u>G<Space>
 " }}}
 " clear screan
 nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
