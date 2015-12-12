@@ -233,7 +233,13 @@ Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/unite-rails-fat', {'on' : 'Unite'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'Shougo/context_filetype.vim'
-Plug 'Shougo/neocomplete.vim'
+if has('lua')
+  Plug 'Shougo/neocomplete.vim'
+elseif has('nvim')
+  Plug 'Shougo/deoplete.nvim'
+else
+  Plug 'Shougo/neocomplcache.vim'
+endif
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
