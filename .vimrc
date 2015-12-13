@@ -226,6 +226,13 @@ endif
 " plugin {{{
 " load Plugin {{{
 call plug#begin('~/.vim/plugged')
+if has('lua')
+  Plug 'Shougo/neocomplete.vim'
+elseif has('nvim')
+  Plug 'Shougo/deoplete.nvim'
+else
+  Plug 'Shougo/neocomplcache.vim'
+endif
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/switch.vim'
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
@@ -234,15 +241,12 @@ Plug 'LeafCage/foldCC.vim'
 Plug 'LeafCage/yankround.vim'
 Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/unite-rails-fat', {'on' : 'Unite'}
+Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss']}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
+Plug 'MaxMellon/plantuml-syntax', {'for' : 'plantuml'}
+Plug 'PDV--phpDocumentor-for-Vim', {'for' : 'php'}
 Plug 'Shougo/context_filetype.vim'
-if has('lua')
-  Plug 'Shougo/neocomplete.vim'
-elseif has('nvim')
-  Plug 'Shougo/deoplete.nvim'
-else
-  Plug 'Shougo/neocomplcache.vim'
-endif
+Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
@@ -251,17 +255,19 @@ Plug 'Shougo/unite-outline'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'Shougo/vimshell.vim'
+Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 Plug 'The-NERD-tree'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 Plug 'altercation/vim-colors-solarized'
-Plug 'basyura/unite-rails', {'for' : 'ruby'}
+Plug 'basyura/unite-rails'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
 Plug 'chase/vim-ansible-yaml'
 Plug 'cohama/lexima.vim'
 Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'
+Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
 Plug 'glts/vim-textobj-comment'
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'haya14busa/incsearch-easymotion.vim'
@@ -274,10 +280,13 @@ Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
+Plug 'keith/rspec.vim'
 Plug 'koron/codic-vim'
+Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 Plug 'majutsushi/tagbar'
 Plug 'matchit.zip'
 Plug 'mattn/benchvimrc-vim'
+Plug 'mattn/emmet-vim'
 Plug 'mattn/emoji-vim'
 Plug 'mattn/gist-vim'
 Plug 'mattn/jscomplete-vim', {'for' : ['js', 'coffee']}
@@ -287,10 +296,12 @@ Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/unite-filetype'
 Plug 'osyo-manga/unite-quickfix'
 Plug 'osyo-manga/vim-anzu'
+Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-reunions'
 Plug 'osyo-manga/vim-textobj-multiblock'
@@ -298,6 +309,7 @@ Plug 'osyo-manga/vim-watchdogs'
 Plug 'othree/javascript-libraries-syntax.vim', {'for' : ['coffee', 'js']}
 Plug 'rhysd/clever-f.vim'
 Plug 'rhysd/vim-textobj-ruby'
+Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'soramugi/auto-ctags.vim'
 Plug 'supermomonga/vimshell-pure.vim'
 Plug 'surround.vim'
@@ -305,28 +317,17 @@ Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 Plug 'thinca/vim-singleton'
+Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'tyru/capture.vim', {'on' : 'Capture'}
 Plug 'tyru/caw.vim'
-Plug 'yonchu/accelerated-smooth-scroll'
-Plug 'mattn/emmet-vim'
-Plug 'slim-template/vim-slim', {'for' : 'slim'}
-Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
-Plug 'keith/rspec.vim'
-Plug 'vim-ruby/vim-ruby', {'for' : 'ruby'}
-Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
-Plug 'StanAngeloff/php.vim', {'for' : 'php'}
-Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
-Plug 'PDV--phpDocumentor-for-Vim', {'for' : 'php'}
-Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
-Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
-Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
-Plug 'MaxMellon/plantuml-syntax', {'for' : 'plantuml'}
-Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
-Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
+Plug 'vim-ruby/vim-ruby', {'for' : 'ruby'}
+Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
+Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
+Plug 'yonchu/accelerated-smooth-scroll'
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
 else
@@ -1071,6 +1072,9 @@ if HasPlugin('tagbar') " {{{
   nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
 " " }}}
+" vim-css-colors{{{
+let g:cssColorVimDoNotMessMyUpdatetime = 1
+" }}}
 " }}}
 " set {{{
 " common {{{
@@ -1548,7 +1552,7 @@ vnoremap : ;
 " history {{{
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-cnoremap <Tab> <C-d>
+" cnoremap <Tab> <C-d>
 nnoremap <sid>vcommand-line-enter) q:
 xnoremap <sid>(command-line-enter) q:
 nnoremap <sid>(command-line-norange) q:<C-u>
