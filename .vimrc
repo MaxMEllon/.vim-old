@@ -57,19 +57,6 @@ function! IsMac()
       \     system('uname') =~? '^darwin'))
 endfunction
 " }}}
-function! HasPlugin(name) "{{{
-    let nosuffix = a:name =~? '\.vim$' ? a:name[:-5] : a:name
-    let suffix   = a:name =~? '\.vim$' ? a:name      : a:name . '.vim'
-    let hyphen   = a:name =~? '\v(vim-){1}[A-z]*' ? a:name[4:] . '.vim' : a:name
-    return &rtp =~# '\c\<' . nosuffix . '\>'
-    \   || globpath(&rtp, suffix, 1) != ''
-    \   || globpath(&rtp, nosuffix, 1) != ''
-    \   || globpath(&rtp, hyphen, 1) != ''
-    \   || globpath(&rtp, 'autoload/' . suffix, 1) != ''
-    \   || globpath(&rtp, 'autoload/' . tolower(suffix), 1) != ''
-    \   || globpath(&rtp, 'autoload/' . hyphen, 1) != ''
-endfunction
-" }}}
 "}}}
 " encoding {{{
 " See:
@@ -279,6 +266,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-altr'
 Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
 Plug 'keith/rspec.vim'
 Plug 'koron/codic-vim'
@@ -337,12 +325,20 @@ endif
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim' | endif
 call plug#end()
 " " }}}
-if HasPlugin('rails.vim') " {{{
+let s:plug = {
+      \ "plugs": get(g:, 'plugs', {})
+      \ }
+
+function! s:plug.is_installed(name)
+  return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
+endfunction
+
+if s:plug.is_installed('rails.vim') " {{{
   let g:rails_level = 4
   let g:rails_defalut_database = 'postgresql'
 endif
 " " }}}
-if HasPlugin('neocomplcache.vim') " {{{
+if s:plug.is_installed('neocomplcache.vim') " {{{
   "neocomplcacheを有効化
   let g:neocomplcache_enable_at_startup = 1
   "ポップアップメニューに表示する候補最大数
@@ -383,7 +379,7 @@ if HasPlugin('neocomplcache.vim') " {{{
   inoremap <expr><C-l> neocomplcache#complete_common_string()
 endif
 " }}}
-if HasPlugin('neocomplete.vim') " {{{
+if s:plug.is_installed('neocomplete.vim') " {{{
   " Disable AutoComplPop
   let g:acp_enableAtStartup = 0
   " Use neocomplete.
@@ -433,21 +429,21 @@ if HasPlugin('neocomplete.vim') " {{{
 
 endif
 " }}}
-if HasPlugin('neocomplete-php.vim') " {{{
+if s:plug.is_installed('neocomplete-php.vim') " {{{
   let g:neocomplete_php_locale = 'ja'
 endif
 " }}}
-if HasPlugin('deoplete.nvim') " {{{
+if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#enable_at_startup = 1
 endif
 " }}}
-if HasPlugin('neosnippet') " {{{
+if s:plug.is_installed('neosnippet') " {{{
   let g:neosnippet#snipqets_directory='~/.vim/snippets'
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
   smap <C-k> <Plug>(neosnippet_expand_or_jump)
 endif
 " }}}
-if HasPlugin('lightline.vim') " {{{
+if s:plug.is_installed('lightline.vim') " {{{
   let g:lightline = {
         \   'mode_map': {
         \     'n' : 'N',
@@ -505,7 +501,7 @@ if HasPlugin('lightline.vim') " {{{
 
 endif
 "}}}
-if HasPlugin('The-NERD-tree') " {{{
+if s:plug.is_installed('The-NERD-tree') " {{{
   " バッファがNERDTreeのみになったときNERDTreeをとじる
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
         \ && b:NERDTreeType == "primary") | q | endif
@@ -518,14 +514,14 @@ if HasPlugin('The-NERD-tree') " {{{
   nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
 endif
 "}}}
-if HasPlugin('indentLine') " {{{
+if s:plug.is_installed('indentLine') " {{{
   let g:indentLine_color_term = 239
   let g:indentLine_color_tty_light = 59
   let g:indentLine_color_dark = 1
   let g:indentLine_bufNameExclude = ['NERD_tree.*']
 endif
 " }}}
-if HasPlugin('vim-quickrun') " {{{
+if s:plug.is_installed('vim-quickrun') " {{{
   let g:quickrun_config = {
         \  '_': {
         \     'runner' : 'vimproc',
@@ -541,7 +537,7 @@ if HasPlugin('vim-quickrun') " {{{
   nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
 endif
 " }}}
-if HasPlugin('syntastic') "{{{
+if s:plug.is_installed('syntastic') "{{{
   let g:jsx_ext_required = 0
   let g:jsx_pragma_required = 1
   let g:syntastic_javascript_checkers = ['jsxhint']
@@ -552,7 +548,7 @@ if HasPlugin('syntastic') "{{{
   nnoremap [unite]e :<C-u>Unite location_list -winheight=5<CR>
 endif
 " }}}
-if HasPlugin('undotree') " {{{
+if s:plug.is_installed('undotree') " {{{
   let g:undotree_SetFocusWhenToggle = 1
   let g:undotree_SplitWidth = 35
   let g:undotree_diffAutoOpen = 1
@@ -563,7 +559,7 @@ if HasPlugin('undotree') " {{{
   nnoremap ,u :UndotreeToggle<CR>
 endif
 " }}}
-if HasPlugin('yankround.vim') "{{{
+if s:plug.is_installed('yankround.vim') "{{{
   nmap p <Plug>(yankround-p)
   xmap P <Plug>(yankround-P)
   nmap gp <Plug>(yankround-gp)
@@ -573,7 +569,7 @@ if HasPlugin('yankround.vim') "{{{
   nnoremap ,y :Unite yankround<CR>
 endif
 " }}}
-if HasPlugin('unite.vim') "{{{
+if s:plug.is_installed('unite.vim') "{{{
   nnoremap m  <nop>
   xnoremap m  <Nop>
   nnoremap [unite] <Nop>
@@ -630,11 +626,11 @@ if HasPlugin('unite.vim') "{{{
 
 endif
 " }}}
-if HasPlugin('unite-build') " {{{
+if s:plug.is_installed('unite-build') " {{{
   nnoremap ,b :<C-u>Unite build:make -buffer-name=unite-build -winheight=20<CR>
 endif
 " }}}
-if HasPlugin('unite-rails') " {{{
+if s:plug.is_installed('unite-rails') " {{{
   nnoremap ,rc :<C-u>Unite rails/controller<CR>
   nnoremap ,rm :<C-u>Unite rails/model<CR>
   nnoremap ,rv :<C-u>Unite rails/view<CR>
@@ -645,28 +641,28 @@ if HasPlugin('unite-rails') " {{{
   nnoremap ,rt :<C-u>Unite rails/spec<CR>
 endif
 " }}}
-if HasPlugin('unite-rails-fat') " {{{
+if s:plug.is_installed('unite-rails-fat') " {{{
   nnoremap ,rd :<C-u>Unite rails/decorator<CR>
   nnoremap ,ra :<C-u>Unite rails/api<CR>
 endif
 " }}}
-if HasPlugin('unite-outline') "{{{
+if s:plug.is_installed('unite-outline') "{{{
   let g:unite_winwidth = 30
   let g:unite_spliit_rule = "rightbelow"
   nnoremap ,o :<C-u>Unite -vertical outline<CR>
 endif
 " }}}
-if HasPlugin('caw.vim') "{{{
+if s:plug.is_installed('caw.vim') "{{{
   nmap ,c <Plug>(caw:i:toggle)
   vmap ,c <Plug>(caw:i:toggle)
 endif
 " }}}
-if HasPlugin('TweetVim') "{{{
+if s:plug.is_installed('TweetVim') "{{{
   nnoremap ,tt :<C-u>Unite tweetvim<CR>
   nnoremap ,ts :<C-u>TweetVimSay<CR>
 endif
 " }}}
-if HasPlugin('w3m.vim') "{{{
+if s:plug.is_installed('w3m.vim') "{{{
   let g:w3m#external_browser = 'firefox'
   let g:w3m#hit_a_hint_key = 'f'
   nnoremap <F8> [w3m]
@@ -676,7 +672,7 @@ if HasPlugin('w3m.vim') "{{{
   nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
 endif
 " }}}
-if HasPlugin('vim-gitgutter') " {{{
+if s:plug.is_installed('vim-gitgutter') " {{{
   let g:gitgutter_sign_added    = '+'
   let g:gitgutter_sign_modified = '>'
   let g:gitgutter_sign_removed  = 'X'
@@ -715,13 +711,13 @@ if HasPlugin('vim-gitgutter') " {{{
   endfunction
 endif
 " }}}
-if HasPlugin('vim-over') " {{{
+if s:plug.is_installed('vim-over') " {{{
   nnoremap <silent> <Leader>m :OverCommandLine<CR>
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//gc<Left><Left><Left>
   xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///gc<Left><Left><Left>
 endif
 " }}}
-if HasPlugin('vim-anzu') " {{{
+if s:plug.is_installed('vim-anzu') " {{{
   nmap n <Plug>(anzu-n-with-echo) zz
   nmap N <Plug>(anzu-N-with-echo) zz
   nmap * <Plug>(anzu-star-with-echo) zz
@@ -729,7 +725,7 @@ if HasPlugin('vim-anzu') " {{{
   nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 endif
 " }}}
-if HasPlugin('vim-easymotion') " {{{
+if s:plug.is_installed('vim-easymotion') " {{{
   " configure
   let g:EasyMotion_do_mapping = 0
   let g:EasyMotion_smartcase = 1
@@ -750,32 +746,42 @@ if HasPlugin('vim-easymotion') " {{{
   hi EasyMotionTarget guifg=#80a0ff ctermfg=81
 endif
 " }}}
-if HasPlugin('vim-easy-align') "{{{
+if s:plug.is_installed('vim-easy-align') "{{{
   vnoremap <Enter> :EasyAlign<CR>
 endif
 "}}}
-" vim-ruby{{{
-let g:rubycomplete_rails = 1
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_include_object = 1
-let g:rubycomplete_include_object_space = 1
-" }}}
-" vim-monster "{{{
-let g:monster#completion#rcodetools#backend = "async_rct_complete"
-let g:neocomplete#sources#omni#input_patterns = {
-      \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
-      \}
-" }}}
-" vim-marching {{{
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
+if s:plug.is_installed('vim-altr') " {{{
+  call altr#define('autoload/%.vim', 'doc/%-doc.txt', 'plugin/%.vim')
+  call altr#define('actions/%Action.coffee', 'stores/%Store.coffee')
+  call altr#define('actions/%Action.js', 'stores/%Store.js')
+  nmap ,a <Plug>(altr-forward)
 endif
-let g:neocomplete#force_omni_input_patterns.cpp =
-      \   '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:marching_enable_neocomplete = 1
 " }}}
-if HasPlugin('vim-watchdogs') "{{{
+if s:plug.is_installed('vim-ruby') " {{{
+  let g:rubycomplete_rails = 1
+  let g:rubycomplete_buffer_loading = 1
+  let g:rubycomplete_classes_in_global = 1
+  let g:rubycomplete_include_object = 1
+  let g:rubycomplete_include_object_space = 1
+endif
+" }}}
+if s:plug.is_installed('vim-monster') " {{{
+  let g:monster#completion#rcodetools#backend = "async_rct_complete"
+  let g:neocomplete#sources#omni#input_patterns = {
+        \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+        \}
+endif
+" }}}
+if s:plug.is_installed('vim-marching') " {{{
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.cpp =
+        \   '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:marching_enable_neocomplete = 1
+endif
+" }}}
+if s:plug.is_installed('vim-watchdogs') "{{{
   let g:quickrun_config = {}
   let g:quickrun_config['watchdogs_checker/_'] = {
         \   'runner' : 'vimproc',
@@ -852,19 +858,19 @@ if HasPlugin('vim-watchdogs') "{{{
   call watchdogs#setup(g:quickrun_config)
 endif
 " }}}
-if HasPlugin('vim-qfstatusline') " {{{
+if s:plug.is_installed('vim-qfstatusline') " {{{
   function! StatuslineUpdate()
     return qfstatusline#Update()
   endfunction
   let g:Qfstatusline#UpdateCmd = function('StatuslineUpdate')
 endif
 " }}}
-if HasPlugin('vim-quickhl') " {{{
+if s:plug.is_installed('vim-quickhl') " {{{
   map ,m <Plug>(quickhl-manual-this)
   map ,M <Plug>(quickhl-manual-reset)
 endif
 " }}}
-if HasPlugin('vim-markdown-quote-syntax') "{{{
+if s:plug.is_installed('vim-markdown-quote-syntax') "{{{
   let g:markdown_quote_syntax_filetypes = {
         \   "coffee" : {
         \     "start" : "coffee",
@@ -888,7 +894,7 @@ if HasPlugin('vim-markdown-quote-syntax') "{{{
         \]
 endif
 "}}}
-if HasPlugin('vim-startify') " {{{
+if s:plug.is_installed('vim-startify') " {{{
   let g:startify_custom_header = [
         \ '',
         \ '                                    ..',
@@ -914,22 +920,24 @@ if HasPlugin('vim-startify') " {{{
         \ ]
 endif
 " }}}
-" vim-tmng {{{
-let g:tmng#student_id = 's12t241'
-let g:tmng#title_template    = '課題ページ'
-let g:tmng#subtitle_template = ''
+if s:plug.is_installed('vim-tmng') " {{{
+  let g:tmng#student_id = 's12t241'
+  let g:tmng#title_template    = '課題ページ'
+  let g:tmng#subtitle_template = ''
+  let g:neosnippet#snippets_directory = '~/.vim/plugged/vim-tmng/snippets'
+endif
 " }}}
-if HasPlugin('phpcomplete-extended') " {{{
+if s:plug.is_installed('phpcomplete-extended') " {{{
   let g:phpcomplete_index_composer_command = 'composer'
   AutocmdFT php setlocal omnifunc=phpcomplete_extended
 endif
 " }}}
-if HasPlugin('splitjoin.vim') " {{{
+if s:plug.is_installed('splitjoin.vim') " {{{
   let g:splitjoin_join_mapping = ',j'
   let g:splitjoin_split_mapping = ',s'
 endif
 "}}}
-if HasPlugin('switch.vim') " {{{
+if s:plug.is_installed('switch.vim') " {{{
   let g:switch_custom_definitions =
         \  [
         \     {
@@ -941,7 +949,7 @@ if HasPlugin('switch.vim') " {{{
   nnoremap <Space>sw :<C-u>Switch<CR>
 endif
 "}}}
-if HasPlugin('surround.vim') "{{{
+if s:plug.is_installed('surround.vim') "{{{
   nmap ,( csw(
   nmap ,) csw)
   nmap ,{ csw{
@@ -952,7 +960,7 @@ if HasPlugin('surround.vim') "{{{
   nmap ," csw"
 endif
 " }}}
-if HasPlugin('SrcExpr') " {{{
+if s:plug.is_installed('SrcExpr') " {{{
   " プレビューウインドウの高さ
   let g:SrcExpl_WinHeight     = 9
   " tagsは自動で作成する
@@ -964,11 +972,11 @@ if HasPlugin('SrcExpr') " {{{
   nmap <F8> :SrcExplToggle<CR>
 endif
 " }}}
-if HasPlugin('codic-vim') "{{{
+if s:plug.is_installed('codic-vim') "{{{
   nnoremap <Space>c :<C-u>Codic<CR>
 endif
 "}}}
-if HasPlugin('incsearch.vim') "{{{
+if s:plug.is_installed('incsearch.vim') "{{{
   map /  <Plug>(incsearch-forward)
   map ?  <Plug>(incsearch-backward)
   map g/ <Plug>(incsearch-stay)
@@ -976,7 +984,7 @@ if HasPlugin('incsearch.vim') "{{{
   nnoremap ;? ?
 endif
 "}}}
-if HasPlugin('clever-f.vim') " {{{
+if s:plug.is_installed('clever-f.vim') " {{{
   let g:clever_f_use_migemo            = 1   " migemo likeな検索
   let g:clever_f_ignore_case           = 1   " ignore case
   let g:clever_f_fix_key_direction     = 1   " 行方向固定
@@ -984,7 +992,7 @@ if HasPlugin('clever-f.vim') " {{{
   let g:clever_f_chars_match_any_signs = ';' " 記号は;
 endif
 " }}}
-if HasPlugin('neocomplete-rsense.vim') "{{{
+if s:plug.is_installed('neocomplete-rsense.vim') "{{{
   if !exists('g:neocomplcache_omni_patterns')
     let g:neocomplcache_omni_patterns = {}
   endif
@@ -995,7 +1003,7 @@ if HasPlugin('neocomplete-rsense.vim') "{{{
   endif
 endif
 " }}}
-if HasPlugin('php.vim') "{{{
+if s:plug.is_installed('php.vim') "{{{
   function! PhpSyntaxOverride()
     hi! def link phpDocTags  phpDefine
     hi! def link phpDocParam phpType
@@ -1007,7 +1015,7 @@ if HasPlugin('php.vim') "{{{
   augroup END
 endif
 "}}}
-if HasPlugin('auto-ctags.vim') "{{{
+if s:plug.is_installed('auto-ctags.vim') "{{{
   let g:auto_ctags = 1
   let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes'
   let g:auto_ctags_tags_name = 'tags'
@@ -1020,12 +1028,12 @@ if HasPlugin('auto-ctags.vim') "{{{
   let g:auto_ctags_directory_list = ['.git', '.svn']
 endif
 "}}}
-if HasPlugin('PDV--phpDocumentor-for-Vim') "{{{
+if s:plug.is_installed('PDV--phpDocumentor-for-Vim') "{{{
   nnoremap <Leader>p :set formatoptions&<CR>:call PhpDocSingle()<CR>kv/func<CR>k=:%s/\s\+$//e<CR><C-o>
   let g:pdv_re_indent=''
 endif
 "}}}
-if HasPlugin('ctrlp.vim') "{{{
+if s:plug.is_installed('ctrlp.vim') "{{{
   let g:ctrlp_map = '<Nop>'
   let g:ctrlp_open_new_file = 'r'
   let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
@@ -1035,17 +1043,17 @@ if HasPlugin('ctrlp.vim') "{{{
   nnoremap tb :<C-u>CtrlPBuffer<CR>
 endif
 " }}}
-if HasPlugin('hl_matchit.vim') " {{{
+if s:plug.is_installed('hl_matchit.vim') " {{{
   let g:hl_matchit_enable_on_vim_startup = 1
   let g:hl_matchit_hl_groupname = 'cursorlinenr'
 endif
 " }}}
-if HasPlugin('jscomplete-vim') "{{{
+if s:plug.is_installed('jscomplete-vim') "{{{
   AutocmdFT javascript setlocal omnifunc=jscomplete#CompleteJS
   AutocmdFT coffee     setlocal omnifunc=jscomplete#CompleteJS
 endif
 "}}}
-if HasPlugin('lexima.vim') " {{{
+if s:plug.is_installed('lexima.vim') " {{{
   call lexima#add_rule({
         \   "at" : '\%#',
         \   "char" : ",",
@@ -1067,13 +1075,14 @@ if HasPlugin('lexima.vim') " {{{
   let g:lexima_enable_basic_rules = 1
 endif
 " }}}
-if HasPlugin('tagbar') " {{{
+if s:plug.is_installed('tagbar') " {{{
   let g:tagbar_width = 20
   nnoremap <silent> <leader>t :TagbarToggle<CR>
 endif
 " " }}}
-" vim-css-colors{{{
-let g:cssColorVimDoNotMessMyUpdatetime = 1
+if s:plug.is_installed('vim-css-colors') " {{{
+  let g:cssColorVimDoNotMessMyUpdatetime = 1
+endif
 " }}}
 " }}}
 " set {{{
@@ -1360,6 +1369,40 @@ function! s:get_syn_info()
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 " }}}
+function! s:codic_complete() " {{{
+"See: https://gist.github.com/sgur/4e1cc8e93798b8fe9621
+  let line = getline('.')
+  let start = match(line, '\k\+$')
+  let cand = s:codic_candidates(line[start :])
+  call complete(start +1, cand)
+  return ''
+endfunction
+function! s:codic_candidates(arglead)
+  let cand = codic#search(a:arglead, 30)
+  " error
+  if type(cand) == type(0)
+    return []
+  endif
+  " english -> english terms
+  if a:arglead =~# '^\w\+$'
+    return map(cand, '{"word": v:val["label"], "menu": join(map(copy(v:val["values"]), "v:val.word"), ",")}')
+  endif
+  " japanese -> english terms
+  return s:reverse_candidates(cand)
+endfunction
+function! s:reverse_candidates(cand)
+  let _ = []
+  for c in a:cand
+    for v in c.values
+      call add(_, {"word": v.word, "menu": !empty(v.desc) ? v.desc : c.label })
+    endfor
+  endfor
+  return _
+endfunction
+if s:plug.is_installed('codic-vim')
+  inoremap <silent> <C-x><C-t>  <C-R>=<SID>codic_complete()<CR>
+endif
+" }}}
 " }}}
 " command {{{
 " TabIndent, SpaceIndent {{{
@@ -1626,11 +1669,11 @@ set statusline=[%n]
 " ファイル名表示
 set statusline+=%<%t:
 " git branch
-if HasPlugin('fugitive')
+if s:plug.is_installed('fugitive')
   set statusline+=%{fugitive#statusline()}
 endif
 " 構文チェック
-if HasPlugin('syntastic')
+if s:plug.is_installed('syntastic')
   set statusline+=%{SyntasticStatuslineFlag()}
 endif
 " 変更のチェック表示
