@@ -33,6 +33,7 @@ endif
 "}}}
 " autocmd {{{
 " See: https://github.com/rhysd/dotfiles/blob/master/vimrc#23-27
+autocmd!
 augroup MyVimrc
   autocmd!
 augroup END
