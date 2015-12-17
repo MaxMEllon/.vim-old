@@ -1091,6 +1091,15 @@ if s:plug.is_installed('lexima.vim') " {{{
   let g:lexima_enable_newline_rules = 1
 endif
 " }}}
+if s:plug.is_installed('tagbar') " {{{
+  let g:tagbar_width = 20
+  nnoremap <silent> <leader>t :TagbarToggle<CR>
+endif
+" " }}}
+if s:plug.is_installed('vim-css-colors') " {{{
+  let g:cssColorVimDoNotMessMyUpdatetime = 1
+endif
+" }}}
 " }}}
 " set {{{
 " common {{{
@@ -1402,7 +1411,7 @@ function! s:reverse_candidates(cand)
   return _
 endfunction
 if s:plug.is_installed('codic-vim')
-  inoremap <silent> <C-s> <C-R>=<SID>codic_complete()<CR>
+  inoremap <silent> <C-x><C-t>  <C-R>=<SID>codic_complete()<CR>
 endif
 " }}}
 " }}}
