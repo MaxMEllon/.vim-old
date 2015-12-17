@@ -229,20 +229,20 @@ Plug 'LeafCage/foldCC.vim'
 Plug 'LeafCage/yankround.vim'
 Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/unite-rails-fat', {'on' : 'Unite'}
-Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss']}
+" Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss']}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
-Plug 'MaxMellon/plantuml-syntax', {'for' : 'plantuml'}
+Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'PDV--phpDocumentor-for-Vim', {'for' : 'php'}
 Plug 'Shougo/context_filetype.vim'
-Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
+" Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/unite-build'
-Plug 'Shougo/unite-outline'
+" Plug 'Shougo/unite-outline'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Shougo/vimshell.vim'
+" Plug 'Shougo/vimshell.vim'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 Plug 'The-NERD-tree'
 Plug 'Yggdroot/indentLine'
@@ -252,7 +252,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'basyura/unite-rails'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
 Plug 'chase/vim-ansible-yaml'
-Plug 'cohama/lexima.vim'
+" Plug 'cohama/lexima.vim'
 Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
@@ -264,10 +264,11 @@ Plug 'haya14busa/incsearch-migemo.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'kana/vim-textobj-fold'
+" Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-altr'
+Plug 'kana/vim-smartinput'
 Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
 Plug 'keith/rspec.vim'
 Plug 'koron/codic-vim'
@@ -293,14 +294,14 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-reunions'
-Plug 'osyo-manga/vim-textobj-multiblock'
+" Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'osyo-manga/vim-watchdogs'
 Plug 'othree/javascript-libraries-syntax.vim', {'for' : ['coffee', 'js']}
 Plug 'rhysd/clever-f.vim'
 Plug 'rhysd/vim-textobj-ruby'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'soramugi/auto-ctags.vim'
-Plug 'supermomonga/vimshell-pure.vim'
+" Plug 'supermomonga/vimshell-pure.vim'
 Plug 'surround.vim'
 Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun'
@@ -675,8 +676,9 @@ endif
 " }}}
 if s:plug.is_installed('vim-gitgutter') " {{{
   let g:gitgutter_sign_added    = '+'
-  let g:gitgutter_sign_modified = '>'
-  let g:gitgutter_sign_removed  = 'X'
+  let g:gitgutter_sign_modified = '*'
+  let g:gitgutter_sign_removed  = '-'
+  let g:gitgutter_map_keys = 0
 
   " gitbranch名
   function! MyFugitive()
@@ -738,9 +740,9 @@ if s:plug.is_installed('vim-easymotion') " {{{
   " keymapping
   nmap <Leader>s <Plug>(easymotion-s2)
   xmap <Leader>s <Plug>(easymotion-s2)
-  nmap ss <Plug>(easymotion-sn)
-  xmap ss <Plug>(easymotion-sn)
-  omap ss <Plug>(easymotion-tn)
+  nmap ss <Plug>(easymotion-s2)
+  xmap ss <Plug>(easymotion-s2)
+  omap ss <Plug>(easymotion-t2)
   map <Space>j <Plug>(easymotion-j)
   map <Space>k <Plug>(easymotion-k)
 
@@ -961,6 +963,10 @@ if s:plug.is_installed('surround.vim') "{{{
   nmap ," csw"
 endif
 " }}}
+if s:plug.is_installed('vim-singleton') && has('clientserver') " {{{
+  call singleton#enable()
+endif
+" }}}
 if s:plug.is_installed('SrcExpr') " {{{
   " プレビューウインドウの高さ
   let g:SrcExpl_WinHeight     = 9
@@ -1054,6 +1060,15 @@ if s:plug.is_installed('jscomplete-vim') "{{{
   AutocmdFT coffee     setlocal omnifunc=jscomplete#CompleteJS
 endif
 "}}}
+if s:plug.is_installed('tagbar') " {{{
+  let g:tagbar_width = 20
+  nnoremap <silent> ,o :TagbarToggle<CR>
+endif
+" " }}}
+if s:plug.is_installed('vim-css-colors') " {{{
+  let g:cssColorVimDoNotMessMyUpdatetime = 1
+endif
+" }}}
 if s:plug.is_installed('lexima.vim') " {{{
   call lexima#add_rule({
         \   "at" : '\%#',
@@ -1071,18 +1086,9 @@ if s:plug.is_installed('lexima.vim') " {{{
         \   "char" : '<Enter>',
         \   "input" : '<BS><Enter>',
         \})
+  let g:lexima_enable_basic_rules = 1
   let g:lexima_enable_endwise_rules = 1
   let g:lexima_enable_newline_rules = 1
-  let g:lexima_enable_basic_rules = 1
-endif
-" }}}
-if s:plug.is_installed('tagbar') " {{{
-  let g:tagbar_width = 20
-  nnoremap <silent> <leader>t :TagbarToggle<CR>
-endif
-" " }}}
-if s:plug.is_installed('vim-css-colors') " {{{
-  let g:cssColorVimDoNotMessMyUpdatetime = 1
 endif
 " }}}
 " }}}
@@ -1104,11 +1110,10 @@ set matchpairs+=<:>           " 対応カッコのマッチを追加
 set matchtime=1               " 対応するカッコを表示する時間
 set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
 set modelines=3               " 上の設定をファイル先頭3行にあるかないか調べる
-set nf=alpha,hex              " アルファベットと16シンスうをC-a C-xで増減可能に
-set nocompatible              " VI互換を無効化
-set number
+set nrformats=alpha,hex              " アルファベットと16シンスうをC-a C-xで増減可能に
+" set number
 set pumheight=5               " 補完ウィンドウの行数
-set relativenumber            " 相対行番号
+" set relativenumber            " 相対行番号
 set report=0                  " 変更された行数の報告がでる最小値
 set ruler
 set scrolloff=10              " 常に10行表示
@@ -1116,18 +1121,19 @@ set showcmd                   " ステータスラインに常にコメンド表
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                " 横分割時、新しいウィンドウは下
 set splitright                " 縦分割時、新しいウィンドウは右
-set t_Co=256
 set tags+=.svn/tags
 set tags+=.git/tags
+set textwidth=0
+set nocompatible              " VI互換を無効化
 if has("path_extra")
   set tags+=tags;
 endif
-set textwidth=0
-set ttyfast                   " スクロールが滑らかに
 if ! has('nvim')
+  set ttyfast                   " スクロールが滑らかに
+  set t_Co=256
   set ttyscroll=1
+  set vb t_vb=                  " no beep no flash
 endif
-set vb t_vb=                  " no beep no flash
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 " }}}
 " formatoptions {{{
@@ -1203,7 +1209,6 @@ set showtabline=2 " 常にタブ
 for s:n in range(1, 9)
   execute 'nnoremap <silent> [Tab]' . s:n ':<C-u>tabnext' . s:n . '<CR>'
 endfor
-
 "}}}
 " wildmenu {{{
 set wildmenu " cmdline補完
@@ -1220,9 +1225,6 @@ set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
 " }}}
 " encode {{{
-set encoding      =utf-8       " 文字コード指定
-set fileencodings =utf-8,s-jis " 文字エンコードを次の順番で確認
-scriptencoding     utf-8
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
 set ambiwidth     =double        " ２バイト特殊文字の幅調整
 " }}}
@@ -1300,12 +1302,11 @@ Autocmd InsertLeave * set nopaste
 " }}}
 " function {{{
 function! s:copy_mode_toggle() " {{{
-  setlocal nolist! number! relativenumber!
-  GitGutterSignsToggle
+  " setlocal nolist! number! relativenumber!
   IndentLinesToggle
 endfunction
 command! CopyModeToggle :call s:copy_mode_toggle()
-nnoremap <silent> <C-c> :<C-u>CopyModeToggle<CR>
+nnoremap <silent> <C-x><C-c> :<C-u>CopyModeToggle<CR>
 " }}}
 function! s:load_help() "{{{
   helptags ~/.vim/help/vimdoc-ja/doc
@@ -1401,7 +1402,7 @@ function! s:reverse_candidates(cand)
   return _
 endfunction
 if s:plug.is_installed('codic-vim')
-  inoremap <silent> <C-x><C-t>  <C-R>=<SID>codic_complete()<CR>
+  inoremap <silent> <C-s> <C-R>=<SID>codic_complete()<CR>
 endif
 " }}}
 " }}}
@@ -1441,31 +1442,19 @@ nnoremap <C-j> }
 nnoremap <C-k> {
 "}}}
 " cursol key {{{
-vnoremap OA <Up>
-vnoremap OB <Down>
-vnoremap OC <Right>
-vnoremap OD <Left>
-vnoremap A  <Up>
-vnoremap B  <Down>
-vnoremap C  <Right>
-vnoremap D  <Left>
-inoremap OA <Up>
-inoremap OB <Down>
-inoremap OC <Right>
-inoremap OD <Left>
-inoremap A  <Up>
-inoremap B  <Down>
-inoremap C  <Right>
-inoremap D  <Left>
+noremap! OA <Up>
+noremap! OB <Down>
+noremap! OC <Right>
+noremap! OD <Left>
+noremap! A <Up>
+noremap! B <Down>
+noremap! C <Right>
+noremap! D <Left>
 
-nnoremap OA <C-w>l
-nnoremap OB <C-w>j
-nnoremap OC <C-w>h
-nnoremap OD <C-w>k
-nnoremap A  <C-w>l
-nnoremap B  <C-w>j
-nnoremap C  <C-w>h
-nnoremap D  <C-w>k
+nnoremap <Right> <C-w>>
+nnoremap <Down> <C-w>-
+nnoremap <Left> <C-w><
+nnoremap <Up> <C-w>+
 "}}}
 " tab {{{
 nmap [Tab] <Nop>
@@ -1527,6 +1516,21 @@ inoremap <C-b> <Left>
 inoremap <C-n> <Up>
 inoremap <C-p> <Down>
 inoremap <C-m> <CR>
+
+" 隣接した{}で改行したらインデント
+function! IndentBraces()
+  let nowletter = getline(".")[col(".")-1]    " 今いるカーソルの文字
+  let beforeletter = getline(".")[col(".")-2] " 1つ前の文字
+
+  " カーソルの位置の括弧が隣接している場合
+  if nowletter == "}" && beforeletter == "{"
+      return "\n\t\n\<UP>\<RIGHT>"
+  else
+      return "\n"
+  endif
+endfunction
+" Enterに割り当て
+inoremap <silent> <expr> <CR> IndentBraces()
 " }}}
 " home and end {{{
 " See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
@@ -1609,7 +1613,7 @@ augroup END
 " }}}
 " cmdwindow mapping function {{{
 function! s:init_cmdwin()
-  setlocal nolist! number! relativenumber!
+  " setlocal nolist! number! relativenumber!
   nnoremap <silent><buffer>q :<C-u>q<CR>
   nnoremap <silent><buffer><CR> A<CR>
   inoremap <buffer><silent> <Tab> <C-d>
@@ -1626,6 +1630,7 @@ nnoremap <silent><C-l> :<C-u>nohlsearch<CR><ESC>
 " }}}
 " etc {{{
 nnoremap <C-p> :<C-u>G<Space>
+nnoremap Y y$
 " }}}
 " }}}
 " statusline {{{
