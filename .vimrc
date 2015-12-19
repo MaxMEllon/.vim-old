@@ -705,9 +705,9 @@ if s:plug.is_installed('vim-gitgutter') " {{{
           \ ]
     let hunks = GitGutterGetHunkSummary()
     let ret = []
-    for i in [0, 1, 2]
-      if hunks[i] > 0
-        call add(ret, symbols[i] . hunks[i])
+    for s:i in [0, 1, 2]
+      if hunks[s:i] > 0
+        call add(ret, symbols[s:i] . hunks[s:i])
       endif
     endfor
     return join(ret, ' ')
@@ -1133,7 +1133,7 @@ set splitright                " 縦分割時、新しいウィンドウは右
 set tags+=.svn/tags
 set tags+=.git/tags
 set textwidth=0
-set nocompatible              " VI互換を無効化
+" set nocompatible              " VI互換を無効化
 if has("path_extra")
   set tags+=tags;
 endif
@@ -1318,9 +1318,11 @@ command! CopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-x><C-c> :<C-u>CopyModeToggle<CR>
 " }}}
 function! s:load_help() "{{{
-  helptags ~/.vim/help/vimdoc-ja/doc
-  set runtimepath+=~/.vim/help/vimdoc-ja
-  set helplang=ja
+  if isdirectory(expand('~/.vim/help/vimdoc-ja/doc'))
+    helptags ~/.vim/help/vimdoc-ja/doc
+    set runtimepath+=~/.vim/help/vimdoc-ja
+    set helplang=ja
+  endif
 endfunction
 command! LoadHelp :call s:load_help()
 AutocmdFT help LoadHelp
@@ -1337,10 +1339,10 @@ function! s:remove_fancy_characters() "{{{
   let typo["…"] = '...'
   let typo["，"] = ', '
   let typo["．"] = '. '
-  :exe ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+  execute ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 
-command! RemoveFancyCharacters :call s:remove_fancy_characters()
+command! RemoveFancyCharacters call s:remove_fancy_characters()
 "}}}
 function! s:get_syn_id(transparent)  " {{{
   let synid = synID(line("."), col("."), 1)
@@ -1403,9 +1405,9 @@ function! s:codic_candidates(arglead)
 endfunction
 function! s:reverse_candidates(cand)
   let _ = []
-  for c in a:cand
-    for v in c.values
-      call add(_, {"word": v.word, "menu": !empty(v.desc) ? v.desc : c.label })
+  for s:c in a:cand
+    for s:v in s:c.values
+      call add(_, {"word": s:v.word, "menu": !empty(s:v.desc) ? s:v.desc : s:c.label })
     endfor
   endfor
   return _
