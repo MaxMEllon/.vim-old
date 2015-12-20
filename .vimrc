@@ -14,9 +14,9 @@
 "                       |EEEEEEEEZ' .DDDDDDDDNNNF`
 "                       |888888Z' .DDDDDDDDNNNF`
 "                       |8888Z' ,DDDDDDDNNNNF`
-"                       |88Z'    "DNNNNNNN"
-"                       '"'        "MMMM"
-"                                    ""
+"                       |88Z'    'DNNNNNNN"
+"                       '"'        'MMMM"
+"                                    '"
 
 " start up {{{
 if !1 | finish | endif
@@ -1106,7 +1106,7 @@ endif
 set autoread                  " vim外で編集された時の自動み込み
 set autowrite                 " bufferが切り替わるときの自動保存
 set backspace=indent,eol,start
-set cmdheight=2
+set cmdheight=1
 set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
 set cursorline
@@ -1115,13 +1115,16 @@ set history=10000             " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
 set listchars=eol:$,tab:>-
+set maxmem=500000
+set maxmemtot=1000000
 set matchpairs+=<:>           " 対応カッコのマッチを追加
 set matchtime=1               " 対応するカッコを表示する時間
 set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
 set modelines=3               " 上の設定をファイル先頭3行にあるかないか調べる
-set nrformats=alpha,hex              " アルファベットと16シンスうをC-a C-xで増減可能に
+set nrformats=alpha,hex       " アルファベットと16シンスうをC-a C-xで増減可能に
 " set number
 set pumheight=5               " 補完ウィンドウの行数
+set pastetoggle=<F11>
 " set relativenumber            " 相対行番号
 set report=0                  " 変更された行数の報告がでる最小値
 set ruler
@@ -1134,6 +1137,13 @@ set tags+=.svn/tags
 set tags+=.git/tags
 set textwidth=0
 " set nocompatible              " VI互換を無効化
+if ! IsWindows()
+  set path=.,/usr/local/include,/usr/include
+endif
+set path+=,/usr/include/c++/4.2.1
+if exists('&macatsui')
+  set nomacatsui
+endif
 if has("path_extra")
   set tags+=tags;
 endif
@@ -1198,6 +1208,7 @@ set foldmethod =marker " 折りたたみ方法:マーカ
 set foldcolumn =0      " 折りたたみの補助線幅
 set foldlevel  =0      " foldをどこまで一気に開くか
 if (!exists('FoldCCText'))
+  let g:foldCCtext_maxchars = 70
   set foldtext=FoldCCtext()
   set fillchars=vert:\|
 endif
