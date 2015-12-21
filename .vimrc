@@ -53,9 +53,9 @@ endfunction
 
 function! IsMac()
   return !s:is_windows && !s:is_cygwin
-      \ && (has('mac') || has('macunix') || has('gui_macvim') ||
-      \   (!executable('xdg-open') &&
-      \     system('uname') =~? '^darwin'))
+        \ && (has('mac') || has('macunix') || has('gui_macvim') ||
+        \   (!executable('xdg-open') &&
+        \     system('uname') =~? '^darwin'))
 endfunction
 " }}}
 "}}}
@@ -1307,17 +1307,17 @@ AutocmdFT plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 " QuickFix {{{
 Autocmd QuickFixCmdPost make,*grep* cwindow
 Autocmd VimEnter COMMIT_EDITMSG if getline(1) == ''
-                                \ | execute 1
-                                \ | startinsert
-                                \ | endif
+      \ | execute 1
+      \ | startinsert
+      \ | endif
 " }}}
 AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
 AutocmdFT sass,scss,css setlocal iskeyword+=-
 " tails space highlight
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
-    \ * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+      \ * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
-    \ * match TrailingSpaces /\s\+$/
+      \ * match TrailingSpaces /\s\+$/
 Autocmd InsertLeave * set nopaste
 " }}}
 " function {{{
@@ -1394,7 +1394,7 @@ endfunction
 command! SyntaxInfo call s:get_syn_info()
 " }}}
 function! s:codic_complete() " {{{
-"See: https://gist.github.com/sgur/4e1cc8e93798b8fe9621
+  "See: https://gist.github.com/sgur/4e1cc8e93798b8fe9621
   let line = getline('.')
   let start = match(line, '\k\+$')
   let cand = s:codic_candidates(line[start :])
@@ -1431,10 +1431,10 @@ endif
 " command {{{
 " TabIndent, SpaceIndent {{{
 command! -bar -nargs=1 TabIndent
-  \ setlocal noexpandtab softtabstop< tabstop=<args> shiftwidth=<args>
+      \ setlocal noexpandtab softtabstop< tabstop=<args> shiftwidth=<args>
 
 command! -bar -nargs=1 SpaceIndent
-  \ setlocal expandtab tabstop< softtabstop=<args> shiftwidth=<args>
+      \ setlocal expandtab tabstop< softtabstop=<args> shiftwidth=<args>
 " }}}
 " vimgrep alias {{{
 command! -bar -nargs=* G vimgrep <args> %
@@ -1546,9 +1546,9 @@ function! IndentBraces()
 
   " カーソルの位置の括弧が隣接している場合
   if nowletter == "}" && beforeletter == "{"
-      return "\n\t\n\<UP>\<RIGHT>"
+    return "\n\t\n\<UP>\<RIGHT>"
   else
-      return "\n"
+    return "\n"
   endif
 endfunction
 " Enterに割り当て
@@ -1557,7 +1557,7 @@ inoremap <silent> <expr> <CR> IndentBraces()
 " home and end {{{
 " See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
 nnoremap <expr> 0
-  \ col('.') ==# 1 ? '^' : '0'
+      \ col('.') ==# 1 ? '^' : '0'
 nnoremap H ^
 nnoremap L $
 vnoremap H ^

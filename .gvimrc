@@ -14,9 +14,15 @@ set guioptions-=m
 set guioptions-=T
 set guioptions-=C
 set guioptions-=b
+if has("gui_running")
+  augroup GUI
+    autocmd!
+    autocmd GUIEnter * set fullscreen
+  augroup END
+endif
 try
   set background=dark
-  colorscheme solarized
+  colorscheme molokai
 catch
   colorscheme desert
 endtry
