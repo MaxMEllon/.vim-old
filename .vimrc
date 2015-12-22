@@ -252,10 +252,11 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'basyura/unite-rails'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
 Plug 'chase/vim-ansible-yaml'
-" Plug 'cohama/lexima.vim'
+Plug 'cohama/lexima.vim'
 Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
+Plug 'fatih/vim-go'
 Plug 'glts/vim-textobj-comment'
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'haya14busa/incsearch-easymotion.vim'
@@ -268,7 +269,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-altr'
-Plug 'kana/vim-smartinput'
+" Plug 'kana/vim-smartinput'
 Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
 Plug 'keith/rspec.vim'
 Plug 'koron/codic-vim'
@@ -948,8 +949,51 @@ if s:plug.is_installed('switch.vim') " {{{
         \       '''\(.\{-}\)''' :  '"\1"',
         \        '"\(.\{-}\)"'  :   '\1',
         \     },
+        \     {
+        \       'true'  : 'false',
+        \       'false' : 'true',
+        \     },
+        \     {
+        \       'if'     : 'unless',
+        \       'unless' : 'if',
+        \     },
+        \     {
+        \       '='  : '\ =\ ',
+        \       '\ =\ ' : '\ ==\ ',
+        \       '\ ==\ ' : '=',
+        \     },
+        \     {
+        \       '->'  : '=>',
+        \       '=>' : '->',
+        \     },
+        \     {
+        \       '-'  : '\ -\ ',
+        \       '\ -\ ' : '-',
+        \     },
+        \     {
+        \       '+'  : '\ +\ ',
+        \       '\ +\ ' : '+',
+        \     },
+        \     {
+        \       '/'  : '\ /\ ',
+        \       '\ /\ ' : '/',
+        \     },
+        \     {
+        \       '\*'  : '\ \*\ ',
+        \       '\ \*\ ' : '\*',
+        \     },
+        \     {
+        \       ')'  : ');',
+        \       ');' : ')',
+        \     },
+        \     {
+        \       '>'  : '\ />',
+        \       '\ />' : '>',
+        \     },
         \  ]
   nnoremap <Space>sw :<C-u>Switch<CR>
+  nnoremap <C-s> :<C-u>Switch<CR>
+  inoremap <C-k> <ESC>`^:<C-u>Switch<CR><END>a
 endif
 "}}}
 if s:plug.is_installed('surround.vim') "{{{
@@ -1070,6 +1114,10 @@ if s:plug.is_installed('vim-css-colors') " {{{
 endif
 " }}}
 if s:plug.is_installed('lexima.vim') " {{{
+  let g:lexima_enable_basic_rules = 1
+  let g:lexima_enable_endwise_rules = 1
+  let g:lexima_enable_newline_rules = 1
+  call lexima#set_default_rules()
   call lexima#add_rule({
         \   "at" : '\%#',
         \   "char" : ",",
@@ -1086,9 +1134,29 @@ if s:plug.is_installed('lexima.vim') " {{{
         \   "char" : '<Enter>',
         \   "input" : '<BS><Enter>',
         \})
-  let g:lexima_enable_basic_rules = 1
-  let g:lexima_enable_endwise_rules = 1
-  let g:lexima_enable_newline_rules = 1
+  function! s:set_lexima(rule)
+      call lexima#add_rule(a:rule)
+      let ignore_rule = a:rule
+      let ignore_rule.syntax = ["String", "Comment"]
+      let ignore_rule.input = ignore_rule.char
+      call lexima#add_rule(ignore_rule)
+  endfunction
+
+  call s:set_lexima({'at': '\%#',     'char': '[',    'input': '[]<Left>'})
+  call s:set_lexima({'at': '\%#]',    'char': '[',    'input': '['})
+  call s:set_lexima({'at': '\[\%#\]', 'char': ']',    'input': '<Right>'})
+  call s:set_lexima({'at': '\[\%#\]', 'char': '[',    'input': '[]<Left>'})
+  call s:set_lexima({'at': '\[\%#\]', 'char': '<BS>', 'input': '<BS><Del>'})
+
+  for [begin, end] in [['(', ')'], ['{', '}'], ['<', '>']]
+    let bracket = begin.end
+    call s:set_lexima({'at': '\%#',     'char': begin, 'input': bracket.'<Left>'})
+    call s:set_lexima({'at': '\%#'.end, 'char': begin, 'input': begin})
+
+    call s:set_lexima({'at': begin.'\%#'.end, 'char': end,   'input': '<Right>'})
+    call s:set_lexima({'at': begin.'\%#'.end, 'char': begin, 'input': bracket.'<Left>'})
+    call s:set_lexima({'at': begin.'\%#'.end, 'char': '<BS>', 'input': '<BS><Del>'})
+  endfor
 endif
 " }}}
 if s:plug.is_installed('tagbar') " {{{
@@ -1098,6 +1166,14 @@ endif
 " " }}}
 if s:plug.is_installed('vim-css-colors') " {{{
   let g:cssColorVimDoNotMessMyUpdatetime = 1
+endif
+" }}}
+if s:plug.is_installed('vim-go') " {{{
+  let g:go_highlight_functions = 1
+  let g:go_highlight_methods = 1
+  let g:go_highlight_structs = 1
+  let g:go_highlight_operators = 1
+  let g:go_highlight_build_constraints = 1
 endif
 " }}}
 " }}}
