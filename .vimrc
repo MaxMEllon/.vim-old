@@ -1148,7 +1148,7 @@ if s:plug.is_installed('lexima.vim') " {{{
   call s:set_lexima({'at': '\[\%#\]', 'char': '[',    'input': '[]<Left>'})
   call s:set_lexima({'at': '\[\%#\]', 'char': '<BS>', 'input': '<BS><Del>'})
 
-  for [begin, end] in [['(', ')'], ['{', '}'], ['<', '>']]
+  for [begin, end] in [['(', ')'], ['{', '}']]
     let bracket = begin.end
     call s:set_lexima({'at': '\%#',     'char': begin, 'input': bracket.'<Left>'})
     call s:set_lexima({'at': '\%#'.end, 'char': begin, 'input': begin})
@@ -1622,7 +1622,7 @@ function! IndentBraces()
 
   " カーソルの位置の括弧が隣接している場合
   if nowletter == "}" && beforeletter == "{"
-    return "\n\t\n\<UP>\<RIGHT>"
+    return "\n\t\n\<UP>\<RIGHT>\<ESC>\A"
   else
     return "\n"
   endif
