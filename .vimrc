@@ -22,14 +22,14 @@
 if !1 | finish | endif
 " Startup time. {{{
 " See: https://gist.github.com/thinca/1518874
-if has('vim_starting') && has('reltime')
-  let s:startuptime = reltime()
-  augroup vimrc-startuptime
-    autocmd! VimEnter *
-          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
-          \ | unlet s:startuptime
-  augroup END
-endif
+" if has('vim_starting') && has('reltime')
+"   let s:startuptime = reltime()
+"   augroup vimrc-startuptime
+"     autocmd! VimEnter *
+"           \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+"           \ | unlet s:startuptime
+"   augroup END
+" endif
 "}}}
 " autocmd {{{
 " See: https://github.com/rhysd/dotfiles/blob/master/vimrc#23-27
@@ -738,16 +738,17 @@ if s:plug.is_installed('vim-easymotion') " {{{
   let g:EasyMotion_use_upper = 1
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
+  let g:EasyMotion_use_migemo = 1
   " keymapping
   nmap <Leader>s <Plug>(easymotion-s2)
   xmap <Leader>s <Plug>(easymotion-s2)
+  omap <Leader>s <Plug>(easymotion-s2)
   nmap ss <Plug>(easymotion-s2)
   xmap ss <Plug>(easymotion-s2)
-  omap ss <Plug>(easymotion-t2)
-  map <Space>j <Plug>(easymotion-j)
-  map <Space>k <Plug>(easymotion-k)
+  nmap sj <Plug>(easymotion-j)
+  nmap sk <Plug>(easymotion-j)
 
-  hi EasyMotionTarget guifg=#80a0ff ctermfg=81
+  highlight EasyMotionTarget guifg=#80a0ff ctermfg=81
 endif
 " }}}
 if s:plug.is_installed('vim-easy-align') "{{{
@@ -929,6 +930,8 @@ if s:plug.is_installed('vim-tmng') " {{{
   let g:tmng#title_template    = '課題ページ'
   let g:tmng#subtitle_template = ''
   let g:neosnippet#snippets_directory = '~/.vim/plugged/vim-tmng/snippets'
+  Autocmd BufWrite *.txt,*.tmng
+        \ :TmngReplaceDotAndComma
 endif
 " }}}
 if s:plug.is_installed('phpcomplete-extended') " {{{
@@ -986,14 +989,10 @@ if s:plug.is_installed('switch.vim') " {{{
         \       ')'  : ');',
         \       ');' : ')',
         \     },
-        \     {
-        \       '>'  : '\ />',
-        \       '\ />' : '>',
-        \     },
         \  ]
   nnoremap <Space>sw :<C-u>Switch<CR>
   nnoremap <C-s> :<C-u>Switch<CR>
-  inoremap <C-k> <ESC>`^:<C-u>Switch<CR><END>a
+  inoremap <C-o> <ESC>`^:<C-u>Switch<CR><END>a
 endif
 "}}}
 if s:plug.is_installed('surround.vim') "{{{
@@ -1241,9 +1240,9 @@ set formatoptions-=v
 set formatoptions+=l
 " }}}
 " spelling {{{
-" set spelllang=en_us
+set spelllang=en_us
 " ignore japanese
-" set spelllang+=cjk
+set spelllang+=cjk
 " enable spell check
 " set spell
 " }}}
@@ -1382,11 +1381,12 @@ AutocmdFT plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 " }}}
 " QuickFix {{{
 Autocmd QuickFixCmdPost make,*grep* cwindow
+" }}}
 Autocmd VimEnter COMMIT_EDITMSG if getline(1) == ''
       \ | execute 1
       \ | startinsert
       \ | endif
-" }}}
+Autocmd VimEnter COMMIT_EDITMSG setlocal spell
 AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
 AutocmdFT sass,scss,css setlocal iskeyword+=-
 " tails space highlight
@@ -1398,11 +1398,11 @@ Autocmd InsertLeave * set nopaste
 " }}}
 " function {{{
 function! s:copy_mode_toggle() " {{{
-  " setlocal nolist! number! relativenumber!
+  setlocal nolist!
   IndentLinesToggle
 endfunction
 command! CopyModeToggle :call s:copy_mode_toggle()
-nnoremap <silent> <C-x><C-c> :<C-u>CopyModeToggle<CR>
+nnoremap <silent> <C-c> :<C-u>CopyModeToggle<CR>
 " }}}
 function! s:load_help() "{{{
   if isdirectory(expand('~/.vim/help/vimdoc-ja/doc'))
@@ -1574,12 +1574,13 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 "}}}
 " change normal mode {{{
-inoremap <silent> jj     <Esc>`^
+" Neojj
+inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
+cnoremap <expr> j getcmdline()[getcmdpos() - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
 inoremap <silent> <Esc>  <Esc>`^
 inoremap <silent> <C-[>  <Esc>`^
 inoremap <C-c> <Esc>`^
-inoremap <C-j><C-j> <Esc>`^
-vnoremap <C-j><C-j> <Esc>
+inoremap <C-j> j
 " }}}
 " Paste next line. {{{
 nnoremap <silent> gp o<ESC>p^
@@ -1660,6 +1661,18 @@ onoremap ad  a"
 xnoremap ad  a"
 onoremap id  i"
 xnoremap id  i"
+" }}}
+" tnoremap {{{
+if has('nvim')
+  tnoremap <C-w>h <C-\><C-n><C-w>h
+  tnoremap <C-w>j <C-\><C-n><C-w>j
+  tnoremap <C-w>k <C-\><C-n><C-w>k
+  tnoremap <C-w>l <C-\><C-n><C-w>l
+  tnoremap <F2> <C-\><C-n>:tabnext<CR>
+  tnoremap <F3> <C-\><C-n>:tabprevious<CR>
+  tnoremap jj <C-\><C-n>
+  tnoremap <ESC> <C-\><C-n>
+endif
 " }}}
 " split window {{{
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
