@@ -1515,6 +1515,7 @@ command! -bar -nargs=1 SpaceIndent
 " vimgrep alias {{{
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
+command! Date :call setline('.', getline('.') . strftime('%Y/%m/%d (%a) %H:%M'))
 " }}}
 " mapping {{{
 " move {{{
