@@ -17,7 +17,6 @@
 "                       |88Z'    'DNNNNNNN"
 "                       '"'        'MMMM"
 "                                    '"
-
 " start up {{{
 if !1 | finish | endif
 " Startup time. {{{
@@ -406,8 +405,8 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
   " Plugin key-mappings.
-  inoremap <expr><C-g>     neocomplete#undo_completion()
-  inoremap <expr><C-l>     neocomplete#complete_common_string()
+  inoremap <expr><C-g> neocomplete#undo_completion()
+  inoremap <expr><C-l> neocomplete#complete_common_string()
 
   " Recommended key-mappings.
   " <CR>: close popup and save indent.
@@ -416,12 +415,12 @@ if s:plug.is_installed('neocomplete.vim') " {{{
     return neocomplete#close_popup() . "\<CR>"
   endfunction
   " <TAB>: completion.
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   " <C-h>, <BS>: close popup and delete backword char.
   inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
   inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-  inoremap <expr><C-y>  neocomplete#close_popup()
-  inoremap <expr><C-e>  neocomplete#cancel_popup()
+  inoremap <expr><C-y> neocomplete#close_popup()
+  inoremap <expr><C-e> neocomplete#cancel_popup()
 
   " Enable omni completion.
   AutocmdFT css setlocal omnifunc=csscomplete#CompleteCSS
@@ -438,6 +437,7 @@ endif
 " }}}
 if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#enable_at_startup = 1
+  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 endif
 " }}}
 if s:plug.is_installed('neosnippet') " {{{
@@ -495,7 +495,7 @@ if s:plug.is_installed('lightline.vim') " {{{
   function! MyMode()
     let fname = expand('%:t')
     return  fname =~ 'NERD_tree' ? 'NERDTree' :
-          \ &ft == 'utenite' ? 'Unite' :
+          \ &ft == 'unite' ? 'Unite' :
           \ &ft == 'vimfiler' ? 'VimFiler' :
           \ &ft == 'vimshell' ? 'VimShell' :
           \ &ft == 'undotree' ? 'UndoTree' :
@@ -506,7 +506,7 @@ endif
 "}}}
 if s:plug.is_installed('The-NERD-tree') " {{{
   " バッファがNERDTreeのみになったときNERDTreeをとじる
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
+  Autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
         \ && b:NERDTreeType == "primary") | q | endif
   " NERDTREE ignor'e
   let g:NERDTreeIgnore = ['\.clean$', '\.swp$', '\.bak$', '\~$']
@@ -580,53 +580,11 @@ if s:plug.is_installed('unite.vim') "{{{
   nmap m [unite]
   xmap m [unite]
 
-  "uでUnite
   nnoremap [unite]u :<C-u>Unite<CR>
-
-  """"" unite neobundle
-  "neでUnite neobundle
-  nnoremap [unite]ne :<C-u>Unite -no-split neobundle/
-  "nuでUnite neobundle/update
-  nnoremap [unite]nu :<C-u>Unite -no-split neobundle/update<CR>
-  "bでUnite buffer
-  nnoremap [unite]b :<C-u>Unite buffer -winheight=5<CR>
-
-  """"" unite filer
-  "fでUnite file_point, file, file_mru
-  nnoremap [unite]f :<C-u>Unite -buffer-name=files file_point file file_mru<CR>
-  "hfでUnite file_mru(最近アクセスしたファイルリストを取得)
-  nnoremap [unite]hf :<C-u>Unite -buffer-name=files file_mru<CR>
-  "rfでUnite file_rec(カレント以下を再帰的に非同期取得)
-  nnoremap [unite]rf :<C-u>Unite -buffer-name=files file_rec<CR>
-  "tでUnite filetype
-  nnoremap [unite]t :<C-u>Unite -start-insert -vertical -winwidth=20 filetype<CR>
-  "dでUnite directory, directory_mru
-  nnoremap [unite]d :<C-u>Unite -buffer-name=files directory directory_mru<CR>
-  "maでUnite mapping
-  nnoremap [unite]ma :<C-u>Unite mapping<CR>
-  "hでUnite help
-  nnoremap [unite]he :<C-u>Unite -start-insert -winheight=32 help<CR>
-  "lでUnite locate
-  nnoremap [unite]l :<C-u>Unite -start-insert locate<CR>
-  "gでUnite grep
-  nnoremap [unite]g :<C-u>Unite -buffer-name=search-buffer -winheight=20 -no-quit grep<CR>
-  nnoremap ,g :<C-u>Unite grep:. -buffer-name=search-buffer -no-quit<CR>
-  " if executable('hw')
-  "   let g:unite_source_grep_command = 'hw'
-  "   let g:unite_source_grep_default_opts = '--no-group --no-color'
-  "   let g:unite_source_grep_recursive_opt = ''
-  " endif
-  "wでUnite window
-  nnoremap [unite]w :<C-u>Unite window<CR>
-  "sでUnite source
-  nnoremap [unite]s :<C-u>Unite source<CR>
-  "yでUnite yankround
-  nnoremap [unite]y :<C-u>Unite yankround<CR>
-  nnoremap ,e :<C-u>Unite file_rec/async:!<CR>
-  nnoremap <Space>a :<C-u>Unite -start-insert file_rec/async<CR>
-  "Space-rでキャッシュクリア
-  nnoremap <Space>r <Plug>(unite_restart)
-
+  nnoremap [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer -no-quit<CR>
+  nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
+  nnoremap [unite]a :<C-u>Unite -start-insert file_rec/async<CR>
+  nnoremap [unite]r <Plug>(unite_restart)
 endif
 " }}}
 if s:plug.is_installed('unite-build') " {{{
@@ -740,13 +698,17 @@ if s:plug.is_installed('vim-easymotion') " {{{
   let g:EasyMotion_space_jump_first = 1
   let g:EasyMotion_use_migemo = 1
   " keymapping
-  nmap <Leader>s <Plug>(easymotion-s2)
-  xmap <Leader>s <Plug>(easymotion-s2)
-  omap <Leader>s <Plug>(easymotion-s2)
-  nmap ss <Plug>(easymotion-s2)
-  xmap ss <Plug>(easymotion-s2)
-  nmap sj <Plug>(easymotion-j)
-  nmap sk <Plug>(easymotion-j)
+  nmap [EasyMotion] <Space>
+  nmap ss <Plug>(easymotion-s)
+  xmap ss <Plug>(easymotion-s)
+  nmap s2 <Plug>(easymotion-s2)
+  xmap s2 <Plug>(easymotion-s2)
+  nmap [EasyMotion]f <Plug>(easymotion-sf)
+  xmap [EasyMotion]F <Plug>(easymotion-sF)
+  nmap [EasyMotion]t <Plug>(easymotion-st)
+  xmap [EasyMotion]T <Plug>(easymotion-sT)
+  nmap <Space>j <Plug>(easymotion-j)
+  nmap <Space>k <Plug>(easymotion-j)
 
   highlight EasyMotionTarget guifg=#80a0ff ctermfg=81
 endif
@@ -990,8 +952,8 @@ if s:plug.is_installed('switch.vim') " {{{
         \       ');' : ')',
         \     },
         \  ]
-  nnoremap <Space>sw :<C-u>Switch<CR>
   nnoremap <C-s> :<C-u>Switch<CR>
+  nnoremap <Space>sw :<C-u>Switch<CR>
   inoremap <C-o> <ESC>`^:<C-u>Switch<CR><END>a
 endif
 "}}}
@@ -1068,6 +1030,7 @@ endif
 if s:plug.is_installed('auto-ctags.vim') "{{{
   let g:auto_ctags = 1
   let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes'
+  let g:auto_ctags_bin_path = '/usr/local/bin/ctags'
   let g:auto_ctags_tags_name = 'tags'
 
   augroup AutoCtags
@@ -1576,8 +1539,8 @@ nnoremap ZQ <Nop>
 "}}}
 " change normal mode {{{
 " Neojj
-inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
-cnoremap <expr> j getcmdline()[getcmdpos() - 2] ==# 'j' ? "\<BS>\<ESC>" : 'j'
+inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
+cnoremap <expr> j getcmdline()[getcmdpos() - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
 inoremap <silent> <Esc>  <Esc>`^
 inoremap <silent> <C-[>  <Esc>`^
 inoremap <C-c> <Esc>`^
