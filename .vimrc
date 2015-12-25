@@ -1358,6 +1358,8 @@ Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
       \ * match TrailingSpaces /\s\+$/
 Autocmd InsertLeave * set nopaste
+Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
+      \ | exe "normal g`\"" | endif
 " }}}
 " function {{{
 function! s:copy_mode_toggle() " {{{
