@@ -1678,9 +1678,9 @@ vnoremap : ;
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 " cnoremap <Tab> <C-d>
-nnoremap <sid>vcommand-line-enter) q:
-xnoremap <sid>(command-line-enter) q:
-nnoremap <sid>(command-line-norange) q:<C-u>
+nnoremap <SID>(command-line-enter) q:
+xnoremap <SID>(command-line-enter) q:
+nnoremap <SID>(command-line-norange) q:<C-u>
 " }}}
 " autoload {{{
 augroup CmdWindow
@@ -1735,7 +1735,7 @@ endfunction
 
 function! s:GetHighlight(hi)
   redir => hl
-  exec 'highlight '.a:hi
+  exec 'highlight ' . a:hi
   redir END
   let hl = substitute(hl, '[\r\n]', '', 'g')
   let hl = substitute(hl, 'xxx', '', '')
@@ -1780,8 +1780,8 @@ set statusline+=[%p%%]
 " }}}
 " color {{{
 try
-  colorscheme molokai
   let g:molokai_original = 1
+  colorscheme molokai
 catch
   colorscheme desert
 endtry
