@@ -274,7 +274,7 @@ Plug 'keith/rspec.vim'
 Plug 'koron/codic-vim'
 Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 Plug 'majutsushi/tagbar'
-Plug 'matchit.zip'
+Plug 'tmhedberg/matchit'
 Plug 'mattn/benchvimrc-vim'
 Plug 'mattn/emmet-vim'
 Plug 'mattn/emoji-vim'
@@ -721,6 +721,7 @@ if s:plug.is_installed('vim-altr') " {{{
   call altr#define('autoload/%.vim', 'doc/%-doc.txt', 'plugin/%.vim')
   call altr#define('actions/%Action.coffee', 'stores/%Store.coffee')
   call altr#define('actions/%Action.js', 'stores/%Store.js')
+  call altr#define('src/%.cpp', 'src/include/%.h')
   nmap ,a <Plug>(altr-forward)
 endif
 " }}}
@@ -754,7 +755,7 @@ if s:plug.is_installed('vim-watchdogs') "{{{
         \   'runner' : 'vimproc',
         \   'runner/vimproc/sleep' : 10,
         \   'runner/vimproc/updatetime' : 500,
-        \   'hook/echo/enable' : 1,
+        \   'hook/echo/enable' : 0,
         \   'hook/echo/output_success': '> No Errors Found.',
         \   'hook/back_window/enable' : 1,
         \   'hook/back_window/enable_exit' : 1,
@@ -954,7 +955,7 @@ if s:plug.is_installed('switch.vim') " {{{
         \  ]
   nnoremap <C-s> :<C-u>Switch<CR>
   nnoremap <Space>sw :<C-u>Switch<CR>
-  inoremap <C-o> <ESC>`^:<C-u>Switch<CR><END>a
+  inoremap <C-o> <ESC>`^:<C-u>Switch<CR>i
 endif
 "}}}
 if s:plug.is_installed('surround.vim') "{{{
@@ -1079,7 +1080,6 @@ if s:plug.is_installed('lexima.vim') " {{{
   let g:lexima_enable_basic_rules = 1
   let g:lexima_enable_endwise_rules = 1
   let g:lexima_enable_newline_rules = 1
-  call lexima#set_default_rules()
   call lexima#add_rule({
         \   "at" : '\%#',
         \   "char" : ",",
@@ -1096,29 +1096,6 @@ if s:plug.is_installed('lexima.vim') " {{{
         \   "char" : '<Enter>',
         \   "input" : '<BS><Enter>',
         \})
-  function! s:set_lexima(rule)
-      call lexima#add_rule(a:rule)
-      let ignore_rule = a:rule
-      let ignore_rule.syntax = ["String", "Comment"]
-      let ignore_rule.input = ignore_rule.char
-      call lexima#add_rule(ignore_rule)
-  endfunction
-
-  call s:set_lexima({'at': '\%#',     'char': '[',    'input': '[]<Left>'})
-  call s:set_lexima({'at': '\%#]',    'char': '[',    'input': '['})
-  call s:set_lexima({'at': '\[\%#\]', 'char': ']',    'input': '<Right>'})
-  call s:set_lexima({'at': '\[\%#\]', 'char': '[',    'input': '[]<Left>'})
-  call s:set_lexima({'at': '\[\%#\]', 'char': '<BS>', 'input': '<BS><Del>'})
-
-  for [begin, end] in [['(', ')'], ['{', '}']]
-    let bracket = begin.end
-    call s:set_lexima({'at': '\%#',     'char': begin, 'input': bracket.'<Left>'})
-    call s:set_lexima({'at': '\%#'.end, 'char': begin, 'input': begin})
-
-    call s:set_lexima({'at': begin.'\%#'.end, 'char': end,   'input': '<Right>'})
-    call s:set_lexima({'at': begin.'\%#'.end, 'char': begin, 'input': bracket.'<Left>'})
-    call s:set_lexima({'at': begin.'\%#'.end, 'char': '<BS>', 'input': '<BS><Del>'})
-  endfor
 endif
 " }}}
 if s:plug.is_installed('tagbar') " {{{
@@ -1704,6 +1681,10 @@ endfunction
 " clear screan {{{
 nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR><ESC>
+" }}}
+" VS like " {{{
+nnoremap <f4> :<c-u>cnext<cr>
+nnoremap <s-f4> :<c-u>cprevious<cr>
 " }}}
 " etc {{{
 nnoremap <C-p> :<C-u>G<Space>
