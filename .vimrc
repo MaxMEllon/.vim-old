@@ -311,6 +311,7 @@ Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
+Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
 Plug 'tyru/capture.vim', {'on' : 'Capture'}
 Plug 'tyru/caw.vim'
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
