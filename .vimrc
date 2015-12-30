@@ -1347,16 +1347,20 @@ endfunction
 command! CopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-c> :<C-u>CopyModeToggle<CR>
 " }}}
-function! s:load_help() "{{{
-  if isdirectory(expand('~/.vim/help/vimdoc-ja/doc'))
-    helptags ~/.vim/help/vimdoc-ja/doc
-    set runtimepath+=~/.vim/help/vimdoc-ja
-    set helplang=ja
-  endif
-endfunction
-command! LoadHelp :call s:load_help()
-AutocmdFT help LoadHelp
-nnoremap <silent> ,h :LoadHelp<CR> :help <C-r><C-w><CR>
+if ! IsWindows()
+  function! s:load_help() "{{{
+    if isdirectory(expand('~/.vim/help/vimdoc-ja/doc'))
+      helptags ~/.vim/help/vimdoc-ja/doc
+      set runtimepath+=~/.vim/help/vimdoc-ja
+      set helplang=ja
+    endif
+  endfunction
+  command! LoadHelp :call s:load_help()
+  AutocmdFT help LoadHelp
+  nnoremap <silent> ,h :<C-u>LoadHelp<CR> :<C-u>help <C-r><C-w><CR>
+else
+  nnoremap <silent> ,h :<C-u>help <C-r><C-w><CR>
+endif
 "}}}
 function! s:remove_fancy_characters() "{{{
   let typo = {}
@@ -1502,13 +1506,13 @@ nnoremap <Up> <C-w>+
 nmap [Tab] <Nop>
 nmap s [Tab]
 nnoremap [Tab]e :<C-u>tabedit<Space>.<CR>
-nnoremap <silent> [Tab]c :tablast <bar> tabnew<CR>
-nnoremap <silent> [Tab]n :tabnew<CR>
-nnoremap <silent> [Tab]x :tabclose<CR>
-nnoremap <silent> [Tab]n :tabnext<CR>
-nnoremap <silent> <F3> :tabnext<CR>
-nnoremap <silent> [Tab]p :tabprevious<CR>
-nnoremap <silent> <F2> :tabprevious<CR>
+nnoremap <silent> [Tab]c :<C-u>tablast <bar> tabnew<CR>
+nnoremap <silent> [Tab]n :<C-u>tabnew<CR>
+nnoremap <silent> [Tab]x :<C-u>tabclose<CR>
+nnoremap <silent> [Tab]n :<C-u>tabnext<CR>
+nnoremap <silent> <F3>   :<C-u>tabnext<CR>
+nnoremap <silent> [Tab]p :<C-u>tabprevious<CR>
+nnoremap <silent> <F2>   :<C-u>tabprevious<CR>
 "}}}
 " Disable key {{{
 nnoremap M m
@@ -1533,10 +1537,10 @@ xnoremap <silent> gp o<ESC>p^
 xnoremap <silent> gP O<ESC>P^
 " }}}
 " change buffer {{{
-nnoremap <silent> bp :bprevious<CR>
-nnoremap <silent> bn :bnext<CR>
+nnoremap <silent> bp :<C-u>bprevious<CR>
+nnoremap <silent> bn :<C-u>bnext<CR>
 for s:k in range(1, 9)
-  execute 'nnoremap <Leader>' . s:k ':e #' . s:k . '<CR>'
+  execute 'nnoremap <Leader>' . s:k ':<C-u>e #' . s:k . '<CR>'
 endfor
 " }}}
 " indent {{{
@@ -1621,9 +1625,9 @@ endif
 " split window {{{
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
 " _ : Quick horizontal splits
-nnoremap _ :sp .<CR>
+nnoremap _ :<C-u>sp .<CR>
 " | : Quick vertical splits
-nnoremap <bar> :vsp .<CR>
+nnoremap <bar> :<C-u>vsp .<CR>
 " }}}
 " increment {{{
 noremap + <C-a>
@@ -1633,13 +1637,13 @@ vnoremap <C-x> <C-x>gv
 " }}}
 " prefix [,] {{{
 " remove white space of end line
-nnoremap <silent> ,x :%s/\s\+$//e<CR>
-vnoremap <silent> ,x :%s/\s\+$//e<CR>
+nnoremap <silent> ,x :<C-u>%s/\s\+$//e<CR>
+vnoremap <silent> ,x :<C-u>%s/\s\+$//e<CR>
 " remove double width white space
-nnoremap <silent> ,z :%s/  /  /g<CR>
-vnoremap <silent> ,z :%s/  /  /g<CR>
+nnoremap <silent> ,z :<C-u>%s/  /  /g<CR>
+vnoremap <silent> ,z :<C-u>%s/  /  /g<CR>
 " toggle paste mode
-nnoremap <silent> ,p :set paste!<CR>
+nnoremap <silent> ,p :<C-u>set paste!<CR>
 " }}}
 " cmd window {{{
 nnoremap ;; q:
@@ -1684,8 +1688,8 @@ nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR><ESC>
 " }}}
 " VS like " {{{
-nnoremap <f4> :<c-u>cnext<cr>
-nnoremap <s-f4> :<c-u>cprevious<cr>
+nnoremap <f4> :<C-u>cnext<CR>
+nnoremap <s-f4> :<C-u>cprevious<CR>
 " }}}
 " etc {{{
 nnoremap <C-p> :<C-u>G<Space>
