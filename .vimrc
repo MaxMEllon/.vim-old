@@ -1564,20 +1564,22 @@ inoremap <C-n> <Up>
 inoremap <C-p> <Down>
 inoremap <C-m> <CR>
 
-" 隣接した{}で改行したらインデント
-function! IndentBraces()
-  let nowletter = getline(".")[col(".")-1]    " 今いるカーソルの文字
-  let beforeletter = getline(".")[col(".")-2] " 1つ前の文字
+function! s:indent_braces()
+  let nowletter = getline(".")[col(".")-1]
+  let beforeletter = getline(".")[col(".")-2]
 
-  " カーソルの位置の括弧が隣接している場合
   if nowletter == "}" && beforeletter == "{"
+    unlet nowletter
+    unlet beforeletter
     return "\n\t\n\<UP>\<RIGHT>\<ESC>\A"
   else
+    unlet nowletter
+    unlet beforeletter
     return "\n"
   endif
 endfunction
-" Enterに割り当て
-inoremap <silent> <expr> <CR> IndentBraces()
+
+inoremap <silent> <expr> <CR> <SID>indent_braces()
 " }}}
 " home and end {{{
 " See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
