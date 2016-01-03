@@ -1180,6 +1180,10 @@ set formatoptions-=o
 set formatoptions-=v
 set formatoptions+=l
 " }}}
+" {{{
+set mouse&
+set mouse-=a
+" }}}
 " spelling {{{
 set spelllang=en_us
 " ignore japanese
