@@ -57,7 +57,7 @@ function! IsMac()
         \     system('uname') =~? '^darwin'))
 endfunction
 " }}}
-"}}}
+" }}}
 " encoding {{{
 " See:
 " https://raw.githubusercontent.com/Shougo/shougo-s-github/master/vim/rc/encoding.rc.vim
@@ -340,7 +340,7 @@ if s:plug.is_installed('rails.vim') " {{{
   let g:rails_level = 4
   let g:rails_defalut_database = 'postgresql'
 endif
-" " }}}
+" }}}
 if s:plug.is_installed('neocomplcache.vim') " {{{
   "neocomplcacheを有効化
   let g:neocomplcache_enable_at_startup = 1
@@ -1149,8 +1149,6 @@ set showcmd                   " ステータスラインに常にコメンド表
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                " 横分割時、新しいウィンドウは下
 set splitright                " 縦分割時、新しいウィンドウは右
-set tags+=.svn/tags
-set tags+=.git/tags
 set textwidth=0
 " set nocompatible              " VI互換を無効化
 if ! IsWindows()
@@ -1162,6 +1160,8 @@ if exists('&macatsui')
 endif
 if has("path_extra")
   set tags+=tags;
+  set tags+=.svn/tags
+  set tags+=.git/tags
 endif
 if ! has('nvim')
   set ttyfast                   " スクロールが滑らかに
@@ -1180,7 +1180,7 @@ set formatoptions-=o
 set formatoptions-=v
 set formatoptions+=l
 " }}}
-" {{{
+" mouse {{{
 set mouse&
 set mouse-=a
 " }}}
@@ -1351,8 +1351,9 @@ endfunction
 command! CopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-c> :<C-u>CopyModeToggle<CR>
 " }}}
-if ! IsWindows()
-  function! s:load_help() "{{{
+" help {{{
+if !IsWindows()
+  function! s:load_help()
     if isdirectory(expand('~/.vim/help/vimdoc-ja/doc'))
       helptags ~/.vim/help/vimdoc-ja/doc
       set runtimepath+=~/.vim/help/vimdoc-ja
@@ -1616,18 +1617,6 @@ xnoremap ad  a"
 onoremap id  i"
 xnoremap id  i"
 " }}}
-" tnoremap {{{
-if has('nvim')
-  tnoremap <C-w>h <C-\><C-n><C-w>h
-  tnoremap <C-w>j <C-\><C-n><C-w>j
-  tnoremap <C-w>k <C-\><C-n><C-w>k
-  tnoremap <C-w>l <C-\><C-n><C-w>l
-  tnoremap <F2> <C-\><C-n>:tabnext<CR>
-  tnoremap <F3> <C-\><C-n>:tabprevious<CR>
-  tnoremap jj <C-\><C-n>
-  tnoremap <ESC> <C-\><C-n>
-endif
-" }}}
 " split window {{{
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
 " _ : Quick horizontal splits
@@ -1726,12 +1715,12 @@ function! s:StatusLine(mode)
 endfunction
 
 function! s:GetHighlight(hi)
-  redir => hl
+  redir => s:hl
   exec 'highlight ' . a:hi
   redir END
-  let hl = substitute(hl, '[\r\n]', '', 'g')
-  let hl = substitute(hl, 'xxx', '', '')
-  return hl
+  let s:hl = substitute(s:hl, '[\r\n]', '', 'g')
+  let s:hl = substitute(s:hl, 'xxx', '', '')
+  return s:hl
 endfunction
 
 " See: http://qiita.com/kotashiratsuka/items/dcd1f4231385dc9c78e7
