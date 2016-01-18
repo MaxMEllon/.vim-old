@@ -264,7 +264,7 @@ Plug 'haya14busa/incsearch-migemo.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'jelera/vim-javascript-syntax', {'for' : 'js'}
+Plug 'jelera/vim-javascript-syntax'
 " Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
@@ -286,7 +286,8 @@ Plug 'mattn/vim-textobj-url'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-Plug 'mxw/vim-jsx', {'for' : 'js'}
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
@@ -299,7 +300,7 @@ Plug 'osyo-manga/vim-reunions'
 Plug 'isRuslan/vim-es6'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'osyo-manga/vim-watchdogs'
-Plug 'othree/javascript-libraries-syntax.vim', {'for' : ['coffee', 'js']}
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'rhysd/vim-textobj-ruby'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
@@ -799,6 +800,11 @@ if s:plug.is_installed('vim-watchdogs') "{{{
           \   'type': 'watchdogs_checker/scss',
           \ }
   endif
+  if executable('eslint')
+    let g:quickrun_config['javascript/watchdogs_checker'] = {
+          \     "type" : "eslint",
+          \   }
+  endif
   if executable('rubocop')
     let g:quickrun_config['ruby/watchdogs_checker'] = {
           \   "type" : "watchdogs_checker/rubocop"
@@ -825,6 +831,7 @@ if s:plug.is_installed('vim-watchdogs') "{{{
         \   "slim"   : 0,
         \   "java"   : 0,
         \   "sass"   : 0,
+        \   "js"     : 1,
         \ }
   let g:watchdogs_check_CursorHold_enable = 0
   call watchdogs#setup(g:quickrun_config)
@@ -899,6 +906,11 @@ if s:plug.is_installed('vim-tmng') " {{{
   let g:neosnippet#snippets_directory = '~/.vim/plugged/vim-tmng/snippets'
   Autocmd BufWrite *.txt,*.tmng
         \ :TmngReplaceDotAndComma
+endif
+" }}}
+if s:plug.is_installed('vim-jsx') " {{{
+  let g:jsx_ext_required = 0
+  let g:jsx_pragma_required = 0
 endif
 " }}}
 if s:plug.is_installed('phpcomplete-extended') " {{{
