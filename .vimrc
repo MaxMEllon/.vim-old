@@ -264,6 +264,7 @@ Plug 'haya14busa/incsearch-migemo.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'jelera/vim-javascript-syntax', {'for' : 'js'}
 " Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
@@ -285,6 +286,7 @@ Plug 'mattn/vim-textobj-url'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
+Plug 'mxw/vim-jsx', {'for' : 'js'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
@@ -294,6 +296,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-reunions'
+Plug 'isRuslan/vim-es6'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'osyo-manga/vim-watchdogs'
 Plug 'othree/javascript-libraries-syntax.vim', {'for' : ['coffee', 'js']}
