@@ -16,13 +16,14 @@ set guioptions-=m
 set guioptions-=T
 set guioptions-=C
 set guioptions-=b
+set imdisable
+augroup GUI
+  autocmd!
+augroup END
 if has("gui_running")
-  augroup GUI
-    autocmd!
-  augroup END
+  command! -nargs=* AutocmdGui autocmd GUI <args>
+  AutocmdGui GUIEnter * set fullscreen
 endif
-command! -nargs=* AutocmdGui autocmd GUI <args>
-AutocmdGui GUIEnter * set fullscreen
 try
   set background=dark
   colorscheme molokai
