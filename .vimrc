@@ -244,7 +244,7 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Shougo/vimshell.vim'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 Plug 'The-NERD-tree'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 Plug 'altercation/vim-colors-solarized'
@@ -286,9 +286,10 @@ Plug 'mattn/vim-textobj-url'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'pangloss/vim-javascript'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/unite-filetype'
@@ -323,6 +324,7 @@ Plug 'vim-ruby/vim-ruby', {'for' : 'ruby'}
 Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
 Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 Plug 'yonchu/accelerated-smooth-scroll'
+Plug 'wavded/vim-stylus'
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
 else
@@ -1131,6 +1133,18 @@ if s:plug.is_installed('vim-go') " {{{
   let g:go_highlight_build_constraints = 1
 endif
 " }}}
+if s:plug.is_installed('vim-indent-guides') " {{{
+  let g:indent_guides_auto_colors  = 1
+  augroup Indent
+    autocmd!
+    autocmd VimEnter,Colorscheme * hi IndentGuidesOdd  ctermbg=110
+    autocmd VimEnter,Colorscheme * hi IndentGuidesEven ctermbg=140
+  augroup END
+  let g:indent_guides_enable_on_vim_startup = 1
+  let g:indent_guides_guide_size = 1
+  let g:indent_guides_start_level = 2
+endif
+" }}}
 " }}}
 " set {{{
 " common {{{
@@ -1361,7 +1375,7 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " function {{{
 function! s:copy_mode_toggle() " {{{
   setlocal nolist!
-  IndentLinesToggle
+  IndentGuidesToggle
 endfunction
 command! CopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-c> :<C-u>CopyModeToggle<CR>
