@@ -237,7 +237,7 @@ Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/unite-build'
+" Plug 'Shougo/unite-build'
 " Plug 'Shougo/unite-outline'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -283,7 +283,7 @@ Plug 'mattn/emoji-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
 Plug 'mattn/jscomplete-vim', {'for' : ['javascript', 'coffee']}
 Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
-Plug 'mattn/vim-textobj-url'
+" Plug 'mattn/vim-textobj-url'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
