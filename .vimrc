@@ -255,7 +255,8 @@ Plug 'cohama/lexima.vim'
 Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', {'for' : 'go'}
+Plug 'gabesoft/vim-ags', {'on' : 'Ags'}
 Plug 'glts/vim-textobj-comment'
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'haya14busa/incsearch-easymotion.vim'
@@ -272,15 +273,15 @@ Plug 'kana/vim-altr'
 " Plug 'kana/vim-smartinput'
 Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
 Plug 'keith/rspec.vim'
-Plug 'koron/codic-vim'
+" Plug 'koron/codic-vim'
 Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 Plug 'majutsushi/tagbar'
 Plug 'tmhedberg/matchit'
-Plug 'mattn/benchvimrc-vim'
+Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 Plug 'mattn/emmet-vim'
 Plug 'mattn/emoji-vim'
-Plug 'mattn/gist-vim'
-Plug 'mattn/jscomplete-vim', {'for' : ['js', 'coffee']}
+Plug 'mattn/gist-vim', {'on' : 'Gist'}
+Plug 'mattn/jscomplete-vim', {'for' : ['javascript', 'coffee']}
 Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 Plug 'mattn/vim-textobj-url'
 Plug 'mattn/webapi-vim'
@@ -289,7 +290,7 @@ Plug 'mhinz/vim-startify'
 Plug 'mxw/vim-jsx'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript', {'for' : 'javascript'}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/unite-filetype'
@@ -298,10 +299,10 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-reunions'
-Plug 'isRuslan/vim-es6'
+Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 " Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'osyo-manga/vim-watchdogs'
-Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'othree/javascript-libraries-syntax.vim', {'for' : 'javascript'}
 Plug 'rhysd/clever-f.vim'
 Plug 'rhysd/vim-textobj-ruby'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
@@ -311,7 +312,6 @@ Plug 'surround.vim'
 Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
-Plug 'thinca/vim-singleton'
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -323,7 +323,7 @@ Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
 Plug 'vim-ruby/vim-ruby', {'for' : 'ruby'}
 Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
 Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
-Plug 'yonchu/accelerated-smooth-scroll'
+" Plug 'yonchu/accelerated-smooth-scroll'
 Plug 'wavded/vim-stylus'
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
@@ -332,6 +332,7 @@ else
   Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
 endif
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim' | endif
+if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 call plug#end()
 " " }}}
 let s:plug = {
