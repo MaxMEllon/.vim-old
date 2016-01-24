@@ -227,11 +227,10 @@ Plug 'KazuakiM/vim-qfstatusline'
 Plug 'LeafCage/foldCC.vim'
 Plug 'LeafCage/yankround.vim'
 Plug 'MaxMEllon/molokai'
-Plug 'MaxMEllon/unite-rails-fat', {'on' : 'Unite'}
-" Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss']}
+Plug 'MaxMEllon/unite-rails-fat'
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
-Plug 'PDV--phpDocumentor-for-Vim', {'for' : 'php'}
+Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
 Plug 'Shougo/context_filetype.vim'
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
 Plug 'Shougo/neomru.vim'
@@ -247,6 +246,7 @@ Plug 'The-NERD-tree'
 " Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
+Plug 'alpaca-tc/alpaca_tags'
 Plug 'altercation/vim-colors-solarized'
 Plug 'basyura/unite-rails'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
@@ -264,49 +264,43 @@ Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/incsearch-migemo.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'jelera/vim-javascript-syntax'
+Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 " Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-altr'
 " Plug 'kana/vim-smartinput'
 Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
-Plug 'keith/rspec.vim'
+Plug 'keith/rspec.vim', {'on' : 'Rspec'}
 " Plug 'koron/codic-vim'
 Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 Plug 'tmhedberg/matchit'
 Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 Plug 'mattn/emmet-vim'
-Plug 'mattn/emoji-vim'
+" Plug 'mattn/emoji-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
-Plug 'mattn/jscomplete-vim', {'for' : ['javascript', 'coffee']}
 Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-Plug 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx', {'for' : ['javascript', 'jsx']}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'pangloss/vim-javascript', {'for' : 'javascript'}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
-Plug 'osyo-manga/unite-filetype'
+" Plug 'osyo-manga/unite-filetype'
 Plug 'osyo-manga/unite-quickfix'
 Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/vim-over'
 Plug 'osyo-manga/vim-reunions'
-Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 " Plug 'osyo-manga/vim-textobj-multiblock'
-Plug 'osyo-manga/vim-watchdogs'
-Plug 'othree/javascript-libraries-syntax.vim', {'for' : 'javascript'}
 Plug 'rhysd/clever-f.vim'
-Plug 'rhysd/vim-textobj-ruby'
+" Plug 'rhysd/vim-textobj-ruby'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
-Plug 'soramugi/auto-ctags.vim'
+" Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 Plug 'surround.vim'
 Plug 't9md/vim-quickhl'
@@ -321,10 +315,22 @@ Plug 'tyru/capture.vim', {'on' : 'Capture'}
 Plug 'tyru/caw.vim'
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
 Plug 'vim-ruby/vim-ruby', {'for' : 'ruby'}
-Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
+" Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
 Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
-Plug 'wavded/vim-stylus'
+Plug 'wavded/vim-stylus', {'for' : 'stylus'}
+" javascript {{{
+Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
+Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
+Plug 'othree/javascript-libraries-syntax.vim', {'for' : 'javascript'}
+Plug 'pangloss/vim-javascript', {'for' : 'javascript'}
+Plug 'mattn/jscomplete-vim', {'for' : 'javascript'}
+" }}}
+if has('gui_running')
+  Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
+  Plug 'osyo-manga/vim-watchdogs'
+  Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
+endif
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
 else
@@ -434,6 +440,7 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   AutocmdFT css setlocal omnifunc=csscomplete#CompleteCSS
   AutocmdFT html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   AutocmdFT javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  AutocmdFT java setlocal omnifunc=javacomplete#Complete
   AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
   AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
 
@@ -1149,6 +1156,21 @@ if s:plug.is_installed('vim-indent-guides') " {{{
   let g:indent_guides_color_change_percent = 30
   let g:indent_guides_guide_size = 1
   let g:indent_guides_start_level = 2
+endif
+" }}}
+if s:plug.is_installed('alpaca_tags') " {{{
+  let g:alpaca_tags#config = {
+        \   '_' : '--recurse=yes --sort=yes --append=yes',
+        \   'ruby' : '--exclude=.bundle,vendor/bundle --languages=+Ruby',
+        \   'javascript' : '--exclude=node_modules --exclude=packages/*/.build/'
+        \ }
+  augroup AlpacaTags
+    autocmd!
+  augroup END
+  command! -nargs=* AutoAlpaca autocmd AlpacaTags <args>
+  AutoAlpaca BufWritePost Gemfile AlpacaTagsBundle
+  AutoAlpaca BufEnter * AlpacaTagsSet
+  AutoAlpaca BufWritePost * AlpacaTagsUpdate
 endif
 " }}}
 " }}}
