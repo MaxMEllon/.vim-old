@@ -272,6 +272,7 @@ Plug 'kana/vim-altr'
 " Plug 'kana/vim-smartinput'
 Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
 Plug 'keith/rspec.vim', {'on' : 'Rspec'}
+Plug 'ctrlpvim/ctrlp.vim', {'on' : ['CtrlP', 'CtrlPBuffer', 'CtrlPMixed', 'CtrlPDir']}
 " Plug 'koron/codic-vim'
 Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
@@ -285,7 +286,7 @@ Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-Plug 'mxw/vim-jsx', {'for' : ['javascript', 'jsx']}
+Plug 'mxw/vim-jsx'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
@@ -295,7 +296,6 @@ Plug 'osyo-manga/unite-quickfix'
 Plug 'osyo-manga/vim-anzu'
 Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/vim-over'
-Plug 'osyo-manga/vim-reunions'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'rhysd/clever-f.vim'
 " Plug 'rhysd/vim-textobj-ruby'
@@ -321,9 +321,10 @@ Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 " javascript {{{
 Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
-Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for' : 'javascript'}
 Plug 'pangloss/vim-javascript', {'for' : 'javascript'}
+Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
+Plug 'othree/yajs.vim', {'for' : 'javascript'}
+Plug 'othree/javascript-libraries-syntax.vim', {'for' : 'javascript'}
 Plug 'mattn/jscomplete-vim', {'for' : 'javascript'}
 " }}}
 if has('gui_running')
@@ -524,11 +525,10 @@ if s:plug.is_installed('The-NERD-tree') " {{{
   Autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
         \ && b:NERDTreeType == "primary") | q | endif
   " NERDTREE ignor'e
-  let g:NERDTreeIgnore = ['\.clean$', '\.swp$', '\.bak$', '\~$']
-  " 隠しファイルの表示設定 0 非表示 1,  表示
-  let g:NERDTreeShowHidden = 0
-  " 綺麗にディレクトリ構造を表示する
+  let g:NERDTreeIgnore = ['\.log, \.clean$', '\.swp$', '\.bak$', '\~$']
+  let g:NERDTreeShowHidden = 1
   let g:NERDTreeDirArrows = 0
+  let g:NERDTreeWinSize = 20
   nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
 endif
 "}}}
@@ -556,8 +556,6 @@ if s:plug.is_installed('vim-quickrun') " {{{
 endif
 " }}}
 if s:plug.is_installed('syntastic') "{{{
-  let g:jsx_ext_required = 0
-  let g:jsx_pragma_required = 1
   let g:syntastic_javascript_checkers = ['jsxhint']
   let g:syntastic_coffee_checkers     = ['jsxhint']
   " depend on Unite, Unite-QuickFix
@@ -765,7 +763,7 @@ if s:plug.is_installed('vim-marching') " {{{
 endif
 " }}}
 if s:plug.is_installed('vim-watchdogs') "{{{
-  let g:quickrun_config = {}
+  let g:quickrun_config = get(g:, 'quickrun_config', {})
   let g:quickrun_config['watchdogs_checker/_'] = {
         \   'runner' : 'vimproc',
         \   'runner/vimproc/sleep' : 10,
@@ -812,8 +810,11 @@ if s:plug.is_installed('vim-watchdogs') "{{{
   endif
   if executable('eslint')
     let g:quickrun_config['javascript/watchdogs_checker'] = {
-          \     "type" : "eslint",
-          \   }
+          \   'type' : 'eslint',
+          \ }
+    let g:quickrun_config['javascript.jsx/watchdogs_checker'] = {
+          \   'type' : 'eslint',
+          \ }
   endif
   if executable('rubocop')
     let g:quickrun_config['ruby/watchdogs_checker'] = {
@@ -832,16 +833,17 @@ if s:plug.is_installed('vim-watchdogs') "{{{
   end
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_BufWritePost_enables = {
-        \   "c"      : 0,
-        \   "cpp"    : 1,
-        \   "python" : 0,
-        \   "vim"    : 0,
-        \   "php"    : 1,
-        \   "ruby"   : 0,
-        \   "slim"   : 0,
-        \   "java"   : 0,
-        \   "sass"   : 0,
-        \   "js"     : 1,
+        \ 'c'              : 0,
+        \ 'cpp'            : 1,
+        \ 'python'         : 0,
+        \ 'vim'            : 0,
+        \ 'php'            : 1,
+        \ 'ruby'           : 0,
+        \ 'slim'           : 0,
+        \ 'java'           : 0,
+        \ 'sass'           : 0,
+        \ 'javascript'     : 1,
+        \ 'javascript.jsx' : 1,
         \ }
   let g:watchdogs_check_CursorHold_enable = 0
   call watchdogs#setup(g:quickrun_config)
@@ -1078,9 +1080,6 @@ if s:plug.is_installed('ctrlp.vim') "{{{
   let g:ctrlp_open_new_file = 'r'
   let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
   let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:18'
-  nnoremap t <Nop>
-  nnoremap tt :<C-u>CtrlPMixed<CR>
-  nnoremap tb :<C-u>CtrlPBuffer<CR>
 endif
 " }}}
 if s:plug.is_installed('hl_matchit.vim') " {{{
@@ -1184,6 +1183,7 @@ set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
+set fillchars=vert:\|
 set history=10000             " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
@@ -1285,9 +1285,8 @@ set foldmethod =marker " 折りたたみ方法:マーカ
 set foldcolumn =0      " 折りたたみの補助線幅
 set foldlevel  =0      " foldをどこまで一気に開くか
 if (!exists('FoldCCText'))
-  let g:foldCCtext_maxchars = 70
+  let g:foldCCtext_maxchars = 30
   set foldtext=FoldCCtext()
-  set fillchars=vert:\|
 endif
 " }}}
 " indent {{{
@@ -1354,6 +1353,42 @@ if has('vim_starting') && !has('gui_running') && has('vertsplit')
   let &t_RV .= "\e[?6;69h\e[1;3s\e[3;9H\e[6n\e[0;0s\e[?6;69l"
 endif
 " }}}
+" " twty {{{
+" function! s:append(line)
+"   let wn = bufwinnr("tweets")
+"   if wn == -1
+"     return 0
+"   endif
+"   exe wn 'wincmd w'
+"   try
+"     let o = jsondecode(a:line)
+"     let ts = type(o) == 3 ? o : [o]
+"     for t in ts
+"       1put!=t.user.screen_name . ': ' . t.text
+"     endfor
+"   finally
+"     wincmd p
+"   endtry
+" endfunction
+"
+" if bufwinnr("tweets") == -1
+"   10new tweets
+"   setlocal buftype=nofile bufhidden=hide noswapfile
+"   wincmd p
+" endif
+"
+" function! TweetsCallback(handle, msg)
+"   for line in split(a:msg, "\n")
+"     call s:append(line)
+"   endfor
+"   redraw
+" endfunction
+"
+" if exists('s:handle')
+"   call disconnect(s:handle)
+" endif
+" let s:handle = connect("127.0.0.1:7777", "raw", "TweetsCallback")
+" }}}
 " }}}
 " autocmd {{{
 " filetype {{{
@@ -1405,8 +1440,8 @@ function! s:copy_mode_toggle() " {{{
   setlocal nolist!
   IndentGuidesToggle
 endfunction
-command! CopyModeToggle :call s:copy_mode_toggle()
-nnoremap <silent> <C-c> :<C-u>CopyModeToggle<CR>
+command! MyCopyModeToggle :call s:copy_mode_toggle()
+nnoremap <silent> <C-c> :<C-u>MyCopyModeToggle<CR>
 " }}}
 " help {{{
 if !IsWindows()
@@ -1417,9 +1452,9 @@ if !IsWindows()
       set helplang=ja
     endif
   endfunction
-  command! LoadHelp :call s:load_help()
-  AutocmdFT help LoadHelp
-  nnoremap <silent> ,h :<C-u>LoadHelp<CR> :<C-u>help <C-r><C-w><CR>
+  command! MyLoadHelp :call s:load_help()
+  AutocmdFT help MyLoadHelp
+  nnoremap <silent> ,h :<C-u>MyLoadHelp<CR> :<C-u>help <C-r><C-w><CR>
 else
   nnoremap <silent> ,h :<C-u>help <C-r><C-w><CR>
 endif
