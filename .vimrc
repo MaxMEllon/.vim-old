@@ -286,7 +286,6 @@ Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
-Plug 'mxw/vim-jsx'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
@@ -320,11 +319,15 @@ Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 " javascript {{{
-Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
-Plug 'pangloss/vim-javascript', {'for' : 'javascript'}
-Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
+" Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
+" Plug 'pangloss/vim-javascript', {'for' : 'javascript'}
+" Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 Plug 'othree/yajs.vim', {'for' : 'javascript'}
+Plug 'mxw/vim-jsx', {'for' : 'javascript.jsx'}
+Plug 'othree/es.next.syntax.vim', {'for' : 'javascript'}
 Plug 'othree/javascript-libraries-syntax.vim', {'for' : 'javascript'}
+Plug 'heavenshell/vim-jsdoc', {'for' : 'javascript'}
+Plug 'moll/vim-node', {'for' : 'javascript'}
 Plug 'mattn/jscomplete-vim', {'for' : 'javascript'}
 " }}}
 if has('gui_running')
@@ -921,7 +924,7 @@ if s:plug.is_installed('vim-tmng') " {{{
 endif
 " }}}
 if s:plug.is_installed('vim-jsx') " {{{
-  let g:jsx_ext_required = 0
+  let g:jsx_ext_required = 1
   let g:jsx_pragma_required = 0
 endif
 " }}}
@@ -1405,6 +1408,7 @@ Autocmd BufNewFile,BufRead *.exs     set filetype=elixir
 Autocmd BufNewFile,BufRead *.ex      set filetype=elixir
 Autocmd BufNewFile,BufRead *.toml    set filetype=toml
 Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
+Autocmd BufNewFile,BufRead *.jsx     set filetype=javascript.jsx
 AutocmdFT python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
 AutocmdFT php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
 AutocmdFT java     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
@@ -1655,10 +1659,7 @@ inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-h> <BS>
 inoremap <C-d> <Del>
-inoremap <C-f> <Right>
-inoremap <C-b> <Left>
-inoremap <C-n> <Up>
-inoremap <C-p> <Down>
+inoremap <C-f> <C-x><C-p>
 inoremap <C-m> <CR>
 
 function! s:indent_braces()
