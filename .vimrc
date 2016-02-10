@@ -813,7 +813,7 @@ if s:plug.is_installed('vim-watchdogs') "{{{
   endif
   if executable('eslint')
     let g:quickrun_config['javascript/watchdogs_checker'] = {
-          \   'type' : 'eslint',
+          \   'type' : 'watchdogs_checker/eslint',
           \ }
     let g:quickrun_config['javascript.jsx/watchdogs_checker'] = {
           \   'type' : 'eslint',
@@ -1106,6 +1106,7 @@ endif
 " }}}
 if s:plug.is_installed('lexima.vim') " {{{
   let g:lexima_enable_basic_rules = 1
+  let g:lexima_enable_space_rules = 1
   let g:lexima_enable_endwise_rules = 1
   let g:lexima_enable_newline_rules = 1
   call lexima#add_rule({
