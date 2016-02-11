@@ -230,6 +230,7 @@ Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/unite-rails-fat'
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
+Plug 'MaxMEllon/vim-dirvish'
 Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
 Plug 'Shougo/context_filetype.vim'
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
@@ -242,7 +243,7 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Shougo/vimshell.vim'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
-Plug 'The-NERD-tree'
+" Plug 'The-NERD-tree'
 " Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
@@ -533,6 +534,21 @@ if s:plug.is_installed('The-NERD-tree') " {{{
   let g:NERDTreeDirArrows = 0
   let g:NERDTreeWinSize = 20
   nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
+endif
+"}}}
+if s:plug.is_installed('vim-dirvish') " {{{
+  Autocmd BufEnter * if (winnr("$") == 1 && exists('b:dirvish')) | q | endif
+  function! s:toggle_dirvish()
+    if !exists('b:dirvish')
+      set nosplitright
+      20vsplit .
+      set splitright
+    else
+      1quit
+    endif
+  endfunction
+  command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
+  nnoremap <silent>,n :<C-u> ToggleDirvish<CR>
 endif
 "}}}
 if s:plug.is_installed('indentLine') " {{{
@@ -1148,6 +1164,7 @@ if s:plug.is_installed('vim-indent-guides') " {{{
   let g:indent_guides_enable_on_vim_startup = 1
   if has('gui_running')
     let g:indent_guides_auto_colors  = 1
+    let g:indent_guides_color_change_percent = 20
   else
     let g:indent_guides_auto_colors  = 0
     augroup Indent
@@ -1156,9 +1173,8 @@ if s:plug.is_installed('vim-indent-guides') " {{{
       autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
     augroup END
   endif
-  let g:indent_guides_color_change_percent = 30
-  let g:indent_guides_guide_size = 1
-  let g:indent_guides_start_level = 2
+  let g:indent_guides_guide_size = &shiftwidth
+  let g:indent_guides_start_level = 1
 endif
 " }}}
 if s:plug.is_installed('alpaca_tags') " {{{
@@ -1199,6 +1215,7 @@ set matchtime=1               " 対応するカッコを表示する時間
 set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
 set modelines=3               " 上の設定をファイル先頭3行にあるかないか調べる
 set nrformats=alpha,hex       " アルファベットと16シンスうをC-a C-xで増減可能に
+set noequalalways
 " set number
 set pumheight=5               " 補完ウィンドウの行数
 set pastetoggle=<F11>
