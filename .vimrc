@@ -223,20 +223,19 @@ endif
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/switch.vim'
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
-Plug 'KazuakiM/vim-qfstatusline'
+" Plug 'KazuakiM/vim-qfstatusline'
 Plug 'LeafCage/foldCC.vim'
 Plug 'LeafCage/yankround.vim'
 Plug 'MaxMEllon/molokai'
-Plug 'MaxMEllon/unite-rails-fat'
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-dirvish'
 Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
-Plug 'Shougo/context_filetype.vim'
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
+  \ | Plug 'Shougo/context_filetype.vim'
+  \ | Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/unite-build'
 " Plug 'Shougo/unite-outline'
 Plug 'Shougo/unite.vim'
@@ -246,23 +245,27 @@ Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 " Plug 'The-NERD-tree'
 " Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
-Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 Plug 'alpaca-tc/alpaca_tags'
+Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
+  \ | Plug 'tpope/vim-dispatch'
+  \ | Plug 'keith/rspec.vim', {'on' : 'Rspec'}
 Plug 'altercation/vim-colors-solarized'
 Plug 'basyura/unite-rails'
+  \ | Plug 'MaxMEllon/unite-rails-fat'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
 Plug 'chase/vim-ansible-yaml'
 Plug 'cohama/lexima.vim'
-Plug 'dannyob/quickfixstatus'
+" Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
 Plug 'fatih/vim-go', {'for' : 'go'}
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}
-Plug 'glts/vim-textobj-comment'
+" Plug 'glts/vim-textobj-comment'
+Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}
 Plug 'groenewege/vim-less', {'for' : 'less'}
-Plug 'haya14busa/incsearch-easymotion.vim'
-Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'haya14busa/incsearch-migemo.vim'
+" Plug 'haya14busa/incsearch-easymotion.vim'
+" Plug 'haya14busa/incsearch-fuzzy.vim'
+" Plug 'haya14busa/incsearch-migemo.vim'
 Plug 'haya14busa/incsearch.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
@@ -271,10 +274,9 @@ Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-altr'
 " Plug 'kana/vim-smartinput'
-Plug 'kchmck/vim-coffee-script', {'for' : ['coffee', 'slim']}
-Plug 'keith/rspec.vim', {'on' : 'Rspec'}
 Plug 'ctrlpvim/ctrlp.vim', {'on' : ['CtrlP', 'CtrlPBuffer', 'CtrlPMixed', 'CtrlPDir']}
 " Plug 'koron/codic-vim'
+"   \ | Plug 'mattn/webapi-vim'
 Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
 Plug 'tmhedberg/matchit'
@@ -284,7 +286,6 @@ Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
 Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
-Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
@@ -303,33 +304,36 @@ Plug 'slim-template/vim-slim', {'for' : 'slim'}
 " Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 Plug 'surround.vim'
-Plug 't9md/vim-quickhl'
+" Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rails'
 Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
 Plug 'tyru/capture.vim', {'on' : 'Capture'}
 Plug 'tyru/caw.vim'
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
-Plug 'vim-ruby/vim-ruby', {'for' : 'ruby'}
+Plug 'vim-ruby/vim-ruby'
 " Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
 Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 " javascript {{{
+" Plug 'nanotech/jellybeans.vim'
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
-" Plug 'pangloss/vim-javascript', {'for' : 'javascript'}
+Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
-Plug 'othree/yajs.vim', {'for' : 'javascript'}
+" Plug 'othree/es.next.syntax.vim'
+" Plug 'marijnh/tern_for_vim', {'do': 'npm install' }
+Plug 'kchmck/vim-coffee-script'
 Plug 'mxw/vim-jsx', {'for' : 'javascript.jsx'}
-Plug 'othree/es.next.syntax.vim', {'for' : 'javascript'}
-Plug 'othree/javascript-libraries-syntax.vim', {'for' : 'javascript'}
-Plug 'heavenshell/vim-jsdoc', {'for' : 'javascript'}
-Plug 'moll/vim-node', {'for' : 'javascript'}
-Plug 'mattn/jscomplete-vim', {'for' : 'javascript'}
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'othree/yajs.vim'
+Plug 'justinj/vim-react-snippets'
+Plug 'heavenshell/vim-jsdoc'
+Plug 'moll/vim-node'
+" Plug 'mattn/jscomplete-vim'
 " }}}
 if has('gui_running')
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
@@ -442,12 +446,12 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   inoremap <expr><C-e> neocomplete#cancel_popup()
 
   " Enable omni completion.
-  AutocmdFT css setlocal omnifunc=csscomplete#CompleteCSS
-  AutocmdFT html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  AutocmdFT javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  AutocmdFT java setlocal omnifunc=javacomplete#Complete
-  AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
-  AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
+  " AutocmdFT css setlocal omnifunc=csscomplete#CompleteCSS
+  " AutocmdFT html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  " AutocmdFT javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  " AutocmdFT java setlocal omnifunc=javacomplete#Complete
+  " AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
+  " AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 endif
 " }}}
@@ -540,11 +544,10 @@ if s:plug.is_installed('vim-dirvish') " {{{
   Autocmd BufEnter * if (winnr("$") == 1 && exists('b:dirvish')) | q | endif
   function! s:toggle_dirvish()
     if !exists('b:dirvish')
-      set nosplitright
-      20vsplit .
-      set splitright
+      leftabove topleft vsplit .
+      vertical resize 20
     else
-      1quit
+      exit b:dirvish['altbuf']
     endif
   endfunction
   command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
@@ -1215,7 +1218,7 @@ set matchtime=1               " 対応するカッコを表示する時間
 set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
 set modelines=3               " 上の設定をファイル先頭3行にあるかないか調べる
 set nrformats=alpha,hex       " アルファベットと16シンスうをC-a C-xで増減可能に
-set noequalalways
+set noequalalways             " vs, spの時のwindow幅
 " set number
 set pumheight=5               " 補完ウィンドウの行数
 set pastetoggle=<F11>
@@ -1241,7 +1244,9 @@ if has("path_extra")
   set tags+=.svn/tags
   set tags+=.git/tags
 endif
-if ! has('nvim')
+if has('nvim')
+  set novisualbell
+else
   set ttyfast                   " スクロールが滑らかに
   set t_Co=256
   set ttyscroll=1
@@ -1875,7 +1880,7 @@ try
   let g:molokai_original = 1
   colorscheme molokai
 catch
-  colorscheme desert
+  colorscheme koehler
 endtry
 syntax on
 "}}}
