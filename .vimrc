@@ -30,6 +30,8 @@ if !1 | finish | endif
 "   augroup END
 " endif
 "}}}
+filetype off
+filetype plugin indent off
 " autocmd {{{
 " See: https://github.com/rhysd/dotfiles/blob/master/vimrc#23-27
 autocmd!
@@ -230,6 +232,7 @@ Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-dirvish'
+" Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
 Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
 Plug 'Shougo/neomru.vim'
@@ -243,7 +246,7 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Shougo/vimshell.vim'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 " Plug 'The-NERD-tree'
-" Plug 'Yggdroot/indentLine'
+Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/alpaca_tags'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
@@ -289,7 +292,7 @@ Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
-Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'nathanaelkane/vim-indent-guides'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
 " Plug 'osyo-manga/unite-filetype'
@@ -319,26 +322,26 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
+Plug 'wakatime/vim-wakatime'
 " javascript {{{
 " Plug 'nanotech/jellybeans.vim'
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
-Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
+" Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 " Plug 'othree/es.next.syntax.vim'
 " Plug 'marijnh/tern_for_vim', {'do': 'npm install' }
 Plug 'kchmck/vim-coffee-script'
-Plug 'mxw/vim-jsx', {'for' : 'javascript.jsx'}
+Plug 'moll/vim-node'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
+  \ | Plug 'mxw/vim-jsx', {'for' : 'javascript.jsx'}
 Plug 'justinj/vim-react-snippets'
 Plug 'heavenshell/vim-jsdoc'
-Plug 'moll/vim-node'
 " Plug 'mattn/jscomplete-vim'
 " }}}
-if has('gui_running')
+if has('gui_running') || has('nvim')
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
   Plug 'osyo-manga/vim-watchdogs'
-  Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
 endif
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
@@ -542,12 +545,16 @@ endif
 "}}}
 if s:plug.is_installed('vim-dirvish') " {{{
   Autocmd BufEnter * if (winnr("$") == 1 && exists('b:dirvish')) | q | endif
+  let g:dirvish_window = 0
   function! s:toggle_dirvish()
-    if !exists('b:dirvish')
-      leftabove topleft vsplit .
-      vertical resize 20
+    if g:dirvish_window
+      exe g:dirvish_window . 'quit'
+      let g:dirvish_window = 0
     else
-      exit b:dirvish['altbuf']
+      leftabove topleft vsplit .
+      let g:dirvish_window = bufwinnr('$')
+      vertical resize 20
+      wincmd p
     endif
   endfunction
   command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
@@ -1195,6 +1202,11 @@ if s:plug.is_installed('alpaca_tags') " {{{
   AutoAlpaca BufWritePost * AlpacaTagsUpdate
 endif
 " }}}
+if s:plug.is_installed('incsearch-migemo')
+  map ,/ <Plug>(incsearch-migemo-/)
+  map ,? <Plug>(incsearch-migemo-?)
+  map ,m/ <Plug>(incsearch-migemo-stay)
+endif
 " }}}
 " set {{{
 " common {{{
@@ -1465,7 +1477,8 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " function {{{
 function! s:copy_mode_toggle() " {{{
   setlocal nolist!
-  IndentGuidesToggle
+  " IndentGuidesToggle
+  IndentLinesToggle
 endfunction
 command! MyCopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-c> :<C-u>MyCopyModeToggle<CR>

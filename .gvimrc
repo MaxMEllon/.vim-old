@@ -1,5 +1,5 @@
 if !IsWindows()
-  set guifont=Ricty\ Discord\ Regular\ for\ Powerline:h18
+  set guifont=Ubuntu\ Mono:h14
 else
   set guifont=Ricty_for_Powerline:h14
 endif
