@@ -222,7 +222,7 @@ elseif has('nvim')
 else
   Plug 'Shougo/neocomplcache.vim'
 endif
-Plug 'AndrewRadev/splitjoin.vim'
+Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 Plug 'AndrewRadev/switch.vim'
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
 " Plug 'KazuakiM/vim-qfstatusline'
@@ -275,30 +275,30 @@ Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 " Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-altr'
+" Plug 'kana/vim-altr'
 " Plug 'kana/vim-smartinput'
 Plug 'ctrlpvim/ctrlp.vim', {'on' : ['CtrlP', 'CtrlPBuffer', 'CtrlPMixed', 'CtrlPDir']}
 " Plug 'koron/codic-vim'
 "   \ | Plug 'mattn/webapi-vim'
-Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
+" Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
 Plug 'tmhedberg/matchit'
 Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 Plug 'mattn/emmet-vim'
 " Plug 'mattn/emoji-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
-Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
+" Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
+" Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
 " Plug 'osyo-manga/unite-filetype'
 Plug 'osyo-manga/unite-quickfix'
 Plug 'osyo-manga/vim-anzu'
-Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
+" Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/vim-over'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'rhysd/clever-f.vim'
@@ -312,14 +312,14 @@ Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rails'
+" Plug 'tpope/vim-rails'
 Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
 Plug 'tyru/capture.vim', {'on' : 'Capture'}
 Plug 'tyru/caw.vim'
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
 Plug 'vim-ruby/vim-ruby'
 " Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
-Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
+" Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 Plug 'wakatime/vim-wakatime'
