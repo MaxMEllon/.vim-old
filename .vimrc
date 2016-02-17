@@ -246,7 +246,7 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Shougo/vimshell.vim'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 " Plug 'The-NERD-tree'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/alpaca_tags'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
@@ -292,7 +292,7 @@ Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
-" Plug 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
 " Plug 'osyo-manga/unite-filetype'
@@ -1477,8 +1477,8 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " function {{{
 function! s:copy_mode_toggle() " {{{
   setlocal nolist!
-  " IndentGuidesToggle
-  IndentLinesToggle
+  IndentGuidesToggle
+  " IndentLinesToggle
 endfunction
 command! MyCopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-c> :<C-u>MyCopyModeToggle<CR>
