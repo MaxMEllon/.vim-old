@@ -743,12 +743,8 @@ if s:plug.is_installed('vim-easymotion') " {{{
   nmap [EasyMotion] <Space>
   nmap ss <Plug>(easymotion-s)
   xmap ss <Plug>(easymotion-s)
-  nmap s2 <Plug>(easymotion-s2)
-  xmap s2 <Plug>(easymotion-s2)
-  nmap [EasyMotion]f <Plug>(easymotion-sf)
-  xmap [EasyMotion]F <Plug>(easymotion-sF)
-  nmap [EasyMotion]t <Plug>(easymotion-st)
-  xmap [EasyMotion]T <Plug>(easymotion-sT)
+  nmap sj <Plug>(easymotion-s2)
+  xmap sj <Plug>(easymotion-s2)
   nmap <Space>j <Plug>(easymotion-j)
   nmap <Space>k <Plug>(easymotion-j)
 
@@ -1216,6 +1212,7 @@ set backspace=indent,eol,start
 set cmdheight=1
 set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
+" set cursorcolumn
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
 set fillchars=vert:\|
@@ -1891,10 +1888,15 @@ set statusline+=[%p%%]
 " color {{{
 try
   let g:molokai_original = 1
-  colorscheme molokai
+  " colorscheme molokai
+  colorscheme koehler
 catch
   colorscheme koehler
 endtry
+if !has('gui_running')
+  Autocmd VimEnter * highlight clear CursorLine
+  Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
+endif
 syntax on
 "}}}
 " END {{{

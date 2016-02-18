@@ -22,8 +22,8 @@ augroup GUI
 augroup END
 if has("gui_running")
   command! -nargs=* AutocmdGui autocmd GUI <args>
-  AutocmdGui GUIEnter * set fullscreen
 endif
+AutocmdGui GUIEnter * set fullscreen
 try
   set background=dark
   colorscheme molokai
