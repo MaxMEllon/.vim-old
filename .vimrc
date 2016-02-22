@@ -275,18 +275,18 @@ Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 " Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
-" Plug 'kana/vim-altr'
+Plug 'kana/vim-altr'
 " Plug 'kana/vim-smartinput'
 Plug 'ctrlpvim/ctrlp.vim', {'on' : ['CtrlP', 'CtrlPBuffer', 'CtrlPMixed', 'CtrlPDir']}
 " Plug 'koron/codic-vim'
-"   \ | Plug 'mattn/webapi-vim'
 " Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
 Plug 'tmhedberg/matchit'
 Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 Plug 'mattn/emmet-vim'
-" Plug 'mattn/emoji-vim'
+Plug 'mattn/emoji-vim', {'on' : 'Emoji'}
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
+Plug 'mattn/webapi-vim'
 " Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
 Plug 'mbbill/undotree'
@@ -746,9 +746,9 @@ if s:plug.is_installed('vim-easymotion') " {{{
   nmap sj <Plug>(easymotion-s2)
   xmap sj <Plug>(easymotion-s2)
   nmap <Space>j <Plug>(easymotion-j)
-  nmap <Space>k <Plug>(easymotion-j)
+  nmap <Space>k <Plug>(easymotion-k)
 
-  highlight EasyMotionTarget guifg=#80a0ff ctermfg=81
+  highlight EasyMotionTarget guifg=#80a0ff guibg=#80a0ff ctermfg=81 ctermbg=14
 endif
 " }}}
 if s:plug.is_installed('vim-easy-align') "{{{
