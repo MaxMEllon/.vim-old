@@ -217,10 +217,8 @@ endif
 call plug#begin('~/.vim/plugged')
 if has('lua')
   Plug 'Shougo/neocomplete.vim'
-elseif has('nvim')
-  Plug 'Shougo/deoplete.nvim'
 else
-  Plug 'Shougo/neocomplcache.vim'
+  Plug 'Shougo/deoplete.nvim'
 endif
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 Plug 'AndrewRadev/switch.vim'
@@ -246,7 +244,7 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Shougo/vimshell.vim'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 " Plug 'The-NERD-tree'
-" Plug 'Yggdroot/indentLine'
+Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/alpaca_tags'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
@@ -292,7 +290,8 @@ Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-startify'
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'mhartington/oceanic-next'
+" Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
 Plug 'osyo-manga/shabadou.vim'
 " Plug 'osyo-manga/unite-filetype'
@@ -487,11 +486,12 @@ if s:plug.is_installed('lightline.vim') " {{{
         \     'S' : 'S-L',
         \     "\<C-s>": 'S-B',
         \   },
+        \   'colorscheme': 'wombat',
         \   'component': {
         \     'readonly': '%{&readonly?"\u2b64":""}',
         \   },
-        \   'separator': { 'left': " ", 'right': " " },
-        \   'subseparator': { 'left': " ", 'right': " " },
+        \   'separator': { 'left': "\u2b80", 'right': "\u2b82" },
+        \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
         \   'active': {
         \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
         \                [ 'anzu', 'fugitive', 'gitgutter' ],
@@ -1216,7 +1216,7 @@ set cscopetag
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
 set fillchars=vert:\|
-set history=10000             " コマンドラインのヒストリ
+set history=100               " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
 set listchars=eol:$,tab:>-
@@ -1474,8 +1474,8 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " function {{{
 function! s:copy_mode_toggle() " {{{
   setlocal nolist!
-  IndentGuidesToggle
-  " IndentLinesToggle
+  " IndentGuidesToggle
+  IndentLinesToggle
 endfunction
 command! MyCopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-c> :<C-u>MyCopyModeToggle<CR>
@@ -1887,9 +1887,12 @@ set statusline+=[%p%%]
 " }}}
 " color {{{
 try
-  let g:molokai_original = 1
+  set background=17
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  colorscheme OceanicNext
+  " colorscheme koehler
+  " let g:molokai_original = 1
   " colorscheme molokai
-  colorscheme koehler
 catch
   colorscheme koehler
 endtry

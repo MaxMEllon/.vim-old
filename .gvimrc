@@ -25,8 +25,7 @@ if has("gui_running")
 endif
 AutocmdGui GUIEnter * set fullscreen
 try
-  set background=dark
-  colorscheme molokai
+  colorscheme OceanicNext
 catch
   colorscheme desert
 endtry
