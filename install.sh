@@ -1,14 +1,10 @@
 #/bin/sh
 
-set -eu
-
 DOTPATH=~/.dotfiles
 
 if [ -n "$1" ]; then
   DOTPATH=$1
 fi
-
-set -eu
 
 rm -rf ~/.vim
 ln -s $DOTPATH/vim ~/.vim &> /dev/null
@@ -22,4 +18,4 @@ source ~/.vim/.nvimrc
 source ~/.vim/.vimrc
 EOF
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim > /dev/null
+  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim &> /dev/null
