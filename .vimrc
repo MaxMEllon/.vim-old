@@ -1891,8 +1891,9 @@ try
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   colorscheme OceanicNext
   " colorscheme koehler
-  " let g:molokai_original = 1
-  " colorscheme molokai
+catch
+  let g:molokai_original = 1
+  colorscheme molokai
 catch
   colorscheme koehler
 endtry
