@@ -4,3 +4,4 @@
 /autoload/*
 /plugged/*
 !.keep
+vim
