@@ -23,7 +23,7 @@ augroup END
 if has("gui_running")
   command! -nargs=* AutocmdGui autocmd GUI <args>
 endif
-AutocmdGui GUIEnter * set fullscreen
+" AutocmdGui GUIEnter * set fullscreen
 try
   colorscheme OceanicNext
 catch
