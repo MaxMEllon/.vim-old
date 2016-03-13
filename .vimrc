@@ -275,7 +275,7 @@ Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-altr'
 " Plug 'kana/vim-smartinput'
-Plug 'ctrlpvim/ctrlp.vim', {'on' : ['CtrlP', 'CtrlPBuffer', 'CtrlPMixed', 'CtrlPDir']}
+Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'koron/codic-vim'
 " Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
@@ -348,7 +348,7 @@ else
   Plug 'NigoroJr/rsense', {'for' : 'ruby'}
   Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
 endif
-if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim' | endif
+if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 call plug#end()
 " " }}}
@@ -1101,10 +1101,11 @@ if s:plug.is_installed('PDV--phpDocumentor-for-Vim') "{{{
 endif
 "}}}
 if s:plug.is_installed('ctrlp.vim') "{{{
-  let g:ctrlp_map = '<Nop>'
+  let g:ctrlp_map = '<C-p>'
   let g:ctrlp_open_new_file = 'r'
   let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
   let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:18'
+  let g:ctrlp_user_command = 'files -a %s'
 endif
 " }}}
 if s:plug.is_installed('hl_matchit.vim') " {{{
@@ -1597,6 +1598,10 @@ command! -bar -nargs=1 SpaceIndent
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
+command! EsFix :!eslint --fix % &>/dev/null
+command! Shiba VimProcBang('shiba % &>/dev/null 2>&1')
+Autocmd BufEnter *.md Shiba
+
 " }}}
 " mapping {{{
 " move {{{

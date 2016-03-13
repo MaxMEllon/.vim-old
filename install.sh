@@ -1,13 +1,5 @@
 #/bin/sh
 
-DOTPATH=~/.dotfiles
-
-if [ -n "$1" ]; then
-  DOTPATH=$1
-fi
-
-# rm -rf ~/.vim
-ln -s $DOTPATH/vim ~/.vim &> /dev/null
 ln -s ~/.vim/.vimrc ~/ &> /dev/null
 ln -s ~/.vim/.vimshrc ~/ &> /dev/null
 mkdir -p ~/.config/nvim

@@ -24,6 +24,8 @@ if has("gui_running")
   command! -nargs=* AutocmdGui autocmd GUI <args>
 endif
 " AutocmdGui GUIEnter * set fullscreen
+set lines=60
+set columns=100
 try
   colorscheme OceanicNext
 catch
