@@ -3,5 +3,6 @@
 /.netrwhist
 /autoload/*
 /plugged/*
+/localPlugged
 !.keep
 vim

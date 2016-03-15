@@ -1,13 +1,4 @@
-<script>
-(function() {
-  console.log('Startup Nyaovim');
-  resizeTo(700, 900);
-  moveTo(0, 0);
-})();
-</script>
-<dom-module id="nyaovim-editor">
-  <template>
-    <style>
+<style>
 .neovim-cursor.neovim-editor {
   color: transparent !important;
   background-color: aqua !important;
@@ -19,17 +10,36 @@
   background-color: none !important;
   opacity: 0.6;
 }
-    </style>
-  </template>
-</dom-module>
+</style>
+
+<script>
+(function() {
+  resizeTo(9000, 9000);
+})();
+</script>
 
 <dom-module id="nyaovim-app">
   <template>
-    <neovim-editor id="nyaovim-editor"
-        argv$="[[argv]]"
-        font-size="14"
-        font="Ubuntu Mono,monospace"
-        line-height="1.0"
-    ></neovim-editor>
+    <style>
+.horizontal {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+neovim-editor {
+  width: 100%;
+  height: 100%;
+}
+    </style>
+    <div class="horizontal">
+      <neovim-editor id="nyaovim-editor"
+          argv$="[[argv]]"
+          font-size="14"
+          font="Ubuntu Mono,monospace"
+          line-height="1.0"
+      ></neovim-editor>
+      <mini-browser width="700" editor="[[editor]]"></mini-browser>
+      <comelon-view editor="[[editor]]"></comelon-view>
+    </div>
   </template>
 </dom-module>

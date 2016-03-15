@@ -212,7 +212,6 @@ if has('multi_byte_ime')
   set iminsert=0 imsearch=0
 endif
 " }}}
-" plugin {{{
 " load Plugin {{{
 call plug#begin('~/.vim/plugged')
 if has('lua')
@@ -229,6 +228,7 @@ Plug 'LeafCage/yankround.vim'
 Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
+Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do' : 'npm install nicolive@0.0.4'}
 " Plug 'MaxMEllon/vim-dirvish'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
 Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
@@ -304,6 +304,7 @@ Plug 'osyo-manga/vim-over'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'rhysd/clever-f.vim'
 " Plug 'rhysd/vim-textobj-ruby'
+Plug 'rhysd/nyaovim-mini-browser'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 " Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
@@ -1208,7 +1209,7 @@ if s:plug.is_installed('incsearch-migemo') " {{{
 endif
 " }}}
 if s:plug.is_installed('vim-operator-flashy') " {{{
-  let operator#flashy#flash_time = 1000
+  let operator#flashy#flash_time = 10
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
 endif
