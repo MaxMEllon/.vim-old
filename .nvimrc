@@ -16,3 +16,10 @@ tnoremap jj <C-\><C-n>
 tnoremap <ESC> <C-\><C-n>
 nnoremap <Space>sh :<C-u>sp<CR>:<C-u>terminal<CR>
 
+try
+  " nvim-qt config
+  command SetWin set lines=60 | set columns=100
+  command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+  Guifont Ubuntu Mono:h14
+catch
+endtry

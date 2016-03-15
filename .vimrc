@@ -229,7 +229,7 @@ Plug 'LeafCage/yankround.vim'
 Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
-Plug 'MaxMEllon/vim-dirvish'
+" Plug 'MaxMEllon/vim-dirvish'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
 Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
@@ -243,7 +243,7 @@ Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Shougo/vimshell.vim'
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
-" Plug 'The-NERD-tree'
+Plug 'The-NERD-tree'
 Plug 'Yggdroot/indentLine'
 Plug 'airblade/vim-gitgutter'
 Plug 'alpaca-tc/alpaca_tags'
@@ -268,9 +268,11 @@ Plug 'groenewege/vim-less', {'for' : 'less'}
 " Plug 'haya14busa/incsearch-fuzzy.vim'
 " Plug 'haya14busa/incsearch-migemo.vim'
 Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/vim-operator-flashy'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 " Plug 'kana/vim-textobj-fold'
+Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-altr'
@@ -1199,11 +1201,18 @@ if s:plug.is_installed('alpaca_tags') " {{{
   AutoAlpaca BufWritePost * AlpacaTagsUpdate
 endif
 " }}}
-if s:plug.is_installed('incsearch-migemo')
+if s:plug.is_installed('incsearch-migemo') " {{{
   map ,/ <Plug>(incsearch-migemo-/)
   map ,? <Plug>(incsearch-migemo-?)
   map ,m/ <Plug>(incsearch-migemo-stay)
 endif
+" }}}
+if s:plug.is_installed('vim-operator-flashy') " {{{
+  let operator#flashy#flash_time = 1000
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
+endif
+" }}}
 " }}}
 " set {{{
 " common {{{
@@ -1598,9 +1607,8 @@ command! -bar -nargs=1 SpaceIndent
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
-command! EsFix :!eslint --fix % &>/dev/null
-command! Shiba VimProcBang('shiba % &>/dev/null 2>&1')
-Autocmd BufEnter *.md Shiba
+command! EsFix :! eslint --fix % 2>/dev/null 2>&1 &
+command! Shiba :! shiba % &
 
 " }}}
 " mapping {{{
