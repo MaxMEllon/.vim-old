@@ -355,6 +355,19 @@ if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 call plug#end()
 " " }}}
+
+" local plugins {{{
+function! LoadLocalPlugin(name) abort
+  let s:dir = '~/.vim/localPlugged/' . substitute(a:name, "'", '', '')
+  execute 'set runtimepath+=' . expand(s:dir)
+  let s:dir = '~/.vim/localPlugged/' . substitute(a:name, "'", '', '')
+          \ . '/nyaovim-plugin'
+  execute 'set runtimepath+=' . expand(s:dir)
+endfunction
+command! -nargs=1 MyPlug call LoadLocalPlugin(<q-args>)
+MyPlug 'nyaovim-music'
+" }}}
+
 let s:plug = {
       \ "plugs": get(g:, 'plugs', {})
       \ }
