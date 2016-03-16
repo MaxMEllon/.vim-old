@@ -212,8 +212,8 @@ if has('multi_byte_ime')
   set iminsert=0 imsearch=0
 endif
 " }}}
-" load Plugin {{{
 call plug#begin('~/.vim/plugged')
+" load Plugin {{{
 if has('lua')
   Plug 'Shougo/neocomplete.vim'
 else
@@ -353,20 +353,12 @@ else
 endif
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
-call plug#end()
 " " }}}
-
 " local plugins {{{
-function! LoadLocalPlugin(name) abort
-  let s:dir = '~/.vim/localPlugged/' . substitute(a:name, "'", '', '')
-  execute 'set runtimepath+=' . expand(s:dir)
-  let s:dir = '~/.vim/localPlugged/' . substitute(a:name, "'", '', '')
-          \ . '/nyaovim-plugin'
-  execute 'set runtimepath+=' . expand(s:dir)
-endfunction
-command! -nargs=1 MyPlug call LoadLocalPlugin(<q-args>)
-MyPlug 'nyaovim-music'
+Plug '~/.vim/localPlugged/nyaovim-music'
+
 " }}}
+call plug#end()
 
 let s:plug = {
       \ "plugs": get(g:, 'plugs', {})
@@ -1175,6 +1167,7 @@ if s:plug.is_installed('vim-css-colors') " {{{
   let g:cssColorVimDoNotMessMyUpdatetime = 1
 endif
 " }}}
+
 if s:plug.is_installed('vim-go') " {{{
   let g:go_highlight_functions = 1
   let g:go_highlight_methods = 1
