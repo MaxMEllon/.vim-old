@@ -1,4 +1,4 @@
 augroup AutoComment
   autocmd!
-  autocmd  FileType * setlocal formatoptions& formatoptions-=ro
+  autocmd BufRead * let &formatoptions = 'crlmj'
 augroup END

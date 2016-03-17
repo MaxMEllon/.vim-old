@@ -214,29 +214,31 @@ endif
 " }}}
 call plug#begin('~/.vim/plugged')
 " load Plugin {{{
-if has('lua')
-  Plug 'Shougo/neocomplete.vim'
-else
-  Plug 'Shougo/deoplete.nvim'
-endif
+" if has('lua')
+"   Plug 'Shougo/neocomplete.vim'
+" else
+"   Plug 'Shougo/deoplete.nvim'
+" endif
+Plug 'Valloric/YouCompleteMe'
+" Plug 'ternjs/tern_for_vim'
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 Plug 'AndrewRadev/switch.vim'
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
 " Plug 'KazuakiM/vim-qfstatusline'
 Plug 'LeafCage/foldCC.vim'
 Plug 'LeafCage/yankround.vim'
-Plug 'MaxMEllon/molokai'
+" Plug 'MaxMEllon/molokai'
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
-Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do' : 'npm install nicolive@0.0.4'}
+Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
 " Plug 'MaxMEllon/vim-dirvish'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
-Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
+" Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
 Plug 'Shougo/neomru.vim'
-Plug 'Shougo/neosnippet'
-  \ | Plug 'Shougo/context_filetype.vim'
-  \ | Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/neosnippet'
+"   \ | Plug 'Shougo/context_filetype.vim'
+"   \ | Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/unite-build'
 " Plug 'Shougo/unite-outline'
 Plug 'Shougo/unite.vim'
@@ -250,11 +252,10 @@ Plug 'alpaca-tc/alpaca_tags'
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
   \ | Plug 'tpope/vim-dispatch'
   \ | Plug 'keith/rspec.vim', {'on' : 'Rspec'}
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 Plug 'basyura/unite-rails'
-  \ | Plug 'MaxMEllon/unite-rails-fat'
 Plug 'cespare/vim-toml', {'for' : 'toml'}
-Plug 'chase/vim-ansible-yaml'
+" Plug 'chase/vim-ansible-yaml'
 Plug 'cohama/lexima.vim'
 " Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'
@@ -267,9 +268,10 @@ Plug 'groenewege/vim-less', {'for' : 'less'}
 " Plug 'haya14busa/incsearch-easymotion.vim'
 " Plug 'haya14busa/incsearch-fuzzy.vim'
 " Plug 'haya14busa/incsearch-migemo.vim'
-Plug 'haya14busa/incsearch.vim'
+" Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/vim-operator-flashy'
 Plug 'itchyny/lightline.vim'
+Plug 'iyuuya/unite-rails-fat'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 " Plug 'kana/vim-textobj-fold'
 Plug 'kana/vim-operator-user'
@@ -284,14 +286,14 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tmhedberg/matchit'
 Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 Plug 'mattn/emmet-vim'
-Plug 'mattn/emoji-vim', {'on' : 'Emoji'}
+" Plug 'mattn/emoji-vim', {'on' : 'Emoji'}
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
 Plug 'mattn/webapi-vim'
 " Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
 Plug 'mbbill/undotree'
+Plug 'morhetz/gruvbox'
 Plug 'mhinz/vim-startify'
-Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'mhartington/oceanic-next'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
@@ -300,7 +302,7 @@ Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/unite-quickfix'
 Plug 'osyo-manga/vim-anzu'
 " Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
-Plug 'osyo-manga/vim-over'
+" Plug 'osyo-manga/vim-over'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'rhysd/clever-f.vim'
 " Plug 'rhysd/vim-textobj-ruby'
@@ -330,13 +332,14 @@ Plug 'wakatime/vim-wakatime'
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
 " Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
-" Plug 'othree/es.next.syntax.vim'
 " Plug 'marijnh/tern_for_vim', {'do': 'npm install' }
-Plug 'kchmck/vim-coffee-script'
+Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
+Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
 Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
-  \ | Plug 'mxw/vim-jsx', {'for' : 'javascript.jsx'}
+Plug 'othree/es.next.syntax.vim'
 Plug 'justinj/vim-react-snippets'
 Plug 'heavenshell/vim-jsdoc'
 " Plug 'mattn/jscomplete-vim'
@@ -356,7 +359,6 @@ if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 " " }}}
 " local plugins {{{
 Plug '~/.vim/localPlugged/nyaovim-music'
-
 " }}}
 call plug#end()
 
@@ -367,7 +369,7 @@ let s:plug = {
 function! s:plug.is_installed(name)
   return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
 endfunction
-
+" plugin config {{{
 if s:plug.is_installed('rails.vim') " {{{
   let g:rails_level = 4
   let g:rails_defalut_database = 'postgresql'
@@ -724,9 +726,11 @@ if s:plug.is_installed('vim-gitgutter') " {{{
 endif
 " }}}
 if s:plug.is_installed('vim-over') " {{{
-  nnoremap <silent> <Leader>m :OverCommandLine<CR>
   nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//gc<Left><Left><Left>
   xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///gc<Left><Left><Left>
+else
+  nnoremap sub :%s/<C-r><C-w>//gc<Left><Left><Left>
+  xnoremap s :<C-u>'<,'>s///gc<Left><Left><Left><Left><Left>
 endif
 " }}}
 if s:plug.is_installed('vim-anzu') " {{{
@@ -1051,11 +1055,11 @@ if s:plug.is_installed('codic-vim') "{{{
 endif
 "}}}
 if s:plug.is_installed('incsearch.vim') "{{{
-  map /  <Plug>(incsearch-forward)
-  map ?  <Plug>(incsearch-backward)
-  map g/ <Plug>(incsearch-stay)
-  nnoremap ;/ /
-  nnoremap ;? ?
+  " map /  <Plug>(incsearch-forward)
+  " map ?  <Plug>(incsearch-backward)
+  " map g/ <Plug>(incsearch-stay)
+  " nnoremap ;/ /
+  " nnoremap ;? ?
 endif
 "}}}
 if s:plug.is_installed('clever-f.vim') " {{{
@@ -1167,7 +1171,6 @@ if s:plug.is_installed('vim-css-colors') " {{{
   let g:cssColorVimDoNotMessMyUpdatetime = 1
 endif
 " }}}
-
 if s:plug.is_installed('vim-go') " {{{
   let g:go_highlight_functions = 1
   let g:go_highlight_methods = 1
@@ -1215,7 +1218,7 @@ if s:plug.is_installed('incsearch-migemo') " {{{
 endif
 " }}}
 if s:plug.is_installed('vim-operator-flashy') " {{{
-  let operator#flashy#flash_time = 10
+  let operator#flashy#flash_time = 300
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
 endif
@@ -1281,13 +1284,7 @@ endif
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 " }}}
 " formatoptions {{{
-set formatoptions&
-set formatoptions-=t
-set formatoptions-=c
-set formatoptions-=r
-set formatoptions-=o
-set formatoptions-=v
-set formatoptions+=l
+let &formatoptions = 'lmj'
 " }}}
 " mouse {{{
 set mouse&
@@ -1907,20 +1904,11 @@ set statusline+=[%p%%]
 " }}}
 " color {{{
 try
-  set background=17
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  colorscheme OceanicNext
-  " colorscheme koehler
-catch
-  let g:molokai_original = 1
-  colorscheme molokai
+  set background=dark
+  colorscheme gruvbox
 catch
   colorscheme koehler
 endtry
-if !has('gui_running')
-  Autocmd VimEnter * highlight clear CursorLine
-  Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
-endif
 syntax on
 "}}}
 " END {{{

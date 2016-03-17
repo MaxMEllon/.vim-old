@@ -16,6 +16,7 @@ set guioptions-=m
 set guioptions-=T
 set guioptions-=C
 set guioptions-=b
+set guioptions-=e
 set imdisable
 augroup GUI
   autocmd!
@@ -26,9 +27,4 @@ endif
 " AutocmdGui GUIEnter * set fullscreen
 set lines=60
 set columns=100
-try
-  colorscheme OceanicNext
-catch
-  colorscheme desert
-endtry
 syntax on
