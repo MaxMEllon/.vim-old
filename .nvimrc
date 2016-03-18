@@ -21,3 +21,6 @@ try
   Guifont Ubuntu Mono:h14
 catch
 endtry
+
+let g:playlist_directory = "~/Music/MyList"
+

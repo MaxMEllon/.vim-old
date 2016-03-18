@@ -21,14 +21,14 @@
 if !1 | finish | endif
 " Startup time. {{{
 " See: https://gist.github.com/thinca/1518874
-" if has('vim_starting') && has('reltime')
-"   let s:startuptime = reltime()
-"   augroup vimrc-startuptime
-"     autocmd! VimEnter *
-"           \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
-"           \ | unlet s:startuptime
-"   augroup END
-" endif
+if has('vim_starting') && has('reltime')
+  let s:startuptime = reltime()
+  augroup vimrc-startuptime
+    autocmd! VimEnter *
+          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+          \ | unlet s:startuptime
+  augroup END
+endif
 "}}}
 filetype off
 filetype plugin indent off
@@ -214,125 +214,127 @@ endif
 " }}}
 call plug#begin('~/.vim/plugged')
 " load Plugin {{{
+" out {{{
 " if has('lua')
 "   Plug 'Shougo/neocomplete.vim'
 " else
 "   Plug 'Shougo/deoplete.nvim'
 " endif
-Plug 'Valloric/YouCompleteMe'
-" Plug 'ternjs/tern_for_vim'
-Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
-Plug 'AndrewRadev/switch.vim'
-Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
 " Plug 'KazuakiM/vim-qfstatusline'
-Plug 'LeafCage/foldCC.vim'
-Plug 'LeafCage/yankround.vim'
 " Plug 'MaxMEllon/molokai'
-Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
-Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
-Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
-" Plug 'MaxMEllon/vim-dirvish'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
+" Plug 'MaxMEllon/vim-dirvish'
 " Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
+" Plug 'Shougo/context_filetype.vim'
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
-Plug 'Shougo/neomru.vim'
 " Plug 'Shougo/neosnippet'
-"   \ | Plug 'Shougo/context_filetype.vim'
-"   \ | Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/unite-build'
 " Plug 'Shougo/unite-outline'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Shougo/vimshell.vim'
-Plug 'StanAngeloff/php.vim', {'for' : 'php'}
-Plug 'The-NERD-tree'
-Plug 'Yggdroot/indentLine'
-Plug 'airblade/vim-gitgutter'
-Plug 'alpaca-tc/alpaca_tags'
-Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
-  \ | Plug 'tpope/vim-dispatch'
-  \ | Plug 'keith/rspec.vim', {'on' : 'Rspec'}
+" Plug 'The-NERD-tree'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 " Plug 'altercation/vim-colors-solarized'
-Plug 'basyura/unite-rails'
-Plug 'cespare/vim-toml', {'for' : 'toml'}
 " Plug 'chase/vim-ansible-yaml'
-Plug 'cohama/lexima.vim'
 " Plug 'dannyob/quickfixstatus'
-Plug 'easymotion/vim-easymotion'
-Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
-Plug 'fatih/vim-go', {'for' : 'go'}
-Plug 'gabesoft/vim-ags', {'on' : 'Ags'}
 " Plug 'glts/vim-textobj-comment'
-Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}
-Plug 'groenewege/vim-less', {'for' : 'less'}
 " Plug 'haya14busa/incsearch-easymotion.vim'
 " Plug 'haya14busa/incsearch-fuzzy.vim'
 " Plug 'haya14busa/incsearch-migemo.vim'
 " Plug 'haya14busa/incsearch.vim'
-Plug 'haya14busa/vim-operator-flashy'
-Plug 'itchyny/lightline.vim'
-Plug 'iyuuya/unite-rails-fat'
-Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
-" Plug 'kana/vim-textobj-fold'
-Plug 'kana/vim-operator-user'
-Plug 'kana/vim-textobj-line'
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-altr'
+" Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
+" Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
+" Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
+" Plug 'justinmk/vim-dirvish'
 " Plug 'kana/vim-smartinput'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'kana/vim-textobj-fold'
+" Plug 'keith/rspec.vim', {'on' : 'Rspec'}
 " Plug 'koron/codic-vim'
 " Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
-Plug 'tmhedberg/matchit'
-Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
-Plug 'mattn/emmet-vim'
+" Plug 'marijnh/tern_for_vim', {'do': 'npm install' }
 " Plug 'mattn/emoji-vim', {'on' : 'Emoji'}
-Plug 'mattn/gist-vim', {'on' : 'Gist'}
-Plug 'mattn/webapi-vim'
 " Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
-Plug 'mbbill/undotree'
-Plug 'morhetz/gruvbox'
-Plug 'mhinz/vim-startify'
-Plug 'mhartington/oceanic-next'
+" Plug 'mhartington/oceanic-next'
+" Plug 'nanotech/jellybeans.vim'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
-Plug 'osyo-manga/shabadou.vim'
 " Plug 'osyo-manga/unite-filetype'
-Plug 'osyo-manga/unite-quickfix'
-Plug 'osyo-manga/vim-anzu'
+" Plug 'osyo-manga/unite-quickfix'
 " Plug 'osyo-manga/vim-marching', {'for' : ['cpp', 'c']}
 " Plug 'osyo-manga/vim-over'
 " Plug 'osyo-manga/vim-textobj-multiblock'
-Plug 'rhysd/clever-f.vim'
+" Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
 " Plug 'rhysd/vim-textobj-ruby'
-Plug 'rhysd/nyaovim-mini-browser'
-Plug 'slim-template/vim-slim', {'for' : 'slim'}
 " Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
-Plug 'surround.vim'
 " Plug 't9md/vim-quickhl'
-Plug 'thinca/vim-quickrun'
-Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
-Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
-Plug 'tpope/vim-fugitive'
+" Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
+" Plug 'tpope/vim-dispatch'
 " Plug 'tpope/vim-rails'
-Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
-Plug 'tyru/capture.vim', {'on' : 'Capture'}
-Plug 'tyru/caw.vim'
-Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
-Plug 'vim-ruby/vim-ruby'
+" Plug 'vim-ruby/vim-ruby'
 " Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
 " Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
-Plug 'wavded/vim-stylus', {'for' : 'stylus'}
+"   }}}
+Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
+Plug 'AndrewRadev/switch.vim'
+Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
+Plug 'LeafCage/foldCC.vim'
+Plug 'LeafCage/yankround.vim'
+Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
+Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
+Plug 'Shougo/neomru.vim'
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'StanAngeloff/php.vim', {'for' : 'php'}
+Plug 'Valloric/YouCompleteMe'
+Plug 'Yggdroot/indentLine'
+Plug 'alpaca-tc/alpaca_tags'
+Plug 'basyura/unite-rails', {'on' : 'Unite'}
+Plug 'cespare/vim-toml', {'for' : 'toml'}
+Plug 'cohama/lexima.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
+Plug 'fatih/vim-go', {'for' : 'go'}
+Plug 'gabesoft/vim-ags', {'on' : 'Ags'}
+Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}
+Plug 'groenewege/vim-less', {'for' : 'less'}
+Plug 'itchyny/lightline.vim'
+Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}
+Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
+Plug 'kana/vim-altr'
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-textobj-line'
+Plug 'kana/vim-textobj-user'
+Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
+Plug 'mattn/emmet-vim'
+Plug 'mattn/gist-vim', {'on' : 'Gist'}
+Plug 'mattn/webapi-vim'
+Plug 'mbbill/undotree'
+Plug 'mhinz/vim-signify'
+Plug 'mhinz/vim-startify'
+Plug 'morhetz/gruvbox'
+Plug 'osyo-manga/shabadou.vim'
+Plug 'osyo-manga/vim-anzu'
+Plug 'rhysd/clever-f.vim'
+Plug 'slim-template/vim-slim', {'for' : 'slim'}
+Plug 'surround.vim'
+Plug 'thinca/vim-quickrun'
+Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
+Plug 'tmhedberg/matchit'
+Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
+Plug 'tpope/vim-fugitive'
+Plug 'tyru/capture.vim', {'on' : 'Capture'}
+Plug 'tyru/caw.vim'
+Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
 Plug 'wakatime/vim-wakatime'
+Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 " javascript {{{
-" Plug 'nanotech/jellybeans.vim'
-" Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
-" Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
-" Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
-" Plug 'marijnh/tern_for_vim', {'do': 'npm install' }
+"  syntax {{{
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
@@ -340,10 +342,22 @@ Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
+" }}}
+" completion {{{
+Plug 'mattn/jscomplete-vim'
+Plug 'myhere/vim-nodejs-complete'
+" Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
+" }}}
+" etc {{{
 Plug 'justinj/vim-react-snippets'
 Plug 'heavenshell/vim-jsdoc'
-" Plug 'mattn/jscomplete-vim'
 " }}}
+" fot nyaovim {{{
+Plug 'rhysd/nyaovim-mini-browser'
+Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
+"   }}}
+" }}}
+" if {{{
 if has('gui_running') || has('nvim')
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
   Plug 'osyo-manga/vim-watchdogs'
@@ -356,9 +370,18 @@ else
 endif
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
+" }}}
 " " }}}
 " local plugins {{{
-Plug '~/.vim/localPlugged/nyaovim-music'
+function! s:maxmellon_plug(...) abort " {{{
+  let plugin = '~/.vim/localPlugged/' . a:1
+  Plug plugin
+  unlet plugin
+endfunction
+command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
+" }}}
+MyPlug 'vim-dirvish'
+MyPlug 'nyaovim-music'
 " }}}
 call plug#end()
 
@@ -460,7 +483,6 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   " Enable omni completion.
   " AutocmdFT css setlocal omnifunc=csscomplete#CompleteCSS
   " AutocmdFT html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  " AutocmdFT javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   " AutocmdFT java setlocal omnifunc=javacomplete#Complete
   " AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
   " AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
@@ -504,7 +526,7 @@ if s:plug.is_installed('lightline.vim') " {{{
         \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
         \   'active': {
         \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
-        \                [ 'anzu', 'fugitive', 'gitgutter' ],
+        \                [ 'anzu', 'fugitive' ],
         \                [ 'filename' ] ],
         \     'right': [ [ 'qfstatusline' ],
         \                [ 'filetype' ],
@@ -522,7 +544,6 @@ if s:plug.is_installed('lightline.vim') " {{{
         \   'component_function': {
         \     'anzu' : 'anzu#search_status',
         \     'fugitive' : 'MyFugitive',
-        \     'gitgutter' : 'MyGitGutter',
         \     'mode' : 'MyMode'
         \   }
         \ }
@@ -555,16 +576,16 @@ endif
 "}}}
 if s:plug.is_installed('vim-dirvish') " {{{
   Autocmd BufEnter * if (winnr("$") == 1 && exists('b:dirvish')) | q | endif
-  let g:dirvish_window = 0
+  let g:dirvish_window = -1
   function! s:toggle_dirvish()
-    if g:dirvish_window
-      exe g:dirvish_window . 'quit'
-      let g:dirvish_window = 0
-    else
+    if g:dirvish_window == -1
       leftabove topleft vsplit .
       let g:dirvish_window = bufwinnr('$')
       vertical resize 20
       wincmd p
+    else
+      exe g:dirvish_window . 'quit'
+      let g:dirvish_window = -1
     endif
   endfunction
   command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
@@ -583,7 +604,7 @@ if s:plug.is_installed('vim-quickrun') " {{{
         \  '_': {
         \     'runner' : 'vimproc',
         \     'runner/vimproc/updatetime' : 60,
-        \     'outputter/buffer/split' : ':botright 8sp',
+        \     'outputter/buffer/split' : ':botright 4sp',
         \     'hook/time/enable': '1',
         \     "hook/back_window/enable" : 1,
         \     "hook/back_window/enable_exit" : 1,
@@ -619,8 +640,8 @@ if s:plug.is_installed('yankround.vim') "{{{
   xmap P <Plug>(yankround-P)
   nmap gp <Plug>(yankround-gp)
   xmap gp <Plug>(yankround-gp)
-  nmap <C-n> <Plug>(yankround-next)
-  nmap <C-p> <Plug>(yankround-prev)
+  " nmap <C-n> <Plug>(yankround-next)
+  " nmap <C-p> <Plug>(yankround-prev)
   nnoremap ,y :Unite yankround<CR>
 endif
 " }}}
@@ -1218,11 +1239,31 @@ if s:plug.is_installed('incsearch-migemo') " {{{
 endif
 " }}}
 if s:plug.is_installed('vim-operator-flashy') " {{{
-  let operator#flashy#flash_time = 300
+  highlight MyFlashy ctermbg=226 guibg=#00FF00
+  let g:operator#flashy#group = 'Visual'
+  if exists('g:nyaovim_version')
+    let g:operator#flashy#flash_time = 30
+  else
+    let g:operator#flashy#flash_time = 300
+  endif
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
+  nnoremap Y y$
 endif
 " }}}
+if s:plug.is_installed('vim-signify') " {{{
+  nmap <Leader>gj <Plug>(signify-next-hunk)zz
+  nmap <Leader>gk <Plug>(signify-prev-hunk)zz
+  nmap <Leader>gh <Plug>(signify-toggle-highlight)
+  nmap <Leader>gt <Plug>(signify-toggle)
+endif
+" }}}
+if s:plug.is_installed('tern_for_vim') " {{{
+  let tern#is_show_argument_hints_enabled = 1
+  AutocmdFT javascript setlocal omnifunc=tern#Complete
+  AutocmdFT javascript call tern#Enable()
+  nnoremap <buffer><C-]> :<C-u>TernDef<CR>
+endif " }}}
 " }}}
 " set {{{
 " common {{{
@@ -1245,20 +1286,21 @@ set maxmemtot=1000000
 set matchpairs+=<:>           " 対応カッコのマッチを追加
 set matchtime=1               " 対応するカッコを表示する時間
 set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
-set modelines=3               " 上の設定をファイル先頭3行にあるかないか調べる
+set modelines=2               " 上の設定をファイル先頭2行にあるかないか調べる
 set nrformats=alpha,hex       " アルファベットと16シンスうをC-a C-xで増減可能に
 set noequalalways             " vs, spの時のwindow幅
 " set number
 set pumheight=5               " 補完ウィンドウの行数
 set pastetoggle=<F11>
 " set relativenumber            " 相対行番号
-set report=0                  " 変更された行数の報告がでる最小値
+set report=1                  " 変更された行数の報告がでる最小値
 set ruler
 set scrolloff=10              " 常に10行表示
 set showcmd                   " ステータスラインに常にコメンド表示
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                " 横分割時、新しいウィンドウは下
 set splitright                " 縦分割時、新しいウィンドウは右
+set synmaxcol=200             " 長過ぎる文字はsyntax off
 set textwidth=0
 " set nocompatible              " VI互換を無効化
 if ! IsWindows()
@@ -1611,9 +1653,8 @@ command! -bar -nargs=1 SpaceIndent
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
-command! EsFix :! eslint --fix % 2>/dev/null 2>&1 &
+command! EsFix :call system('eslint --fix % &')
 command! Shiba :! shiba % &
-
 " }}}
 " mapping {{{
 " move {{{
@@ -1830,8 +1871,7 @@ nnoremap <f4> :<C-u>cnext<CR>
 nnoremap <s-f4> :<C-u>cprevious<CR>
 " }}}
 " etc {{{
-nnoremap <C-p> :<C-u>G<Space>
-nnoremap Y y$
+nnoremap <C-g> :<C-u>G<Space>
 " }}}
 " }}}
 " statusline {{{
