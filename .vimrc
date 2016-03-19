@@ -21,14 +21,14 @@
 if !1 | finish | endif
 " Startup time. {{{
 " See: https://gist.github.com/thinca/1518874
-if has('vim_starting') && has('reltime')
-  let s:startuptime = reltime()
-  augroup vimrc-startuptime
-    autocmd! VimEnter *
-          \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
-          \ | unlet s:startuptime
-  augroup END
-endif
+" if has('vim_starting') && has('reltime')
+"   let s:startuptime = reltime()
+"   augroup vimrc-startuptime
+"     autocmd! VimEnter *
+"           \   echomsg 'startuptime: ' . reltimestr(reltime(s:startuptime))
+"           \ | unlet s:startuptime
+"   augroup END
+" endif
 "}}}
 filetype off
 filetype plugin indent off
@@ -215,11 +215,6 @@ endif
 call plug#begin('~/.vim/plugged')
 " load Plugin {{{
 " out {{{
-" if has('lua')
-"   Plug 'Shougo/neocomplete.vim'
-" else
-"   Plug 'Shougo/deoplete.nvim'
-" endif
 " Plug 'KazuakiM/vim-qfstatusline'
 " Plug 'MaxMEllon/molokai'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
@@ -237,6 +232,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'chase/vim-ansible-yaml'
+" Plug 'cohama/lexima.vim'
 " Plug 'dannyob/quickfixstatus'
 " Plug 'glts/vim-textobj-comment'
 " Plug 'haya14busa/incsearch-easymotion.vim'
@@ -247,7 +243,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
 " Plug 'justinmk/vim-dirvish'
-" Plug 'kana/vim-smartinput'
 " Plug 'kana/vim-textobj-fold'
 " Plug 'keith/rspec.vim', {'on' : 'Rspec'}
 " Plug 'koron/codic-vim'
@@ -279,6 +274,16 @@ call plug#begin('~/.vim/plugged')
 " Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
 "   }}}
+if has('gui_running')
+  " nyaovim and gvim
+  Plug 'Valloric/YouCompleteMe'
+elseif has('nvim')
+  " cui nvim
+  Plug 'Shougo/deoplete.nvim'
+else
+  " cui vim
+  Plug 'Shougo/neocomplete.vim'
+endif
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 Plug 'AndrewRadev/switch.vim'
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
@@ -290,12 +295,11 @@ Plug 'Shougo/neomru.vim'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
-Plug 'Valloric/YouCompleteMe'
 Plug 'Yggdroot/indentLine'
 Plug 'alpaca-tc/alpaca_tags'
 Plug 'basyura/unite-rails', {'on' : 'Unite'}
 Plug 'cespare/vim-toml', {'for' : 'toml'}
-Plug 'cohama/lexima.vim'
+" Plug 'cohama/vim-smartinput-endwise'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
@@ -305,11 +309,13 @@ Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'itchyny/lightline.vim'
 Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}
+Plug 'jceb/vim-hier'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 Plug 'kana/vim-altr'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-smartinput'
 Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
@@ -317,10 +323,10 @@ Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
-Plug 'morhetz/gruvbox'
 Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'rhysd/clever-f.vim'
+Plug 'rhysd/endwize.vim'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'surround.vim'
 Plug 'thinca/vim-quickrun'
@@ -331,7 +337,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tyru/capture.vim', {'on' : 'Capture'}
 Plug 'tyru/caw.vim'
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
-Plug 'wakatime/vim-wakatime'
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 " javascript {{{
 "  syntax {{{
@@ -359,8 +364,11 @@ Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0
 " }}}
 " if {{{
 if has('gui_running') || has('nvim')
-  Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
+  Plug 'morhetz/gruvbox'
+  Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-watchdogs'
+  Plug 'ervandew/eclim', {'for' : 'java'}
+  Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
 endif
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
@@ -384,11 +392,9 @@ MyPlug 'vim-dirvish'
 MyPlug 'nyaovim-music'
 " }}}
 call plug#end()
-
 let s:plug = {
       \ "plugs": get(g:, 'plugs', {})
       \ }
-
 function! s:plug.is_installed(name)
   return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
 endfunction
@@ -557,6 +563,7 @@ if s:plug.is_installed('lightline.vim') " {{{
           \ &ft == 'vimfiler' ? 'VimFiler' :
           \ &ft == 'vimshell' ? 'VimShell' :
           \ &ft == 'undotree' ? 'UndoTree' :
+          \ &ft == 'dirvish' ? 'Dirvish' :
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
@@ -576,20 +583,20 @@ endif
 "}}}
 if s:plug.is_installed('vim-dirvish') " {{{
   Autocmd BufEnter * if (winnr("$") == 1 && exists('b:dirvish')) | q | endif
-  let g:dirvish_window = -1
-  function! s:toggle_dirvish()
-    if g:dirvish_window == -1
-      leftabove topleft vsplit .
-      let g:dirvish_window = bufwinnr('$')
-      vertical resize 20
-      wincmd p
-    else
-      exe g:dirvish_window . 'quit'
-      let g:dirvish_window = -1
-    endif
-  endfunction
-  command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
-  nnoremap <silent>,n :<C-u> ToggleDirvish<CR>
+let g:dirvish_window = -1
+function! s:toggle_dirvish()
+  if g:dirvish_window == -1
+    leftabove topleft vsplit .
+    let g:dirvish_window = bufwinnr('$')
+    vertical resize 20
+    wincmd p
+  else
+    exe g:dirvish_window . 'quit'
+    let g:dirvish_window = -1
+  endif
+endfunction
+command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
+nnoremap <silent>,n :<C-u> ToggleDirvish<CR>
 endif
 "}}}
 if s:plug.is_installed('indentLine') " {{{
@@ -826,6 +833,8 @@ if s:plug.is_installed('vim-watchdogs') "{{{
         \   'runner' : 'vimproc',
         \   'runner/vimproc/sleep' : 10,
         \   'runner/vimproc/updatetime' : 500,
+        \   'outputter/buffer/split' : ':botright 4sp',
+        \   'outputter/quickfix/open_cmd' : "",
         \   'hook/echo/enable' : 0,
         \   'hook/echo/output_success': '> No Errors Found.',
         \   'hook/back_window/enable' : 1,
@@ -1165,6 +1174,7 @@ if s:plug.is_installed('lexima.vim') " {{{
   let g:lexima_enable_space_rules = 1
   let g:lexima_enable_endwise_rules = 1
   let g:lexima_enable_newline_rules = 1
+  call lexima#set_default_rules()
   call lexima#add_rule({
         \   "at" : '\%#',
         \   "char" : ",",
@@ -1248,7 +1258,6 @@ if s:plug.is_installed('vim-operator-flashy') " {{{
   endif
   map y <Plug>(operator-flashy)
   nmap Y <Plug>(operator-flashy)$
-  nnoremap Y y$
 endif
 " }}}
 if s:plug.is_installed('vim-signify') " {{{
@@ -1264,6 +1273,289 @@ if s:plug.is_installed('tern_for_vim') " {{{
   AutocmdFT javascript call tern#Enable()
   nnoremap <buffer><C-]> :<C-u>TernDef<CR>
 endif " }}}
+if s:plug.is_installed('vim-smartinput') "{{{
+  imap <expr><CR> <Plug>(physical_key_return)
+  call smartinput#define_default_rules()
+  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
+  call smartinput#define_rule({
+        \   'at'    : '(\%#)',
+        \   'char'  : '<Space>',
+        \   'input' : '<Space><Space><Left>',
+        \   })
+
+  call smartinput#map_to_trigger('i', '<BS>', '<BS>', '<BS>')
+  call smartinput#define_rule({
+        \   'at'    : '( \%# )',
+        \   'char'  : '<BS>',
+        \   'input' : '<Del><BS>',
+        \   })
+
+  call smartinput#define_rule({
+        \   'at'    : '{\%#}',
+        \   'char'  : '<Space>',
+        \   'input' : '<Space><Space><Left>',
+        \   })
+
+  call smartinput#define_rule({
+        \   'at'    : '{ \%# }',
+        \   'char'  : '<BS>',
+        \   'input' : '<Del><BS>',
+        \   })
+
+  call smartinput#define_rule({
+        \   'at'    : '\[\%#\]',
+        \   'char'  : '<Space>',
+        \   'input' : '<Space><Space><Left>',
+        \   })
+
+  call smartinput#define_rule({
+        \   'at'    : '\[ \%# \]',
+        \   'char'  : '<BS>',
+        \   'input' : '<Del><BS>',
+        \   })
+
+  call smartinput#map_to_trigger('i', '<Plug>(physical_key_return)', '<CR>', '<CR>')
+  " 行末のスペースを削除する
+  call smartinput#define_rule({
+        \   'at'    : '\s\+\%#',
+        \   'char'  : '<CR>',
+        \   'input' : "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', '')) <Bar> echo 'delete trailing spaces'<CR><CR>",
+        \   })
+
+  " javascript 文字列内変数埋め込み
+  call smartinput#map_to_trigger('i', '$', '$', '$')
+  call smartinput#define_rule({
+        \   'at'       : '\%#',
+        \   'char'     : '$',
+        \   'input'    : '${}<Left>',
+        \   'filetype' : ['javascript'],
+        \   })
+
+  " Ruby 文字列内変数埋め込み
+  call smartinput#map_to_trigger('i', '#', '#', '#')
+  call smartinput#define_rule({
+        \   'at'       : '\%#',
+        \   'char'     : '#',
+        \   'input'    : '#{}<Left>',
+        \   'filetype' : ['ruby'],
+        \   'syntax'   : ['Constant', 'Special'],
+        \   })
+
+  " Ruby ブロック引数 ||
+  call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
+  call smartinput#define_rule({
+        \   'at' : '\%({\|\<do\>\)\s*\%#',
+        \   'char' : '|',
+        \   'input' : '||<Left>',
+        \   'filetype' : ['ruby', 'dachs'],
+        \    })
+
+  " テンプレート内のスペース
+  call smartinput#define_rule({
+        \   'at' :       '<\%#>',
+        \   'char' :     '<Space>',
+        \   'input' :    '<Space><Space><Left>',
+        \   'filetype' : ['cpp'],
+        \   })
+  call smartinput#define_rule({
+        \   'at' :       '< \%# >',
+        \   'char' :     '<BS>',
+        \   'input' :    '<Del><BS>',
+        \   'filetype' : ['cpp'],
+        \   })
+
+  " ブロックコメント
+  call smartinput#map_to_trigger('i', '*', '*', '*')
+  call smartinput#define_rule({
+        \   'at'       : '\/\%#',
+        \   'char'     : '*',
+        \   'input'    : '**/<Left><Left>',
+        \   'filetype' : ['c', 'cpp', 'javascript'],
+        \   })
+  call smartinput#define_rule({
+        \   'at'       : '/\*\%#\*/',
+        \   'char'     : '<Space>',
+        \   'input'    : '<Space><Space><Left>',
+        \   'filetype' : ['c', 'cpp', 'javascript'],
+        \   })
+  call smartinput#define_rule({
+        \   'at'       : '/* \%# */',
+        \   'char'     : '<BS>',
+        \   'input'    : '<Del><BS>',
+        \   'filetype' : ['c', 'cpp', 'javascript'],
+        \   })
+
+  " セミコロンの挙動
+  call smartinput#map_to_trigger('i', ';', ';', ';')
+  " 2回押しで :: の代わり（待ち時間無し）
+  call smartinput#define_rule({
+        \   'at'       : ';\%#',
+        \   'char'     : ';',
+        \   'input'    : '<BS>::',
+        \   'filetype' : ['cpp', 'rust'],
+        \   })
+  " boost:: の補完
+  call smartinput#define_rule({
+        \   'at'       : '\<b;\%#',
+        \   'char'     : ';',
+        \   'input'    : '<BS>oost::',
+        \   'filetype' : ['cpp'],
+        \   })
+  " std:: の補完
+  call smartinput#define_rule({
+        \   'at'       : '\<s;\%#',
+        \   'char'     : ';',
+        \   'input'    : '<BS>td::',
+        \   'filetype' : ['cpp', 'rust'],
+        \   })
+  " detail:: の補完
+  call smartinput#define_rule({
+        \   'at'       : '\%(\s\|::\)d;\%#',
+        \   'char'     : ';',
+        \   'input'    : '<BS>etail::',
+        \   'filetype' : ['cpp'],
+        \   })
+  " llvm:: の補完
+  call smartinput#define_rule({
+        \   'at'       : '\%(\s\|::\)l;\%#',
+        \   'char'     : ';',
+        \   'input'    : '<BS>lvm::',
+        \   'filetype' : ['cpp'],
+        \   })
+  " クラス定義や enum 定義の場合は末尾に;を付け忘れないようにする
+  call smartinput#define_rule({
+        \   'at'       : '\%(\<struct\>\|\<class\>\|\<enum\>\)\s*\w\+.*\%#',
+        \   'char'     : '{',
+        \   'input'    : '{};<Left><Left>',
+        \   'filetype' : ['cpp'],
+        \   })
+  " template に続く <> を補完
+  call smartinput#define_rule({
+        \   'at'       : '\<template\>\s*\%#',
+        \   'char'     : '<',
+        \   'input'    : '<><Left>',
+        \   'filetype' : ['cpp'],
+        \   })
+
+  " Vim の正規表現内で \( が入力されたときの \) の補完
+  call smartinput#define_rule({
+        \   'at'       : '\\\%(\|%\|z\)\%#',
+        \   'char'     : '(',
+        \   'input'    : '(\)<Left><Left>',
+        \   'filetype' : ['vim'],
+        \   'syntax'   : ['String'],
+        \   })
+  call smartinput#define_rule({
+        \   'at'       : '\\[%z](\%#\\)',
+        \   'char'     : '<BS>',
+        \   'input'    : '<Del><Del><BS><BS><BS>',
+        \   'filetype' : ['vim'],
+        \   'syntax'   : ['String'],
+        \   })
+  call smartinput#define_rule({
+        \   'at'       : '\\(\%#\\)',
+        \   'char'     : '<BS>',
+        \   'input'    : '<Del><Del><BS><BS>',
+        \   'filetype' : ['vim'],
+        \   'syntax'   : ['String'],
+        \   })
+
+  " my-endwise のための設定（手が焼ける…）
+  call smartinput#define_rule({
+        \   'at'    : '\%#',
+        \   'char'  : '<CR>',
+        \   'input' : "<CR><C-r>=endwize#crend()<CR>",
+        \   'filetype' : ['vim', 'ruby', 'sh', 'zsh', 'dachs'],
+        \   })
+  call smartinput#define_rule({
+        \   'at'    : '\s\+\%#',
+        \   'char'  : '<CR>',
+        \   'input' : "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR><C-r>=endwize#crend()<CR>",
+        \   'filetype' : ['vim', 'ruby', 'sh', 'zsh', 'dachs'],
+        \   })
+  call smartinput#define_rule({
+        \   'at'    : '^#if\%(\|def\|ndef\)\s\+.*\%#',
+        \   'char'  : '<CR>',
+        \   'input' : "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', ''))<CR><CR><C-r>=endwize#crend()<CR>",
+        \   'filetype' : ['c', 'cpp'],
+        \   })
+
+  " \s= を入力したときに空白を挟む
+  call smartinput#map_to_trigger('i', '=', '=', '=')
+  call smartinput#define_rule(
+        \ { 'at'    : '\s\%#'
+        \ , 'char'  : '='
+        \ , 'input' : '= '
+        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
+        \ })
+
+  " でも連続した == となる場合には空白は挟まない
+  call smartinput#define_rule(
+        \ { 'at'    : '=\s\%#'
+        \ , 'char'  : '='
+        \ , 'input' : '<BS>= '
+        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
+        \ })
+
+  " でも連続した =~ となる場合には空白は挟まない
+  call smartinput#map_to_trigger('i', '~', '~', '~')
+  call smartinput#define_rule(
+        \ { 'at'    : '=\s\%#'
+        \ , 'char'  : '~'
+        \ , 'input' : '<BS>~ '
+        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
+        \ })
+
+  " Vim は ==# と =~# がある
+  call smartinput#map_to_trigger('i', '#', '#', '#')
+  call smartinput#define_rule(
+        \ { 'at'    : '=[~=]\s\%#'
+        \ , 'char'  : '#'
+        \ , 'input' : '<BS># '
+        \ , 'filetype' : ['vim']
+        \ })
+
+  " Vim help
+  call smartinput#define_rule(
+        \ { 'at'    : '\%#'
+        \ , 'char'  : '|'
+        \ , 'input' : '||<Left>'
+        \ , 'filetype' : ['help']
+        \ })
+  call smartinput#define_rule(
+        \ { 'at'    : '|\%#|'
+        \ , 'char'  : '<BS>'
+        \ , 'input' : '<Del><BS>'
+        \ , 'filetype' : ['help']
+        \ })
+  call smartinput#map_to_trigger('i', '*', '*', '*')
+  call smartinput#define_rule(
+        \ { 'at'    : '\%#'
+        \ , 'char'  : '*'
+        \ , 'input' : '**<Left>'
+        \ , 'filetype' : ['help']
+        \ })
+  call smartinput#define_rule(
+        \ { 'at'    : '\*\%#\*'
+        \ , 'char'  : '<BS>'
+        \ , 'input' : '<Del><BS>'
+        \ , 'filetype' : ['help']
+        \ })
+endif
+" }}}
+if s:plug.is_installed('YouCompleteMe') " {{{
+  let g:ycm_collect_identifiers_from_tags_files = 1
+  let g:UltiSnipsExpandTrigger = '<C-j>'
+  let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+  let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+endif
+" }}}
 " }}}
 " set {{{
 " common {{{
@@ -1273,6 +1565,7 @@ set backspace=indent,eol,start
 set cmdheight=1
 set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
+set clipboard=exclude:.*
 " set cursorcolumn
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
@@ -1653,7 +1946,10 @@ command! -bar -nargs=1 SpaceIndent
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
-command! EsFix :call system('eslint --fix % &')
+command! EsFix :call vimproc#system("eslint --fix " . expand("%"))
+augroup javascript
+  autocmd! BufWrite *.js EsFix
+augroup END
 command! Shiba :! shiba % &
 " }}}
 " mapping {{{
@@ -1715,8 +2011,10 @@ nnoremap ZQ <Nop>
 "}}}
 " change normal mode {{{
 " Neojj
-inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
-cnoremap <expr> j getcmdline()[getcmdpos() - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
+" inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
+" cnoremap <expr> j getcmdline()[getcmdpos() - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
+inoremap jj <Esc>`^
+cnoremap jj <Esc>`^
 inoremap <silent> <Esc>  <Esc>`^
 inoremap <silent> <C-[>  <Esc>`^
 inoremap <C-c> <Esc>`^
@@ -1752,11 +2050,9 @@ inoremap <C-h> <BS>
 inoremap <C-d> <Del>
 inoremap <C-f> <C-x><C-p>
 inoremap <C-m> <CR>
-
 function! s:indent_braces()
   let nowletter = getline(".")[col(".")-1]
   let beforeletter = getline(".")[col(".")-2]
-
   if nowletter == "}" && beforeletter == "{"
     unlet nowletter
     unlet beforeletter
@@ -1764,11 +2060,11 @@ function! s:indent_braces()
   else
     unlet nowletter
     unlet beforeletter
-    return "\n"
+    return "\<ESC>\:RemoveWhiteSpace\n\a\n"
   endif
 endfunction
-
 inoremap <silent> <expr> <CR> <SID>indent_braces()
+inoremap , ,<Space>
 " }}}
 " home and end {{{
 " See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
@@ -1816,8 +2112,14 @@ vnoremap <C-x> <C-x>gv
 " }}}
 " prefix [,] {{{
 " remove white space of end line
-nnoremap <silent> ,x :<C-u>%s/\s\+$//e<CR>
-vnoremap <silent> ,x :<C-u>%s/\s\+$//e<CR>
+function! s:RemoveWhiteSpace()
+  let l:save_cursor = getpos(".")
+  silent! execute ':%s/\s\+$//e'
+  call setpos('.', l:save_cursor)
+endfunction
+command! -range=% RemoveWhiteSpace call <SID>RemoveWhiteSpace()
+nnoremap <silent> ,x :RemoveWhiteSpace<CR>
+vnoremap <silent> ,x :RemoveWhiteSpace<CR>
 " remove double width white space
 nnoremap <silent> ,z :<C-u>%s/  /  /g<CR>
 vnoremap <silent> ,z :<C-u>%s/  /  /g<CR>
@@ -1872,6 +2174,7 @@ nnoremap <s-f4> :<C-u>cprevious<CR>
 " }}}
 " etc {{{
 nnoremap <C-g> :<C-u>G<Space>
+nnoremap Y y$
 " }}}
 " }}}
 " statusline {{{
@@ -1949,6 +2252,10 @@ try
 catch
   colorscheme koehler
 endtry
+if !has('gui_running')
+  Autocmd VimEnter * highlight clear CursorLine
+  Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
+endif
 syntax on
 "}}}
 " END {{{
