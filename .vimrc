@@ -63,15 +63,12 @@ endfunction
 " encoding {{{
 " See:
 " https://raw.githubusercontent.com/Shougo/shougo-s-github/master/vim/rc/encoding.rc.vim
-"
 " The automatic recognition of the character code.
-
 " Setting of the encoding to use for a save and reading.
 " Make it normal in UTF-8 in Unix.
 if has('vim_starting')
   set encoding=utf-8
 endif
-
 " Setting of terminal encoding."{{{
 if !has('gui_running')
   if &term ==# 'win32' &&
@@ -97,7 +94,6 @@ elseif IsWindows()
   set termencoding=cp932
 endif
 "}}}
-
 " The automatic recognition of the character code."{{{
 if !exists('did_encoding_settings') && has('iconv')
   let s:enc_euc = 'euc-jp'
@@ -137,9 +133,7 @@ if !exists('did_encoding_settings') && has('iconv')
   let did_encoding_settings = 1
 endif
 "}}}
-
 if has('kaoriya')
-  " For Kaoriya only.
   set fileencodings=guess
 endif
 
@@ -184,7 +178,6 @@ command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
 command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 command! -bang -bar -complete=file -nargs=? Unicode Utf16<bang> <args>
 "}}}
-
 " Tried to make a file note version."{{{
 " Don't save it because dangerous.
 command! WUtf8 setlocal fenc=utf-8
@@ -198,7 +191,6 @@ command! WJis  WIso2022jp
 command! WSjis  WCp932
 command! WUnicode WUtf16
 "}}}
-
 " Appoint a line feed."{{{
 command! -bang -complete=file -nargs=? WUnix
       \ write<bang> ++fileformat=unix <args> | edit <args>
@@ -207,11 +199,12 @@ command! -bang -complete=file -nargs=? WDos
 command! -bang -complete=file -nargs=? WMac
       \ write<bang> ++fileformat=mac <args> | edit <args>
 "}}}
-
 if has('multi_byte_ime')
   set iminsert=0 imsearch=0
 endif
 " }}}
+
+" plugin {{{
 call plug#begin('~/.vim/plugged')
 " load Plugin {{{
 " out {{{
@@ -233,6 +226,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'chase/vim-ansible-yaml'
 " Plug 'cohama/lexima.vim'
+" Plug 'cohama/vim-smartinput-endwise'
 " Plug 'dannyob/quickfixstatus'
 " Plug 'glts/vim-textobj-comment'
 " Plug 'haya14busa/incsearch-easymotion.vim'
@@ -249,6 +243,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
 " Plug 'marijnh/tern_for_vim', {'do': 'npm install' }
+" Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 " Plug 'mattn/emoji-vim', {'on' : 'Emoji'}
 " Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
@@ -266,6 +261,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 " Plug 't9md/vim-quickhl'
+" Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 " Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
 " Plug 'tpope/vim-dispatch'
 " Plug 'tpope/vim-rails'
@@ -299,7 +295,6 @@ Plug 'Yggdroot/indentLine'
 Plug 'alpaca-tc/alpaca_tags'
 Plug 'basyura/unite-rails', {'on' : 'Unite'}
 Plug 'cespare/vim-toml', {'for' : 'toml'}
-" Plug 'cohama/vim-smartinput-endwise'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
@@ -316,7 +311,6 @@ Plug 'kana/vim-operator-user'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-smartinput'
-Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
 Plug 'mattn/webapi-vim'
@@ -330,7 +324,6 @@ Plug 'rhysd/endwize.vim'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'surround.vim'
 Plug 'thinca/vim-quickrun'
-Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 Plug 'tmhedberg/matchit'
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'tpope/vim-fugitive'
@@ -392,12 +385,14 @@ MyPlug 'vim-dirvish'
 MyPlug 'nyaovim-music'
 " }}}
 call plug#end()
+" set plug list {{{
 let s:plug = {
       \ "plugs": get(g:, 'plugs', {})
       \ }
 function! s:plug.is_installed(name)
   return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
 endfunction
+" }}}
 " plugin config {{{
 if s:plug.is_installed('rails.vim') " {{{
   let g:rails_level = 4
@@ -582,21 +577,21 @@ if s:plug.is_installed('The-NERD-tree') " {{{
 endif
 "}}}
 if s:plug.is_installed('vim-dirvish') " {{{
-  Autocmd BufEnter * if (winnr("$") == 1 && exists('b:dirvish')) | q | endif
-let g:dirvish_window = -1
-function! s:toggle_dirvish()
-  if g:dirvish_window == -1
-    leftabove topleft vsplit .
-    let g:dirvish_window = bufwinnr('$')
-    vertical resize 20
-    wincmd p
-  else
-    exe g:dirvish_window . 'quit'
-    let g:dirvish_window = -1
-  endif
-endfunction
-command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
-nnoremap <silent>,n :<C-u> ToggleDirvish<CR>
+  Autocmd BufEnter * if (winnr("$") == 1 && &ft == 'dirvish') | q | endif
+  let g:dirvish_window = -1
+  function! s:toggle_dirvish()
+    if (g:dirvish_window == -1 && %ft != 'dirvish')
+      leftabove topleft vsplit .
+      let g:dirvish_window = bufwinnr('$')
+      vertical resize 20
+      wincmd p
+    else
+      exe g:dirvish_window . 'quit'
+      let g:dirvish_window = -1
+    endif
+  endfunction
+  command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
+  nnoremap <silent>,n :<C-u> ToggleDirvish<CR>
 endif
 "}}}
 if s:plug.is_installed('indentLine') " {{{
@@ -1273,6 +1268,10 @@ if s:plug.is_installed('tern_for_vim') " {{{
   AutocmdFT javascript call tern#Enable()
   nnoremap <buffer><C-]> :<C-u>TernDef<CR>
 endif " }}}
+if s:plug.is_installed('endwise') " {{{
+  inoremap <silent><CR> <CR><Plug>DiscretionaryEnd
+endif
+" }}}
 if s:plug.is_installed('vim-smartinput') "{{{
   imap <expr><CR> <Plug>(physical_key_return)
   call smartinput#define_default_rules()
@@ -1548,6 +1547,8 @@ if s:plug.is_installed('YouCompleteMe') " {{{
   let g:UltiSnipsExpandTrigger = '<C-j>'
   let g:UltiSnipsJumpForwardTrigger = '<C-j>'
   let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+  AutocmdFT javascript nnoremap ,gd :<C-u>YcmCompleter GetDoc<CR>
+  AutocmdFT javascript nnoremap ,gt :<C-u>YcmCompleter GoTo<CR>
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -1557,6 +1558,8 @@ if s:plug.is_installed('YouCompleteMe') " {{{
 endif
 " }}}
 " }}}
+" }}}
+
 " set {{{
 " common {{{
 set autoread                  " vim外で編集された時の自動み込み
@@ -1565,7 +1568,7 @@ set backspace=indent,eol,start
 set cmdheight=1
 set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
-set clipboard=exclude:.*
+" set clipboard=exclude:.*
 " set cursorcolumn
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
@@ -1612,7 +1615,9 @@ if has('nvim')
   set novisualbell
 else
   set ttyfast                   " スクロールが滑らかに
-  set t_Co=256
+  if ('gui_running')
+    set t_Co=256
+  endif
   set ttyscroll=1
   set vb t_vb=                  " no beep no flash
 endif
@@ -1946,7 +1951,7 @@ command! -bar -nargs=1 SpaceIndent
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
-command! EsFix :call vimproc#system("eslint --fix " . expand("%"))
+command! EsFix :call vimproc#system_bg("eslint --fix " . expand("%"))
 augroup javascript
   autocmd! BufWrite *.js EsFix
 augroup END
@@ -2027,8 +2032,8 @@ xnoremap <silent> gp o<ESC>p^
 xnoremap <silent> gP O<ESC>P^
 " }}}
 " change buffer {{{
-nnoremap <silent> bp :<C-u>bprevious<CR>
-nnoremap <silent> bn :<C-u>bnext<CR>
+" nnoremap <silent> bp :<C-u>bprevious<CR>
+" nnoremap <silent> bn :<C-u>bnext<CR>
 for s:k in range(1, 9)
   execute 'nnoremap <Leader>' . s:k ':<C-u>e #' . s:k . '<CR>'
 endfor
@@ -2051,17 +2056,16 @@ inoremap <C-d> <Del>
 inoremap <C-f> <C-x><C-p>
 inoremap <C-m> <CR>
 function! s:indent_braces()
-  let nowletter = getline(".")[col(".")-1]
-  let beforeletter = getline(".")[col(".")-2]
-  if nowletter == "}" && beforeletter == "{"
-    unlet nowletter
-    unlet beforeletter
-    return "\n\t\n\<UP>\<RIGHT>\<ESC>\A"
+  let s:nowletter = getline(".")[col(".")-1]
+  let s:beforeletter = getline(".")[col(".")-2]
+  if s:nowletter == "}" && s:beforeletter == "{" || s:nowletter == "]" && s:beforeletter == "["
+    let s:res = "\n\t\n\<UP>\<RIGHT>\<ESC>\A"
+  elseif s:beforeletter == ' '
+    let s:res = "\n\<ESC>\:RemoveWhiteSpace\n\ii\<ESC>==xa"
   else
-    unlet nowletter
-    unlet beforeletter
-    return "\<ESC>\:RemoveWhiteSpace\n\a\n"
+    let s:res = "\n"
   endif
+  return s:res
 endfunction
 inoremap <silent> <expr> <CR> <SID>indent_braces()
 inoremap , ,<Space>
@@ -2250,7 +2254,7 @@ try
   set background=dark
   colorscheme gruvbox
 catch
-  colorscheme koehler
+  colorscheme pablo
 endtry
 if !has('gui_running')
   Autocmd VimEnter * highlight clear CursorLine
