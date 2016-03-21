@@ -1,5 +1,7 @@
 if !IsWindows()
-  set guifont=Ubuntu\ Mono:h14
+  set macligatures
+  set guifont=FiraCode-Retina:h12,Ubuntu\ Mono:h14
+  set guifontwide=Ubuntu\ Mono:h14
 else
   set guifont=Ricty_for_Powerline:h14
 endif

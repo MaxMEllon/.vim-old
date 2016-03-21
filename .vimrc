@@ -304,7 +304,7 @@ Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'itchyny/lightline.vim'
 Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}
-Plug 'jceb/vim-hier'
+Plug 'pocke/vim-hier'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 Plug 'kana/vim-altr'
 Plug 'kana/vim-operator-user'
@@ -337,7 +337,7 @@ Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
 " }}}
@@ -382,7 +382,9 @@ endfunction
 command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 " }}}
 MyPlug 'vim-dirvish'
-MyPlug 'nyaovim-music'
+MyPlug 'music.nyaovim'
+MyPlug 'vim-cmus'
+MyPlug 'vim-jsx'
 " }}}
 call plug#end()
 " set plug list {{{
@@ -580,7 +582,7 @@ if s:plug.is_installed('vim-dirvish') " {{{
   Autocmd BufEnter * if (winnr("$") == 1 && &ft == 'dirvish') | q | endif
   let g:dirvish_window = -1
   function! s:toggle_dirvish()
-    if (g:dirvish_window == -1 && %ft != 'dirvish')
+    if (g:dirvish_window == -1 && &ft != 'dirvish')
       leftabove topleft vsplit .
       let g:dirvish_window = bufwinnr('$')
       vertical resize 20
