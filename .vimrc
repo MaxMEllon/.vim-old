@@ -2151,13 +2151,11 @@ nnoremap <SID>(command-line-enter) q:
 xnoremap <SID>(command-line-enter) q:
 nnoremap <SID>(command-line-norange) q:<C-u>
 " }}}
-" autoload {{{
+" cmdwindow mapping function {{{
 augroup CmdWindow
   autocmd!
   autocmd CmdwinEnter * call s:init_cmdwin()
 augroup END
-" }}}
-" cmdwindow mapping function {{{
 function! s:init_cmdwin()
   " setlocal nolist! number! relativenumber!
   nnoremap <silent><buffer>q :<C-u>q<CR>
@@ -2181,11 +2179,13 @@ nnoremap <s-f4> :<C-u>cprevious<CR>
 " etc {{{
 nnoremap <C-g> :<C-u>G<Space>
 nnoremap Y y$
+nnoremap <C-Tab> <C-w><C-w>
+nnoremap <S-tab> :<C-u>tabnext<CR>
+nnoremap <C-S-Tab> :<C-u>bnext<CR>
 " }}}
 " }}}
 " statusline {{{
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
-
 if has('syntax')
   augroup InsertHook
     autocmd!
@@ -2268,3 +2268,4 @@ syntax on
 filetype indent on
 set secure " vimrcの最後に記述 vimhelpより
 " }}}
+
