@@ -257,7 +257,9 @@ call plug#begin('~/.vim/plugged')
 " Plug 'osyo-manga/vim-over'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 " Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
+" Plug 'cespare/vim-toml', {'for' : 'toml'}
 " Plug 'rhysd/vim-textobj-ruby'
+" Plug 'rhysd/endwize.vim'
 " Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 " Plug 't9md/vim-quickhl'
@@ -280,6 +282,7 @@ else
   " cui vim
   Plug 'Shougo/neocomplete.vim'
 endif
+Plug 'The-NERD-tree'
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 Plug 'AndrewRadev/switch.vim'
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
@@ -294,7 +297,6 @@ Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 Plug 'Yggdroot/indentLine'
 Plug 'alpaca-tc/alpaca_tags'
 Plug 'basyura/unite-rails', {'on' : 'Unite'}
-Plug 'cespare/vim-toml', {'for' : 'toml'}
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
@@ -317,10 +319,8 @@ Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
-Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'rhysd/clever-f.vim'
-Plug 'rhysd/endwize.vim'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'surround.vim'
 Plug 'thinca/vim-quickrun'
@@ -360,6 +360,7 @@ if has('gui_running') || has('nvim')
   Plug 'morhetz/gruvbox'
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-watchdogs'
+  Plug 'osyo-manga/shabadou.vim'
   Plug 'ervandew/eclim', {'for' : 'java'}
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
 endif
@@ -381,7 +382,7 @@ function! s:maxmellon_plug(...) abort " {{{
 endfunction
 command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 " }}}
-MyPlug 'vim-dirvish'
+" MyPlug 'vim-dirvish'
 MyPlug 'music.nyaovim'
 MyPlug 'vim-cmus'
 MyPlug 'vim-jsx'
@@ -1549,6 +1550,7 @@ if s:plug.is_installed('YouCompleteMe') " {{{
   let g:UltiSnipsExpandTrigger = '<C-j>'
   let g:UltiSnipsJumpForwardTrigger = '<C-j>'
   let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+  let g:EclimCompletionMethod = 'omnifunc'
   AutocmdFT javascript nnoremap ,gd :<C-u>YcmCompleter GetDoc<CR>
   AutocmdFT javascript nnoremap ,gt :<C-u>YcmCompleter GoTo<CR>
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -1574,7 +1576,7 @@ set cscopetag
 " set cursorcolumn
 set cursorline
 set display=lastline          " 画面を超える長い１行も表示
-set fillchars=vert:\|
+set fillchars=vert:\|,fold:\-
 set history=100               " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
 set list
@@ -1864,6 +1866,7 @@ function! s:remove_fancy_characters() "{{{
   let typo["，"] = ', '
   let typo["．"] = '. '
   execute ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+  unlet typo
 endfunction
 
 command! RemoveFancyCharacters call s:remove_fancy_characters()
@@ -1955,6 +1958,7 @@ command! -bar -nargs=* G vimgrep <args> %
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
 command! EsFix :call vimproc#system_bg("eslint --fix " . expand("%"))
 augroup javascript
+  autocmd!
   autocmd! BufWrite *.js EsFix
 augroup END
 command! Shiba :! shiba % &

@@ -4,5 +4,7 @@
 /autoload/*
 /plugged/*
 /localPlugged
+/plugin/eclim.vim
+/eclim
 !.keep
 vim
