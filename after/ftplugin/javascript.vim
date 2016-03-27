@@ -1,3 +1,3 @@
 setlocal foldmethod=marker
-setlocal foldmarker=/***,***/
+setlocal foldmarker=/*,*/
 

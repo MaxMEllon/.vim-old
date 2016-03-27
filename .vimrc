@@ -224,6 +224,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'airblade/vim-gitgutter'
 " Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 " Plug 'altercation/vim-colors-solarized'
+" Plug 'cespare/vim-toml', {'for' : 'toml'}
 " Plug 'chase/vim-ansible-yaml'
 " Plug 'cohama/lexima.vim'
 " Plug 'cohama/vim-smartinput-endwise'
@@ -236,6 +237,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
+" Plug 'justinj/vim-react-snippets'
 " Plug 'justinmk/vim-dirvish'
 " Plug 'kana/vim-textobj-fold'
 " Plug 'keith/rspec.vim', {'on' : 'Rspec'}
@@ -257,12 +259,12 @@ call plug#begin('~/.vim/plugged')
 " Plug 'osyo-manga/vim-over'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 " Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
-" Plug 'cespare/vim-toml', {'for' : 'toml'}
-" Plug 'rhysd/vim-textobj-ruby'
 " Plug 'rhysd/endwize.vim'
+" Plug 'rhysd/vim-textobj-ruby'
 " Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 " Plug 't9md/vim-quickhl'
+" Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 " Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 " Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
 " Plug 'tpope/vim-dispatch'
@@ -310,15 +312,16 @@ Plug 'pocke/vim-hier'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 Plug 'kana/vim-altr'
 Plug 'kana/vim-operator-user'
+Plug 'kana/vim-smartinput'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-smartinput'
 Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
 Plug 'mattn/webapi-vim'
 Plug 'mbbill/undotree'
 Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
+Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/vim-anzu'
 Plug 'rhysd/clever-f.vim'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
@@ -344,10 +347,8 @@ Plug 'othree/es.next.syntax.vim'
 " completion {{{
 Plug 'mattn/jscomplete-vim'
 Plug 'myhere/vim-nodejs-complete'
-" Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 " }}}
 " etc {{{
-Plug 'justinj/vim-react-snippets'
 Plug 'heavenshell/vim-jsdoc'
 " }}}
 " fot nyaovim {{{
@@ -360,7 +361,6 @@ if has('gui_running') || has('nvim')
   Plug 'morhetz/gruvbox'
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-watchdogs'
-  Plug 'osyo-manga/shabadou.vim'
   Plug 'ervandew/eclim', {'for' : 'java'}
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
 endif
@@ -1048,6 +1048,7 @@ if s:plug.is_installed('switch.vim') " {{{
         \  ]
   nnoremap <C-s> :<C-u>Switch<CR>
   nnoremap <Space>sw :<C-u>Switch<CR>
+  " <C-o> 使わんし上書き
   inoremap <C-o> <ESC>`^:<C-u>Switch<CR>i
 endif
 "}}}
@@ -1574,7 +1575,9 @@ set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
 " set clipboard=exclude:.*
 " set cursorcolumn
-set cursorline
+if has('gui_running')
+  set cursorline              " これをsetすると描画がだいぶ遅くなる
+endif
 set display=lastline          " 画面を超える長い１行も表示
 set fillchars=vert:\|,fold:\-
 set history=100               " コマンドラインのヒストリ
