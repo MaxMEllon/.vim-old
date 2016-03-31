@@ -609,7 +609,8 @@ if s:plug.is_installed('vim-quickrun') " {{{
         \  '_': {
         \     'runner' : 'vimproc',
         \     'runner/vimproc/updatetime' : 60,
-        \     'outputter/buffer/split' : ':botright 4sp',
+        \     'outputter/buffer/split' : '',
+        \     'outputter/quickfix/open_cmd' : "",
         \     'hook/time/enable': '1',
         \     "hook/back_window/enable" : 1,
         \     "hook/back_window/enable_exit" : 1,
@@ -831,7 +832,7 @@ if s:plug.is_installed('vim-watchdogs') "{{{
         \   'runner' : 'vimproc',
         \   'runner/vimproc/sleep' : 10,
         \   'runner/vimproc/updatetime' : 500,
-        \   'outputter/buffer/split' : ':botright 4sp',
+        \   'outputter/buffer/split' : '',
         \   'outputter/quickfix/open_cmd' : "",
         \   'hook/echo/enable' : 0,
         \   'hook/echo/output_success': '> No Errors Found.',
@@ -878,7 +879,7 @@ if s:plug.is_installed('vim-watchdogs') "{{{
           \   'type' : 'watchdogs_checker/eslint',
           \ }
     let g:quickrun_config['javascript.jsx/watchdogs_checker'] = {
-          \   'type' : 'eslint',
+          \   'type' : 'watchdogs_checker/eslint',
           \ }
   endif
   if executable('rubocop')
@@ -1044,6 +1045,15 @@ if s:plug.is_installed('switch.vim') " {{{
         \     {
         \       ')'  : ');',
         \       ');' : ')',
+        \     },
+        \     {
+        \       '}'  : '};',
+        \       '};' : '},',
+        \       '},' : '}',
+        \     },
+        \     {
+        \       ']'  : '];',
+        \       '];' : ']',
         \     },
         \  ]
   nnoremap <C-s> :<C-u>Switch<CR>
