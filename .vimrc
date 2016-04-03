@@ -308,13 +308,13 @@ Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'itchyny/lightline.vim'
 Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}
-Plug 'pocke/vim-hier'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
 Plug 'kana/vim-altr'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-smartinput'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
+Plug 'leafgarland/typescript-vim'
 Plug 'mattn/emmet-vim'
 Plug 'mattn/gist-vim', {'on' : 'Gist'}
 Plug 'mattn/webapi-vim'
@@ -323,6 +323,7 @@ Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
 Plug 'osyo-manga/shabadou.vim'
 Plug 'osyo-manga/vim-anzu'
+Plug 'pocke/vim-hier'
 Plug 'rhysd/clever-f.vim'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'surround.vim'
@@ -1841,6 +1842,13 @@ Autocmd BufNewFile,BufRead,VimEnter,WinEnter
 Autocmd InsertLeave * set nopaste
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
+function s:enable_sound()
+  if IsMac()
+    Autocmd TextChangedI,TextChanged
+        \ * call vimproc#system_bg("afplay " . expand("~/.vim/ishi.mp3"))
+  endif
+endfunction
+command! SoundEnable call s:enable_sound()
 " }}}
 " function {{{
 function! s:copy_mode_toggle() " {{{
