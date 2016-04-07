@@ -266,6 +266,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 't9md/vim-quickhl'
 " Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 " Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
+" Plug 'tmhedberg/matchit'
 " Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
 " Plug 'tpope/vim-dispatch'
 " Plug 'tpope/vim-rails'
@@ -274,69 +275,108 @@ call plug#begin('~/.vim/plugged')
 " Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
 "   }}}
+
+" completer {{{
 if has('gui_running')
   " nyaovim and gvim
-  Plug 'Valloric/YouCompleteMe'
+  Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
 elseif has('nvim')
   " cui nvim
-  Plug 'Shougo/deoplete.nvim'
+  Plug 'Shougo/deoplete.nvim'                                     " python3依存
 else
   " cui vim
-  Plug 'Shougo/neocomplete.vim'
+  Plug 'Shougo/neocomplete.vim'                                       " lua依存
 endif
-Plug 'The-NERD-tree'
-Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
-Plug 'AndrewRadev/switch.vim'
+" }}}
+
+" common {{{
+Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
+Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
+Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
+Plug 'Shougo/neomru.vim'                             " uniteやneocompleteの依存
+Plug 'Shougo/unite.vim'                            " 統合ユーザインターフェース
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}               " :system() を非同期化
+Plug 'The-NERD-tree'                                         " ツリーファイラー
+Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
+Plug 'alpaca-tc/alpaca_tags'                     " ctagsマネージャー，自動ctags
+Plug 'basyura/unite-rails', {'on' : 'Unite'}            " railsのM-V-C 移動強化
+Plug 'ctrlpvim/ctrlp.vim'                                            " ファイラ
+Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
+Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげるやつ
+Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
+Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
+Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}         " unite-railsを更に強化
+Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
+Plug 'kana/vim-altr'                               " Qucick-fix該当行ハイライト
+Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
+Plug 'kana/vim-smartinput'                              " ( -> (|) とかするやつ
+Plug 'kana/vim-textobj-line'                            " text-object拡張(line)
+Plug 'kana/vim-textobj-user'                                  " text-object拡張
+Plug 'itchyny/lightline.vim'                       " かっこいいステータスライン
+Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
+Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
+Plug 'mattn/webapi-vim'                                        " vimでget, post
+Plug 'mbbill/undotree'                                               " undo履歴
+Plug 'mhinz/vim-signify'                    " signつけるやつ git-gutterとの選択
+Plug 'mhinz/vim-startify'                                        " 起動画面拡張
+Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
+Plug 'osyo-manga/vim-anzu'                               " 検索時の該当個数表示
+Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
+Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
+Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
+Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
+Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
+Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
+Plug 'tyru/caw.vim'                                    " コメントアウトするマン
+"   }}}
+
+" html {{{
+Plug 'slim-template/vim-slim', {'for' : 'slim'}
+"   }}}
+
+" css {{{
+Plug 'wavded/vim-stylus', {'for' : 'stylus'}
+Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
-Plug 'LeafCage/foldCC.vim'
-Plug 'LeafCage/yankround.vim'
+" }}}
+
+" go {{{
+Plug 'fatih/vim-go', {'for' : 'go'}
+"   }}}
+
+"  ruby {{{
+Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
+if executable('rct-complete')
+  " Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
+else
+  " Plug 'NigoroJr/rsense', {'for' : 'ruby'}
+  " Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
+endif
+if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
+"   }}}
+
+" php {{{
+Plug 'StanAngeloff/php.vim', {'for' : 'php'}
+"   }}}
+
+" elixir {{{
+Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
+"   }}}
+
+" cpp {{{
+Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
+"   }}}
+
+" etc {{{
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
-Plug 'Shougo/neomru.vim'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'StanAngeloff/php.vim', {'for' : 'php'}
-Plug 'Yggdroot/indentLine'
-Plug 'alpaca-tc/alpaca_tags'
-Plug 'basyura/unite-rails', {'on' : 'Unite'}
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
-Plug 'fatih/vim-go', {'for' : 'go'}
-Plug 'gabesoft/vim-ags', {'on' : 'Ags'}
-Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}
-Plug 'groenewege/vim-less', {'for' : 'less'}
-Plug 'itchyny/lightline.vim'
-Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}
-Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'}
-Plug 'kana/vim-altr'
-Plug 'kana/vim-operator-user'
-Plug 'kana/vim-smartinput'
-Plug 'kana/vim-textobj-line'
-Plug 'kana/vim-textobj-user'
-Plug 'leafgarland/typescript-vim'
-Plug 'mattn/emmet-vim'
-Plug 'mattn/gist-vim', {'on' : 'Gist'}
-Plug 'mattn/webapi-vim'
-Plug 'mbbill/undotree'
-Plug 'mhinz/vim-signify'
-Plug 'mhinz/vim-startify'
-Plug 'osyo-manga/shabadou.vim'
-Plug 'osyo-manga/vim-anzu'
-Plug 'pocke/vim-hier'
-Plug 'rhysd/clever-f.vim'
-Plug 'slim-template/vim-slim', {'for' : 'slim'}
-Plug 'surround.vim'
-Plug 'thinca/vim-quickrun'
-Plug 'tmhedberg/matchit'
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
-Plug 'tpope/vim-fugitive'
-Plug 'tyru/capture.vim', {'on' : 'Capture'}
-Plug 'tyru/caw.vim'
-Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
-Plug 'wavded/vim-stylus', {'for' : 'stylus'}
+"   }}}
+
 " javascript {{{
+
 "  syntax {{{
+Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
@@ -345,35 +385,34 @@ Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
 Plug 'othree/es.next.syntax.vim'
 " }}}
+
 " completion {{{
 Plug 'mattn/jscomplete-vim'
 Plug 'myhere/vim-nodejs-complete'
 " }}}
+
 " etc {{{
 Plug 'heavenshell/vim-jsdoc'
 " }}}
+
+
+" }}}
+
 " fot nyaovim {{{
 Plug 'rhysd/nyaovim-mini-browser'
 Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
 "   }}}
-" }}}
+
 " if {{{
 if has('gui_running') || has('nvim')
   Plug 'morhetz/gruvbox'
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-watchdogs'
-  Plug 'ervandew/eclim', {'for' : 'java'}
-  Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
+  " Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
 endif
-if executable('rct-complete')
-  Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
-else
-  Plug 'NigoroJr/rsense', {'for' : 'ruby'}
-  Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
-endif
-if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 " }}}
+
 " " }}}
 " local plugins {{{
 function! s:maxmellon_plug(...) abort " {{{
@@ -398,11 +437,13 @@ function! s:plug.is_installed(name)
 endfunction
 " }}}
 " plugin config {{{
+
 if s:plug.is_installed('rails.vim') " {{{
   let g:rails_level = 4
   let g:rails_defalut_database = 'postgresql'
 endif
 " }}}
+
 if s:plug.is_installed('neocomplcache.vim') " {{{
   "neocomplcacheを有効化
   let g:neocomplcache_enable_at_startup = 1
@@ -444,6 +485,7 @@ if s:plug.is_installed('neocomplcache.vim') " {{{
   inoremap <expr><C-l> neocomplcache#complete_common_string()
 endif
 " }}}
+
 if s:plug.is_installed('neocomplete.vim') " {{{
   " Disable AutoComplPop
   let g:acp_enableAtStartup = 0
@@ -494,15 +536,18 @@ if s:plug.is_installed('neocomplete.vim') " {{{
 
 endif
 " }}}
+
 if s:plug.is_installed('neocomplete-php.vim') " {{{
   let g:neocomplete_php_locale = 'ja'
 endif
 " }}}
+
 if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#enable_at_startup = 1
   inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 endif
 " }}}
+
 if s:plug.is_installed('neosnippet') " {{{
   let g:neosnippet#snipqets_directory='~/.vim/snippets'
   imap <C-k> <Plug>(neosnippet_expand_or_jump)
@@ -1844,8 +1889,12 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
 function s:enable_sound()
   if IsMac()
+    Autocmd BufWrite
+        \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/gun.mp3"))
+    Autocmd CursorMoved
+        \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/shyuin.mp3"))
     Autocmd TextChangedI,TextChanged
-        \ * call vimproc#system_bg("afplay " . expand("~/.vim/ishi.mp3"))
+        \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/ishi.mp3"))
   endif
 endfunction
 command! SoundEnable call s:enable_sound()
