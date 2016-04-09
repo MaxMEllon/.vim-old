@@ -279,11 +279,12 @@ call plug#begin('~/.vim/plugged')
 
 " completer {{{
 " nyaovim and gvim
-Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
+Plug 'Valloric/YouCompleteMe'   " clang, python2依存 optional: msbuild, eclim等
 " cui vim
 " Plug 'Shougo/neocomplete.vim'                                       " lua依存
 " cui nvim
 " Plug 'Shougo/deoplete.nvim'                                     " python3依存
+Plug 'Shougo/neocompletecache'
 " }}}
 
 " common {{{
@@ -341,7 +342,7 @@ Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
 Plug 'fatih/vim-go', {'for' : 'go'}
 "   }}}
 
-"  ruby {{{
+" ruby {{{
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 if executable('rct-complete')
   " Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
@@ -411,8 +412,7 @@ else
 endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 " }}}
-
-" " }}}
+" }}}
 " local plugins {{{
 function! s:maxmellon_plug(...) abort " {{{
   let plugin = '~/.vim/localPlugged/' . a:1
