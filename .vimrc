@@ -278,13 +278,11 @@ call plug#begin('~/.vim/plugged')
 "   }}}
 
 " completer {{{
-" nyaovim and gvim
+"" 保管プラグインリスト
 Plug 'Valloric/YouCompleteMe'   " clang, python2依存 optional: msbuild, eclim等
-" cui vim
 " Plug 'Shougo/neocomplete.vim'                                       " lua依存
-" cui nvim
 " Plug 'Shougo/deoplete.nvim'                                     " python3依存
-Plug 'Shougo/neocompletecache'
+" Plug 'Shougo/neocompletecache'                                 " 依存なし低速
 " }}}
 
 " common {{{
