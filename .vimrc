@@ -389,8 +389,8 @@ Plug 'myhere/vim-nodejs-complete'
 
 " etc {{{
 Plug 'heavenshell/vim-jsdoc'
+Plug 'samuelsimoes/vim-jsx-utils'                       " jsxの整形などを手助け
 " }}}
-
 
 " }}}
 
