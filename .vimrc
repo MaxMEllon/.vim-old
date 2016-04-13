@@ -713,6 +713,7 @@ if s:plug.is_installed('unite.vim') "{{{
 
   nnoremap [unite]u :<C-u>Unite<CR>
   nnoremap [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer -no-quit<CR>
+  nnoremap [unite]j :<C-u>Unite jump<CR>
   nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
   nnoremap [unite]a :<C-u>Unite -start-insert file_rec/async<CR>
   nnoremap [unite]r <Plug>(unite_restart)
