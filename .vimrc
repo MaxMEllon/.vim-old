@@ -299,6 +299,7 @@ Plug 'basyura/unite-rails', {'on' : 'Unite'}            " railsのM-V-C 移動�
 Plug 'ctrlpvim/ctrlp.vim'                                            " ファイラ
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
 Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげるやつ
+Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
 Plug 'itchyny/lightline.vim'                       " かっこいいステータスライン
@@ -1834,6 +1835,7 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*.sql
 " }}}
 " encode {{{
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
@@ -2393,7 +2395,7 @@ set statusline+=[%p%%]
 
 " color {{{
 try
-  if has('gui_running')
+  if has('gui_running') || has('nvim')
     set background=dark
     colorscheme gruvbox
   else
