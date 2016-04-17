@@ -1924,6 +1924,7 @@ Autocmd BufNewFile,BufRead *.ex      set filetype=elixir
 Autocmd BufNewFile,BufRead *.toml    set filetype=toml
 Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
 Autocmd BufNewFile,BufRead *.jsx     set filetype=javascript.jsx
+Autocmd BufNewFile,BufRead *.es6     set filetype=javascript
 AutocmdFT python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
 AutocmdFT php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
 AutocmdFT java     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
