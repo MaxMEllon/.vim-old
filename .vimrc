@@ -334,6 +334,7 @@ Plug 'tyru/caw.vim'                                    " コメントアウト�
 
 " html {{{
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
+Plug 'jaxbot/semantic-highlight.vim', {'on' : 'SemanticHighlightToggle'}
 "   }}}
 
 " css {{{
