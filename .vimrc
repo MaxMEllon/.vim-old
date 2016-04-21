@@ -281,7 +281,7 @@ call plug#begin('~/.vim/plugged')
 "" 補完プラグインリスト
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'                                     " python3依存
-elseif has('python2')
+elseif has('python')
   Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
 elseif has('lua')
   Plug 'Shougo/neocomplete.vim'                                       " lua依存
@@ -411,7 +411,7 @@ if has('gui_running') || has('nvim')
   Plug 'morhetz/gruvbox'
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-watchdogs'
-  " Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
+  Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
 else
   Plug 'MaxMEllon/molokai'
 endif
