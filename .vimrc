@@ -758,8 +758,8 @@ endif
 " }}}
 
 if s:plug.is_installed('caw.vim') "{{{
-  nmap ,c <Plug>(caw:i:toggle)
-  vmap ,c <Plug>(caw:i:toggle)
+  nmap ,c <Plug>(caw:hatpos:toggle)
+  vmap ,c <Plug>(caw:hatpos:toggle)
 endif
 " }}}
 
@@ -1797,9 +1797,8 @@ endif
 set hlsearch    " ハイライト検索
 set ignorecase  " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set incsearch   " 検索ワードの最初の文字を入力した時点から検索開始
-set nowrapscan  " 検索をファイルの先頭へループしない
+set wrapscan    " 検索をファイルの先頭へループ
 set smartcase   " 検索文字列に大文字が含まれている場合は区別して検索する
-set wrapscan
 " }}}
 " folding {{{
 set foldenable         " 折りたたみon
