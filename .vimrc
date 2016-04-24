@@ -206,7 +206,9 @@ endif
 " }}}
 
 " plugin {{{
+
 call plug#begin('~/.vim/plugged')
+
 " load Plugin {{{
 " out {{{
 " Plug 'KazuakiM/vim-qfstatusline'
@@ -237,6 +239,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'haya14busa/incsearch.vim'
 " Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
+" Plug 'itchyny/vim-cursorword'              " カーソル下の同じワードハイライト
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
 " Plug 'justinj/vim-react-snippets'
 " Plug 'justinmk/vim-dirvish'
@@ -412,6 +415,7 @@ if has('gui_running') || has('nvim')
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-watchdogs'
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
+  Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
 else
   Plug 'MaxMEllon/molokai'
 endif
@@ -431,7 +435,9 @@ MyPlug 'music.nyaovim'
 MyPlug 'vim-cmus'
 MyPlug 'vim-jsx'
 " }}}
+
 call plug#end()
+
 " set plug list {{{
 let s:plug = {
       \ "plugs": get(g:, 'plugs', {})
@@ -440,6 +446,7 @@ function! s:plug.is_installed(name)
   return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
 endfunction
 " }}}
+
 " plugin config {{{
 
 if s:plug.is_installed('rails.vim') " {{{
@@ -1687,6 +1694,13 @@ if s:plug.is_installed('YouCompleteMe') " {{{
 endif
 " }}}
 
+if s:plug.is_installed('vim-brightest') " {{{
+  highlight MyBrightest gui=bold guifg=NONE guibg=#FFFF66
+  let g:brightest#highlight =  {
+        \     'group' : 'MatchParen'
+        \  }
+endif
+" }}}
 " }}}
 
 " }}}
@@ -1959,7 +1973,7 @@ Autocmd BufNewFile,BufRead,VimEnter,WinEnter
 Autocmd InsertLeave * set nopaste
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
-function s:enable_sound()
+function! s:enable_sound()
   if IsMac()
     Autocmd BufWrite
         \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/gun.mp3"))
