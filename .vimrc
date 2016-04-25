@@ -218,8 +218,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
 " Plug 'Shougo/context_filetype.vim'
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
-" Plug 'Shougo/neosnippet'
-" Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/unite-build'
 " Plug 'Shougo/unite-outline'
 " Plug 'Shougo/vimshell.vim'
@@ -290,8 +288,15 @@ elseif has('lua')
   Plug 'Shougo/neocomplete.vim'                                       " lua依存
 else
   Plug 'Shougo/neocompletecache'                                 " 依存なし低速
- endif
+endif
 " }}}
+
+" snippets {{{
+" Plug 'Shougo/neosnippet'
+" Plug 'Shougo/neosnippet-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
+"   }}}
 
 " common {{{
 Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
@@ -352,12 +357,12 @@ Plug 'fatih/vim-go', {'for' : 'go'}
 
 " ruby {{{
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
-if executable('rct-complete')
-  " Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
-else
+" if executable('rct-complete')
+  Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
+" else
   " Plug 'NigoroJr/rsense', {'for' : 'ruby'}
   " Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
-endif
+" endif
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 "   }}}
 
@@ -1701,6 +1706,20 @@ if s:plug.is_installed('vim-brightest') " {{{
         \  }
 endif
 " }}}
+
+if s:plug.is_installed('vim-javacomplete2') " {{{
+  AutocmdFT java setlocal omnifunc=javacomplete#Complete
+  nmap <F5> <Plug>(JavaComplete-Imports-AddSmart)
+  imap <F5> <Plug>(JavaComplete-Imports-AddSmart)
+  nmap <F6> <Plug>(JavaComplete-Imports-Add)
+  imap <F6> <Plug>(JavaComplete-Imports-Add)
+  nmap <F7> <Plug>(JavaComplete-Imports-AddMissing)
+  imap <F7> <Plug>(JavaComplete-Imports-AddMissing)
+  nmap <F8> <Plug>(JavaComplete-Imports-RemoveUnused)
+  imap <F8> <Plug>(JavaComplete-Imports-RemoveUnused)
+endif
+" }}}
+
 " }}}
 
 " }}}
