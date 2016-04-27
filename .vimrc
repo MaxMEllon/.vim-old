@@ -59,6 +59,8 @@ function! IsMac()
         \     system('uname') =~? '^darwin'))
 endfunction
 " }}}
+let s:true = !0
+let s:false = 0
 " }}}
 
 " encoding {{{
@@ -1948,6 +1950,28 @@ endif
 
 " autocmd {{{
 " filetype {{{
+
+" indent {{{
+
+function! s:set_tab_width(width, is_expand)
+  let &l:tabstop = a:width
+  let &l:shiftwidth = a:width
+  let &l:softtabstop = a:width
+  if a:is_expand == s:true
+    setlocal expandtab
+  else
+    setlocal noexpandtab
+  end
+endfunction
+
+command! -bar -nargs=1 TabIndent
+      \ call s:set_tab_width(<args>, s:false)
+
+command! -bar -nargs=1 SpaceIndent
+      \ call s:set_tab_width(<args>, s:true)
+" }}}
+
+" set filetype {{{
 Autocmd BufNewFile,BufRead *.md      set filetype=markdown
 Autocmd BufNewFile,BufRead *.slim    set filetype=slim
 Autocmd BufNewFile,BufRead *.less    set filetype=less
@@ -1963,20 +1987,54 @@ Autocmd BufNewFile,BufRead *.toml    set filetype=toml
 Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
 Autocmd BufNewFile,BufRead *.jsx     set filetype=javascript.jsx
 Autocmd BufNewFile,BufRead *.es6     set filetype=javascript
-AutocmdFT python   setlocal tabstop=8 noexpandtab shiftwidth=4 softtabstop=4
-AutocmdFT php      setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
-AutocmdFT java     setlocal tabstop=4 expandtab   shiftwidth=4 softtabstop=4
-AutocmdFT make     setlocal tabstop=4 noexpandtab shiftwidth=4 softtabstop=4
-AutocmdFT yaml     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-AutocmdFT conf     setlocal tabstop=2 noexpandtab shiftwidth=2 softtabstop=2
-AutocmdFT coffee   setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-AutocmdFT slim     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-AutocmdFT toml     setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
-AutocmdFT plantuml setlocal tabstop=2 expandtab   shiftwidth=2 softtabstop=2
 " }}}
+
+AutocmdFT python   call s:set_tab_width(4, s:false)
+AutocmdFT php      call s:set_tab_width(4, s:true)
+AutocmdFT java     call s:set_tab_width(4, s:true)
+AutocmdFT make     call s:set_tab_width(4, s:false)
+AutocmdFT yaml     call s:set_tab_width(2, s:true)
+AutocmdFT conf     call s:set_tab_width(4, s:false)
+AutocmdFT coffee   call s:set_tab_width(2, s:true)
+AutocmdFT slim     call s:set_tab_width(2, s:true)
+AutocmdFT toml     call s:set_tab_width(4, s:true)
+AutocmdFT plantuml call s:set_tab_width(2, s:true)
+
+" javascript {{{
+
+AutocmdFT javascript call s:on_FileType_javascript()
+
+function! s:on_FileType_javascript()
+  call s:set_tab_width(2, s:true)
+  inoreabbrev <buffer> if if () {<Return>
+                         \}<Up><Right><Right><Right>
+
+  inoreabbrev <buffer> id doument.getElementById();<Left><Left>
+
+  inoreabbrev <buffer> log console.log();<Left><Left>
+
+  inoreabbrev <buffer> ar () => {<Return>
+                         \};<Up><Left>
+
+  inoreabbrev <buffer> imp  import  from '';
+                       \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
+
+  inoreabbrev <buffer> req const  = require('');
+                       \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
+                       \<Left><Left><Left><Left><Left><Left>
+
+  inoreabbrev <buffer> doc /**<Return><Return>/<Up>
+endfunction
+
+" }}}
+
+" }}}
+
 " QuickFix {{{
 Autocmd QuickFixCmdPost make,*grep* cwindow
 " }}}
+
+" etc "{{{
 Autocmd VimEnter COMMIT_EDITMSG if getline(1) == ''
       \ | execute 1
       \ | startinsert
@@ -2003,6 +2061,7 @@ function! s:enable_sound()
   endif
 endfunction
 command! SoundEnable call s:enable_sound()
+" }}}
 " }}}
 
 " function {{{
@@ -2119,13 +2178,6 @@ endfunction
 " }}}
 
 " command {{{
-" TabIndent, SpaceIndent {{{
-command! -bar -nargs=1 TabIndent
-      \ setlocal noexpandtab softtabstop< tabstop=<args> shiftwidth=<args>
-
-command! -bar -nargs=1 SpaceIndent
-      \ setlocal expandtab tabstop< softtabstop=<args> shiftwidth=<args>
-" }}}
 " vimgrep alias {{{
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
@@ -2160,6 +2212,10 @@ nnoremap [] []zz
 nnoremap ][ ][zz
 nnoremap <C-j> }
 nnoremap <C-k> {
+noremap <Esc>(  [(
+noremap <Esc>)  ])
+noremap <Esc>{  [{
+noremap <Esc>}  ]}
 "}}}
 " cursol key {{{
 noremap! OA <Up>
@@ -2362,6 +2418,11 @@ nnoremap <C-Tab> <C-w><C-w>
 nnoremap <S-tab> :<C-u>tabnext<CR>
 nnoremap <C-S-Tab> :<C-u>bnext<CR>
 " }}}
+" }}}
+
+" inoreabbrev {{{
+inoreabbrev <buffer> tihs this
+inoreabbrev <buffer> edn end
 " }}}
 
 " statusline {{{
