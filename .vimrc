@@ -244,7 +244,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'justinj/vim-react-snippets'
 " Plug 'justinmk/vim-dirvish'
 " Plug 'kana/vim-textobj-fold'
-" Plug 'keith/rspec.vim', {'on' : 'Rspec'}
 " Plug 'koron/codic-vim'
 " Plug 'm2mdas/phpcomplete-extended', {'for' : 'php'}
 " Plug 'majutsushi/tagbar'
@@ -361,6 +360,7 @@ Plug 'fatih/vim-go', {'for' : 'go'}
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 " if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
+  Plug 'keith/rspec.vim'
 " else
   " Plug 'NigoroJr/rsense', {'for' : 'ruby'}
   " Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
@@ -1455,14 +1455,12 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   })
 
   call smartinput#map_to_trigger('i', '<Plug>(physical_key_return)', '<CR>', '<CR>')
-  " 行末のスペースを削除する
   call smartinput#define_rule({
         \   'at'    : '\s\+\%#',
         \   'char'  : '<CR>',
         \   'input' : "<C-o>:call setline('.', substitute(getline('.'), '\\s\\+$', '', '')) <Bar> echo 'delete trailing spaces'<CR><CR>",
         \   })
 
-  " javascript 文字列内変数埋め込み
   call smartinput#map_to_trigger('i', '$', '$', '$')
   call smartinput#define_rule({
         \   'at'       : '\%#',
@@ -1471,7 +1469,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'filetype' : ['javascript'],
         \   })
 
-  " Ruby 文字列内変数埋め込み
   call smartinput#map_to_trigger('i', '#', '#', '#')
   call smartinput#define_rule({
         \   'at'       : '\%#',
@@ -1481,7 +1478,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'syntax'   : ['Constant', 'Special'],
         \   })
 
-  " Ruby ブロック引数 ||
   call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
   call smartinput#define_rule({
         \   'at' : '\%({\|\<do\>\)\s*\%#',
@@ -1490,7 +1486,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'filetype' : ['ruby', 'dachs'],
         \    })
 
-  " テンプレート内のスペース
   call smartinput#define_rule({
         \   'at' :       '<\%#>',
         \   'char' :     '<Space>',
@@ -1504,7 +1499,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'filetype' : ['cpp'],
         \   })
 
-  " ブロックコメント
   call smartinput#map_to_trigger('i', '*', '*', '*')
   call smartinput#define_rule({
         \   'at'       : '\/\%#',
@@ -1525,51 +1519,12 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'filetype' : ['c', 'cpp', 'javascript'],
         \   })
 
-  " セミコロンの挙動
-  call smartinput#map_to_trigger('i', ';', ';', ';')
-  " 2回押しで :: の代わり（待ち時間無し）
-  call smartinput#define_rule({
-        \   'at'       : ';\%#',
-        \   'char'     : ';',
-        \   'input'    : '<BS>::',
-        \   'filetype' : ['cpp', 'rust'],
-        \   })
-  " boost:: の補完
-  call smartinput#define_rule({
-        \   'at'       : '\<b;\%#',
-        \   'char'     : ';',
-        \   'input'    : '<BS>oost::',
-        \   'filetype' : ['cpp'],
-        \   })
-  " std:: の補完
-  call smartinput#define_rule({
-        \   'at'       : '\<s;\%#',
-        \   'char'     : ';',
-        \   'input'    : '<BS>td::',
-        \   'filetype' : ['cpp', 'rust'],
-        \   })
-  " detail:: の補完
-  call smartinput#define_rule({
-        \   'at'       : '\%(\s\|::\)d;\%#',
-        \   'char'     : ';',
-        \   'input'    : '<BS>etail::',
-        \   'filetype' : ['cpp'],
-        \   })
-  " llvm:: の補完
-  call smartinput#define_rule({
-        \   'at'       : '\%(\s\|::\)l;\%#',
-        \   'char'     : ';',
-        \   'input'    : '<BS>lvm::',
-        \   'filetype' : ['cpp'],
-        \   })
-  " クラス定義や enum 定義の場合は末尾に;を付け忘れないようにする
   call smartinput#define_rule({
         \   'at'       : '\%(\<struct\>\|\<class\>\|\<enum\>\)\s*\w\+.*\%#',
         \   'char'     : '{',
         \   'input'    : '{};<Left><Left>',
         \   'filetype' : ['cpp'],
         \   })
-  " template に続く <> を補完
   call smartinput#define_rule({
         \   'at'       : '\<template\>\s*\%#',
         \   'char'     : '<',
@@ -1577,7 +1532,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'filetype' : ['cpp'],
         \   })
 
-  " Vim の正規表現内で \( が入力されたときの \) の補完
   call smartinput#define_rule({
         \   'at'       : '\\\%(\|%\|z\)\%#',
         \   'char'     : '(',
@@ -1600,7 +1554,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'syntax'   : ['String'],
         \   })
 
-  " my-endwise のための設定（手が焼ける…）
   call smartinput#define_rule({
         \   'at'    : '\%#',
         \   'char'  : '<CR>',
@@ -1620,24 +1573,21 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \   'filetype' : ['c', 'cpp'],
         \   })
 
-  " \s= を入力したときに空白を挟む
   call smartinput#map_to_trigger('i', '=', '=', '=')
   call smartinput#define_rule(
         \ { 'at'    : '\s\%#'
         \ , 'char'  : '='
         \ , 'input' : '= '
-        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
+        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby', 'javascript']
         \ })
 
-  " でも連続した == となる場合には空白は挟まない
   call smartinput#define_rule(
         \ { 'at'    : '=\s\%#'
         \ , 'char'  : '='
         \ , 'input' : '<BS>= '
-        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
+        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby', 'javascript']
         \ })
 
-  " でも連続した =~ となる場合には空白は挟まない
   call smartinput#map_to_trigger('i', '~', '~', '~')
   call smartinput#define_rule(
         \ { 'at'    : '=\s\%#'
@@ -1646,7 +1596,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
         \ })
 
-  " Vim は ==# と =~# がある
   call smartinput#map_to_trigger('i', '#', '#', '#')
   call smartinput#define_rule(
         \ { 'at'    : '=[~=]\s\%#'
@@ -1655,7 +1604,6 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \ , 'filetype' : ['vim']
         \ })
 
-  " Vim help
   call smartinput#define_rule(
         \ { 'at'    : '\%#'
         \ , 'char'  : '|'
@@ -2014,7 +1962,7 @@ function! s:on_FileType_javascript()
   inoreabbrev <buffer> log console.log();<Left><Left>
 
   inoreabbrev <buffer> ar () => {<Return>
-                         \};<Up><Left>
+                         \};<Up><Esc>f)i
 
   inoreabbrev <buffer> imp  import  from '';
                        \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
