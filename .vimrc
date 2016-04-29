@@ -1382,7 +1382,7 @@ endif
 
 if s:plug.is_installed('vim-operator-flashy') " {{{
   highlight MyFlashy ctermbg=226 guibg=#00FF00
-  let g:operator#flashy#group = 'Visual'
+  let g:operator#flashy#group = 'vimNotation'
   if exists('g:nyaovim_version')
     let g:operator#flashy#flash_time = 30
   else
@@ -1652,7 +1652,7 @@ endif
 if s:plug.is_installed('vim-brightest') " {{{
   highlight MyBrightest gui=bold guifg=NONE guibg=#FFFF66
   let g:brightest#highlight =  {
-        \     'group' : 'MatchParen'
+        \     'group' : 'GruvboxOrange'
         \  }
 endif
 " }}}
