@@ -316,7 +316,6 @@ Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげ�
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
-Plug 'itchyny/lightline.vim'                       " かっこいいステータスライン
 Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}         " unite-railsを更に強化
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-altr'                               " Qucick-fix該当行ハイライト
@@ -350,6 +349,9 @@ Plug 'jaxbot/semantic-highlight.vim', {'on' : 'SemanticHighlightToggle'}
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
+if has('gui_running')
+  Plug 'ap/vim-css-color'
+endif
 " }}}
 
 " go {{{
@@ -384,6 +386,7 @@ Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
+Plug 'dag/vim-fish'
 "   }}}
 
 " javascript {{{
@@ -419,6 +422,7 @@ Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0
 " if {{{
 if has('gui_running') || has('nvim')
   Plug 'morhetz/gruvbox'
+  Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-watchdogs'
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
@@ -1578,7 +1582,7 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \ { 'at'    : '\s\%#'
         \ , 'char'  : '='
         \ , 'input' : '= '
-        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby', 'javascript']
+        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
         \ })
 
   call smartinput#define_rule(
@@ -1672,6 +1676,7 @@ endif
 
 " }}}
 
+runtime macros/matchit.vim
 " }}}
 
 " set {{{
@@ -1682,6 +1687,8 @@ set backspace=indent,eol,start
 set cmdheight=1
 set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
+set virtualedit=all
+set completeopt=menuone,longest,preview
 " set clipboard=exclude:.*
 " set cursorcolumn
 if has('gui_running')
@@ -1691,8 +1698,10 @@ set display=lastline          " 画面を超える長い１行も表示
 set fillchars=vert:\|,fold:\-
 set history=100               " コマンドラインのヒストリ
 set laststatus=2              " ステータス行を常に表示
+set lazyredraw                " マクロなどの動作を描画しない
 set list
 set listchars=eol:$,tab:>-
+set linespace=0
 set maxmem=500000
 set maxmemtot=1000000
 set matchpairs+=<:>           " 対応カッコのマッチを追加
@@ -1712,6 +1721,7 @@ set showcmd                   " ステータスラインに常にコメンド表
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                " 横分割時、新しいウィンドウは下
 set splitright                " 縦分割時、新しいウィンドウは右
+set switchbuf=useopen
 set synmaxcol=200             " 長過ぎる文字はsyntax off
 set textwidth=0
 " set nocompatible              " VI互換を無効化
@@ -1789,7 +1799,7 @@ set foldmethod =marker " 折りたたみ方法:マーカ
 set foldcolumn =0      " 折りたたみの補助線幅
 set foldlevel  =0      " foldをどこまで一気に開くか
 if (!exists('FoldCCText'))
-  let g:foldCCtext_maxchars = 30
+  let g:foldCCtext_maxchars = 78
   set foldtext=FoldCCtext()
 endif
 " }}}
@@ -1857,6 +1867,9 @@ if has('vim_starting') && !has('gui_running') && has('vertsplit')
   map <expr> <t_F9> g:EnableVsplitMode()
   let &t_RV .= "\e[?6;69h\e[1;3s\e[3;9H\e[6n\e[0;0s\e[?6;69l"
 endif
+" }}}
+" etc {{{
+let g:rubycomplete_rails = 1
 " }}}
 " " twty {{{
 " function! s:append(line)
@@ -1935,6 +1948,7 @@ Autocmd BufNewFile,BufRead *.toml    set filetype=toml
 Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
 Autocmd BufNewFile,BufRead *.jsx     set filetype=javascript.jsx
 Autocmd BufNewFile,BufRead *.es6     set filetype=javascript
+Autocmd BufNewFile,BufRead *.fish    set filetype=fish
 " }}}
 
 AutocmdFT python   call s:set_tab_width(4, s:false)
@@ -1945,6 +1959,7 @@ AutocmdFT yaml     call s:set_tab_width(2, s:true)
 AutocmdFT conf     call s:set_tab_width(4, s:false)
 AutocmdFT coffee   call s:set_tab_width(2, s:true)
 AutocmdFT slim     call s:set_tab_width(2, s:true)
+AutocmdFT fish     call s:set_tab_width(2, s:true)
 AutocmdFT toml     call s:set_tab_width(4, s:true)
 AutocmdFT plantuml call s:set_tab_width(2, s:true)
 
@@ -2365,6 +2380,7 @@ nnoremap Y y$
 nnoremap <C-Tab> <C-w><C-w>
 nnoremap <S-tab> :<C-u>tabnext<CR>
 nnoremap <C-S-Tab> :<C-u>bnext<CR>
+nnoremap <silent> <Leader>b :ls<CR>:b
 " }}}
 " }}}
 
@@ -2375,9 +2391,11 @@ inoreabbrev <buffer> edn end
 
 " statusline {{{
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
-if has('syntax')
+let g:hi_normal = 'highlight StatusLine ctermfg=white ctermbg=21 cterm=NONE guifg=white guibg=21'
+if has('syntax') && !has('gui_running')
   augroup InsertHook
     autocmd!
+    autocmd VimEnter * call s:StatusLine('Init')
     autocmd InsertEnter * call s:StatusLine('Enter')
     autocmd InsertLeave * call s:StatusLine('Leave')
   augroup END
@@ -2386,12 +2404,11 @@ endif
 let s:slhlcmd = ''
 
 function! s:StatusLine(mode)
+  if has('gui_running') | return | endif
   if a:mode == 'Enter'
-    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
     silent exec g:hi_insert
   else
-    highlight clear StatusLine
-    silent exec s:slhlcmd
+    silent exec g:hi_normal
   endif
 endfunction
 
@@ -2447,8 +2464,12 @@ try
     set background=dark
     colorscheme gruvbox
   else
-    let g:molokai_original = 1
-    colorscheme molokai
+    " let g:molokai_original = 1
+    " colorscheme molokai
+    " colorscheme torte
+    colorscheme default
+    Autocmd VimEnter * highlight FoldColumn ctermfg=67  ctermbg=16
+    Autocmd VimEnter * highlight Folded     ctermfg=67  ctermbg=16
   endif
 catch
   colorscheme pablo
@@ -2464,4 +2485,3 @@ syntax on
 filetype indent on
 set secure " vimrcの最後に記述 vimhelpより
 " }}}
-
