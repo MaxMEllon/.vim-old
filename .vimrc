@@ -1687,7 +1687,6 @@ set backspace=indent,eol,start
 set cmdheight=1
 set cmdwinheight=5            " Command-line windowの行数
 set cscopetag
-set virtualedit=all
 set completeopt=menuone,longest,preview
 " set clipboard=exclude:.*
 " set cursorcolumn
@@ -1721,7 +1720,6 @@ set showcmd                   " ステータスラインに常にコメンド表
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                " 横分割時、新しいウィンドウは下
 set splitright                " 縦分割時、新しいウィンドウは右
-set switchbuf=useopen
 set synmaxcol=200             " 長過ぎる文字はsyntax off
 set textwidth=0
 " set nocompatible              " VI互換を無効化
@@ -1969,24 +1967,24 @@ AutocmdFT javascript call s:on_FileType_javascript()
 
 function! s:on_FileType_javascript()
   call s:set_tab_width(2, s:true)
-  inoreabbrev <buffer> if if () {<Return>
-                         \}<Up><Right><Right><Right>
-
-  inoreabbrev <buffer> id doument.getElementById();<Left><Left>
-
-  inoreabbrev <buffer> log console.log();<Left><Left>
-
-  inoreabbrev <buffer> ar () => {<Return>
-                         \};<Up><Esc>f)i
-
-  inoreabbrev <buffer> imp  import  from '';
-                       \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
-
-  inoreabbrev <buffer> req const  = require('');
-                       \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
-                       \<Left><Left><Left><Left><Left><Left>
-
-  inoreabbrev <buffer> doc /**<Return><Return>/<Up>
+  " inoreabbrev <buffer> if if () {<Return>
+  "                        \}<Up><Right><Right><Right>
+  "
+  " inoreabbrev <buffer> id doument.getElementById();<Left><Left>
+  "
+  " inoreabbrev <buffer> log console.log();<Left><Left>
+  "
+  " inoreabbrev <buffer> ar () => {<Return>
+  "                        \};<Up><Esc>f)i
+  "
+  " inoreabbrev <buffer> imp  import  from '';
+  "                      \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
+  "
+  " inoreabbrev <buffer> req const  = require('');
+  "                      \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
+  "                      \<Left><Left><Left><Left><Left><Left>
+  "
+  " inoreabbrev <buffer> doc /**<Return><Return>/<Up>
 endfunction
 
 " }}}
