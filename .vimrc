@@ -282,24 +282,28 @@ call plug#begin('~/.vim/plugged')
 " completer {{{
 "" 補完プラグインリスト
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim'                                     " python3依存
+  " Plug 'Shougo/deoplete.nvim'                                     " python3依存
 elseif has('python')
   Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
 elseif has('lua')
-  Plug 'Shougo/neocomplete.vim'                                       " lua依存
+  " Plug 'Shougo/neocomplete.vim'                                       " lua依存
 else
-  Plug 'Shougo/neocompletecache'                                 " 依存なし低速
+  " Plug 'Shougo/neocompletecache'                                 " 依存なし低速
 endif
 " }}}
 
 " snippets {{{
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
+if has('python')
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+endif
 "   }}}
 
 " common {{{
+Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
+" Plug 'ctrlpvim/ctrlp.vim'                                          " ファイラ
 Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
@@ -308,21 +312,20 @@ Plug 'Shougo/unite.vim'                            " 統合ユーザインター
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}               " :system() を非同期化
 Plug 'The-NERD-tree'                                         " ツリーファイラー
 Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
-Plug 'alpaca-tc/alpaca_tags'                     " ctagsマネージャー，自動ctags
-Plug 'basyura/unite-rails', {'on' : 'Unite'}            " railsのM-V-C 移動強化
-Plug 'ctrlpvim/ctrlp.vim'                                            " ファイラ
+Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
 Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげるやつ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
-Plug 'iyuuya/unite-rails-fat', {'on' : 'Unite'}         " unite-railsを更に強化
+Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-altr'                               " Qucick-fix該当行ハイライト
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
 Plug 'kana/vim-smartinput'                              " ( -> (|) とかするやつ
 Plug 'kana/vim-textobj-line'                            " text-object拡張(line)
 Plug 'kana/vim-textobj-user'                                  " text-object拡張
+Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
 Plug 'mattn/webapi-vim'                                        " vimでget, post
@@ -776,6 +779,7 @@ endif
 " }}}
 
 if s:plug.is_installed('caw.vim') "{{{
+  let g:caw_no_default_keymappings = 1
   nmap ,c <Plug>(caw:hatpos:toggle)
   vmap ,c <Plug>(caw:hatpos:toggle)
 endif
@@ -869,10 +873,8 @@ if s:plug.is_installed('vim-easymotion') " {{{
   let g:EasyMotion_use_migemo = 1
   " keymapping
   nmap [EasyMotion] <Space>
-  nmap ss <Plug>(easymotion-s)
-  xmap ss <Plug>(easymotion-s)
-  nmap sj <Plug>(easymotion-s2)
-  xmap sj <Plug>(easymotion-s2)
+  nmap s <Plug>(easymotion-s2)
+  xmap s <Plug>(easymotion-s2)
   nmap <Space>j <Plug>(easymotion-j)
   nmap <Space>k <Plug>(easymotion-k)
 
@@ -1638,9 +1640,6 @@ endif
 
 if s:plug.is_installed('YouCompleteMe') " {{{
   let g:ycm_collect_identifiers_from_tags_files = 1
-  let g:UltiSnipsExpandTrigger = '<C-j>'
-  let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-  let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
   let g:EclimCompletionMethod = 'omnifunc'
   AutocmdFT javascript nnoremap ,gd :<C-u>YcmCompleter GetDoc<CR>
   AutocmdFT javascript nnoremap ,gt :<C-u>YcmCompleter GoTo<CR>
@@ -1673,6 +1672,21 @@ if s:plug.is_installed('vim-javacomplete2') " {{{
   imap <F8> <Plug>(JavaComplete-Imports-RemoveUnused)
 endif
 " }}}
+
+if s:plug.is_installed('ultisnips')  " {{{
+  let g:UltiSnipsExpandTrigger = '<C-k>'
+  let g:UltiSnipsJumpForwardTrigger = '<C-n>'
+  let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
+  " If you want :UltiSnipsEdit to split your window.
+  let g:UltiSnipsEditSplit="vertical"
+endif
+" }}}
+
+if s:plug.is_installed('vim-operator-replace') "{{{
+  nmap R <Plug>(operator-replace)
+  xmap R <Plug>(operator-replace)
+endif
+"}}}
 
 " }}}
 
@@ -1815,7 +1829,7 @@ set smarttab
 set showtabline=2 " 常にタブ
 " tab jump
 for s:n in range(1, 9)
-  execute 'nnoremap <silent> [Tab]' . s:n ':<C-u>tabnext' . s:n . '<CR>'
+  execute 'nnoremap <silent> g' . s:n ':<C-u>tabnext' . s:n . '<CR>'
 endfor
 "}}}
 " wildmenu {{{
@@ -2194,15 +2208,15 @@ nnoremap <Left> <C-w><
 nnoremap <Up> <C-w>+
 "}}}
 " tab {{{
-nmap [Tab] <Nop>
-nmap s [Tab]
-nnoremap [Tab]e :<C-u>tabedit<Space>.<CR>
-nnoremap <silent> [Tab]c :<C-u>tablast <bar> tabnew<CR>
-nnoremap <silent> [Tab]n :<C-u>tabnew<CR>
-nnoremap <silent> [Tab]x :<C-u>tabclose<CR>
-nnoremap <silent> [Tab]n :<C-u>tabnext<CR>
+nmap g <Nop>
+nmap g g
+nnoremap ge :<C-u>tabedit<Space>.<CR>
+nnoremap <silent> gc :<C-u>tablast <bar> tabnew<CR>
+nnoremap <silent> gn :<C-u>tabnew<CR>
+nnoremap <silent> gx :<C-u>tabclose<CR>
+nnoremap <silent> gn :<C-u>tabnext<CR>
 nnoremap <silent> <F3>   :<C-u>tabnext<CR>
-nnoremap <silent> [Tab]p :<C-u>tabprevious<CR>
+nnoremap <silent> gp :<C-u>tabprevious<CR>
 nnoremap <silent> <F2>   :<C-u>tabprevious<CR>
 "}}}
 " Disable key {{{
@@ -2472,10 +2486,8 @@ try
 catch
   colorscheme pablo
 endtry
-if !has('gui_running')
-  Autocmd VimEnter * highlight clear CursorLine
-  Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
-endif
+Autocmd VimEnter * highlight clear CursorLine
+Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
 syntax on
 "}}}
 
