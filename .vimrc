@@ -231,6 +231,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'chase/vim-ansible-yaml'
 " Plug 'cohama/lexima.vim'
 " Plug 'cohama/vim-smartinput-endwise'
+" Plug 'ctrlpvim/ctrlp.vim'                                          " ファイラ
 " Plug 'dannyob/quickfixstatus'
 " Plug 'glts/vim-textobj-comment'
 " Plug 'haya14busa/incsearch-easymotion.vim'
@@ -302,8 +303,7 @@ endif
 "   }}}
 
 " common {{{
-Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
-" Plug 'ctrlpvim/ctrlp.vim'                                          " ファイラ
+" Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
 Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
@@ -336,6 +336,7 @@ Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks�
 Plug 'osyo-manga/vim-anzu'                               " 検索時の該当個数表示
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
+Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
 Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
@@ -406,8 +407,8 @@ Plug 'othree/es.next.syntax.vim'
 " }}}
 
 " completion {{{
-Plug 'mattn/jscomplete-vim'
-Plug 'myhere/vim-nodejs-complete'
+" Plug 'mattn/jscomplete-vim'
+" Plug 'myhere/vim-nodejs-complete'
 " }}}
 
 " etc {{{
@@ -2158,11 +2159,13 @@ command! -bar -nargs=* G vimgrep <args> %
 " }}}
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
 command! EsFix :call vimproc#system_bg("eslint --fix " . expand("%"))
+command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
+command! JSONFormat %!python -m json.tool
+command! Shiba :! shiba % &
 augroup javascript
   autocmd!
-  autocmd! BufWrite *.js EsFix
+  autocmd! BufWrite *.js Xo
 augroup END
-command! Shiba :! shiba % &
 " }}}
 
 " mapping {{{
@@ -2387,18 +2390,22 @@ nnoremap <f4> :<C-u>cnext<CR>
 nnoremap <s-f4> :<C-u>cprevious<CR>
 " }}}
 " etc {{{
+" 即座にvimgrep
 nnoremap <C-g> :<C-u>G<Space>
+" 行末ヤンク
 nnoremap Y y$
 nnoremap <C-Tab> <C-w><C-w>
 nnoremap <S-tab> :<C-u>tabnext<CR>
 nnoremap <C-S-Tab> :<C-u>bnext<CR>
 nnoremap <silent> <Leader>b :ls<CR>:b
+nnoremap <F1> <Nop>
 " }}}
 " }}}
 
 " inoreabbrev {{{
 inoreabbrev <buffer> tihs this
 inoreabbrev <buffer> edn end
+inoreabbrev <buffer> (;) ();
 " }}}
 
 " statusline {{{
