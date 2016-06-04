@@ -336,6 +336,7 @@ Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks�
 Plug 'osyo-manga/vim-anzu'                               " 検索時の該当個数表示
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
+" Plug 'ramele/agrep'                                             " 非同期vimgrep
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
@@ -392,6 +393,10 @@ Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'dag/vim-fish'
 "   }}}
+
+" {{{
+Plug 'dag/vim2hs'
+" }}}
 
 " javascript {{{
 
@@ -2164,7 +2169,7 @@ command! JSONFormat %!python -m json.tool
 command! Shiba :! shiba % &
 augroup javascript
   autocmd!
-  autocmd! BufWrite *.js Xo
+  autocmd! BufWrite *.js EsFix
 augroup END
 " }}}
 
