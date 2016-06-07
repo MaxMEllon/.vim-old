@@ -387,16 +387,20 @@ Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
 "   }}}
 
+" haskell {{{
+Plug 'dag/vim2hs'
+" }}}
+
+" vim {{{
+Plug 'vim-jp/syntax-vim-ex'
+" }}}
+
 " etc {{{
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'dag/vim-fish'
 "   }}}
-
-" {{{
-Plug 'dag/vim2hs'
-" }}}
 
 " javascript {{{
 
@@ -1697,6 +1701,10 @@ endif
 " }}}
 
 runtime macros/matchit.vim
+augroup matchit
+  autocmd!
+  autocmd FileType ruby let b:match_words = '\<\(module\|class\|def\|begin\|do\|if\|unless\|case\)\>:\<\(elsif\|when\|rescue\)\>:\<\(else\|ensure\)\>:\<end\>'
+augroup END
 " }}}
 
 " set {{{
@@ -1833,10 +1841,6 @@ set smarttab
 " }}}
 " tab-editer {{{
 set showtabline=2 " 常にタブ
-" tab jump
-for s:n in range(1, 9)
-  execute 'nnoremap <silent> g' . s:n ':<C-u>tabnext' . s:n . '<CR>'
-endfor
 "}}}
 " wildmenu {{{
 set wildmenu " cmdline補完
@@ -2163,10 +2167,10 @@ endfunction
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
-command! EsFix :call vimproc#system_bg("eslint --fix " . expand("%"))
 command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
 command! JSONFormat %!python -m json.tool
 command! Shiba :! shiba % &
+command! EsFix :call vimproc#system_bg("eslint --fix " . expand("%"))
 augroup javascript
   autocmd!
   autocmd! BufWrite *.js EsFix
@@ -2226,6 +2230,10 @@ nnoremap <silent> gn :<C-u>tabnext<CR>
 nnoremap <silent> <F3>   :<C-u>tabnext<CR>
 nnoremap <silent> gp :<C-u>tabprevious<CR>
 nnoremap <silent> <F2>   :<C-u>tabprevious<CR>
+" tab jump
+for s:n in range(1, 9)
+  execute 'nnoremap <silent> g' . s:n ':<C-u>tabnext' . s:n . '<CR>'
+endfor
 "}}}
 " Disable key {{{
 nnoremap M m
