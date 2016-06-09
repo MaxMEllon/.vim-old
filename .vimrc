@@ -336,7 +336,7 @@ Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks�
 Plug 'osyo-manga/vim-anzu'                               " 検索時の該当個数表示
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
-" Plug 'ramele/agrep'                                             " 非同期vimgrep
+Plug 'ramele/agrep'                                             " 非同期vimgrep
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
