@@ -304,6 +304,7 @@ endif
 
 " common {{{
 " Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
+" Plug '5t111111/alt-gtags.vim'
 Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
@@ -1697,6 +1698,14 @@ if s:plug.is_installed('vim-operator-replace') "{{{
   xmap R <Plug>(operator-replace)
 endif
 "}}}
+
+if s:plug.is_installed('vim-jsx-utils')
+  nnoremap ,ja :call JSXEncloseReturn()<CR>
+  nnoremap ,ji :call JSXEachAttributeInLine()<CR>
+  nnoremap ,je :call JSXExtractPartialPrompt()<CR>
+  nnoremap ,jc :call JSXChangeTagPrompt()<CR>
+  nnoremap ,js :call JSXSelectTag()<CR>
+endif
 
 " }}}
 
