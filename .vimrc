@@ -213,6 +213,7 @@ call plug#begin('~/.vim/plugged')
 
 " load Plugin {{{
 " out {{{
+" Plug '5t111111/alt-gtags.vim'
 " Plug 'KazuakiM/vim-qfstatusline'
 " Plug 'MaxMEllon/molokai'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
@@ -225,6 +226,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'Shougo/vimshell.vim'
 " Plug 'The-NERD-tree'
 " Plug 'airblade/vim-gitgutter'
+" Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
 " Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'cespare/vim-toml', {'for' : 'toml'}
@@ -263,6 +265,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'osyo-manga/vim-over'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 " Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
+" Plug 'ramele/agrep'                                             " 非同期vimgrep
 " Plug 'rhysd/endwize.vim'
 " Plug 'rhysd/vim-textobj-ruby'
 " Plug 'soramugi/auto-ctags.vim'
@@ -283,13 +286,13 @@ call plug#begin('~/.vim/plugged')
 " completer {{{
 "" 補完プラグインリスト
 if has('nvim')
-  " Plug 'Shougo/deoplete.nvim'                                     " python3依存
+  Plug 'Shougo/deoplete.nvim'                                     " python3依存
 elseif has('python')
   Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
 elseif has('lua')
-  " Plug 'Shougo/neocomplete.vim'                                       " lua依存
+  Plug 'Shougo/neocomplete.vim'                                       " lua依存
 else
-  " Plug 'Shougo/neocompletecache'                                 " 依存なし低速
+  Plug 'Shougo/neocompletecache'                                 " 依存なし低速
 endif
 " }}}
 
@@ -303,8 +306,6 @@ endif
 "   }}}
 
 " common {{{
-" Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
-" Plug '5t111111/alt-gtags.vim'
 Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
@@ -315,18 +316,16 @@ Plug 'The-NERD-tree'                                         " ツリーファ�
 Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
 Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
-Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげるやつ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
-Plug 'kana/vim-altr'                               " Qucick-fix該当行ハイライト
+Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
 Plug 'kana/vim-smartinput'                              " ( -> (|) とかするやつ
 Plug 'kana/vim-textobj-line'                            " text-object拡張(line)
 Plug 'kana/vim-textobj-user'                                  " text-object拡張
-Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
 Plug 'mattn/webapi-vim'                                        " vimでget, post
@@ -334,10 +333,9 @@ Plug 'mbbill/undotree'                                               " undo履�
 Plug 'mhinz/vim-signify'                    " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
-Plug 'osyo-manga/vim-anzu'                               " 検索時の該当個数表示
+Plug 'osyo-manga/vim-watchdogs'
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
-Plug 'ramele/agrep'                                             " 非同期vimgrep
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
@@ -435,12 +433,14 @@ Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0
 
 " if {{{
 if has('gui_running') || has('nvim')
-  Plug 'morhetz/gruvbox'
-  Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
-  Plug 'wakatime/vim-wakatime'
-  Plug 'osyo-manga/vim-watchdogs'
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
+  Plug 'ervandew/eclim'                    " eclipse-backendとvimをつなげるやつ
+  Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
+  Plug 'kana/vim-altr'                             " Qucick-fix該当行ハイライト
+  Plug 'morhetz/gruvbox'
   Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
+  Plug 'wakatime/vim-wakatime'
+  Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
 else
   Plug 'MaxMEllon/molokai'
 endif
@@ -883,9 +883,8 @@ if s:plug.is_installed('vim-easymotion') " {{{
   let g:EasyMotion_space_jump_first = 1
   let g:EasyMotion_use_migemo = 1
   " keymapping
-  nmap [EasyMotion] <Space>
-  nmap s <Plug>(easymotion-s2)
-  xmap s <Plug>(easymotion-s2)
+  nmap ss <Plug>(easymotion-s2)
+  xmap ss <Plug>(easymotion-s2)
   nmap <Space>j <Plug>(easymotion-j)
   nmap <Space>k <Plug>(easymotion-k)
 
@@ -1852,8 +1851,15 @@ set smarttab
 set showtabline=2 " 常にタブ
 "}}}
 " wildmenu {{{
-set wildmenu " cmdline補完
-set wildmode=longest:full,full
+try
+  set wildmode=popup
+  set wildmenu
+  set clpumheight=20
+  " set clcompleteopt+=noinsert
+catch
+  set wildmenu " cmdline補完
+  set wildmode=longest:full,full
+endtry
 set wildignore=*.o,*.obj,*~
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
@@ -1869,13 +1875,6 @@ set wildignore+=*.sql
 " encode {{{
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
 set ambiwidth     =double        " ２バイト特殊文字の幅調整
-" }}}
-" clpum {{{
-if exists('+clpum')
-  set clpum
-  set clpumheight=20
-  set clcompleteopt+=noinsert
-endif
 " }}}
 " fast scroll {{{
 "" Fast vertical scroll
@@ -2178,7 +2177,7 @@ command! -bar -nargs=* G vimgrep <args> %
 command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
 command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
 command! JSONFormat %!python -m json.tool
-command! Shiba :! shiba % &
+command! Shiba :! shiba % &>/dev/null 2>&1 &
 command! EsFix :call vimproc#system_bg("eslint --fix " . expand("%"))
 augroup javascript
   autocmd!
@@ -2212,6 +2211,12 @@ noremap <Esc>(  [(
 noremap <Esc>)  ])
 noremap <Esc>{  [{
 noremap <Esc>}  ]}
+
+" See: http://qiita.com/itmammoth/items/312246b4b7688875d023
+nnoremap <C-n> "zdd"zp
+vnoremap <C-p> "zx<Up>"zP`[V`]
+vnoremap <C-n> "zx"zp`[V`]
+nnoremap <C-p> "zdd<Up>"zP
 "}}}
 " cursol key {{{
 noremap! OA <Up>
@@ -2432,7 +2437,7 @@ inoreabbrev <buffer> (;) ();
 
 " statusline {{{
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
-let g:hi_normal = 'highlight StatusLine ctermfg=white ctermbg=21 cterm=NONE guifg=white guibg=21'
+let g:hi_normal = 'highlight StatusLine ctermfg=white ctermbg=blue cterm=NONE guifg=white guibg=blue'
 if has('syntax') && !has('gui_running')
   augroup InsertHook
     autocmd!
@@ -2506,9 +2511,9 @@ try
     colorscheme gruvbox
   else
     " let g:molokai_original = 1
-    " colorscheme molokai
+    colorscheme molokai
     " colorscheme torte
-    colorscheme default
+    " colorscheme default
     Autocmd VimEnter * highlight FoldColumn ctermfg=67  ctermbg=16
     Autocmd VimEnter * highlight Folded     ctermfg=67  ctermbg=16
   endif
