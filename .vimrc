@@ -213,6 +213,7 @@ call plug#begin('~/.vim/plugged')
 
 " load Plugin {{{
 " out {{{
+" Plug 'Command-T'                 " ruby のバージョンが異なるのか，vimが落ちる
 " Plug '5t111111/alt-gtags.vim'
 " Plug 'KazuakiM/vim-qfstatusline'
 " Plug 'MaxMEllon/molokai'
@@ -320,6 +321,7 @@ Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一�
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }         " fzf
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
@@ -333,8 +335,9 @@ Plug 'mbbill/undotree'                                               " undo履�
 Plug 'mhinz/vim-signify'                    " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
-Plug 'osyo-manga/vim-watchdogs'
+Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通して実行
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
+Plug 'prabirshrestha/async.vim'
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
@@ -442,7 +445,7 @@ if has('gui_running') || has('nvim')
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
 else
-  Plug 'MaxMEllon/molokai'
+  " Plug 'MaxMEllon/molokai'
 endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 " }}}
@@ -459,6 +462,7 @@ command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 MyPlug 'music.nyaovim'
 MyPlug 'vim-cmus'
 MyPlug 'vim-jsx'
+MyPlug 'molokai'
 " }}}
 
 call plug#end()
@@ -987,6 +991,13 @@ if s:plug.is_installed('vim-watchdogs') "{{{
           \ }
     let g:quickrun_config['javascript.jsx/watchdogs_checker'] = {
           \   'type' : 'watchdogs_checker/eslint',
+          \ }
+    let g:quickrun_config['watchdogs_checker/eslint'] = {
+          \    'command' : 'eslint_d',
+          \    'exec'    : '%c -f compact %o %s:p',
+          \    'errorformat' : '%E%f: line %l\, col %c\, Error - %m,' .
+          \            '%W%f: line %l\, col %c\, Warning - %m,' .
+          \            '%-G%.%#',
           \ }
   endif
   if executable('rubocop')
@@ -1698,16 +1709,47 @@ if s:plug.is_installed('vim-operator-replace') "{{{
 endif
 "}}}
 
-if s:plug.is_installed('vim-jsx-utils')
+if s:plug.is_installed('emmet-vim') "{{{
+  let g:user_emmet_settings = {
+        \  'javascript' : {
+        \      'extends' : 'jsx',
+        \  },
+        \}
+endif
+" }}}
+
+if s:plug.is_installed('vim-jsx-utils') "{{{
   nnoremap ,ja :call JSXEncloseReturn()<CR>
   nnoremap ,ji :call JSXEachAttributeInLine()<CR>
   nnoremap ,je :call JSXExtractPartialPrompt()<CR>
   nnoremap ,jc :call JSXChangeTagPrompt()<CR>
   nnoremap ,js :call JSXSelectTag()<CR>
 endif
+command! React :map ,j
+" }}}
+
+if s:plug.is_installed('Command-T') "{{{
+  let s:commandTHeight=18
+  let g:CommandTMaxHeight=s:commandTHeight
+  let g:CommandTMinHeight=s:commandTHeight
+  let g:CommandTClearMap=['<C-u>', '<C-w>']
+  let g:CommandTCancelMap=['<C-[>', '<C-c>', '<Esc>']
+  let g:CommandTMaxDepth=20
+  nnoremap ,t :CommandTFlush<CR>\|:CommandT<Space><UP>
+  nnoremap <silent> ,l :CommandTFlush<CR>\|:CommandT<CR>
+  nnoremap <silent> ,b :CommandTFlush<CR>\|:CommandTBuffer<CR>
+endif
+" }}}
+
+if s:plug.is_installed('fzf') "{{{
+  nnoremap <silent> <C-@> :<C-u>FZF<CR>
+  nnoremap <silent> 　 :<C-u>FZF<CR>
+endif
+"}}}
 
 " }}}
 
+" matchit {{{
 runtime macros/matchit.vim
 augroup matchit
   autocmd!
@@ -1715,15 +1757,20 @@ augroup matchit
 augroup END
 " }}}
 
+" }}}
+
 " set {{{
 " common {{{
 set autoread                  " vim外で編集された時の自動み込み
 set autowrite                 " bufferが切り替わるときの自動保存
 set backspace=indent,eol,start
+if !has('nvim')
+  set clipboard=unnamed,autoselect
+endif
 set cmdheight=1
 set cmdwinheight=5            " Command-line windowの行数
-set cscopetag
 set completeopt=menuone,longest,preview
+set cscopetag
 " set clipboard=exclude:.*
 " set cursorcolumn
 if has('gui_running')
@@ -1855,7 +1902,20 @@ try
   set wildmode=popup
   set wildmenu
   set clpumheight=20
-  " set clcompleteopt+=noinsert
+  augroup Clpum
+    autocmd!
+    autocmd ColorScheme * call s:reset_clpum_highlight()
+  augroup END
+  function! s:reset_clpum_highlight() abort
+    highlight clear ClPmenu
+    highlight clear ClPmenuSbar
+    highlight clear ClPmenuSel
+    highlight clear ClPmenuThumb
+    highlight link ClPmenu Pmenu
+    highlight link ClPmenuSbar PmenuSbar
+    highlight link ClPmenuSel PmenuSel
+    highlight link ClPmenuThumb PmenuThumb
+  endfunction
 catch
   set wildmenu " cmdline補完
   set wildmode=longest:full,full
@@ -1993,33 +2053,66 @@ AutocmdFT fish     call s:set_tab_width(2, s:true)
 AutocmdFT toml     call s:set_tab_width(4, s:true)
 AutocmdFT plantuml call s:set_tab_width(2, s:true)
 
+function! s:callback(job_id, data, event_type)
+  echo 'Fixed'
+  checktime
+endfunction
+
+function! s:on_error(job_id, data, event_type)
+  echo a:data
+endfunction
+
 " javascript {{{
 
 AutocmdFT javascript call s:on_FileType_javascript()
 
-function! s:on_FileType_javascript()
+function! s:on_FileType_javascript() "{{{
   call s:set_tab_width(2, s:true)
-  " inoreabbrev <buffer> if if () {<Return>
-  "                        \}<Up><Right><Right><Right>
-  "
-  " inoreabbrev <buffer> id doument.getElementById();<Left><Left>
-  "
-  " inoreabbrev <buffer> log console.log();<Left><Left>
-  "
-  " inoreabbrev <buffer> ar () => {<Return>
-  "                        \};<Up><Esc>f)i
-  "
-  " inoreabbrev <buffer> imp  import  from '';
-  "                      \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
-  "
-  " inoreabbrev <buffer> req const  = require('');
-  "                      \<Left><Left><Left><Left><Left><Left><Left><Left><Left>
-  "                      \<Left><Left><Left><Left><Left><Left>
-  "
-  " inoreabbrev <buffer> doc /**<Return><Return>/<Up>
+  if executable('eslint_d')
+    call vimproc#system_bg('eslint_d restart')
+  endif
+endfunction
+"}}}
+
+function! s:auto_fix_by_eslint()
+  if executable('eslint_d')
+    let argv = ['eslint_d', '--format', 'compact', '--fix', expand('%')]
+    let job = async#job#start(argv, {
+    \ 'on_stderr': function('s:on_error'),
+    \ 'on_exit': function('s:callback'),
+    \})
+endif
 endfunction
 
+augroup javascript
+  autocmd!
+  autocmd BufWrite *.js call s:auto_fix_by_eslint()
+  autocmd FileType javascript call s:on_FileType_javascript()
+augroup END
 " }}}
+
+" ruby"{{{
+function! s:on_FileType_ruby() "{{{
+  call s:set_tab_width(2, s:true)
+endfunction
+"}}}
+
+function! s:auto_fix_by_rubocop()
+  if executable('rubocop')
+    let argv = ['rubocop', '-a', expand('%')]
+    let job = async#job#start(argv, {
+    \ 'on_stderr': function('s:on_error'),
+    \ 'on_exit': function('s:callback'),
+    \})
+  endif
+endfunction
+
+augroup ruby
+  autocmd!
+  autocmd BufWrite *.rb call s:auto_fix_by_rubocop()
+  autocmd FileType ruby call s:on_FileType_ruby()
+augroup END
+"}}}
 
 " }}}
 
@@ -2040,6 +2133,10 @@ Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
       \ * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
       \ * match TrailingSpaces /\s\+$/
+Autocmd  BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
+      \ * highlight ZenkakuSpaces term=underline guibg=Blue ctermbg=Blue
+Autocmd BufNewFile,BufRead,VimEnter,WinEnter
+      \ * match ZenkakuSpaces /　/
 Autocmd InsertLeave * set nopaste
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
@@ -2174,15 +2271,13 @@ endfunction
 " vimgrep alias {{{
 command! -bar -nargs=* G vimgrep <args> %
 " }}}
-command! Date :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
+command! Date  :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
 command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
 command! JSONFormat %!python -m json.tool
-command! Shiba :! shiba % &>/dev/null 2>&1 &
-command! EsFix :call vimproc#system_bg("eslint --fix " . expand("%"))
-augroup javascript
-  autocmd!
-  autocmd! BufWrite *.js EsFix
-augroup END
+command! Shiba  :! shiba % &>/dev/null 2>&1 &
+command! EsFix  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
+command! Google :call vimproc#system_bg("google " . expand("<cword>"))
+command! Github :call vimproc#system_bg("github maxmellon")
 " }}}
 
 " mapping {{{
@@ -2367,17 +2462,18 @@ command! -range=% RemoveWhiteSpace call <SID>RemoveWhiteSpace()
 nnoremap <silent> ,x :RemoveWhiteSpace<CR>
 vnoremap <silent> ,x :RemoveWhiteSpace<CR>
 " remove double width white space
-nnoremap <silent> ,z :<C-u>%s/  /  /g<CR>
-vnoremap <silent> ,z :<C-u>%s/  /  /g<CR>
+nnoremap <silent> ,z :<C-u>%s/　/  /g<CR>
+vnoremap <silent> ,z :<C-u>%s/　/  /g<CR>
+
 " toggle paste mode
 nnoremap <silent> ,p :<C-u>set paste!<CR>
+
+nnoremap <silent> ,g :<C-u>Google<CR>
 " }}}
 " cmd window {{{
 nnoremap ;; q:
 nnoremap q; q:
 vnoremap q; q:
-nnoremap ; :
-vnoremap ; :
 nnoremap ; :
 vnoremap ; :
 nnoremap : ;
@@ -2433,6 +2529,8 @@ nnoremap <F1> <Nop>
 inoreabbrev <buffer> tihs this
 inoreabbrev <buffer> edn end
 inoreabbrev <buffer> (;) ();
+inoreabbrev <buffer> REact React
+inoreabbrev <buffer> ): );
 " }}}
 
 " statusline {{{
@@ -2496,6 +2594,7 @@ set statusline+=%=
 set statusline+=%y
 " 文字バイト数/カラム番号
 " set statusline+=[ASCII=%B]
+" set statusline+=%{system('battery')}
 " 現在文字列/全体列表示
 set statusline+=[C=%c/%{col('$')-1}]
 " 現在文字行/全体行表示
