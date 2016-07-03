@@ -42,7 +42,7 @@ command! -nargs=* Autocmd autocmd MyVimrc <args>
 command! -nargs=* AutocmdFT autocmd MyVimrc FileType <args>
 " }}}
 " system type {{{
-let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_windows = has('win32') || has('win64') " || has('win16') omoide
 let s:is_cygwin = has('win32unix')
 let s:is_sudo = $SUDO_USER !=# '' && $USER !=# $SUDO_USER
       \ && $HOME !=# expand('~'.$USER)
@@ -322,6 +322,7 @@ Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに�
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }         " fzf
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
@@ -336,8 +337,9 @@ Plug 'mhinz/vim-signify'                    " signつけるやつ git-gutterと�
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
 Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通して実行
+Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
-Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/async.vim'                              " job async utilty
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
@@ -356,9 +358,7 @@ Plug 'jaxbot/semantic-highlight.vim', {'on' : 'SemanticHighlightToggle'}
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
-if has('gui_running')
-  Plug 'ap/vim-css-color'
-endif
+Plug 'ap/vim-css-color'
 " }}}
 
 " go {{{
@@ -367,13 +367,13 @@ Plug 'fatih/vim-go', {'for' : 'go'}
 
 " ruby {{{
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
-" if executable('rct-complete')
+if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
   Plug 'keith/rspec.vim'
 " else
   " Plug 'NigoroJr/rsense', {'for' : 'ruby'}
   " Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
-" endif
+endif
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 "   }}}
 
@@ -406,14 +406,16 @@ Plug 'dag/vim-fish'
 
 " javascript {{{
 
-"  syntax {{{
+" syntax {{{
 Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
 Plug 'othree/javascript-libraries-syntax.vim'
-" Plug 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
+" Plug 'othree/xml.vim' " See: https://github.com/othree/es.next.syntax.vim/issues/5
+" Plug 'othree/vim-jsx'
 Plug 'othree/es.next.syntax.vim'
 " }}}
 
@@ -441,7 +443,6 @@ if has('gui_running') || has('nvim')
   Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
   Plug 'kana/vim-altr'                             " Qucick-fix該当行ハイライト
   Plug 'morhetz/gruvbox'
-  Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
 else
@@ -459,9 +460,9 @@ endfunction
 command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 " }}}
 " MyPlug 'vim-dirvish'
-MyPlug 'music.nyaovim'
-MyPlug 'vim-cmus'
-MyPlug 'vim-jsx'
+" MyPlug 'music.nyaovim'
+" MyPlug 'vim-cmus'
+" MyPlug 'vim-jsx'
 MyPlug 'molokai'
 " }}}
 
@@ -747,19 +748,19 @@ endif
 " }}}
 
 if s:plug.is_installed('unite.vim') "{{{
-  nnoremap m  <nop>
-  xnoremap m  <Nop>
-  nnoremap [unite] <Nop>
-  xnoremap [unite] <Nop>
-  nmap m [unite]
-  xmap m [unite]
+  " nnoremap m  <nop>
+  " xnoremap m  <Nop>
+  " nnoremap [unite] <Nop>
+  " xnoremap [unite] <Nop>
+  " nmap m [unite]
+  " xmap m [unite]
 
-  nnoremap [unite]u :<C-u>Unite<CR>
-  nnoremap [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer -no-quit<CR>
-  nnoremap [unite]j :<C-u>Unite jump<CR>
-  nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
-  nnoremap [unite]a :<C-u>Unite -start-insert file_rec/async<CR>
-  nnoremap [unite]r <Plug>(unite_restart)
+  " nnoremap [unite]u :<C-u>Unite<CR>
+  " nnoremap [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer -no-quit<CR>
+  " nnoremap [unite]j :<C-u>Unite jump<CR>
+  " nnoremap [unite]e :<C-u>Unite file_rec/async:!<CR>
+  " nnoremap [unite]a :<C-u>Unite -start-insert file_rec/async<CR>
+  " nnoremap [unite]r <Plug>(unite_restart)
 endif
 " }}}
 
@@ -1674,9 +1675,9 @@ endif
 " }}}
 
 if s:plug.is_installed('vim-brightest') " {{{
-  highlight MyBrightest gui=bold guifg=NONE guibg=#FFFF66
+  highlight MyBrightest gui=bold guifg=NONE guibg=#FFFF66 
   let g:brightest#highlight =  {
-        \     'group' : 'GruvboxOrange'
+        \     'group' : 'Statement'
         \  }
 endif
 " }}}
@@ -1743,7 +1744,17 @@ endif
 
 if s:plug.is_installed('fzf') "{{{
   nnoremap <silent> <C-@> :<C-u>FZF<CR>
-  nnoremap <silent> 　 :<C-u>FZF<CR>
+  if s:plug.is_installed('fzf.vim')
+    " my mapping
+    nnoremap 　a :<C-u>Ag <C-r><C-w><CR>
+    nnoremap 　b :<C-u>Buffers<CR>
+    nnoremap 　c :<C-u>BCommits<CR>
+    nnoremap 　g :<C-u>GFiles<CR>
+    nnoremap 　s :<C-u>GFiles?<CR>
+    nnoremap 　t :<C-u>Filetypes<CR>
+    nnoremap 　w :<C-u>Windows<CR>
+  endif
+  nnoremap 　f :<C-u>FZF<CR>
 endif
 "}}}
 
@@ -1827,6 +1838,7 @@ else
   endif
   set ttyscroll=1
   set vb t_vb=                  " no beep no flash
+  set virtualedit=block
 endif
 set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
 " }}}
@@ -1893,6 +1905,18 @@ set autoindent
 set smartindent
 set cindent
 set smarttab
+" }}}
+" vim-grep {{{
+" See: https://github.com/iyuuya/bksd/blob/master/nvim/.config/nvim/rc/edit.vim#L83-L91
+if executable('ag')
+  set grepprg=ag\ --nogroup\ -iS
+  set grepformat=%f:%l:%m
+elseif executable('grep')
+  set grepprg=grep\ -Hnd\ skip\ -r
+  set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m
+else
+  set grepprg=internal
+endif
 " }}}
 " tab-editer {{{
 set showtabline=2 " 常にタブ
@@ -2270,6 +2294,7 @@ endfunction
 " command {{{
 " vimgrep alias {{{
 command! -bar -nargs=* G vimgrep <args> %
+command! -bar -nargs=* GG vimgrep <args> /*
 " }}}
 command! Date  :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
 command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
@@ -2278,6 +2303,36 @@ command! Shiba  :! shiba % &>/dev/null 2>&1 &
 command! EsFix  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
 command! Google :call vimproc#system_bg("google " . expand("<cword>"))
 command! Github :call vimproc#system_bg("github maxmellon")
+
+" cd-fzf "{{{
+if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
+  function! s:get_current_path()
+    redir! => s:current_path
+    silent pwd
+    redir END
+    return s:current_path
+  endfunction
+
+  function! s:select_directory_tmux_fzf()
+    let s:current_path = s:get_current_path()
+    try
+      let directory = system('find * -type d | fzf-tmux')
+    catch
+    endtry
+    if empty(directory)
+      let directory = '.'
+    endif
+    let directory = substitute(directory, ' ', '\ ', 'g')
+    execute 'cd ' . directory
+    unsilent pwd
+    unlet directory
+  endfunction
+
+  command! Cd :call s:select_directory_tmux_fzf()
+  nnoremap <silent> 　d :<C-u>Cd<CR>
+endif
+"}}}
+
 " }}}
 
 " mapping {{{
@@ -2384,14 +2439,26 @@ xnoremap > >gv
 xnoremap < <gv
 " }}}
 " insert {{{
+
+" emacs-like
 inoremap <C-Tab> <C-v><Tab>
 inoremap <S-Tab> <C-v><Tab>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-h> <BS>
 inoremap <C-d> <Del>
-inoremap <C-f> <C-x><C-p>
+inoremap <C-k> <ESC>`^Da
+inoremap <C-p> <UP>
+inoremap <C-n> <Down>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
 inoremap <C-m> <CR>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-h> <BS>
+cnoremap <C-d> <Del>
+cnoremap <C-k> <End><C-u>
+
 function! s:indent_braces()
   let s:nowletter = getline(".")[col(".")-1]
   let s:beforeletter = getline(".")[col(".")-2]
@@ -2411,10 +2478,9 @@ inoremap , ,<Space>
 " See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
 nnoremap <expr> 0
       \ col('.') ==# 1 ? '^' : '0'
-nnoremap H ^
-nnoremap L $
-vnoremap H ^
-vnoremap L g_
+nnoremap <C-h> ^
+" break mapping <C-l>
+nnoremap <C-l> $
 " }}}
 " text obj {{{
 " <angle>
@@ -2520,6 +2586,7 @@ nnoremap Y y$
 nnoremap <C-Tab> <C-w><C-w>
 nnoremap <S-tab> :<C-u>tabnext<CR>
 nnoremap <C-S-Tab> :<C-u>bnext<CR>
+" ls
 nnoremap <silent> <Leader>b :ls<CR>:b
 nnoremap <F1> <Nop>
 " }}}
