@@ -319,10 +319,10 @@ Plug 'basyura/unite-rails'                              " railsのM-V-C 移動�
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
-Plug 'gerw/vim-HiLinkTrace', {'on' : 'HTL'}                       " syntax-info
+Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }         " fzf
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
@@ -412,8 +412,9 @@ Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
 Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
+" Plug 'MaxMEllon/vim-jsx-pretty'
 " Plug 'othree/xml.vim' " See: https://github.com/othree/es.next.syntax.vim/issues/5
 " Plug 'othree/vim-jsx'
 Plug 'othree/es.next.syntax.vim'
@@ -462,7 +463,7 @@ command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 " MyPlug 'vim-dirvish'
 " MyPlug 'music.nyaovim'
 " MyPlug 'vim-cmus'
-" MyPlug 'vim-jsx'
+MyPlug 'vim-jsx-pretty'
 MyPlug 'molokai'
 " }}}
 
@@ -1112,7 +1113,7 @@ endif
 " }}}
 
 if s:plug.is_installed('vim-jsx') " {{{
-  let g:jsx_ext_required = 1
+  let g:jsx_ext_required = 0
   let g:jsx_pragma_required = 0
 endif
 " }}}
@@ -1675,9 +1676,9 @@ endif
 " }}}
 
 if s:plug.is_installed('vim-brightest') " {{{
-  highlight MyBrightest gui=bold guifg=NONE guibg=#FFFF66 
+  let g:brightest#pattern = '\k\+'
   let g:brightest#highlight =  {
-        \     'group' : 'Statement'
+        \     'group' : 'MyBrightest'
         \  }
 endif
 " }}}
@@ -2682,6 +2683,7 @@ try
     " colorscheme default
     Autocmd VimEnter * highlight FoldColumn ctermfg=67  ctermbg=16
     Autocmd VimEnter * highlight Folded     ctermfg=67  ctermbg=16
+    Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=underline
   endif
 catch
   colorscheme pablo
