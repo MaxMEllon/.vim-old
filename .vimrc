@@ -1410,7 +1410,7 @@ endif
 " }}}
 
 if s:plug.is_installed('vim-operator-flashy') " {{{
-  highlight MyFlashy ctermbg=226 guibg=#00FF00
+  highlight MyGlashy ctermbg=226 guibg=#00FF00
   let g:operator#flashy#group = 'vimNotation'
   if exists('g:nyaovim_version')
     let g:operator#flashy#flash_time = 30
@@ -2155,13 +2155,13 @@ AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
 AutocmdFT sass,scss,css setlocal iskeyword+=-
 " tails space highlight
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
-      \ * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+      \ * highlight TailSpace term=underline guibg=#FF0000 ctermbg=9
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
-      \ * match TrailingSpaces /\s\+$/
-Autocmd  BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
+      \ * syntax match TailSpace containedin=ALL /\s\+$/
+Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
       \ * highlight ZenkakuSpaces term=underline guibg=Blue ctermbg=Blue
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
-      \ * match ZenkakuSpaces /　/
+      \ * syntax match ZenkakuSpaces containedin=ALL /　/
 Autocmd InsertLeave * set nopaste
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
