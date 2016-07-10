@@ -41,6 +41,12 @@ augroup END
 command! -nargs=* Autocmd autocmd MyVimrc <args>
 command! -nargs=* AutocmdFT autocmd MyVimrc FileType <args>
 " }}}
+" wrapper {{{
+function! s:cnoreabbrev_wrap(...)
+  execute a:1 . 'noreabbrev ' . a:2 . ' ' . a:3
+endfunction
+command! -nargs=* Abbr call s:cnoreabbrev_wrap(<f-args>)
+" }}}
 " system type {{{
 let s:is_windows = has('win32') || has('win64') " || has('win16') omoide
 let s:is_cygwin = has('win32unix')
@@ -235,13 +241,11 @@ call plug#begin('~/.vim/plugged')
 " Plug 'cohama/lexima.vim'
 " Plug 'cohama/vim-smartinput-endwise'
 " Plug 'ctrlpvim/ctrlp.vim'                                          " ファイラ
-" Plug 'dannyob/quickfixstatus'
 " Plug 'glts/vim-textobj-comment'
 " Plug 'haya14busa/incsearch-easymotion.vim'
 " Plug 'haya14busa/incsearch-fuzzy.vim'
 " Plug 'haya14busa/incsearch-migemo.vim'
 " Plug 'haya14busa/incsearch.vim'
-" Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 " Plug 'itchyny/vim-cursorword'              " カーソル下の同じワードハイライト
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
@@ -311,15 +315,18 @@ Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番に�
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
 Plug 'Shougo/neomru.vim'                             " uniteやneocompleteの依存
+Plug 'Shougo/unite-outline'                    " ソースコードのアウトライン表示
 Plug 'Shougo/unite.vim'                            " 統合ユーザインターフェース
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}               " :system() を非同期化
 Plug 'The-NERD-tree'                                         " ツリーファイラー
 Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
 Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
+Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
+Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }         " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
@@ -329,27 +336,31 @@ Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を�
 Plug 'kana/vim-smartinput'                              " ( -> (|) とかするやつ
 Plug 'kana/vim-textobj-line'                            " text-object拡張(line)
 Plug 'kana/vim-textobj-user'                                  " text-object拡張
+Plug 'kana/vim-textobj-function'                            " text obj function
+Plug 'kshenoy/vim-signature'                                       " markを表示
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
 Plug 'mattn/webapi-vim'                                        " vimでget, post
 Plug 'mbbill/undotree'                                               " undo履歴
-Plug 'mhinz/vim-signify'                    " signつけるやつ git-gutterとの選択
+Plug 'mhinz/vim-signify'                  " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
-Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通して実行
 Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
+Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通して実行
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'prabirshrestha/async.vim'                              " job async utilty
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
+Plug 'thinca/vim-textobj-function-javascript'             " js function textobj
 Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
 Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
 Plug 'tyru/caw.vim'                                    " コメントアウトするマン
 "   }}}
 
 " html {{{
+Plug 'othree/html5.vim'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'jaxbot/semantic-highlight.vim', {'on' : 'SemanticHighlightToggle'}
 "   }}}
@@ -369,11 +380,11 @@ Plug 'fatih/vim-go', {'for' : 'go'}
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
-  Plug 'keith/rspec.vim'
 " else
   " Plug 'NigoroJr/rsense', {'for' : 'ruby'}
   " Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
 endif
+" Plug 'keith/rspec.vim'
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 "   }}}
 
@@ -407,16 +418,20 @@ Plug 'dag/vim-fish'
 " javascript {{{
 
 " syntax {{{
+" out {{{
+" Plug 'mxw/vim-jsx'
+" Plug 'pangloss/vim-javascript'
+" Plug 'jelera/vim-javascript-syntax'
+" Plug 'MaxMEllon/vim-jsx-pretty' " 自作プラグインはローカルのを読み込む
+" Plug 'othree/xml.vim' " See: https://github.com/othree/es.next.syntax.vim/issues/5
+" Plug 'othree/vim-jsx'
+" }}}
 Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
 Plug 'othree/javascript-libraries-syntax.vim'
-" Plug 'mxw/vim-jsx'
 Plug 'othree/yajs.vim'
-" Plug 'MaxMEllon/vim-jsx-pretty'
-" Plug 'othree/xml.vim' " See: https://github.com/othree/es.next.syntax.vim/issues/5
-" Plug 'othree/vim-jsx'
 Plug 'othree/es.next.syntax.vim'
 " }}}
 
@@ -433,8 +448,8 @@ Plug 'samuelsimoes/vim-jsx-utils'                       " jsxの整形などを�
 " }}}
 
 " fot nyaovim {{{
-Plug 'rhysd/nyaovim-mini-browser'
-Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
+" Plug 'rhysd/nyaovim-mini-browser'
+" Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
 "   }}}
 
 " if {{{
@@ -451,7 +466,9 @@ else
 endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 " }}}
+
 " }}}
+
 " local plugins {{{
 function! s:maxmellon_plug(...) abort " {{{
   let plugin = '~/.vim/localPlugged/' . a:1
@@ -460,11 +477,13 @@ function! s:maxmellon_plug(...) abort " {{{
 endfunction
 command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 " }}}
+
 " MyPlug 'vim-dirvish'
 " MyPlug 'music.nyaovim'
-" MyPlug 'vim-cmus'
+MyPlug 'vim-cmus'
 MyPlug 'vim-jsx-pretty'
 MyPlug 'molokai'
+
 " }}}
 
 call plug#end()
@@ -1410,8 +1429,7 @@ endif
 " }}}
 
 if s:plug.is_installed('vim-operator-flashy') " {{{
-  highlight MyGlashy ctermbg=226 guibg=#00FF00
-  let g:operator#flashy#group = 'vimNotation'
+  let g:operator#flashy#group = 'MyGlashy'
   if exists('g:nyaovim_version')
     let g:operator#flashy#flash_time = 30
   else
@@ -1607,7 +1625,7 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \ { 'at'    : '\s\%#'
         \ , 'char'  : '='
         \ , 'input' : '= '
-        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
+        \ , 'filetype' : ['c', 'cpp', 'vim']
         \ })
 
   call smartinput#define_rule(
@@ -1759,6 +1777,13 @@ if s:plug.is_installed('fzf') "{{{
 endif
 "}}}
 
+if s:plug.is_installed('vim-signature') "{{{
+  let g:SignatureMarkTextHLDynamic = 1
+  nnoremap m<C-h> m<BS>
+  nnoremap mn ]`
+  nnoremap mp [`
+endif
+"}}}
 " }}}
 
 " matchit {{{
@@ -1784,20 +1809,21 @@ set cmdwinheight=5            " Command-line windowの行数
 set completeopt=menuone,longest,preview
 set cscopetag
 " set clipboard=exclude:.*
-" set cursorcolumn
 if has('gui_running')
   set cursorline              " これをsetすると描画がだいぶ遅くなる
+  " set cursorcolumn
 endif
 set display=lastline          " 画面を超える長い１行も表示
-set fillchars=vert:\|,fold:\-
-set history=100               " コマンドラインのヒストリ
-set laststatus=2              " ステータス行を常に表示
-set lazyredraw                " マクロなどの動作を描画しない
+set fillchars  =vert:\|,fold:\-
+set history    =100           " コマンドラインのヒストリ
+set laststatus =2             " ステータス行を常に表示
+set lazyredraw                " マクロなどの途中部分の動作を描画しない
 set list
-set listchars=eol:$,tab:>-
-set linespace=0
-set maxmem=500000
-set maxmemtot=1000000
+set listchars     =eol:$,tab:>-
+set linespace     =0
+set maxmem        =500000     " 1バッファ 500MB(about)
+set maxmemtot     =1000000    " vimのすべてのバッファで1000MB(about)
+set maxmempattern =500000     " パターンマッチにメモリ最大500MB(about)
 set matchpairs+=<:>           " 対応カッコのマッチを追加
 set matchtime=1               " 対応するカッコを表示する時間
 set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
@@ -1810,18 +1836,19 @@ set pastetoggle=<F11>
 " set relativenumber            " 相対行番号
 set report=1                  " 変更された行数の報告がでる最小値
 set ruler
+" set rulerformat=%15(%c%V\ %p%%%)
 set scrolloff=10              " 常に10行表示
 set showcmd                   " ステータスラインに常にコメンド表示
 set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                " 横分割時、新しいウィンドウは下
 set splitright                " 縦分割時、新しいウィンドウは右
-set synmaxcol=200             " 長過ぎる文字はsyntax off
+set synmaxcol=140             " 長過ぎる文字はsyntax off
 set textwidth=0
-" set nocompatible              " VI互換を無効化
+" set nocompatible              " VI互換を無効化 deplecated
 if ! IsWindows()
-  set path=.,/usr/local/include,/usr/include
+  set path =.,/usr/local/include,/usr/include
+  set path+=,/usr/include/c++/4.2.1
 endif
-set path+=,/usr/include/c++/4.2.1
 if exists('&macatsui')
   set nomacatsui
 endif
@@ -1834,14 +1861,12 @@ if has('nvim')
   set novisualbell
 else
   set ttyfast                   " スクロールが滑らかに
-  if ('gui_running')
-    set t_Co=256
-  endif
-  set ttyscroll=1
-  set vb t_vb=                  " no beep no flash
-  set virtualedit=block
+  set t_Co     =256
+  set ttyscroll=2000
+  set vb t_vb  =                " no beep no flash
 endif
-set whichwrap=b,s,h,l,<,>,[,] " hとlが非推奨
+set virtualedit=block
+set whichwrap  =b,s,h,l,<,>,[,] " hとlが非推奨
 " }}}
 " formatoptions {{{
 let &formatoptions = 'lmj'
@@ -1870,7 +1895,7 @@ set backup
 if !isdirectory(expand('~/.vim/_undo'))
   call mkdir($HOME.'/.vim/_undo', 'p')
 endif
-set undodir=~/.vim/_undo
+set undodir   =~/.vim/_undo
 set undofile
 set undolevels=200
 " }}}
@@ -1943,9 +1968,9 @@ try
   endfunction
 catch
   set wildmenu " cmdline補完
-  set wildmode=longest:full,full
+  set wildmode =longest:full,full
 endtry
-set wildignore=*.o,*.obj,*~
+set wildignore =*.o,*.obj,*~
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
 set wildignore+=*DS_Store*
@@ -2064,6 +2089,8 @@ Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
 Autocmd BufNewFile,BufRead *.jsx     set filetype=javascript.jsx
 Autocmd BufNewFile,BufRead *.es6     set filetype=javascript
 Autocmd BufNewFile,BufRead *.fish    set filetype=fish
+Autocmd BufNewFile,BufRead .babelrc  set filetype=json
+Autocmd BufNewFile,BufRead .eslintrc set filetype=yaml
 " }}}
 
 AutocmdFT python   call s:set_tab_width(4, s:false)
@@ -2106,7 +2133,9 @@ function! s:auto_fix_by_eslint()
     \ 'on_stderr': function('s:on_error'),
     \ 'on_exit': function('s:callback'),
     \})
-endif
+  else
+    echo 'Please execute next command `$ npm install -g eslint_d`'
+  endif
 endfunction
 
 augroup javascript
@@ -2154,10 +2183,10 @@ Autocmd VimEnter COMMIT_EDITMSG setlocal spell
 AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
 AutocmdFT sass,scss,css setlocal iskeyword+=-
 " tails space highlight
-Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
-      \ * highlight TailSpace term=underline guibg=#FF0000 ctermbg=9
-Autocmd BufNewFile,BufRead,VimEnter,WinEnter
-      \ * syntax match TailSpace containedin=ALL /\s\+$/
+" Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
+"       \ * highlight TailSpace term=underline guibg=#FF0000 ctermbg=9
+" Autocmd BufNewFile,BufRead,VimEnter,WinEnter
+"       \ * syntax match TailSpace containedin=ALL /\s\+$/
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
       \ * highlight ZenkakuSpaces term=underline guibg=Blue ctermbg=Blue
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
@@ -2166,6 +2195,8 @@ Autocmd InsertLeave * set nopaste
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
 function! s:enable_sound()
+  " simplayer を使えば windows でも遊べるけどまあいらんやろ
+  " See: https://github.com/MaxMEllon/simplayer
   if IsMac()
     Autocmd BufWrite
         \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/gun.mp3"))
@@ -2182,8 +2213,12 @@ command! SoundEnable call s:enable_sound()
 " function {{{
 function! s:copy_mode_toggle() " {{{
   setlocal nolist!
-  " IndentGuidesToggle
-  IndentLinesToggle
+  if exists(":IndentGuidesToggle")
+    IndentGuidesToggle
+  endif
+  if exists("IndentLinesToggle")
+    IndentLinesToggle
+  endif
 endfunction
 command! MyCopyModeToggle :call s:copy_mode_toggle()
 nnoremap <silent> <C-c> :<C-u>MyCopyModeToggle<CR>
@@ -2295,15 +2330,25 @@ endfunction
 " command {{{
 " vimgrep alias {{{
 command! -bar -nargs=* G vimgrep <args> %
-command! -bar -nargs=* GG vimgrep <args> /*
+command! -bar -nargs=* GG vimgrep <args> ./*
 " }}}
 command! Date  :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
-command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
 command! JSONFormat %!python -m json.tool
-command! Shiba  :! shiba % &>/dev/null 2>&1 &
-command! EsFix  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
-command! Google :call vimproc#system_bg("google " . expand("<cword>"))
-command! Github :call vimproc#system_bg("github maxmellon")
+if executable('xo')
+  command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
+endif
+if executable('shiba')
+  command! Shiba  :! shiba % &>/dev/null 2>&1 &
+endif
+if executable('eslint')
+  command! EsFix  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
+endif
+if executable('google')
+  command! Google :call vimproc#system_bg("google " . expand("<cword>"))
+endif
+if executable('github')
+  command! Github :call vimproc#system_bg("github maxmellon")
+endif
 
 " cd-fzf "{{{
 if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
@@ -2334,8 +2379,39 @@ if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
 endif
 "}}}
 
+" cd-gitroot " {{{
+function! s:trim(str) abort
+  return substitute(a:str, '^[\r\n]*\(.\{-}\)[\r\n]*$', '\1', '')
+endfunction
+
+if executable('git')
+  function! s:cd_gitroot() abort
+    let dir = getcwd()
+
+    let buf_path = expand('%:p')
+    if !isdirectory(buf_path)
+      let buf_path = fnamemodify(buf_path, ':h')
+    endif
+    if !isdirectory(buf_path)
+      return
+    endif
+    execute 'lcd' buf_path
+
+    let in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
+    if in_git_dir !=# 'true'
+      execute 'lcd' dir
+      return
+    endif
+
+    let git_root = s:trim(system('git rev-parse --show-toplevel'))
+    execute 'lcd' git_root
+  endfunction
+
+  command! Cdu :call s:cd_gitroot()
+endif
 " }}}
 
+" }}}
 " mapping {{{
 " move {{{
 nnoremap <silent> j  gj
@@ -2432,6 +2508,7 @@ for s:k in range(1, 9)
 endfor
 " }}}
 " indent {{{
+
 xnoremap <TAB>  >gv
 xnoremap <S-TAB>  <gv
 nnoremap > >>
@@ -2454,21 +2531,19 @@ inoremap <C-n> <Down>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-m> <CR>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-h> <BS>
-cnoremap <C-d> <Del>
-cnoremap <C-k> <End><C-u>
+
+" insert paste
+inoremap <C-v> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 
 function! s:indent_braces()
   let s:nowletter = getline(".")[col(".")-1]
   let s:beforeletter = getline(".")[col(".")-2]
   if s:nowletter == "}" && s:beforeletter == "{" || s:nowletter == "]" && s:beforeletter == "["
-    let s:res = "\n\t\n\<UP>\<RIGHT>\<ESC>\A"
+    let s:res = "\<C-]>\n\t\n\<UP>\<RIGHT>\<ESC>\A"
   elseif s:beforeletter == ' '
-    let s:res = "\n\<ESC>\:RemoveWhiteSpace\n\ii\<ESC>==xa"
+    let s:res = "\<C-]>\n\<ESC>\:RemoveWhiteSpace\n\ii\<ESC>==xa"
   else
-    let s:res = "\n"
+    let s:res = "\<C-]>\n"
   endif
   return s:res
 endfunction
@@ -2480,8 +2555,6 @@ inoremap , ,<Space>
 nnoremap <expr> 0
       \ col('.') ==# 1 ? '^' : '0'
 nnoremap <C-h> ^
-" break mapping <C-l>
-nnoremap <C-l> $
 " }}}
 " text obj {{{
 " <angle>
@@ -2570,10 +2643,23 @@ function! s:init_cmdwin()
   inoremap <buffer><expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   startinsert!
 endfunction
+
+" emacs like
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-h> <BS>
+cnoremap <C-d> <Del>
+cnoremap <C-k> <End><C-u>
+
+" :unite -> :Unite
+cnoremap <CR> <C-]><CR>
 " }}}
 " clear screan {{{
 nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
-nnoremap <silent><C-l> :<C-u>nohlsearch<CR><ESC>
+" <C-l> -> <ESC><ESC>
+" <C-l> -> <C-i>
+" <C-i> -> system key map
+nnoremap <silent><C-l> <C-i>
 " }}}
 " VS like " {{{
 nnoremap <f4> :<C-u>cnext<CR>
@@ -2593,12 +2679,24 @@ nnoremap <F1> <Nop>
 " }}}
 " }}}
 
-" inoreabbrev {{{
-inoreabbrev <buffer> tihs this
-inoreabbrev <buffer> edn end
-inoreabbrev <buffer> (;) ();
-inoreabbrev <buffer> REact React
-inoreabbrev <buffer> ): );
+" abbrev {{{
+let s:Abbrs = [
+      \   {'type': 'i', 'before' : 'tihs',  'after' : 'this'},
+      \   {'type': 'i', 'before' : 'edn',   'after' : 'end'},
+      \   {'type': 'i', 'before' : '(;)',   'after' : '();'},
+      \   {'type': 'i', 'before' : 'REact', 'after' : 'React'},
+      \   {'type': 'i', 'before' : '):',    'after' : ');'},
+      \   {'type': 'c', 'before' : 'fzf',   'after' : 'FZF'},
+      \   {'type': 'c', 'before' : 'cdu',   'after' : 'Cdu'},
+      \   {'type': 'c', 'before' : 'unite', 'after' : 'Unite'},
+      \   {'type': 'c', 'before' : 'ag',    'after' : 'Ags'},
+      \   {'type': 'c', 'before' : 'ggrep', 'after' : 'Ggrep'},
+      \   {'type': 'c', 'before' : 'gist',  'after' : 'Gist'},
+      \ ]
+
+for s:e in s:Abbrs
+  execute 'Abbr ' . s:e['type'] . ' ' . s:e['before'] ' ' . s:e['after']
+endfor
 " }}}
 
 " statusline {{{
@@ -2659,16 +2757,17 @@ set statusline+=%w
 " ここからツールバー右側
 set statusline+=%=
 " ファイルタイプ表示
+" 現在行が全体行の何%目か表示
+set statusline+=%15(%c%V\ %p%%%)
+" filetype
 set statusline+=%y
 " 文字バイト数/カラム番号
 " set statusline+=[ASCII=%B]
 " set statusline+=%{system('battery')}
 " 現在文字列/全体列表示
-set statusline+=[C=%c/%{col('$')-1}]
+" set statusline+=[C=%c/%{col('$')-1}]
 " 現在文字行/全体行表示
 set statusline+=[L=%l/%L]
-" 現在行が全体行の何%目か表示
-set statusline+=[%p%%]
 " }}}
 
 " color {{{
@@ -2677,23 +2776,21 @@ try
     set background=dark
     colorscheme gruvbox
   else
-    " let g:molokai_original = 1
     colorscheme molokai
-    " colorscheme torte
-    " colorscheme default
     Autocmd VimEnter * highlight FoldColumn ctermfg=67  ctermbg=16
     Autocmd VimEnter * highlight Folded     ctermfg=67  ctermbg=16
-    Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=underline
   endif
 catch
   colorscheme pablo
 endtry
+Autocmd VimEnter * highlight MyGlashy ctermbg=48 term=bold,reverse guibg=#00FF00
+Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=underline
 Autocmd VimEnter * highlight clear CursorLine
 Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
-syntax on
 "}}}
 
 " END {{{
+syntax on
 filetype indent on
 set secure " vimrcの最後に記述 vimhelpより
 " }}}
