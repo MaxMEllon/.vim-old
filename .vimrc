@@ -2073,38 +2073,56 @@ command! -bar -nargs=1 SpaceIndent
 " }}}
 
 " set filetype {{{
-Autocmd BufNewFile,BufRead *.md      set filetype=markdown
-Autocmd BufNewFile,BufRead *.slim    set filetype=slim
-Autocmd BufNewFile,BufRead *.less    set filetype=less
-Autocmd BufNewFile,BufRead *.coffee  set filetype=coffee
-Autocmd BufNewFile,BufRead *.scss    set filetype=scss
-Autocmd BufNewFile,BufRead *.sass    set filetype=sass
-Autocmd BufNewFile,BufRead *.less    set filetype=less
-Autocmd BufNewFile,BufRead *.pu      set filetype=plantuml
-Autocmd BufNewFile,BufRead *.cjsx    set filetype=coffee
-Autocmd BufNewFile,BufRead *.exs     set filetype=elixir
-Autocmd BufNewFile,BufRead *.ex      set filetype=elixir
-Autocmd BufNewFile,BufRead *.toml    set filetype=toml
-Autocmd BufNewFile,BufRead *_spec.rb set filetype=rspec
-Autocmd BufNewFile,BufRead *.jsx     set filetype=javascript.jsx
-Autocmd BufNewFile,BufRead *.es6     set filetype=javascript
-Autocmd BufNewFile,BufRead *.fish    set filetype=fish
-Autocmd BufNewFile,BufRead .babelrc  set filetype=json
-Autocmd BufNewFile,BufRead .eslintrc set filetype=yaml
+function! s:set_filetype(...)
+  execute 'Autocmd BufNewFile,BufRead ' . '*'.a:1 . ' set filetype=' a:2
+endfunction
+command! -nargs=* SetFileType call s:set_filetype(<f-args>)
+
+let s:MyFileTypes = [
+      \   {'file' : '.md',      'type' : 'markdown'},
+      \   {'file' : '.slim',    'type' : 'slim'},
+      \   {'file' : '.less',    'type' : 'less'},
+      \   {'file' : '.coffee',  'type' : 'coffee'},
+      \   {'file' : '.scss',    'type' : 'scss'},
+      \   {'file' : '.sass',    'type' : 'sass'},
+      \   {'file' : '.cjsx',    'type' : 'coffee'},
+      \   {'file' : '.exs',     'type' : 'elixir'},
+      \   {'file' : '.ex',      'type' : 'elixir'},
+      \   {'file' : '.toml',    'type' : 'toml'},
+      \   {'file' : '_spec.rb', 'type' : 'rspec'},
+      \   {'file' : 'jsx',      'type' : 'javascript.jsx'},
+      \   {'file' : 'es6',      'type' : 'javascript'},
+      \   {'file' : 'react.js', 'type' : 'javascript.jsx'},
+      \   {'file' : 'fish',     'type' : 'fish'},
+      \   {'file' : 'babelrc',  'type' : 'json'},
+      \   {'file' : 'eslintrc', 'type' : 'yaml'},
+      \ ]
+
+for s:e in s:MyFileTypes
+  execute 'SetFileType ' . s:e['file'] . ' ' . s:e['type']
+endfor
 " }}}
 
-AutocmdFT python   call s:set_tab_width(4, s:false)
-AutocmdFT php      call s:set_tab_width(4, s:true)
-AutocmdFT java     call s:set_tab_width(4, s:true)
-AutocmdFT make     call s:set_tab_width(4, s:false)
-AutocmdFT yaml     call s:set_tab_width(2, s:true)
-AutocmdFT conf     call s:set_tab_width(4, s:false)
-AutocmdFT coffee   call s:set_tab_width(2, s:true)
-AutocmdFT slim     call s:set_tab_width(2, s:true)
-AutocmdFT fish     call s:set_tab_width(2, s:true)
-AutocmdFT toml     call s:set_tab_width(4, s:true)
-AutocmdFT plantuml call s:set_tab_width(2, s:true)
+" tab width {{{
+function! s:set_indent(...)
+  execute 'AutocmdFT ' . a:1 'call s:set_tab_width(' . a:2 . ',' . a:3 . ')'
+endfunction
+command! -nargs=* IndentFT call s:set_indent(<f-args>)
 
+IndentFT python   4 s:false
+IndentFT java     4 s:true
+IndentFT php      4 s:false
+IndentFT make     4 s:false
+IndentFT yaml     2 s:true
+IndentFT conf     4 s:false
+IndentFT coffee   2 s:true
+IndentFT slim     2 s:true
+IndentFT fish     2 s:true
+IndentFT toml     4 s:true
+IndentFT plantuml 2 s:true
+" }}}
+
+" javascript {{{
 function! s:callback(job_id, data, event_type)
   echo 'Fixed'
   checktime
@@ -2113,10 +2131,6 @@ endfunction
 function! s:on_error(job_id, data, event_type)
   echo a:data
 endfunction
-
-" javascript {{{
-
-AutocmdFT javascript call s:on_FileType_javascript()
 
 function! s:on_FileType_javascript() "{{{
   call s:set_tab_width(2, s:true)
@@ -2412,6 +2426,7 @@ endif
 " }}}
 
 " }}}
+
 " mapping {{{
 " move {{{
 nnoremap <silent> j  gj
