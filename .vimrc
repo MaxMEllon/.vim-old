@@ -213,7 +213,7 @@ if has('multi_byte_ime')
 endif
 " }}}
 
-" plugin {{{
+"o plugin {{{
 
 call plug#begin('~/.vim/plugged')
 
@@ -430,8 +430,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
-Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
+Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
 " }}}
 
@@ -2010,6 +2010,7 @@ endif
 " }}}
 " etc {{{
 let g:rubycomplete_rails = 1
+let g:user_javascript_libs = 'underscore,react,chai,jasmine,ramda,flux'
 " }}}
 " " twty {{{
 " function! s:append(line)
