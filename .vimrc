@@ -69,6 +69,20 @@ let s:true = !0
 let s:false = 0
 " }}}
 
+" python {{{
+if !has('nvim') && !has('gui_running') && !empty($PYENV_ROOT)
+  let s:python2home = $PYENV_ROOT . '/versions/2.7.11'
+  let s:python2dll  = $PYENV_ROOT . '/versions/2.7.11/lib/libpython2.7.dylib'
+  let &pythondll = s:python2dll
+  let $PYTHONHOME = s:python2home
+
+  " let s:python3home = $PYENV_ROOT . '/versions/3.5.1'
+  " let s:python3dll  = $PYENV_ROOT . '/versions/3.5.1/lib/libpython3.5m.dylib'
+  " let &pythonthreedll = s:python3dll
+  " let $PYTHONHOME = s:python3home
+endif
+" }}}
+
 " encoding {{{
 " See:
 " https://raw.githubusercontent.com/Shougo/shougo-s-github/master/vim/rc/encoding.rc.vim
@@ -213,25 +227,26 @@ if has('multi_byte_ime')
 endif
 " }}}
 
-"o plugin {{{
+" plugin {{{
 
 call plug#begin('~/.vim/plugged')
 
 " load Plugin {{{
 " out {{{
-" Plug 'Command-T'                 " ruby のバージョンが異なるのか，vimが落ちる
 " Plug '5t111111/alt-gtags.vim'
+" Plug 'Command-T'                 " ruby のバージョンが異なるのか，vimが落ちる
 " Plug 'KazuakiM/vim-qfstatusline'
 " Plug 'MaxMEllon/molokai'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
 " Plug 'MaxMEllon/vim-dirvish'
 " Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
 " Plug 'Shougo/context_filetype.vim'
+" Plug 'Shougo/neocompletecache'                                 " 依存なし低速
 " Plug 'Shougo/neoinclude.vim', {'for' : ['cpp', 'c']}
 " Plug 'Shougo/unite-build'
 " Plug 'Shougo/unite-outline'
 " Plug 'Shougo/vimshell.vim'
-" Plug 'The-NERD-tree'
+" Plug 'ahayman/vim-nodejs-complete'
 " Plug 'airblade/vim-gitgutter'
 " Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
 " Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
@@ -258,9 +273,11 @@ call plug#begin('~/.vim/plugged')
 " Plug 'marijnh/tern_for_vim', {'do': 'npm install' }
 " Plug 'mattn/benchvimrc-vim', {'on' : 'BenchVimrc'}
 " Plug 'mattn/emoji-vim', {'on' : 'Emoji'}
+" Plug 'mattn/jscomplete-vim'
 " Plug 'mattn/vim-maketable', {'on' : 'MakeTable'}
 " Plug 'mattn/vim-textobj-url'
 " Plug 'mhartington/oceanic-next'
+" Plug 'myhere/vim-nodejs-complete'
 " Plug 'nanotech/jellybeans.vim'
 " Plug 'nathanaelkane/vim-indent-guides'
 " Plug 'octol/vim-cpp-enhanced-highlight', {'for' : ['cpp', 'c']}
@@ -276,7 +293,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 " Plug 't9md/vim-quickhl'
-" Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 " Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 " Plug 'tmhedberg/matchit'
 " Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
@@ -291,14 +307,19 @@ call plug#begin('~/.vim/plugged')
 " completer {{{
 "" 補完プラグインリスト
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim'                                     " python3依存
-elseif has('python')
+  function! DoRemote(arg)
+    UpdateRemotePlugins
+  endfunction
+  Plug 'Shougo/deoplete.nvim',  { 'do': function('DoRemote')  }
+  Plug 'carlitux/deoplete-ternjs'
+elseif has('gui_running')
   Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
-elseif has('lua')
-  Plug 'Shougo/neocomplete.vim'                                       " lua依存
+  Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 else
-  Plug 'Shougo/neocompletecache'                                 " 依存なし低速
+  Plug 'Shougo/neocomplete.vim'                                       " lua依存
+  Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 endif
+
 " }}}
 
 " snippets {{{
@@ -317,8 +338,8 @@ Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unit
 Plug 'Shougo/neomru.vim'                             " uniteやneocompleteの依存
 Plug 'Shougo/unite-outline'                    " ソースコードのアウトライン表示
 Plug 'Shougo/unite.vim'                            " 統合ユーザインターフェース
+Plug 'The-NERD-tree'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}               " :system() を非同期化
-Plug 'The-NERD-tree'                                         " ツリーファイラー
 Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
 Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
 Plug 'dannyob/quickfixstatus'
@@ -328,15 +349,16 @@ Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに�
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
 Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
+Plug 'jistr/vim-nerdtree-tabs'                     " タブを超えたツリーファイラ
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }         " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
 Plug 'kana/vim-smartinput'                              " ( -> (|) とかするやつ
+Plug 'kana/vim-textobj-function'                            " text obj function
 Plug 'kana/vim-textobj-line'                            " text-object拡張(line)
 Plug 'kana/vim-textobj-user'                                  " text-object拡張
-Plug 'kana/vim-textobj-function'                            " text obj function
 Plug 'kshenoy/vim-signature'                                       " markを表示
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
@@ -350,6 +372,7 @@ Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通し�
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'prabirshrestha/async.vim'                              " job async utilty
 Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
+Plug 'rhysd/committia.vim'                             " Rich vim commit editor
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
@@ -433,11 +456,7 @@ Plug 'moll/vim-node'
 Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
-" }}}
-
-" completion {{{
-" Plug 'mattn/jscomplete-vim'
-" Plug 'myhere/vim-nodejs-complete'
+Plug 'rhysd/npm-debug-log.vim'
 " }}}
 
 " etc {{{
@@ -446,6 +465,10 @@ Plug 'samuelsimoes/vim-jsx-utils'                       " jsxの整形などを�
 " }}}
 
 " }}}
+
+" json {{{
+Plug 'elzr/vim-json'
+"}}}
 
 " fot nyaovim {{{
 " Plug 'rhysd/nyaovim-mini-browser'
@@ -570,6 +593,13 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   endif
   let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
+  if !exists('g:neocomplete#sources#force_omni_input_patterns')
+    let g:neocomplete#sources#omni#input_patterns = {}
+  endif
+  let g:neocomplete#sources#omni#input_patterns.javascript = '\%(\h\w*\|[^. \t]\.\w*\)'
+  let g:neocomplete#sources#omni#input_patterns.markdown = ''
+  let g:neocomplete#sources#omni#input_patterns.gitcommit = ''
+
   " Plugin key-mappings.
   inoremap <expr><C-g> neocomplete#undo_completion()
   inoremap <expr><C-l> neocomplete#complete_common_string()
@@ -588,12 +618,22 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   inoremap <expr><C-y> neocomplete#close_popup()
   inoremap <expr><C-e> neocomplete#cancel_popup()
 
+  let g:neocomplete#sources#omni#functions = get(g:,  'neocomplete#sources#omni#functions',  {})
+  let g:neocomplete#sources#omni#functions.javascript = 'tern#Complete'
+
   " Enable omni completion.
-  " AutocmdFT css setlocal omnifunc=csscomplete#CompleteCSS
-  " AutocmdFT html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  " AutocmdFT java setlocal omnifunc=javacomplete#Complete
-  " AutocmdFT python setlocal omnifunc=pythoncomplete#Complete
-  " AutocmdFT xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript    setlocal omnifunc=tern#Comple
+  autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType ruby          setlocal omnifunc=monster#omnifunc
+
+  " let g:jscomplete_use = ['dom',  'moz']
+  " let g:nodejs_complete_config = {
+  "       \  'js_compl_fn': 'jscomplete#CompleteJS',
+  "       \  'max_node_compl_len': 15
+  "       \} 
 
 endif
 " }}}
@@ -605,7 +645,60 @@ endif
 
 if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#enable_at_startup = 1
-  inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  imap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ deoplete#mappings#manual_complete()
+  function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction "}}}
+
+  " <S-TAB>: completion back.
+  inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+  " <C-h>, <BS>: close popup and delete backword char.
+  inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+  inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+
+  inoremap <expr><C-g> deoplete#mappings#undo_completion()
+  " <C-l>: redraw candidates
+  inoremap <expr><C-l>       deoplete#mappings#refresh()
+
+  " <CR>: close popup and save indent.
+  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+  function! s:my_cr_function() abort
+    return deoplete#mappings#close_popup() . "\<CR>"
+  endfunction
+
+  inoremap <expr> '  pumvisible() ? deoplete#mappings#close_popup() : "'"
+
+  call deoplete#custom#set('_', 'converters', [
+        \ 'converter_remove_paren',
+        \ 'converter_remove_overlap',
+        \ 'converter_truncate_abbr',
+        \ 'converter_truncate_menu',
+        \ 'converter_auto_delimiter',
+        \ ])
+
+  " call deoplete#custom#set('buffer', 'min_pattern_length', 9999)
+
+  let g:deoplete#keyword_patterns = {}
+  let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
+  " let g:deoplete#keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+
+  let g:deoplete#omni#input_patterns = {}
+  let g:deoplete#omni#functions = {}
+
+  " inoremap <silent><expr> <C-t> deoplete#mappings#manual_complete('file')
+
+  " let g:deoplete#enable_refresh_always = 1
+  let g:deoplete#enable_camel_case = 1
+  let g:deoplete#auto_complete_start_length = 3
+
+  let g:deoplete#ignore_sources = {'_': ['tag']}
+  let g:tern_request_timeout = 1
+  let g:tern_show_signature_in_pum = 1
 endif
 " }}}
 
@@ -686,6 +779,11 @@ if s:plug.is_installed('The-NERD-tree') " {{{
   let g:NERDTreeDirArrows = 0
   let g:NERDTreeWinSize = 20
   nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
+endif
+"}}}
+
+if s:plug.is_installed('vim-nerdtree-tabs') " {{{
+  nnoremap <silent>,n :<C-u>NERDTreeTabsToggle<CR>
 endif
 "}}}
 
@@ -1450,8 +1548,9 @@ endif
 
 if s:plug.is_installed('tern_for_vim') " {{{
   let tern#is_show_argument_hints_enabled = 1
-  AutocmdFT javascript setlocal omnifunc=tern#Complete
+  " AutocmdFT javascript setlocal omnifunc=tern#Complete
   AutocmdFT javascript call tern#Enable()
+  Autocmd BufEnter * set completeopt-=preview
   nnoremap <buffer><C-]> :<C-u>TernDef<CR>
 endif " }}}
 
@@ -1625,14 +1724,14 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \ { 'at'    : '\s\%#'
         \ , 'char'  : '='
         \ , 'input' : '= '
-        \ , 'filetype' : ['c', 'cpp', 'vim']
+        \ , 'filetype' : ['c', 'cpp']
         \ })
 
   call smartinput#define_rule(
         \ { 'at'    : '=\s\%#'
         \ , 'char'  : '='
         \ , 'input' : '<BS>= '
-        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby', 'javascript']
+        \ , 'filetype' : ['c', 'cpp']
         \ })
 
   call smartinput#map_to_trigger('i', '~', '~', '~')
@@ -1640,7 +1739,7 @@ if s:plug.is_installed('vim-smartinput') "{{{
         \ { 'at'    : '=\s\%#'
         \ , 'char'  : '~'
         \ , 'input' : '<BS>~ '
-        \ , 'filetype' : ['c', 'cpp', 'vim', 'ruby']
+        \ , 'filetype' : ['c', 'cpp']
         \ })
 
   call smartinput#map_to_trigger('i', '#', '#', '#')
@@ -1689,7 +1788,7 @@ if s:plug.is_installed('YouCompleteMe') " {{{
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+  " autocmd FileType ruby setlocal omnifunc=
 endif
 " }}}
 
@@ -1790,7 +1889,9 @@ endif
 runtime macros/matchit.vim
 augroup matchit
   autocmd!
-  autocmd FileType ruby let b:match_words = '\<\(module\|class\|def\|begin\|do\|if\|unless\|case\)\>:\<\(elsif\|when\|rescue\)\>:\<\(else\|ensure\)\>:\<end\>'
+  autocmd FileType ruby
+  \ let b:match_words =
+  \ '\<\(module\|class\|def\|begin\|do\|if\|unless\|case\)\>:\<\(elsif\|when\|rescue\)\>:\<\(else\|ensure\)\>:\<end\>'
 augroup END
 " }}}
 
@@ -2011,6 +2112,7 @@ endif
 " etc {{{
 let g:rubycomplete_rails = 1
 let g:user_javascript_libs = 'underscore,react,chai,jasmine,ramda,flux'
+let g:vim_json_syntax_conceal = 0
 " }}}
 " " twty {{{
 " function! s:append(line)
@@ -2075,28 +2177,28 @@ command! -bar -nargs=1 SpaceIndent
 
 " set filetype {{{
 function! s:set_filetype(...)
-  execute 'Autocmd BufNewFile,BufRead ' . '*'.a:1 . ' set filetype=' a:2
+  execute 'Autocmd BufNewFile,BufRead ' . '*'.a:1 . ' set filetype=' . a:2
 endfunction
 command! -nargs=* SetFileType call s:set_filetype(<f-args>)
 
 let s:MyFileTypes = [
-      \   {'file' : '.md',      'type' : 'markdown'},
-      \   {'file' : '.slim',    'type' : 'slim'},
-      \   {'file' : '.less',    'type' : 'less'},
-      \   {'file' : '.coffee',  'type' : 'coffee'},
-      \   {'file' : '.scss',    'type' : 'scss'},
-      \   {'file' : '.sass',    'type' : 'sass'},
-      \   {'file' : '.cjsx',    'type' : 'coffee'},
-      \   {'file' : '.exs',     'type' : 'elixir'},
-      \   {'file' : '.ex',      'type' : 'elixir'},
-      \   {'file' : '.toml',    'type' : 'toml'},
-      \   {'file' : '_spec.rb', 'type' : 'rspec'},
-      \   {'file' : 'jsx',      'type' : 'javascript.jsx'},
-      \   {'file' : 'es6',      'type' : 'javascript'},
-      \   {'file' : 'react.js', 'type' : 'javascript.jsx'},
-      \   {'file' : 'fish',     'type' : 'fish'},
-      \   {'file' : 'babelrc',  'type' : 'json'},
-      \   {'file' : 'eslintrc', 'type' : 'yaml'},
+      \   {'file' : '.md',       'type' : 'markdown'},
+      \   {'file' : '.slim',     'type' : 'slim'},
+      \   {'file' : '.less',     'type' : 'less'},
+      \   {'file' : '.coffee',   'type' : 'coffee'},
+      \   {'file' : '.scss',     'type' : 'scss'},
+      \   {'file' : '.sass',     'type' : 'sass'},
+      \   {'file' : '.cjsx',     'type' : 'coffee'},
+      \   {'file' : '.exs',      'type' : 'elixir'},
+      \   {'file' : '.ex',       'type' : 'elixir'},
+      \   {'file' : '.toml',     'type' : 'toml'},
+      \   {'file' : '_spec.rb',  'type' : 'rspec'},
+      \   {'file' : '.jsx',      'type' : 'javascript.jsx'},
+      \   {'file' : '.es6',      'type' : 'javascript'},
+      \   {'file' : '.react.js', 'type' : 'javascript.jsx'},
+      \   {'file' : '.fish',     'type' : 'fish'},
+      \   {'file' : '.babelrc',  'type' : 'json'},
+      \   {'file' : '.eslintrc', 'type' : 'yaml'},
       \ ]
 
 for s:e in s:MyFileTypes
@@ -2134,9 +2236,15 @@ function! s:on_error(job_id, data, event_type)
 endfunction
 
 function! s:on_FileType_javascript() "{{{
+  Abbr i == ===
+  Abbr i != !==
   call s:set_tab_width(2, s:true)
   if executable('eslint_d')
     call vimproc#system_bg('eslint_d restart')
+  endif
+  if s:plug.is_installed('tern_for_vim')
+    call tern#Enable()
+    TernDef
   endif
 endfunction
 "}}}
@@ -2395,33 +2503,15 @@ endif
 "}}}
 
 " cd-gitroot " {{{
-function! s:trim(str) abort
-  return substitute(a:str, '^[\r\n]*\(.\{-}\)[\r\n]*$', '\1', '')
-endfunction
 
 if executable('git')
   function! s:cd_gitroot() abort
-    let dir = getcwd()
-
-    let buf_path = expand('%:p')
-    if !isdirectory(buf_path)
-      let buf_path = fnamemodify(buf_path, ':h')
+    if(system('git rev-parse --is-inside-work-tree') ==# "true\n")
+      return system('git rev-parse --show-cdup')
+    else
+      echoerr 'current directory is outside git working tree'
     endif
-    if !isdirectory(buf_path)
-      return
-    endif
-    execute 'lcd' buf_path
-
-    let in_git_dir = s:trim(system('git rev-parse --is-inside-work-tree'))
-    if in_git_dir !=# 'true'
-      execute 'lcd' dir
-      return
-    endif
-
-    let git_root = s:trim(system('git rev-parse --show-toplevel'))
-    execute 'lcd' git_root
   endfunction
-
   command! Cdu :call s:cd_gitroot()
 endif
 " }}}
@@ -2524,7 +2614,6 @@ for s:k in range(1, 9)
 endfor
 " }}}
 " indent {{{
-
 xnoremap <TAB>  >gv
 xnoremap <S-TAB>  <gv
 nnoremap > >>
@@ -2644,6 +2733,9 @@ xnoremap <SID>(command-line-enter) q:
 nnoremap <SID>(command-line-norange) q:<C-u>
 " }}}
 " cmdwindow mapping function {{{
+nnoremap / q/
+nnoremap ? q?
+
 augroup CmdWindow
   autocmd!
   autocmd CmdwinEnter * call s:init_cmdwin()
@@ -2697,19 +2789,19 @@ nnoremap <F1> <Nop>
 
 " abbrev {{{
 let s:Abbrs = [
-      \   {'type': 'i', 'before' : 'tihs',  'after' : 'this'},
-      \   {'type': 'i', 'before' : 'edn',   'after' : 'end'},
-      \   {'type': 'i', 'before' : '(;)',   'after' : '();'},
-      \   {'type': 'i', 'before' : 'REact', 'after' : 'React'},
-      \   {'type': 'i', 'before' : '):',    'after' : ');'},
-      \   {'type': 'c', 'before' : 'fzf',   'after' : 'FZF'},
-      \   {'type': 'c', 'before' : 'cdu',   'after' : 'Cdu'},
-      \   {'type': 'c', 'before' : 'unite', 'after' : 'Unite'},
-      \   {'type': 'c', 'before' : 'ag',    'after' : 'Ags'},
-      \   {'type': 'c', 'before' : 'ggrep', 'after' : 'Ggrep'},
-      \   {'type': 'c', 'before' : 'gist',  'after' : 'Gist'},
+      \ {'type': 'i', 'before' : 'tihs',      'after' : 'this'},
+      \ {'type': 'i', 'before' : 'edn',       'after' : 'end'},
+      \ {'type': 'i', 'before' : 'REact',     'after' : 'React'},
+      \ {'type': 'i', 'before' : '):',        'after' : ');'},
+      \ {'type': 'i', 'before' : '= =',       'after' : '=='},
+      \ {'type': 'i', 'before' : 'initalize', 'after' : 'initialize'},
+      \ {'type': 'c', 'before' : 'fzf',       'after' : 'FZF'},
+      \ {'type': 'c', 'before' : 'cdu',       'after' : 'Cdu'},
+      \ {'type': 'c', 'before' : 'unite',     'after' : 'Unite'},
+      \ {'type': 'c', 'before' : 'ag',        'after' : 'Ags'},
+      \ {'type': 'c', 'before' : 'ggrep',     'after' : 'Ggrep'},
+      \ {'type': 'c', 'before' : 'gist',      'after' : 'Gist'},
       \ ]
-
 for s:e in s:Abbrs
   execute 'Abbr ' . s:e['type'] . ' ' . s:e['before'] ' ' . s:e['after']
 endfor
