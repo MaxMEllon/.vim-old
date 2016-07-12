@@ -314,12 +314,10 @@ if has('nvim')
   Plug 'carlitux/deoplete-ternjs'
 elseif has('gui_running')
   Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
-  Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 else
   Plug 'Shougo/neocomplete.vim'                                       " lua依存
-  Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 endif
-
+Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 " }}}
 
 " snippets {{{
@@ -656,22 +654,13 @@ if s:plug.is_installed('deoplete.nvim') " {{{
 
   " <S-TAB>: completion back.
   inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
-
   " <C-h>, <BS>: close popup and delete backword char.
   inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
   inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 
-  inoremap <expr><C-g> deoplete#mappings#undo_completion()
-  " <C-l>: redraw candidates
-  inoremap <expr><C-l>       deoplete#mappings#refresh()
-
-  " <CR>: close popup and save indent.
-  inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
   function! s:my_cr_function() abort
     return deoplete#mappings#close_popup() . "\<CR>"
   endfunction
-
-  inoremap <expr> '  pumvisible() ? deoplete#mappings#close_popup() : "'"
 
   call deoplete#custom#set('_', 'converters', [
         \ 'converter_remove_paren',
@@ -690,7 +679,8 @@ if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#omni#input_patterns = {}
   let g:deoplete#omni#functions = {}
 
-  " inoremap <silent><expr> <C-t> deoplete#mappings#manual_complete('file')
+  let g:tern#command = ["tern"]
+  let g:tern#arguments = ["--persistent"]
 
   " let g:deoplete#enable_refresh_always = 1
   let g:deoplete#enable_camel_case = 1
@@ -698,7 +688,7 @@ if s:plug.is_installed('deoplete.nvim') " {{{
 
   let g:deoplete#ignore_sources = {'_': ['tag']}
   let g:tern_request_timeout = 1
-  let g:tern_show_signature_in_pum = 1
+  let g:tern_show_signature_in_pum = 0
 endif
 " }}}
 
@@ -1548,8 +1538,8 @@ endif
 
 if s:plug.is_installed('tern_for_vim') " {{{
   let tern#is_show_argument_hints_enabled = 1
-  " AutocmdFT javascript setlocal omnifunc=tern#Complete
-  AutocmdFT javascript call tern#Enable()
+  AutocmdFT javascript setlocal omnifunc=tern#Complete
+  Autocmd BufEnter *.js call tern#Enable()
   Autocmd BufEnter * set completeopt-=preview
   nnoremap <buffer><C-]> :<C-u>TernDef<CR>
 endif " }}}
@@ -1963,7 +1953,7 @@ if has('nvim')
 else
   set ttyfast                   " スクロールが滑らかに
   set t_Co     =256
-  set ttyscroll=2000
+  set ttyscroll=20000
   set vb t_vb  =                " no beep no flash
 endif
 set virtualedit=block
@@ -2091,7 +2081,7 @@ set ambiwidth     =double        " ２バイト特殊文字の幅調整
 "" Fast vertical scroll
 " source: http://qiita.com/kefir_/items/c725731d33de4d8fb096
 " Use vsplit mode
-if has('vim_starting') && !has('gui_running') && has('vertsplit')
+if has('vim_starting') && !has('gui_running') && has('vertsplit') && !has('nvim')
   function! g:EnableVsplitMode()
     " enable origin mode and left/right margins
     let &t_CS = "y"
@@ -2239,18 +2229,17 @@ function! s:on_FileType_javascript() "{{{
   Abbr i == ===
   Abbr i != !==
   call s:set_tab_width(2, s:true)
-  if executable('eslint_d')
+  if executable('eslint_d') && !has('nvim')
     call vimproc#system_bg('eslint_d restart')
   endif
   if s:plug.is_installed('tern_for_vim')
     call tern#Enable()
-    TernDef
   endif
 endfunction
 "}}}
 
 function! s:auto_fix_by_eslint()
-  if executable('eslint_d')
+  if executable('eslint_d') && !has('nvim')
     let argv = ['eslint_d', '--format', 'compact', '--fix', expand('%')]
     let job = async#job#start(argv, {
     \ 'on_stderr': function('s:on_error'),
@@ -2880,7 +2869,7 @@ set statusline+=[L=%l/%L]
 
 " color {{{
 try
-  if has('gui_running') || has('nvim')
+  if has('gui_running')
     set background=dark
     colorscheme gruvbox
   else
