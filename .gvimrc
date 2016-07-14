@@ -1,8 +1,13 @@
-if !IsWindows()
-  let &guifont = 'Ubuntu Mono:h14'
-  let &guifontwide = 'Ubuntu Mono:h14'
+if IsWindows()
+  let &guifont = 'Ricty_for_Powerline:h14'
+" elseif has('mac') && has('gui_running')
+"   set macligatures
+"   set guifont=FiraCode-Retina:h12
 else
-  set guifont=Ricty_for_Powerline:h14
+  let &guifont = 'Ricty_for_Powerline:h14'
+  let &guifontwide = 'Ricty_for_Powerline:h14'
+  " let &guifont = 'Ubuntu Mono:h14'
+  " let &guifontwide = 'Ubuntu Mono:h14'
 endif
 set mouse&
 set mousemodel=extend
@@ -27,5 +32,5 @@ if has("gui_running")
 endif
 " AutocmdGui GUIEnter * set fullscreen
 set lines=60
-set columns=100
+set columns=120
 syntax on

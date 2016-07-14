@@ -288,6 +288,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'osyo-manga/vim-textobj-multiblock'
 " Plug 'pangloss/vim-javascript', {'for' : 'javascript.jsx'}
 " Plug 'ramele/agrep'                                             " 非同期vimgrep
+" Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
 " Plug 'rhysd/endwize.vim'
 " Plug 'rhysd/vim-textobj-ruby'
 " Plug 'soramugi/auto-ctags.vim'
@@ -313,7 +314,8 @@ if has('nvim')
   Plug 'Shougo/deoplete.nvim',  { 'do': function('DoRemote')  }
   Plug 'carlitux/deoplete-ternjs'
 elseif has('gui_running')
-  Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
+  " Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
+  Plug 'Shougo/neocomplete.vim'                                       " lua依存
 else
   Plug 'Shougo/neocomplete.vim'                                       " lua依存
 endif
@@ -369,7 +371,6 @@ Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハ�
 Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通して実行
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'prabirshrestha/async.vim'                              " job async utilty
-Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
 Plug 'rhysd/committia.vim'                             " Rich vim commit editor
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
@@ -433,7 +434,7 @@ Plug 'vim-jp/syntax-vim-ex'
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
-Plug 'dag/vim-fish'
+Plug 'dag/vim-fish', {'for' : ['fish']}
 "   }}}
 
 " javascript {{{
@@ -564,7 +565,7 @@ if s:plug.is_installed('neocomplcache.vim') " {{{
         \ }
   inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
   " inoremap <expr><C-g> neocomplcache#undo_completion()
-  inoremap <expr><C-l> neocomplcache#complete_common_string()
+  " inoremap <expr><C-l> neocomplcache#complete_common_string()
 endif
 " }}}
 
@@ -600,7 +601,7 @@ if s:plug.is_installed('neocomplete.vim') " {{{
 
   " Plugin key-mappings.
   inoremap <expr><C-g> neocomplete#undo_completion()
-  inoremap <expr><C-l> neocomplete#complete_common_string()
+  " inoremap <expr><C-l> neocomplete#complete_common_string()
 
   " Recommended key-mappings.
   " <CR>: close popup and save indent.
@@ -631,7 +632,7 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   " let g:nodejs_complete_config = {
   "       \  'js_compl_fn': 'jscomplete#CompleteJS',
   "       \  'max_node_compl_len': 15
-  "       \} 
+  "       \}
 
 endif
 " }}}
@@ -998,8 +999,10 @@ if s:plug.is_installed('vim-easymotion') " {{{
   " keymapping
   nmap ss <Plug>(easymotion-s2)
   xmap ss <Plug>(easymotion-s2)
-  nmap <Space>j <Plug>(easymotion-j)
-  nmap <Space>k <Plug>(easymotion-k)
+  nmap sj <Plug>(easymotion-j)
+  nmap sk <Plug>(easymotion-k)
+  nmap f <Plug>(easymotion-fl)
+  nmap F <Plug>(easymotion-Fl)
 
   highlight EasyMotionTarget guifg=#80a0ff guibg=#80a0ff ctermfg=81 ctermbg=14
 endif
@@ -1852,17 +1855,21 @@ endif
 
 if s:plug.is_installed('fzf') "{{{
   nnoremap <silent> <C-@> :<C-u>FZF<CR>
+  if has('gui_running')
+    set runtimepath+=~/.fzf'
+    let g:fzf_launcher = "In_a_new_term_function %s"
+  endif
   if s:plug.is_installed('fzf.vim')
     " my mapping
-    nnoremap 　a :<C-u>Ag <C-r><C-w><CR>
-    nnoremap 　b :<C-u>Buffers<CR>
-    nnoremap 　c :<C-u>BCommits<CR>
-    nnoremap 　g :<C-u>GFiles<CR>
-    nnoremap 　s :<C-u>GFiles?<CR>
-    nnoremap 　t :<C-u>Filetypes<CR>
-    nnoremap 　w :<C-u>Windows<CR>
+    nnoremap <C-Space>a :<C-u>Ag <C-r><C-w><CR>
+    nnoremap <C-Space>b :<C-u>Buffers<CR>
+    nnoremap <C-Space>c :<C-u>BCommits<CR>
+    nnoremap <C-Space>g :<C-u>GFiles<CR>
+    nnoremap <C-Space>s :<C-u>GFiles?<CR>
+    nnoremap <C-Space>t :<C-u>Filetypes<CR>
+    nnoremap <C-Space>w :<C-u>Windows<CR>
   endif
-  nnoremap 　f :<C-u>FZF<CR>
+  nnoremap <C-Space>f :<C-u>FZF<CR>
 endif
 "}}}
 
@@ -1901,7 +1908,7 @@ set completeopt=menuone,longest,preview
 set cscopetag
 " set clipboard=exclude:.*
 if has('gui_running')
-  set cursorline              " これをsetすると描画がだいぶ遅くなる
+  " set cursorline              " これをsetすると描画がだいぶ遅くなる
   " set cursorcolumn
 endif
 set display=lastline          " 画面を超える長い１行も表示
@@ -2010,6 +2017,8 @@ set foldcolumn =0      " 折りたたみの補助線幅
 set foldlevel  =0      " foldをどこまで一気に開くか
 if (!exists('FoldCCText'))
   let g:foldCCtext_maxchars = 78
+  let g:foldCCtext_tail = 'printf("   %s[%4d lines  Lv%-2d]%s", 
+      \ v:folddashes,  v:foldend-v:foldstart+1,  v:foldlevel,  v:folddashes)'
   set foldtext=FoldCCtext()
 endif
 " }}}
@@ -2146,7 +2155,6 @@ let g:vim_json_syntax_conceal = 0
 " filetype {{{
 
 " indent {{{
-
 function! s:set_tab_width(width, is_expand)
   let &l:tabstop = a:width
   let &l:shiftwidth = a:width
@@ -2455,6 +2463,9 @@ endif
 if executable('eslint')
   command! EsFix  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
 endif
+if executable('rubocop')
+  command! Rubocop :call vimproc#system_bg("rubocop -a " . expand("%"))
+endif
 if executable('google')
   command! Google :call vimproc#system_bg("google " . expand("<cword>"))
 endif
@@ -2487,7 +2498,7 @@ if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
   endfunction
 
   command! Cd :call s:select_directory_tmux_fzf()
-  nnoremap <silent> 　d :<C-u>Cd<CR>
+  nnoremap <silent> <C-Space>d :<C-u>Cd<CR>
 endif
 "}}}
 
@@ -2619,7 +2630,6 @@ inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-h> <BS>
 inoremap <C-d> <Del>
-inoremap <C-k> <ESC>`^Da
 inoremap <C-p> <UP>
 inoremap <C-n> <Down>
 inoremap <C-f> <Right>
@@ -2649,6 +2659,13 @@ inoremap , ,<Space>
 nnoremap <expr> 0
       \ col('.') ==# 1 ? '^' : '0'
 nnoremap <C-h> ^
+nnoremap <C-e> $
+" }}}
+" astah {{{
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
 " }}}
 " text obj {{{
 " <angle>
@@ -2756,7 +2773,7 @@ nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
 " <C-l> -> <ESC><ESC>
 " <C-l> -> <C-i>
 " <C-i> -> system key map
-nnoremap <silent><C-l> <C-i>
+nnoremap <silent><C-\> <C-i>
 " }}}
 " VS like " {{{
 nnoremap <f4> :<C-u>cnext<CR>
@@ -2871,7 +2888,7 @@ set statusline+=[L=%l/%L]
 try
   if has('gui_running')
     set background=dark
-    colorscheme gruvbox
+    colorscheme molokai
   else
     colorscheme molokai
     Autocmd VimEnter * highlight FoldColumn ctermfg=67  ctermbg=16
