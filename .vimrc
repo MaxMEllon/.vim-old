@@ -367,7 +367,6 @@ Plug 'mbbill/undotree'                                               " undo履�
 Plug 'mhinz/vim-signify'                  " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
-Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
 Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通して実行
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'prabirshrestha/async.vim'                              " job async utilty
@@ -483,6 +482,7 @@ if has('gui_running') || has('nvim')
   Plug 'morhetz/gruvbox'
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
+  Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
 else
   " Plug 'MaxMEllon/molokai'
 endif
@@ -577,8 +577,8 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   " Use smartcase.
   let g:neocomplete#enable_smart_case = 1
   " Set minimum syntax keyword length.
-  let g:neocomplete#sources#syntax#min_keyword_length = 2
-  let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+  let g:neocomplete#sources#syntax#min_keyword_length = 7
+  " let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
   " Define dictionary.
   let g:neocomplete#sources#dictionary#dictionaries = {
         \ 'default' : '',
@@ -618,12 +618,13 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   inoremap <expr><C-e> neocomplete#cancel_popup()
 
   let g:neocomplete#sources#omni#functions = get(g:,  'neocomplete#sources#omni#functions',  {})
-  let g:neocomplete#sources#omni#functions.javascript = 'tern#Complete'
+  " let g:neocomplete#sources#omni#functions.javascript = 'tern#Complete'
+  let g:neocomplete#sources#omni#functions.javascript = 'javascriptcomplete#CompleteJS'
 
   " Enable omni completion.
   autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript    setlocal omnifunc=tern#Comple
+  autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType ruby          setlocal omnifunc=monster#omnifunc
@@ -1861,15 +1862,15 @@ if s:plug.is_installed('fzf') "{{{
   endif
   if s:plug.is_installed('fzf.vim')
     " my mapping
-    nnoremap <C-Space>a :<C-u>Ag <C-r><C-w><CR>
-    nnoremap <C-Space>b :<C-u>Buffers<CR>
-    nnoremap <C-Space>c :<C-u>BCommits<CR>
-    nnoremap <C-Space>g :<C-u>GFiles<CR>
-    nnoremap <C-Space>s :<C-u>GFiles?<CR>
-    nnoremap <C-Space>t :<C-u>Filetypes<CR>
-    nnoremap <C-Space>w :<C-u>Windows<CR>
+    nnoremap <Space>a :<C-u>Ag <C-r><C-w><CR>
+    nnoremap <Space>b :<C-u>Buffers<CR>
+    nnoremap <Space>c :<C-u>BCommits<CR>
+    nnoremap <Space>g :<C-u>GFiles<CR>
+    nnoremap <Space>s :<C-u>GFiles?<CR>
+    nnoremap <Space>t :<C-u>Filetypes<CR>
+    nnoremap <Space>w :<C-u>Windows<CR>
   endif
-  nnoremap <C-Space>f :<C-u>FZF<CR>
+  nnoremap <Space>f :<C-u>FZF<CR>
 endif
 "}}}
 
@@ -2336,7 +2337,7 @@ function! s:copy_mode_toggle() " {{{
   if exists(":IndentGuidesToggle")
     IndentGuidesToggle
   endif
-  if exists("IndentLinesToggle")
+  if exists(":IndentLinesToggle")
     IndentLinesToggle
   endif
 endfunction
@@ -2498,7 +2499,7 @@ if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
   endfunction
 
   command! Cd :call s:select_directory_tmux_fzf()
-  nnoremap <silent> <C-Space>d :<C-u>Cd<CR>
+  nnoremap <silent> <Space>d :<C-u>Cd<CR>
 endif
 "}}}
 
@@ -2614,18 +2615,18 @@ for s:k in range(1, 9)
 endfor
 " }}}
 " indent {{{
-xnoremap <TAB>  >gv
-xnoremap <S-TAB>  <gv
+" xnoremap <TAB>  >gv
+" xnoremap <S-TAB>  <gv
 nnoremap > >>
 nnoremap < <<
 xnoremap > >gv
 xnoremap < <gv
 " }}}
 " insert {{{
+inoremap <C-Tab> <C-v>
+inoremap <S-Tab> <C-v><Tab>
 
 " emacs-like
-inoremap <C-Tab> <C-v><Tab>
-inoremap <S-Tab> <C-v><Tab>
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-h> <BS>
@@ -2770,10 +2771,7 @@ cnoremap <CR> <C-]><CR>
 " }}}
 " clear screan {{{
 nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
-" <C-l> -> <ESC><ESC>
-" <C-l> -> <C-i>
-" <C-i> -> system key map
-nnoremap <silent><C-\> <C-i>
+nnoremap <silent> <C-i> <C-I>
 " }}}
 " VS like " {{{
 nnoremap <f4> :<C-u>cnext<CR>
