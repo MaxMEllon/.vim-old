@@ -1004,6 +1004,8 @@ if s:plug.is_installed('vim-easymotion') " {{{
   nmap sk <Plug>(easymotion-k)
   nmap f <Plug>(easymotion-fl)
   nmap F <Plug>(easymotion-Fl)
+  xmap f <Plug>(easymotion-fl)
+  xmap F <Plug>(easymotion-Fl)
 
   highlight EasyMotionTarget guifg=#80a0ff guibg=#80a0ff ctermfg=81 ctermbg=14
 endif
@@ -2191,7 +2193,7 @@ let s:MyFileTypes = [
       \   {'file' : '.exs',      'type' : 'elixir'},
       \   {'file' : '.ex',       'type' : 'elixir'},
       \   {'file' : '.toml',     'type' : 'toml'},
-      \   {'file' : '_spec.rb',  'type' : 'rspec'},
+      \   {'file' : '_spec.rb',  'type' : 'ruby'},
       \   {'file' : '.jsx',      'type' : 'javascript.jsx'},
       \   {'file' : '.es6',      'type' : 'javascript'},
       \   {'file' : '.react.js', 'type' : 'javascript.jsx'},
@@ -2775,7 +2777,7 @@ nnoremap <silent> <C-i> <C-I>
 " }}}
 " VS like " {{{
 nnoremap <f4> :<C-u>cnext<CR>
-nnoremap <s-f4> :<C-u>cprevious<CR>
+nnoremap <f5> :<C-u>cprevious<CR>
 " }}}
 " etc {{{
 " 即座にvimgrep
