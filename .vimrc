@@ -70,16 +70,18 @@ let s:false = 0
 " }}}
 
 " python {{{
+let s:python_loaded = 0
 if !has('nvim') && !has('gui_running') && !empty($PYENV_ROOT)
-  let s:python2home = $PYENV_ROOT . '/versions/2.7.11'
-  let s:python2dll  = $PYENV_ROOT . '/versions/2.7.11/lib/libpython2.7.dylib'
-  let &pythondll = s:python2dll
-  let $PYTHONHOME = s:python2home
+  " let s:python2home = $PYENV_ROOT . '/versions/2.7.11'
+  " let s:python2dll  = $PYENV_ROOT . '/versions/2.7.11/lib/libpython2.7.dylib'
+  " let &pythondll = s:python2dll
+  " let $PYTHONHOME = s:python2home
 
   " let s:python3home = $PYENV_ROOT . '/versions/3.5.1'
   " let s:python3dll  = $PYENV_ROOT . '/versions/3.5.1/lib/libpython3.5m.dylib'
   " let &pythonthreedll = s:python3dll
   " let $PYTHONHOME = s:python3home
+  let s:python_loaded = 0
 endif
 " }}}
 
@@ -319,7 +321,9 @@ elseif has('gui_running')
 else
   Plug 'Shougo/neocomplete.vim'                                       " lua依存
 endif
-Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
+if s:python_loaded == 1
+  Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
+endif
 " }}}
 
 " snippets {{{
