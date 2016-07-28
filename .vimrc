@@ -70,18 +70,16 @@ let s:false = 0
 " }}}
 
 " python {{{
-let s:python_loaded = 0
 if !has('nvim') && !has('gui_running') && !empty($PYENV_ROOT)
   " let s:python2home = $PYENV_ROOT . '/versions/2.7.11'
   " let s:python2dll  = $PYENV_ROOT . '/versions/2.7.11/lib/libpython2.7.dylib'
   " let &pythondll = s:python2dll
   " let $PYTHONHOME = s:python2home
 
-  " let s:python3home = $PYENV_ROOT . '/versions/3.5.1'
-  " let s:python3dll  = $PYENV_ROOT . '/versions/3.5.1/lib/libpython3.5m.dylib'
-  " let &pythonthreedll = s:python3dll
-  " let $PYTHONHOME = s:python3home
-  let s:python_loaded = 0
+  let s:python3home = $PYENV_ROOT . '/versions/3.5.1'
+  let s:python3dll  = $PYENV_ROOT . '/versions/3.5.1/lib/libpython3.5m.dylib'
+  let &pythonthreedll = s:python3dll
+  let $PYTHONHOME = s:python3home
 endif
 " }}}
 
@@ -251,7 +249,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'ahayman/vim-nodejs-complete'
 " Plug 'airblade/vim-gitgutter'
 " Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
-" Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'cespare/vim-toml', {'for' : 'toml'}
 " Plug 'chase/vim-ansible-yaml'
@@ -299,7 +296,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
 " Plug 'tmhedberg/matchit'
 " Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
-" Plug 'tpope/vim-dispatch'
 " Plug 'tpope/vim-rails'
 " Plug 'vim-ruby/vim-ruby'
 " Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
@@ -321,9 +317,7 @@ elseif has('gui_running')
 else
   Plug 'Shougo/neocomplete.vim'                                       " lua依存
 endif
-if s:python_loaded == 1
-  Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
-endif
+" Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
 " }}}
 
 " snippets {{{
@@ -332,6 +326,7 @@ endif
 if has('python')
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
+  Plug 'ryanpineo/neocomplete-ultisnips'
 endif
 "   }}}
 
@@ -380,6 +375,7 @@ Plug 'surround.vim'                  " () や{} でテキストオブジェク�
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
 Plug 'thinca/vim-textobj-function-javascript'             " js function textobj
 Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
+Plug 'tpope/vim-dispatch'                           " vimからtmuxのペイン切る奴
 Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
 Plug 'tyru/caw.vim'                                    " コメントアウトするマン
 "   }}}
@@ -403,6 +399,8 @@ Plug 'fatih/vim-go', {'for' : 'go'}
 
 " ruby {{{
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
+Plug 'thoughtbot/vim-rspec', {'for' : 'ruby'}
+Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
 if executable('rct-complete')
   Plug 'osyo-manga/vim-monster', {'for' : 'ruby'}
 " else
@@ -462,6 +460,7 @@ Plug 'rhysd/npm-debug-log.vim'
 " }}}
 
 " etc {{{
+" Plug 'bentayloruk/vim-react-es6-snippets'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'samuelsimoes/vim-jsx-utils'                       " jsxの整形などを手助け
 " }}}
@@ -509,6 +508,7 @@ command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 MyPlug 'vim-cmus'
 MyPlug 'vim-jsx-pretty'
 MyPlug 'molokai'
+MyPlug 'vim-react-snippets'
 
 " }}}
 
