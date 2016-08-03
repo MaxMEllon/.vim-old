@@ -321,13 +321,11 @@ endif
 " }}}
 
 " snippets {{{
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ryanpineo/neocomplete-ultisnips'
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
-if has('python')
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
-  Plug 'ryanpineo/neocomplete-ultisnips'
-endif
 "   }}}
 
 " common {{{
@@ -699,9 +697,9 @@ endif
 " }}}
 
 if s:plug.is_installed('neosnippet') " {{{
-  let g:neosnippet#snipqets_directory='~/.vim/snippets'
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  " let g:neosnippet#snipqets_directory='~/.vim/snippets'
+  imap <C-s> <Plug>(neosnippet_expand_or_jump)
+  smap <C-s> <Plug>(neosnippet_expand_or_jump)
 endif
 " }}}
 
@@ -1920,6 +1918,7 @@ if has('gui_running')
 endif
 set display=lastline          " 画面を超える長い１行も表示
 set fillchars  =vert:\|,fold:\-
+" set tm         =0
 set history    =100           " コマンドラインのヒストリ
 set laststatus =2             " ステータス行を常に表示
 set lazyredraw                " マクロなどの途中部分の動作を描画しない
