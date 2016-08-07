@@ -357,6 +357,7 @@ Plug 'kana/vim-textobj-function'                            " text obj function
 Plug 'kana/vim-textobj-line'                            " text-object拡張(line)
 Plug 'kana/vim-textobj-user'                                  " text-object拡張
 Plug 'kshenoy/vim-signature'                                       " markを表示
+Plug 'lambdalisue/vim-manpager'
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
 Plug 'mattn/webapi-vim'                                        " vimでget, post
@@ -371,9 +372,10 @@ Plug 'rhysd/committia.vim'                             " Rich vim commit editor
 Plug 'sf1/devdoc-vim'                                                  " devdoc
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
+Plug 'thinca/vim-ref'
 Plug 'thinca/vim-textobj-function-javascript'             " js function textobj
-Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
 Plug 'tpope/vim-dispatch'                           " vimからtmuxのペイン切る奴
+Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
 Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
 Plug 'tyru/caw.vim'                                    " コメントアウトするマン
 "   }}}
@@ -415,6 +417,9 @@ Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 
 " elixir {{{
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
+if has('nvim')
+  Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
+endif
 "   }}}
 
 " cpp {{{
@@ -1131,6 +1136,16 @@ if s:plug.is_installed('vim-watchdogs') "{{{
     let g:quickrun_config['slim/watchdogs_checker'] = {
           \   'type': 'watchdogs_checker/slim',
           \ }
+  end
+  if executable('elixir')
+    let g:quickrun_config['watchdogs_checker/elixir'] = {
+          \   'command'     : 'elixir',
+          \   'exec'        : '%c %s',
+          \   'errorformat' : '**\ (%.%#Error)\ %f:%l:\ %m, %-G%.%#',
+          \ }
+    let g:quickrun_config['elixir/watchdogs_checker'] = {
+          \     'type'      : "watchdogs_checker/elixir",
+          \}
   end
   let g:watchdogs_check_BufWritePost_enable = 1
   let g:watchdogs_check_BufWritePost_enables = {
@@ -2023,7 +2038,7 @@ set foldcolumn =0      " 折りたたみの補助線幅
 set foldlevel  =0      " foldをどこまで一気に開くか
 if (!exists('FoldCCText'))
   let g:foldCCtext_maxchars = 78
-  let g:foldCCtext_tail = 'printf("   %s[%4d lines  Lv%-2d]%s", 
+  let g:foldCCtext_tail = 'printf("   %s[%4d lines  Lv%-2d]%s",
       \ v:folddashes,  v:foldend-v:foldstart+1,  v:foldlevel,  v:folddashes)'
   set foldtext=FoldCCtext()
 endif
@@ -2214,6 +2229,11 @@ endfor
 function! s:set_indent(...)
   execute 'AutocmdFT ' . a:1 'call s:set_tab_width(' . a:2 . ',' . a:3 . ')'
 endfunction
+
+" IndentFT {4} {{{
+" @commanddoc set indent width by filetype
+" @args {Number}  : indent width
+" @args {Boolean} : expand? }}}
 command! -nargs=* IndentFT call s:set_indent(<f-args>)
 
 IndentFT python   4 s:false
