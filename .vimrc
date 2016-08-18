@@ -17,9 +17,14 @@
 "                       |88Z'    'DNNNNNNN"
 "                       '"'        'MMMM"
 "                                    '"
-" start up {{{
+
+
+" 1. Start Up {{{
+
+" for tiny and vi
 if !1 | finish | endif
-" Startup time. {{{
+
+" 1.1. Startup Time. {{{
 " See: https://gist.github.com/thinca/1518874
 " if has('vim_starting') && has('reltime')
 "   let s:startuptime = reltime()
@@ -29,47 +34,63 @@ if !1 | finish | endif
 "           \ | unlet s:startuptime
 "   augroup END
 " endif
-"}}}
+" 1.1. END  }}}
+
+" 1.2. filetype off {{{
+
+" 1.3. for load plugin
 filetype off
 filetype plugin indent off
-" autocmd {{{
-" See: https://github.com/rhysd/dotfiles/blob/master/vimrc#23-27
+
+" 1.3. END }}}
+
+" 1.3. augroup for vimrc {{{
+
 autocmd!
 augroup MyVimrc
   autocmd!
 augroup END
+
+" Wrapper autocmd
 command! -nargs=* Autocmd autocmd MyVimrc <args>
 command! -nargs=* AutocmdFT autocmd MyVimrc FileType <args>
-" }}}
-" wrapper {{{
-function! s:cnoreabbrev_wrap(...)
-  execute a:1 . 'noreabbrev ' . a:2 . ' ' . a:3
-endfunction
-command! -nargs=* Abbr call s:cnoreabbrev_wrap(<f-args>)
-" }}}
-" system type {{{
-let s:is_windows = has('win32') || has('win64') " || has('win16') omoide
+
+" 1.3. END }}}
+
+" 1.4. get system type {{{
+
+let s:is_windows = has('win32') || has('win64') " || has('win16') win16 deplecated
 let s:is_cygwin = has('win32unix')
 let s:is_sudo = $SUDO_USER !=# '' && $USER !=# $SUDO_USER
       \ && $HOME !=# expand('~'.$USER)
       \ && $HOME ==# expand('~'.$SUDO_USER)
 
+" 1.4.1 IsWindows() {{{
+" @return {Number} 1 or 0
 function! IsWindows()
   return s:is_windows
 endfunction
+" 1.4.1 END }}}
 
+" 1.4.2 IsMac() {{{
+" @return {Number} 1 or 0
 function! IsMac()
   return !s:is_windows && !s:is_cygwin
         \ && (has('mac') || has('macunix') || has('gui_macvim') ||
         \   (!executable('xdg-open') &&
         \     system('uname') =~? '^darwin'))
 endfunction
-" }}}
+" 1.4.2 END }}}
+
+" 1.4. END }}}
+
+" 1.5. constants {{{
 let s:true = !0
 let s:false = 0
 " }}}
 
-" python {{{
+" 1.6. has_python {{{
+
 if !has('nvim') && !has('gui_running') && !empty($PYENV_ROOT)
   " let s:python2home = $PYENV_ROOT . '/versions/2.7.11'
   " let s:python2dll  = $PYENV_ROOT . '/versions/2.7.11/lib/libpython2.7.dylib'
@@ -81,9 +102,12 @@ if !has('nvim') && !has('gui_running') && !empty($PYENV_ROOT)
   let &pythonthreedll = s:python3dll
   let $PYTHONHOME = s:python3home
 endif
-" }}}
 
-" encoding {{{
+" 1.6. END }}}
+
+" 1. END }}}
+
+" 2. fileencoding {{{
 " See:
 " https://raw.githubusercontent.com/Shougo/shougo-s-github/master/vim/rc/encoding.rc.vim
 " The automatic recognition of the character code.
@@ -92,7 +116,8 @@ endif
 if has('vim_starting')
   set encoding=utf-8
 endif
-" Setting of terminal encoding."{{{
+
+" 2.1. Setting of terminal encoding."{{{
 if !has('gui_running')
   if &term ==# 'win32' &&
         \ (v:version < 703 || (v:version == 703 && has('patch814')))
@@ -116,8 +141,9 @@ elseif IsWindows()
   " For system.
   set termencoding=cp932
 endif
-"}}}
-" The automatic recognition of the character code."{{{
+" 2.1. END }}}
+
+" 2.2. The automatic recognition of the character code."{{{
 if !exists('did_encoding_settings') && has('iconv')
   let s:enc_euc = 'euc-jp'
   let s:enc_jis = 'iso-2022-jp'
@@ -155,7 +181,8 @@ if !exists('did_encoding_settings') && has('iconv')
 
   let did_encoding_settings = 1
 endif
-"}}}
+" 2.2. END}}}
+
 if has('kaoriya')
   set fileencodings=guess
 endif
@@ -175,7 +202,7 @@ set fileformat=unix
 " Automatic recognition of a new line cord.
 set fileformats=unix,dos,mac
 
-" Command group opening with a specific character code again."{{{
+" 2.3. Command group opening with a specific character code again."{{{
 " In particular effective when I am garbled in a terminal.
 " Open in UTF-8 again.
 command! -bang -bar -complete=file -nargs=? Utf8
@@ -200,8 +227,9 @@ command! -bang -bar -complete=file -nargs=? Utf16be
 command! -bang -bar -complete=file -nargs=? Jis  Iso2022jp<bang> <args>
 command! -bang -bar -complete=file -nargs=? Sjis  Cp932<bang> <args>
 command! -bang -bar -complete=file -nargs=? Unicode Utf16<bang> <args>
-"}}}
-" Tried to make a file note version."{{{
+" 2.3. END }}}
+
+" 2.4.  Tried to make a file note version."{{{
 " Don't save it because dangerous.
 command! WUtf8 setlocal fenc=utf-8
 command! WIso2022jp setlocal fenc=iso-2022-jp
@@ -213,26 +241,30 @@ command! WUtf16be setlocal fenc=ucs-2
 command! WJis  WIso2022jp
 command! WSjis  WCp932
 command! WUnicode WUtf16
-"}}}
-" Appoint a line feed."{{{
+" 2.4. END }}}
+
+" 2.5. Appoint a line feed."{{{
 command! -bang -complete=file -nargs=? WUnix
       \ write<bang> ++fileformat=unix <args> | edit <args>
 command! -bang -complete=file -nargs=? WDos
       \ write<bang> ++fileformat=dos <args> | edit <args>
 command! -bang -complete=file -nargs=? WMac
       \ write<bang> ++fileformat=mac <args> | edit <args>
-"}}}
+" 2.5. END }}}
+
 if has('multi_byte_ime')
   set iminsert=0 imsearch=0
 endif
-" }}}
 
-" plugin {{{
+" 2. END}}}
+
+" 3. plugin {{{
 
 call plug#begin('~/.vim/plugged')
 
-" load Plugin {{{
-" out {{{
+" 3.1. load plugins (remote) "{{{
+
+" 3.1.1. out {{{
 " Plug '5t111111/alt-gtags.vim'
 " Plug 'Command-T'                 " ruby のバージョンが異なるのか，vimが落ちる
 " Plug 'KazuakiM/vim-qfstatusline'
@@ -301,9 +333,9 @@ call plug#begin('~/.vim/plugged')
 " Plug 'vim-scripts/javacomplete', {'for' : 'java', 'do' : 'javac autoload/Reflection.java'}
 " Plug 'violetyk/neocomplete-php.vim', {'for' : 'php'}
 " Plug 'yonchu/accelerated-smooth-scroll'
-"   }}}
+" 3.1.1 END }}}
 
-" completer {{{
+" 3.1.2. completer {{{
 "" 補完プラグインリスト
 if has('nvim')
   function! DoRemote(arg)
@@ -318,29 +350,30 @@ else
   Plug 'Shougo/neocomplete.vim'                                       " lua依存
 endif
 " Plug 'ternjs/tern_for_vim', {'do' : 'npm install'}
-" }}}
+" 3.1.2 END }}}
 
-" snippets {{{
+" 3.1.3. snippets {{{
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ryanpineo/neocomplete-ultisnips'
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
-"   }}}
+" END }}}
 
-" common {{{
+" 3.1.4. common {{{
 Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
 Plug 'Shougo/neomru.vim'                             " uniteやneocompleteの依存
 Plug 'Shougo/unite-outline'                    " ソースコードのアウトライン表示
 Plug 'Shougo/unite.vim'                            " 統合ユーザインターフェース
-Plug 'The-NERD-tree'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}               " :system() を非同期化
+Plug 'The-NERD-tree'
 Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
 Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
 Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
+Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげるやつ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
@@ -350,6 +383,7 @@ Plug 'jistr/vim-nerdtree-tabs'                     " タブを超えたツリー
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }         " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
+Plug 'kana/vim-altr'
 Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
 Plug 'kana/vim-smartinput'                              " ( -> (|) とかするやつ
@@ -378,26 +412,26 @@ Plug 'tpope/vim-dispatch'                           " vimからtmuxのペイン�
 Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
 Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
 Plug 'tyru/caw.vim'                                    " コメントアウトするマン
-"   }}}
+" 3.1.4 END}}}
 
-" html {{{
+" 3.1.5. for html {{{
 Plug 'othree/html5.vim'
 Plug 'slim-template/vim-slim', {'for' : 'slim'}
 Plug 'jaxbot/semantic-highlight.vim', {'on' : 'SemanticHighlightToggle'}
-"   }}}
+" 3.1.5 END }}}
 
-" css {{{
+" 3.1.6. for css {{{
 Plug 'wavded/vim-stylus', {'for' : 'stylus'}
 Plug 'groenewege/vim-less', {'for' : 'less'}
 Plug 'AtsushiM/sass-compile.vim', {'for' : 'sass'}
 Plug 'ap/vim-css-color'
+" 3.1.6 END }}}
+
+" 3.1.7. for go {{{
+Plug 'fatih/vim-go', {'for' : 'go'}
 " }}}
 
-" go {{{
-Plug 'fatih/vim-go', {'for' : 'go'}
-"   }}}
-
-" ruby {{{
+" 3.1.8. for ruby {{{
 Plug 'AndrewRadev/splitjoin.vim', {'for' : 'ruby'}
 Plug 'thoughtbot/vim-rspec', {'for' : 'ruby'}
 Plug 'alpaca-tc/neorspec.vim', {'on' : 'RSpec'}
@@ -411,40 +445,34 @@ endif
 if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
 "   }}}
 
-" php {{{
+" 3.1.9. for php {{{
 Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 "   }}}
 
-" elixir {{{
+" 3.1.A. for elixir {{{
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
 if has('nvim')
   Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
 endif
 "   }}}
 
-" cpp {{{
+" 3.1.B. for cpp {{{
 Plug 'vim-jp/cpp-vim', {'for' : ['cpp', 'c']}
 "   }}}
 
-" haskell {{{
+" 3.1.C. for haskell {{{
 Plug 'dag/vim2hs'
 " }}}
 
-" vim {{{
+" 3.1.D. for Vim script {{{
 Plug 'vim-jp/syntax-vim-ex'
 " }}}
 
-" etc {{{
-Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
-Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
-Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
-Plug 'dag/vim-fish', {'for' : ['fish']}
-"   }}}
+" 3.1.E for javascript {{{
 
-" javascript {{{
+" 3.1.E.1 syntax {{{
 
-" syntax {{{
-" out {{{
+" 3.1.E.1.1 out {{{
 " Plug 'mxw/vim-jsx'
 " Plug 'pangloss/vim-javascript'
 " Plug 'jelera/vim-javascript-syntax'
@@ -452,6 +480,7 @@ Plug 'dag/vim-fish', {'for' : ['fish']}
 " Plug 'othree/xml.vim' " See: https://github.com/othree/es.next.syntax.vim/issues/5
 " Plug 'othree/vim-jsx'
 " }}}
+
 Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
@@ -460,73 +489,83 @@ Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
 Plug 'rhysd/npm-debug-log.vim'
+Plug 'elzr/vim-json', {'for' : 'json'}
 " }}}
 
-" etc {{{
-" Plug 'bentayloruk/vim-react-es6-snippets'
 Plug 'heavenshell/vim-jsdoc'
 Plug 'samuelsimoes/vim-jsx-utils'                       " jsxの整形などを手助け
 " }}}
 
+" 3.1.F. for etc language {{{
+Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
+Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
+Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
+Plug 'dag/vim-fish', {'for' : ['fish']}
 " }}}
 
-" json {{{
-Plug 'elzr/vim-json'
-"}}}
-
-" fot nyaovim {{{
+" 3.1.G. for nyaovim {{{
 " Plug 'rhysd/nyaovim-mini-browser'
 " Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
 "   }}}
 
-" if {{{
+" 3.1.H. only gui and neo {{{
 if has('gui_running') || has('nvim')
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
-  Plug 'ervandew/eclim'                    " eclipse-backendとvimをつなげるやつ
   Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
-  Plug 'kana/vim-altr'                             " Qucick-fix該当行ハイライト
   Plug 'morhetz/gruvbox'
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
-  Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
+" Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
 else
   " Plug 'MaxMEllon/molokai'
 endif
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 " }}}
 
-" }}}
+" 3.1. END }}}
 
-" local plugins {{{
-function! s:maxmellon_plug(...) abort " {{{
+" 3.2. load plugins (local) {{{
+
+" 3.2.1. load plugin wrapper function and command {{{
+
+" s:maxmellon_plug()
+" @args {String} plugin directory name
+function! s:maxmellon_plug(...) abort
   let plugin = '~/.vim/localPlugged/' . a:1
   Plug plugin
   unlet plugin
 endfunction
-command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
-" }}}
 
+" :MyPlug
+" @args {String} plugin directory name
+command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
+
+" 3.2.1. END }}}
+
+" 3.2.2. load {{{
 " MyPlug 'vim-dirvish'
 " MyPlug 'music.nyaovim'
 MyPlug 'vim-cmus'
 MyPlug 'vim-jsx-pretty'
 MyPlug 'molokai'
 MyPlug 'vim-react-snippets'
-
-" }}}
+" 3.2.2. END}}}
 
 call plug#end()
 
-" set plug list {{{
-let s:plug = {
-      \ "plugs": get(g:, 'plugs', {})
-      \ }
+" 3.2. END }}}
+
+" 3.3. plugin config {{{
+
+" 3.3.1. s:plug.is_installed() "{{{
+" @args {String} plugin name
+
+let s:plug = { "plugs": get(g:, 'plugs', {}) }
 function! s:plug.is_installed(name)
   return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
 endfunction
-" }}}
 
-" plugin config {{{
+" 3.3.1. END }}}
 
 if s:plug.is_installed('rails.vim') " {{{
   let g:rails_level = 4
@@ -1900,108 +1939,77 @@ if s:plug.is_installed('vim-signature') "{{{
   nnoremap mp [`
 endif
 "}}}
-" }}}
 
-" matchit {{{
-runtime macros/matchit.vim
-augroup matchit
-  autocmd!
-  autocmd FileType ruby
-  \ let b:match_words =
-  \ '\<\(module\|class\|def\|begin\|do\|if\|unless\|case\)\>:\<\(elsif\|when\|rescue\)\>:\<\(else\|ensure\)\>:\<end\>'
-augroup END
-" }}}
+" 3.3. END }}}
 
-" }}}
+" 3. END }}}
 
-" set {{{
-" common {{{
-set autoread                  " vim外で編集された時の自動み込み
-set autowrite                 " bufferが切り替わるときの自動保存
-set backspace=indent,eol,start
-if !has('nvim')
-  set clipboard=unnamed,autoselect
-endif
-set cmdheight=1
-set cmdwinheight=5            " Command-line windowの行数
-set completeopt=menuone,longest,preview
-set cscopetag
+" 4. set options {{{
+
+" 4.1. common {{{
 " set clipboard=exclude:.*
-if has('gui_running')
-  " set cursorline              " これをsetすると描画がだいぶ遅くなる
-  " set cursorcolumn
-endif
-set display=lastline          " 画面を超える長い１行も表示
-set fillchars  =vert:\|,fold:\-
 " set tm         =0
-set history    =100           " コマンドラインのヒストリ
-set laststatus =2             " ステータス行を常に表示
-set lazyredraw                " マクロなどの途中部分の動作を描画しない
-set list
-set listchars     =eol:$,tab:>-
-set linespace     =0
-set maxmem        =500000     " 1バッファ 500MB(about)
-set maxmemtot     =1000000    " vimのすべてのバッファで1000MB(about)
-set maxmempattern =500000     " パターンマッチにメモリ最大500MB(about)
-set matchpairs+=<:>           " 対応カッコのマッチを追加
-set matchtime=1               " 対応するカッコを表示する時間
-set modeline                  " vim:set tx=4 sw=4..みたいな設定を有効
-set modelines=2               " 上の設定をファイル先頭2行にあるかないか調べる
-set nrformats=alpha,hex       " アルファベットと16シンスうをC-a C-xで増減可能に
-set noequalalways             " vs, spの時のwindow幅
 " set number
-set pumheight=5               " 補完ウィンドウの行数
-set pastetoggle=<F11>
-" set relativenumber            " 相対行番号
-set report=1                  " 変更された行数の報告がでる最小値
-set ruler
+" set relativenumberj
 " set rulerformat=%15(%c%V\ %p%%%)
-set scrolloff=10              " 常に10行表示
-set showcmd                   " ステータスラインに常にコメンド表示
-set showmatch                 " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
-set splitbelow                " 横分割時、新しいウィンドウは下
-set splitright                " 縦分割時、新しいウィンドウは右
-set synmaxcol=140             " 長過ぎる文字はsyntax off
-set textwidth=0
 " set nocompatible              " VI互換を無効化 deplecated
-if ! IsWindows()
-  set path =.,/usr/local/include,/usr/include
-  set path+=,/usr/include/c++/4.2.1
-endif
-if exists('&macatsui')
-  set nomacatsui
-endif
-if has("path_extra")
-  set tags+=tags;
-  set tags+=.svn/tags
-  set tags+=.git/tags
-endif
-if has('nvim')
-  set novisualbell
-else
-  set ttyfast                   " スクロールが滑らかに
-  set t_Co     =256
-  set ttyscroll=20000
-  set vb t_vb  =                " no beep no flash
-endif
-set virtualedit=block
-set whichwrap  =b,s,h,l,<,>,[,] " hとlが非推奨
+set autoread                        " vim外で編集された時の自動み込み
+set autowrite                       " bufferが切り替わるときの自動保存
+set backspace      =indent,eol,start
+set cmdheight      =1
+set cmdwinheight   =5               " Command-line windowの行数
+set completeopt    =menuone,longest,preview
+set cscopetag
+set display        =lastline        " 画面を超える長い１行も表示
+set fillchars      =vert:\|,fold:\-
+set history        =100             " コマンドラインのヒストリ
+set laststatus     =2               " ステータス行を常に表示
+set lazyredraw                      " マクロなどの途中部分の動作を描画しない
+set list
+set listchars      =eol:$,tab:>-
+set linespace      =0
+set maxmem         =500000          " 1バッファ 500MB(about)
+set maxmemtot      =1000000         " vimのすべてのバッファで1000MB(about)
+set maxmempattern  =500000          " パターンマッチにメモリ最大500MB(about)
+set matchpairs    +=<:>             " 対応カッコのマッチを追加
+set matchtime      =1               " 対応するカッコを表示する時間
+set modeline                        " vim:set tx=4 sw=4..みたいな設定を有効
+set modelines      =2               " 上の設定をファイル先頭2行にあるかないか調べる
+set nrformats      =alpha,hex       " アルファベットと16シンスうをC-a C-xで増減可能に
+set noequalalways                   " vs, spの時のwindow幅
+set pumheight      =5               " 補完ウィンドウの行数
+set pastetoggle    =<F11>
+set report         =1               " 変更された行数の報告がでる最小値
+set ruler
+set scrolloff      =10              " 常に10行表示
+set showcmd                         " ステータスラインに常にコメンド表示
+set showmatch                       " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
+set splitbelow                      " 横分割時、新しいウィンドウは下
+set splitright                      " 縦分割時、新しいウィンドウは右
+set synmaxcol      =140             " 長過ぎる文字はsyntax off
+set textwidth      =0
+set virtualedit    =block
+set whichwrap      =b,s,h,l,<,>,[,] " hとlが非推奨
 " }}}
-" formatoptions {{{
+
+" 4.2. formatoptions {{{
 let &formatoptions = 'lmj'
 " }}}
-" mouse {{{
+
+" 4.3. mouse {{{
 set mouse&
 set mouse-=a
 " }}}
-" spelling {{{
+
+" 4.4. spelling {{{
 set spelllang=en_us
 " ignore japanese
 set spelllang+=cjk
 " enable spell check
 " set spell
 " }}}
-" swap {{{
+
+" 4.5. swap {{{
 if !isdirectory(expand('~/.vim/_swap'))
   call mkdir($HOME.'/.vim/_swap', 'p')
 endif
@@ -2010,7 +2018,8 @@ set backupdir=~/.vim/_swap
 set swapfile
 set backup
 " }}}
-" undofile {{{
+
+" 4.6. undofile {{{
 if !isdirectory(expand('~/.vim/_undo'))
   call mkdir($HOME.'/.vim/_undo', 'p')
 endif
@@ -2018,20 +2027,23 @@ set undodir   =~/.vim/_undo
 set undofile
 set undolevels=200
 " }}}
-" colorcolumn {{{
+
+" 4.7 colorcolumn {{{
 " See: http://mattn.kaoriya.net/software/vim/20150209151638.htm
 if (exists('+colorcolumn'))
   set colorcolumn=80,100
 endif
 " }}}
-" search {{{
+
+" 4.8. search {{{
 set hlsearch    " ハイライト検索
 set ignorecase  " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set incsearch   " 検索ワードの最初の文字を入力した時点から検索開始
 set wrapscan    " 検索をファイルの先頭へループ
 set smartcase   " 検索文字列に大文字が含まれている場合は区別して検索する
 " }}}
-" folding {{{
+
+" 4.9. folding {{{
 set foldenable         " 折りたたみon
 set foldmethod =marker " 折りたたみ方法:マーカ
 set foldcolumn =0      " 折りたたみの補助線幅
@@ -2043,7 +2055,8 @@ if (!exists('FoldCCText'))
   set foldtext=FoldCCtext()
 endif
 " }}}
-" indent {{{
+
+" 4.A. indent {{{
 set expandtab       "タブの代わりに空白文字を挿入する
 set shiftwidth  =2  "タブ幅の設定
 set tabstop     =2
@@ -2053,22 +2066,25 @@ set smartindent
 set cindent
 set smarttab
 " }}}
-" vim-grep {{{
+
+" 4.B. vim-grep {{{
 " See: https://github.com/iyuuya/bksd/blob/master/nvim/.config/nvim/rc/edit.vim#L83-L91
 if executable('ag')
-  set grepprg=ag\ --nogroup\ -iS
-  set grepformat=%f:%l:%m
+  set grepprg    =ag\ --nogroup\ -iS
+  set grepformat =%f:%l:%m
 elseif executable('grep')
-  set grepprg=grep\ -Hnd\ skip\ -r
-  set grepformat=%f:%l:%m,%f:%l%m,%f\ \ %l%m
+  set grepprg    =grep\ -Hnd\ skip\ -r
+  set grepformat =%f:%l:%m,%f:%l%m,%f\ \ %l%m
 else
-  set grepprg=internal
+  set grepprg    =internal
 endif
 " }}}
-" tab-editer {{{
+
+" 4.C. tab {{{
 set showtabline=2 " 常にタブ
 "}}}
-" wildmenu {{{
+
+" 4.D. wildmenu {{{
 try
   set wildmode=popup
   set wildmenu
@@ -2103,11 +2119,13 @@ set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.sql
 " }}}
-" encode {{{
+
+" 4.E. encode {{{
 set fileformats   =unix,dos,mac  " 改行コードの自動認識
 set ambiwidth     =double        " ２バイト特殊文字の幅調整
 " }}}
-" fast scroll {{{
+
+" 4.F. fast scroll {{{
 "" Fast vertical scroll
 " source: http://qiita.com/kefir_/items/c725731d33de4d8fb096
 " Use vsplit mode
@@ -2129,77 +2147,67 @@ if has('vim_starting') && !has('gui_running') && has('vertsplit') && !has('nvim'
   let &t_RV .= "\e[?6;69h\e[1;3s\e[3;9H\e[6n\e[0;0s\e[?6;69l"
 endif
 " }}}
-" etc {{{
+
+" 4.G. if windows {{{
+if ! IsWindows()
+  set path =.,/usr/local/include,/usr/include
+  set path+=,/usr/include/c++/4.2.1
+endif
+" }}}
+
+" 4.H. if nvim {{{
+if has('nvim')
+  set novisualbell
+else
+  set ttyfast                   " スクロールが滑らかに
+  set t_Co     =256
+  set ttyscroll=20000
+  set vb t_vb  =                " no beep no flash
+endif
+
+if !has('nvim')
+  set clipboard=unnamed,autoselect
+endif
+"}}}
+
+" 4.I. gui running {{{
+if has('gui_running')
+  " set cursorline              " これをsetすると描画がだいぶ遅くなる
+  " set cursorcolumn
+endif
+" }}}
+
+" 4.J. has path_extra (ctags) {{{
+if has("path_extra")
+  set tags+=tags;
+  set tags+=.svn/tags
+  set tags+=.git/tags
+endif
+"}}}
+
+" 4.J. etc {{{
+if exists('&macatsui')
+  set nomacatsui
+endif
 let g:rubycomplete_rails = 1
-let g:user_javascript_libs = 'underscore,react,chai,jasmine,ramda,flux'
 let g:vim_json_syntax_conceal = 0
 " }}}
-" " twty {{{
-" function! s:append(line)
-"   let wn = bufwinnr("tweets")
-"   if wn == -1
-"     return 0
-"   endif
-"   exe wn 'wincmd w'
-"   try
-"     let o = jsondecode(a:line)
-"     let ts = type(o) == 3 ? o : [o]
-"     for t in ts
-"       1put!=t.user.screen_name . ': ' . t.text
-"     endfor
-"   finally
-"     wincmd p
-"   endtry
-" endfunction
-"
-" if bufwinnr("tweets") == -1
-"   10new tweets
-"   setlocal buftype=nofile bufhidden=hide noswapfile
-"   wincmd p
-" endif
-"
-" function! TweetsCallback(handle, msg)
-"   for line in split(a:msg, "\n")
-"     call s:append(line)
-"   endfor
-"   redraw
-" endfunction
-"
-" if exists('s:handle')
-"   call disconnect(s:handle)
-" endif
-" let s:handle = connect("127.0.0.1:7777", "raw", "TweetsCallback")
-" }}}
+
 " }}}
 
-" autocmd {{{
-" filetype {{{
+" 5. filetype {{{
 
-" indent {{{
-function! s:set_tab_width(width, is_expand)
-  let &l:tabstop = a:width
-  let &l:shiftwidth = a:width
-  let &l:softtabstop = a:width
-  if a:is_expand == s:true
-    setlocal expandtab
-  else
-    setlocal noexpandtab
-  end
-endfunction
-
-command! -bar -nargs=1 TabIndent
-      \ call s:set_tab_width(<args>, s:false)
-
-command! -bar -nargs=1 SpaceIndent
-      \ call s:set_tab_width(<args>, s:true)
-" }}}
-
-" set filetype {{{
+" 5.1. s:set_filetype() {{{
 function! s:set_filetype(...)
   execute 'Autocmd BufNewFile,BufRead ' . '*'.a:1 . ' set filetype=' . a:2
 endfunction
-command! -nargs=* SetFileType call s:set_filetype(<f-args>)
+" }}}
 
+" 5.2. wrapper command {{{
+command! -nargs=* SetFileType call s:set_filetype(<f-args>)
+"}}}
+
+" 5.3. regist filetypes {{{
 let s:MyFileTypes = [
       \   {'file' : '.md',       'type' : 'markdown'},
       \   {'file' : '.slim',     'type' : 'slim'},
@@ -2225,281 +2233,159 @@ for s:e in s:MyFileTypes
 endfor
 " }}}
 
-" tab width {{{
+" }}}
+
+" 6. indent {{{
+
+" 6.1. s:set_tab_width() {{{
+" @args {Number} tab_width
+" @args {Number} s:true or s:false (1 or 0)
+function! s:set_tab_width(width, is_expand)
+  let &l:tabstop = a:width
+  let &l:shiftwidth = a:width
+  let &l:softtabstop = a:width
+  if a:is_expand == s:true
+    setlocal expandtab
+  else
+    setlocal noexpandtab
+  end
+endfunction
+
+"}}}
+
+" 6.2. wrapper commands {{{
+
+" :TabIndent {{{
+" @commanddoc set tab indent width to current buffer
+" @args {Number}  : indent width
+command! -bar -nargs=1 TabIndent
+      \ call s:set_tab_width(<args>, s:false)
+"}}}
+
+" :SpaceIndent {{{
+" @commanddoc set space indent width to current buffer
+" @args {Number}  : indent width
+command! -bar -nargs=1 SpaceIndent
+      \ call s:set_tab_width(<args>, s:true)
+"}}}
+
+" :IndentFT {{{
 function! s:set_indent(...)
   execute 'AutocmdFT ' . a:1 'call s:set_tab_width(' . a:2 . ',' . a:3 . ')'
 endfunction
-
-" IndentFT {4} {{{
 " @commanddoc set indent width by filetype
 " @args {Number}  : indent width
-" @args {Boolean} : expand? }}}
+" @args {Boolean} : expand?
 command! -nargs=* IndentFT call s:set_indent(<f-args>)
-
-IndentFT python   4 s:false
-IndentFT java     4 s:true
-IndentFT php      4 s:false
-IndentFT make     4 s:false
-IndentFT yaml     2 s:true
-IndentFT conf     4 s:false
-IndentFT coffee   2 s:true
-IndentFT slim     2 s:true
-IndentFT fish     2 s:true
-IndentFT toml     4 s:true
-IndentFT plantuml 2 s:true
 " }}}
 
-" javascript {{{
-function! s:callback(job_id, data, event_type)
-  echo 'Fixed'
-  checktime
-endfunction
-
-function! s:on_error(job_id, data, event_type)
-  echo a:data
-endfunction
-
-function! s:on_FileType_javascript() "{{{
-  Abbr i == ===
-  Abbr i != !==
-  call s:set_tab_width(2, s:true)
-  if executable('eslint_d') && !has('nvim')
-    call vimproc#system_bg('eslint_d restart')
-  endif
-  if s:plug.is_installed('tern_for_vim')
-    call tern#Enable()
-  endif
-endfunction
-"}}}
-
-function! s:auto_fix_by_eslint()
-  if executable('eslint_d') && !has('nvim')
-    let argv = ['eslint_d', '--format', 'compact', '--fix', expand('%')]
-    let job = async#job#start(argv, {
-    \ 'on_stderr': function('s:on_error'),
-    \ 'on_exit': function('s:callback'),
-    \})
-  else
-    echo 'Please execute next command `$ npm install -g eslint_d`'
-  endif
-endfunction
-
-augroup javascript
-  autocmd!
-  autocmd BufWrite *.js call s:auto_fix_by_eslint()
-  autocmd FileType javascript call s:on_FileType_javascript()
-augroup END
 " }}}
 
-" ruby"{{{
-function! s:on_FileType_ruby() "{{{
-  call s:set_tab_width(2, s:true)
-endfunction
-"}}}
+" 6.3. set indent width by filetype {{{
 
-function! s:auto_fix_by_rubocop()
-  if executable('rubocop')
-    let argv = ['rubocop', '-a', expand('%')]
-    let job = async#job#start(argv, {
-    \ 'on_stderr': function('s:on_error'),
-    \ 'on_exit': function('s:callback'),
-    \})
-  endif
-endfunction
+IndentFT python     4 s:false
+IndentFT java       4 s:true
+IndentFT php        4 s:false
+IndentFT make       4 s:false
+IndentFT yaml       2 s:true
+IndentFT conf       4 s:false
+IndentFT coffee     2 s:true
+IndentFT slim       2 s:true
+IndentFT fish       2 s:true
+IndentFT toml       4 s:true
+IndentFT plantuml   2 s:true
+IndentFT javascript 2 s:true
+IndentFT ruby       2 s:true
 
-augroup ruby
-  autocmd!
-  autocmd BufWrite *.rb call s:auto_fix_by_rubocop()
-  autocmd FileType ruby call s:on_FileType_ruby()
-augroup END
 "}}}
 
 " }}}
 
-" QuickFix {{{
-Autocmd QuickFixCmdPost make,*grep* cwindow
-" }}}
+" 7. autocmd {{{
 
-" etc "{{{
+" 7.1. for COMMIT_EDITMSG {{{
 Autocmd VimEnter COMMIT_EDITMSG if getline(1) == ''
       \ | execute 1
       \ | startinsert
       \ | endif
 Autocmd VimEnter COMMIT_EDITMSG setlocal spell
+" }}}
+
+" 7.2. auto complete html close tag
 AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
-AutocmdFT sass,scss,css setlocal iskeyword+=-
-" tails space highlight
-" Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
-"       \ * highlight TailSpace term=underline guibg=#FF0000 ctermbg=9
-" Autocmd BufNewFile,BufRead,VimEnter,WinEnter
-"       \ * syntax match TailSpace containedin=ALL /\s\+$/
+
+" 7.3. modify iskeyword in css
+AutocmdFT sass,scss,css,stylus setlocal iskeyword+=-
+
+" 7.4. visible ZenkakuSpacse {{{
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter,ColorScheme
       \ * highlight ZenkakuSpaces term=underline guibg=Blue ctermbg=Blue
 Autocmd BufNewFile,BufRead,VimEnter,WinEnter
       \ * syntax match ZenkakuSpaces containedin=ALL /　/
+"}}}
+
+" 7.5. auto paste
 Autocmd InsertLeave * set nopaste
+
+" 7.6. before cursor postion
 Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
-function! s:enable_sound()
-  " simplayer を使えば windows でも遊べるけどまあいらんやろ
-  " See: https://github.com/MaxMEllon/simplayer
-  if IsMac()
-    Autocmd BufWrite
-        \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/gun.mp3"))
-    Autocmd CursorMoved
-        \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/shyuin.mp3"))
-    Autocmd TextChangedI,TextChanged
-        \ * call vimproc#system_bg("afplay -v 0.5 " . expand("~/.vim/ishi.mp3"))
-  endif
-endfunction
-command! SoundEnable call s:enable_sound()
-" }}}
+
+" 7.7. QuickFix
+Autocmd QuickFixCmdPost make,*grep* cwindow
+
 " }}}
 
-" function {{{
-function! s:copy_mode_toggle() " {{{
-  setlocal nolist!
-  if exists(":IndentGuidesToggle")
-    IndentGuidesToggle
-  endif
-  if exists(":IndentLinesToggle")
-    IndentLinesToggle
-  endif
-endfunction
-command! MyCopyModeToggle :call s:copy_mode_toggle()
-nnoremap <silent> <C-c> :<C-u>MyCopyModeToggle<CR>
-" }}}
-" help {{{
-if !IsWindows()
-  function! s:load_help()
-    if isdirectory(expand('~/.vim/help/vimdoc-ja/doc'))
-      helptags ~/.vim/help/vimdoc-ja/doc
-      set runtimepath+=~/.vim/help/vimdoc-ja
-      set helplang=ja
-    endif
-  endfunction
-  command! MyLoadHelp :call s:load_help()
-  AutocmdFT help MyLoadHelp
-  nnoremap <silent> ,h :<C-u>MyLoadHelp<CR> :<C-u>help <C-r><C-w><CR>
-else
-  nnoremap <silent> ,h :<C-u>help <C-r><C-w><CR>
-endif
-"}}}
-function! s:remove_fancy_characters() "{{{
-  let typo = {}
-  let typo["“"] = '"'
-  let typo["”"] = '"'
-  let typo["‘"] = "'"
-  let typo["’"] = "'"
-  let typo["–"] = '--'
-  let typo["—"] = '---'
-  let typo["…"] = '...'
-  let typo["，"] = ', '
-  let typo["．"] = '. '
-  execute ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
-  unlet typo
-endfunction
+" 8. my command {{{
 
-command! RemoveFancyCharacters call s:remove_fancy_characters()
-"}}}
-function! s:get_syn_id(transparent)  " {{{
-  let synid = synID(line("."), col("."), 1)
-  if a:transparent
-    return synIDtrans(synid)
-  else
-    return synid
-  endif
-endfunction
-function! s:get_syn_attr(synid)
-  let name = synIDattr(a:synid, "name")
-  let ctermfg = synIDattr(a:synid, "fg", "cterm")
-  let ctermbg = synIDattr(a:synid, "bg", "cterm")
-  let guifg = synIDattr(a:synid, "fg", "gui")
-  let guibg = synIDattr(a:synid, "bg", "gui")
-  return {
-        \ "name": name,
-        \ "ctermfg": ctermfg,
-        \ "ctermbg": ctermbg,
-        \ "guifg": guifg,
-        \ "guibg": guibg}
-endfunction
-function! s:get_syn_info()
-  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
-  echo "name: " . baseSyn.name .
-        \ " ctermfg: " . baseSyn.ctermfg .
-        \ " ctermbg: " . baseSyn.ctermbg .
-        \ " guifg: " . baseSyn.guifg .
-        \ " guibg: " . baseSyn.guibg
-  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
-  echo "link to"
-  echo "name: " . linkedSyn.name .
-        \ " ctermfg: " . linkedSyn.ctermfg .
-        \ " ctermbg: " . linkedSyn.ctermbg .
-        \ " guifg: " . linkedSyn.guifg .
-        \ " guibg: " . linkedSyn.guibg
-endfunction
-command! SyntaxInfo call s:get_syn_info()
-" }}}
-function! s:codic_complete() " {{{
-  "See: https://gist.github.com/sgur/4e1cc8e93798b8fe9621
-  let line = getline('.')
-  let start = match(line, '\k\+$')
-  let cand = s:codic_candidates(line[start :])
-  call complete(start +1, cand)
-  return ''
-endfunction
-function! s:codic_candidates(arglead)
-  let cand = codic#search(a:arglead, 30)
-  " error
-  if type(cand) == type(0)
-    return []
-  endif
-  " english -> english terms
-  if a:arglead =~# '^\w\+$'
-    return map(cand, '{"word": v:val["label"], "menu": join(map(copy(v:val["values"]), "v:val.word"), ",")}')
-  endif
-  " japanese -> english terms
-  return s:reverse_candidates(cand)
-endfunction
-function! s:reverse_candidates(cand)
-  let _ = []
-  for s:c in a:cand
-    for s:v in s:c.values
-      call add(_, {"word": s:v.word, "menu": !empty(s:v.desc) ? s:v.desc : s:c.label })
-    endfor
-  endfor
-  return _
-endfunction
-" }}}
-" }}}
-
-" command {{{
-" vimgrep alias {{{
+" 8.1. vimgrep wrapper {{{
 command! -bar -nargs=* G vimgrep <args> %
 command! -bar -nargs=* GG vimgrep <args> ./*
 " }}}
+
+" 8.2. Date
 command! Date  :call setline('.', getline('.') . strftime('○ %Y.%m.%d (%a) %H:%M'))
+
+" 8.3. JSONFormat
 command! JSONFormat %!python -m json.tool
-if executable('xo')
-  command! XoFix :call  vimproc#system_bg("xo --fix " . expand("%"))
-endif
+
+" 8.4. Shiba
 if executable('shiba')
   command! Shiba  :! shiba % &>/dev/null 2>&1 &
 endif
+
+" 8.5. eslint
 if executable('eslint')
-  command! EsFix  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
+  command! EsFix %!eslint_d --fix
+  command! EsFixAsync  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
 endif
+
+" 8.6. rubocop
 if executable('rubocop')
-  command! Rubocop :call vimproc#system_bg("rubocop -a " . expand("%"))
+  command! Rubocop %!rubocop -a
+  command! RubocopAsync :call vimproc#system_bg("rubocop -a " . expand("%"))
 endif
+
+" 8.7. google
 if executable('google')
   command! Google :call vimproc#system_bg("google " . expand("<cword>"))
 endif
-if executable('github')
-  command! Github :call vimproc#system_bg("github maxmellon")
-endif
 
-" cd-fzf "{{{
+" 8.8. cd-gitroot {{{
+if executable('git')
+  function! s:cd_gitroot() abort
+    if(system('git rev-parse --is-inside-work-tree') ==# "true\n")
+      return system('git rev-parse --show-cdup')
+    else
+      echoerr 'current directory is outside git working tree'
+    endif
+  endfunction
+
+  command! Cdu :execute 'cd' . s:cd_gitroot()
+endif
+" }}}
+
+" 8.9. cd-fzf {{{
 if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
   function! s:get_current_path()
     redir! => s:current_path
@@ -2526,26 +2412,15 @@ if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
   command! Cd :call s:select_directory_tmux_fzf()
   nnoremap <silent> <Space>d :<C-u>Cd<CR>
 endif
-"}}}
-
-" cd-gitroot " {{{
-
-if executable('git')
-  function! s:cd_gitroot() abort
-    if(system('git rev-parse --is-inside-work-tree') ==# "true\n")
-      return system('git rev-parse --show-cdup')
-    else
-      echoerr 'current directory is outside git working tree'
-    endif
-  endfunction
-  command! Cdu :call s:cd_gitroot()
-endif
 " }}}
+
+
 
 " }}}
 
-" mapping {{{
-" move {{{
+" 9. mapping {{{
+
+" 9.1. move {{{
 nnoremap <silent> j  gj
 nnoremap <silent> gj j
 nnoremap <silent> k  gk
@@ -2564,8 +2439,8 @@ nnoremap ]] ]]zz
 nnoremap [[ [[zz
 nnoremap [] []zz
 nnoremap ][ ][zz
-nnoremap <C-j> }
-nnoremap <C-k> {
+nnoremap <C-j> }zz
+nnoremap <C-k> {zz
 noremap <Esc>(  [(
 noremap <Esc>)  ])
 noremap <Esc>{  [{
@@ -2576,8 +2451,9 @@ nnoremap <C-n> "zdd"zp
 vnoremap <C-p> "zx<Up>"zP`[V`]
 vnoremap <C-n> "zx"zp`[V`]
 nnoremap <C-p> "zdd<Up>"zP
-"}}}
-" cursol key {{{
+" }}}
+
+" 9.2. cursor key {{{
 noremap! OA <Up>
 noremap! OB <Down>
 noremap! OC <Right>
@@ -2591,8 +2467,9 @@ nnoremap <Right> <C-w>>
 nnoremap <Down> <C-w>-
 nnoremap <Left> <C-w><
 nnoremap <Up> <C-w>+
-"}}}
-" tab {{{
+" }}}
+
+" 9.3. tab {{{
 nmap g <Nop>
 nmap g g
 nnoremap ge :<C-u>tabedit<Space>.<CR>
@@ -2607,16 +2484,9 @@ nnoremap <silent> <F2>   :<C-u>tabprevious<CR>
 for s:n in range(1, 9)
   execute 'nnoremap <silent> g' . s:n ':<C-u>tabnext' . s:n . '<CR>'
 endfor
-"}}}
-" Disable key {{{
-nnoremap M m
-nnoremap Q q
-nnoremap K  <Nop>
-nnoremap ZZ <Nop>
-nnoremap ZQ <Nop>
-"}}}
-" change normal mode {{{
-" Neojj
+" }}}
+
+" 9.4. change mode {{{
 " inoremap <expr> j getline('.')[col('.') - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
 " cnoremap <expr> j getcmdline()[getcmdpos() - 2] ==# 'j' ? "\<BS>\<ESC>`^" : 'j'
 inoremap jj <Esc>`^
@@ -2626,33 +2496,33 @@ inoremap <silent> <C-[>  <Esc>`^
 inoremap <C-c> <Esc>`^
 inoremap <C-j> j
 " }}}
-" Paste next line. {{{
+
+" 9.5. paste next line {{{
 nnoremap <silent> gp o<ESC>p^
 nnoremap <silent> gP O<ESC>P^
 xnoremap <silent> gp o<ESC>p^
 xnoremap <silent> gP O<ESC>P^
 " }}}
-" change buffer {{{
-" nnoremap <silent> bp :<C-u>bprevious<CR>
-" nnoremap <silent> bn :<C-u>bnext<CR>
+
+" 9.6. change buffer {{{
 for s:k in range(1, 9)
   execute 'nnoremap <Leader>' . s:k ':<C-u>e #' . s:k . '<CR>'
 endfor
 " }}}
-" indent {{{
-" xnoremap <TAB>  >gv
-" xnoremap <S-TAB>  <gv
+
+" 9.7. indent {{{
 nnoremap > >>
 nnoremap < <<
 xnoremap > >gv
 xnoremap < <gv
 " }}}
-" insert {{{
-inoremap <C-Tab> <C-v>
-inoremap <S-Tab> <C-v><Tab>
 
-" emacs-like
+" 9.8. insert mode {{{
+
+" 9.8.1. emacs like {{{
 inoremap <C-a> <Home>
+inoremap <C-k> <ESC>C
+inoremap <C-u> <ESC>cal
 inoremap <C-e> <End>
 inoremap <C-h> <BS>
 inoremap <C-d> <Del>
@@ -2661,10 +2531,9 @@ inoremap <C-n> <Down>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 inoremap <C-m> <CR>
+" }}}
 
-" insert paste
-inoremap <C-v> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
-
+" 9.9.2. indent braces {{{
 function! s:indent_braces()
   let s:nowletter = getline(".")[col(".")-1]
   let s:beforeletter = getline(".")[col(".")-2]
@@ -2678,58 +2547,46 @@ function! s:indent_braces()
   return s:res
 endfunction
 inoremap <silent> <expr> <CR> <SID>indent_braces()
+"}}}
+
+" 9.9.3. quick paste mode (windows like)
+inoremap <C-v> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
+
+" 9.9.4. comma
 inoremap , ,<Space>
+
 " }}}
-" home and end {{{
-" See: https://github.com/martin-svk/dot-files/blob/682087a4ff45870f55bd966632156be07a2ff1c4/vim/vimrc#L343-347
+
+" 9.9. home and end {{{
 nnoremap <expr> 0
       \ col('.') ==# 1 ? '^' : '0'
 nnoremap <C-h> ^
 nnoremap <C-e> $
 " }}}
-" astah {{{
+
+" 9.A. search {{{
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 " }}}
-" text obj {{{
-" <angle>
-onoremap aa  a>
-xnoremap aa  a>
-onoremap ia  i>
-xnoremap ia  i>
-" [rectangle]
-onoremap ar  a]
-xnoremap ar  a]
-onoremap ir  i]
-xnoremap ir  i]
-" 'quote'
-onoremap aq  a'
-xnoremap aq  a'
-onoremap iq  i'
-xnoremap iq  i'
-" "double quote"
-onoremap ad  a"
-xnoremap ad  a"
-onoremap id  i"
-xnoremap id  i"
-" }}}
-" split window {{{
+
+" 9.B. split window {{{
 " See: https://github.com/supermomonga/dot-vimrc/blob/master/.vimrc#L462-466
 " _ : Quick horizontal splits
 nnoremap _ :<C-u>sp .<CR>
 " | : Quick vertical splits
 nnoremap <bar> :<C-u>vsp .<CR>
 " }}}
-" increment {{{
+
+" 9.C. increment and decrement {{{
 noremap + <C-a>
 noremap - <C-x>
 vnoremap <C-a> <C-a>gv
 vnoremap <C-x> <C-x>gv
 " }}}
-" prefix [,] {{{
-" remove white space of end line
+
+" 9.D. prefix comma {{{
 function! s:RemoveWhiteSpace()
   let l:save_cursor = getpos(".")
   silent! execute ':%s/\s\+$//e'
@@ -2744,10 +2601,9 @@ vnoremap <silent> ,z :<C-u>%s/　/  /g<CR>
 
 " toggle paste mode
 nnoremap <silent> ,p :<C-u>set paste!<CR>
-
-nnoremap <silent> ,g :<C-u>Google<CR>
 " }}}
-" cmd window {{{
+
+" 9.E. ; <-> : {{{
 nnoremap ;; q:
 nnoremap q; q:
 vnoremap q; q:
@@ -2756,22 +2612,32 @@ vnoremap ; :
 nnoremap : ;
 vnoremap : ;
 " }}}
-" history {{{
+
+" 9.F. command mode {{{
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 " cnoremap <Tab> <C-d>
 nnoremap <SID>(command-line-enter) q:
 xnoremap <SID>(command-line-enter) q:
 nnoremap <SID>(command-line-norange) q:<C-u>
-" }}}
-" cmdwindow mapping function {{{
+
 nnoremap / q/
 nnoremap ? q?
+
+" emacs like
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-h> <BS>
+cnoremap <C-d> <Del>
+cnoremap <C-k> <End><C-u>
+
+cnoremap <CR> <C-]><CR>
 
 augroup CmdWindow
   autocmd!
   autocmd CmdwinEnter * call s:init_cmdwin()
 augroup END
+
 function! s:init_cmdwin()
   " setlocal nolist! number! relativenumber!
   nnoremap <silent><buffer>q :<C-u>q<CR>
@@ -2784,59 +2650,68 @@ function! s:init_cmdwin()
   startinsert!
 endfunction
 
-" emacs like
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-h> <BS>
-cnoremap <C-d> <Del>
-cnoremap <C-k> <End><C-u>
-
-" :unite -> :Unite
-cnoremap <CR> <C-]><CR>
 " }}}
-" clear screan {{{
+
+" 9.G. clear screan {{{
 nnoremap <silent><ESC><ESC> :<C-u>nohlsearch<CR><ESC>
 nnoremap <silent> <C-i> <C-I>
 " }}}
-" VS like " {{{
+
+" 9.H. quickfix next prev {{{
 nnoremap <f4> :<C-u>cnext<CR>
 nnoremap <f5> :<C-u>cprevious<CR>
 " }}}
-" etc {{{
+
+" 9.I. etc {{{
 " 即座にvimgrep
 nnoremap <C-g> :<C-u>G<Space>
 " 行末ヤンク
 nnoremap Y y$
-nnoremap <C-Tab> <C-w><C-w>
-nnoremap <S-tab> :<C-u>tabnext<CR>
-nnoremap <C-S-Tab> :<C-u>bnext<CR>
 " ls
 nnoremap <silent> <Leader>b :ls<CR>:b
-nnoremap <F1> <Nop>
-" }}}
 " }}}
 
-" abbrev {{{
-let s:Abbrs = [
-      \ {'type': 'i', 'before' : 'tihs',      'after' : 'this'},
-      \ {'type': 'i', 'before' : 'edn',       'after' : 'end'},
-      \ {'type': 'i', 'before' : 'REact',     'after' : 'React'},
-      \ {'type': 'i', 'before' : '):',        'after' : ');'},
-      \ {'type': 'i', 'before' : '= =',       'after' : '=='},
-      \ {'type': 'i', 'before' : 'initalize', 'after' : 'initialize'},
-      \ {'type': 'c', 'before' : 'fzf',       'after' : 'FZF'},
-      \ {'type': 'c', 'before' : 'cdu',       'after' : 'Cdu'},
-      \ {'type': 'c', 'before' : 'unite',     'after' : 'Unite'},
-      \ {'type': 'c', 'before' : 'ag',        'after' : 'Ags'},
-      \ {'type': 'c', 'before' : 'ggrep',     'after' : 'Ggrep'},
-      \ {'type': 'c', 'before' : 'gist',      'after' : 'Gist'},
+" 9.0. Disable key {{{
+nnoremap M m
+nnoremap Q q
+nnoremap K  <Nop>
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+nnoremap <F1> <Nop>
+" }}}
+
+" }}}
+
+" A. abbrev {{{
+
+" A.1. wrapper function {{{
+function! s:cnoreabbrev_wrap(...)
+  execute a:1 . 'noreabbrev ' . a:2 . ' ' . a:3
+endfunction
+command! -nargs=* Abbr call s:cnoreabbrev_wrap(<f-args>)
+" }}}
+
+let s:abbrs = [
+      \   {'type': 'i', 'before' : 'tihs',      'after' : 'this'},
+      \   {'type': 'i', 'before' : 'edn',       'after' : 'end'},
+      \   {'type': 'i', 'before' : 'REact',     'after' : 'React'},
+      \   {'type': 'i', 'before' : '):',        'after' : ');'},
+      \   {'type': 'i', 'before' : '= =',       'after' : '=='},
+      \   {'type': 'i', 'before' : 'initalize', 'after' : 'initialize'},
+      \   {'type': 'c', 'before' : 'fzf',       'after' : 'FZF'},
+      \   {'type': 'c', 'before' : 'cdu',       'after' : 'Cdu'},
+      \   {'type': 'c', 'before' : 'unite',     'after' : 'Unite'},
+      \   {'type': 'c', 'before' : 'ag',        'after' : 'Ags'},
+      \   {'type': 'c', 'before' : 'ggrep',     'after' : 'Ggrep'},
+      \   {'type': 'c', 'before' : 'gist',      'after' : 'Gist'},
       \ ]
-for s:e in s:Abbrs
+
+for s:e in s:abbrs
   execute 'Abbr ' . s:e['type'] . ' ' . s:e['before'] ' ' . s:e['after']
 endfor
 " }}}
 
-" statusline {{{
+" B. statusline {{{
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
 let g:hi_normal = 'highlight StatusLine ctermfg=white ctermbg=blue cterm=NONE guifg=white guibg=blue'
 if has('syntax') && !has('gui_running')
@@ -2907,7 +2782,7 @@ set statusline+=%y
 set statusline+=[L=%l/%L]
 " }}}
 
-" color {{{
+" C. color {{{
 try
   if has('gui_running')
     set background=dark
@@ -2924,10 +2799,11 @@ Autocmd VimEnter * highlight MyGlashy ctermbg=48 term=bold,reverse guibg=#00FF00
 Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=underline
 Autocmd VimEnter * highlight clear CursorLine
 Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
-"}}}
+" }}}
 
-" END {{{
+" Z. END {{{
 syntax on
 filetype indent on
 set secure " vimrcの最後に記述 vimhelpより
 " }}}
+
