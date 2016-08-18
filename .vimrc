@@ -399,7 +399,6 @@ Plug 'mbbill/undotree'                                               " undo履�
 Plug 'mhinz/vim-signify'                  " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
-Plug 'osyo-manga/vim-watchdogs'                " 各種lintをQuickRunを通して実行
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'prabirshrestha/async.vim'                              " job async utilty
 Plug 'rhysd/committia.vim'                             " Rich vim commit editor
@@ -508,7 +507,17 @@ Plug 'dag/vim-fish', {'for' : ['fish']}
 " Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
 "   }}}
 
-" 3.1.H. only gui and neo {{{
+" 3.1.H. only vim {{{
+if !has('nvim')
+  Plug 'osyo-manga/vim-watchdogs'              " 各種lintをQuickRunを通して実行
+endif
+" }}}
+
+" 3.1.I. only gui, neo {{{
+if has('nvim')
+  Plug 'neomake/neomake'
+endif
+
 if has('gui_running') || has('nvim')
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
   Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
@@ -516,10 +525,12 @@ if has('gui_running') || has('nvim')
   Plug 'wakatime/vim-wakatime'
   Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
 " Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
-else
-  " Plug 'MaxMEllon/molokai'
 endif
+
+" 3.1.J. etc {{{
 if has('clientserver') | Plug 'thinca/vim-singleton' | endif
+" }}}
+
 " }}}
 
 " 3.1. END }}}
@@ -1937,6 +1948,13 @@ if s:plug.is_installed('vim-signature') "{{{
   nnoremap m<C-h> m<BS>
   nnoremap mn ]`
   nnoremap mp [`
+endif
+"}}}
+
+if s:plug.is_installed('neomake') "{{{
+  let g:neomake_javascript_enabled_makers = [
+        \   'eslint'
+        \   ]
 endif
 "}}}
 
