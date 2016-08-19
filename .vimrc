@@ -399,6 +399,7 @@ Plug 'mbbill/undotree'                                               " undo履�
 Plug 'mhinz/vim-signify'                  " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
+Plug 'osyo-manga/unite-quickfix'
 Plug 'pocke/vim-hier'                         " Quick-fixハイライト，forkのfork
 Plug 'prabirshrestha/async.vim'                              " job async utilty
 Plug 'rhysd/committia.vim'                             " Rich vim commit editor
@@ -733,7 +734,14 @@ if s:plug.is_installed('deoplete.nvim') " {{{
 
   let g:deoplete#keyword_patterns = {}
   let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
-  " let g:deoplete#keyword_patterns.tex = '\\?[a-zA-Z_]\w*'
+  let g:deoplete#omni#input_patterns = {}
+  let g:deoplete#omni#input_patterns.ruby =
+        \ ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
+  let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+  let g:deoplete#omni#input_patterns.javascript = '\%(\h\w*\|[^. \t]\.\w*\)'
+  let g:deoplete#omni#input_patterns.php =
+        \ '\w+|[^. \t]->\w*|\w+::\w*'
+
 
   let g:deoplete#omni#input_patterns = {}
   let g:deoplete#omni#functions = {}
@@ -748,6 +756,8 @@ if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#ignore_sources = {'_': ['tag']}
   let g:tern_request_timeout = 1
   let g:tern_show_signature_in_pum = 0
+
+  Autocmd BufEnter * set completeopt-=preview
 endif
 " }}}
 
@@ -1954,7 +1964,32 @@ endif
 if s:plug.is_installed('neomake') "{{{
   let g:neomake_javascript_enabled_makers = [
         \   'eslint'
-        \   ]
+        \ ]
+
+  let g:neomake_jsx_enabled_makers = [
+        \   'eslint'
+        \ ]
+
+  let g:neomake_javascript_eslint_marker = {
+        \   'exe': 'eslint_d',
+        \   'args': ['-f', 'compact', '--fix'],
+        \   'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+        \   '%W%f: line %l\, col %c\, Warning - %m'
+        \ }
+
+  nnoremap <F4> :<C-u>lprev<CR>
+  nnoremap <F5> :<C-u>lnext<CR>
+  nnoremap ,l :<C-u>Unite location_list<CR>
+
+  Autocmd VimLeave *.js !eslint_d stop
+  Autocmd VimLeave *.jsx !eslint_d stop
+  Autocmd BufWrite,BufEnter * :Neomake
+  Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
+  function! s:Neomake_callback(options)
+    if &filetype ==# 'javascript' || &filetype ==# 'ruby' || &filetype ==# 'javascript.jsx'
+      edit
+    endif
+  endfunction
 endif
 "}}}
 
@@ -2203,7 +2238,7 @@ if has("path_extra")
 endif
 "}}}
 
-" 4.J. etc {{{
+" 4.K. etc {{{
 if exists('&macatsui')
   set nomacatsui
 endif
@@ -2431,8 +2466,6 @@ if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
   nnoremap <silent> <Space>d :<C-u>Cd<CR>
 endif
 " }}}
-
-
 
 " }}}
 
@@ -2676,8 +2709,10 @@ nnoremap <silent> <C-i> <C-I>
 " }}}
 
 " 9.H. quickfix next prev {{{
-nnoremap <f4> :<C-u>cnext<CR>
-nnoremap <f5> :<C-u>cprevious<CR>
+if !has('nvim')
+  nnoremap <F4> :<C-u>cnext<CR>
+  nnoremap <F5> :<C-u>cprevious<CR>
+endif
 " }}}
 
 " 9.I. etc {{{
@@ -2727,9 +2762,11 @@ let s:abbrs = [
 for s:e in s:abbrs
   execute 'Abbr ' . s:e['type'] . ' ' . s:e['before'] ' ' . s:e['after']
 endfor
+
 " }}}
 
 " B. statusline {{{
+
 let g:hi_insert = 'highlight StatusLine ctermfg=red ctermbg=yellow cterm=NONE guifg=red guibg=yellow'
 let g:hi_normal = 'highlight StatusLine ctermfg=white ctermbg=blue cterm=NONE guifg=white guibg=blue'
 if has('syntax') && !has('gui_running')
@@ -2798,6 +2835,7 @@ set statusline+=%y
 " set statusline+=[C=%c/%{col('$')-1}]
 " 現在文字行/全体行表示
 set statusline+=[L=%l/%L]
+
 " }}}
 
 " C. color {{{
