@@ -468,7 +468,7 @@ Plug 'dag/vim2hs'
 Plug 'vim-jp/syntax-vim-ex'
 " }}}
 
-" 3.1.E for javascript {{{
+" 3.1.E. for javascript {{{
 
 " 3.1.E.1 syntax {{{
 
@@ -517,6 +517,7 @@ endif
 " 3.1.I. only gui, neo {{{
 if has('nvim')
   Plug 'neomake/neomake'
+  Plug 'kassio/neoterm'
 endif
 
 if has('gui_running') || has('nvim')
@@ -833,11 +834,15 @@ if s:plug.is_installed('The-NERD-tree') " {{{
   Autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
         \ && b:NERDTreeType == "primary") | q | endif
   " NERDTREE ignor'e
-  let g:NERDTreeIgnore = ['\.log, \.clean$', '\.swp$', '\.bak$', '\~$']
+  let g:NERDTreeIgnore = [
+        \  '\.log, \.clean$', '\.swp$', '\.bak$', '\~$',
+        \  '\.z\.*', '\.DS_Store'
+        \]
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeDirArrows = 0
   let g:NERDTreeWinSize = 20
   nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
+  nnoremap <leader>t :<C-u>NERDTreeFind<CR>
 endif
 "}}}
 
@@ -1993,6 +1998,11 @@ if s:plug.is_installed('neomake') "{{{
 endif
 "}}}
 
+if s:plug.is_installed('neoterm') "{{{
+  command! -nargs=+ Tg :T git <args>
+endif
+" }}}
+
 " 3.3. END }}}
 
 " 3. END }}}
@@ -2638,12 +2648,33 @@ vnoremap <C-x> <C-x>gv
 " }}}
 
 " 9.D. prefix comma {{{
+
+" 9.D.1. Remove white space {{{
 function! s:RemoveWhiteSpace()
   let l:save_cursor = getpos(".")
   silent! execute ':%s/\s\+$//e'
   call setpos('.', l:save_cursor)
 endfunction
 command! -range=% RemoveWhiteSpace call <SID>RemoveWhiteSpace()
+" }}}
+
+" 9.D.2. manual load help {{{
+if !IsWindows()
+  function! s:load_help()
+    if isdirectory(expand('~/.vim/help/vimdoc-ja/doc'))
+      helptags ~/.vim/help/vimdoc-ja/doc
+      set runtimepath+=~/.vim/help/vimdoc-ja
+      set helplang=ja
+    endif
+  endfunction
+  command! MyLoadHelp :call s:load_help()
+  AutocmdFT help MyLoadHelp
+  nnoremap <silent> ,h :<C-u>MyLoadHelp<CR> :<C-u>help <C-r><C-w><CR>
+else
+  nnoremap <silent> ,h :<C-u>help <C-r><C-w><CR>
+endif
+" }}}
+
 nnoremap <silent> ,x :RemoveWhiteSpace<CR>
 vnoremap <silent> ,x :RemoveWhiteSpace<CR>
 " remove double width white space
