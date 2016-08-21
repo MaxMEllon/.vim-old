@@ -279,7 +279,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'Shougo/unite-outline'
 " Plug 'Shougo/vimshell.vim'
 " Plug 'ahayman/vim-nodejs-complete'
-" Plug 'airblade/vim-gitgutter'
 " Plug 'alpaca-tc/alpaca_tags'                   " ctagsマネージャー，自動ctags
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'cespare/vim-toml', {'for' : 'toml'}
@@ -526,13 +525,13 @@ endif
 if has('gui_running') || has('nvim')
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
   Plug 'morhetz/gruvbox'
+  Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
+  Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
 endif
 
 if has('gui_running')
 " Plug 'wakatime/vim-wakatime'
 " Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
-  Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
-  Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
 endif
 
 " 3.1.J. etc {{{
@@ -570,9 +569,9 @@ MyPlug 'molokai'
 MyPlug 'vim-react-snippets'
 " 3.2.2. END}}}
 
-call plug#end()
-
 " 3.2. END }}}
+
+call plug#end()
 
 " 3.3. plugin config {{{
 
@@ -1063,6 +1062,11 @@ endif
 " }}}
 
 if s:plug.is_installed('neomake') "{{{
+  let g:neomake_message_sign = {'text': '>', 'texthl': 'NeomakeMessageSign'}
+  let g:neomake_warning_sign = {'text': '!', 'texthl': 'Identifier'}
+  let g:neomake_error_sign   = {'text': 'X', 'texthl': 'Statement'}
+  let g:neomake_info_sign    = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+
   let g:neomake_javascript_enabled_makers = [
         \   'eslint'
         \ ]
@@ -1388,7 +1392,6 @@ if s:plug.is_installed('fzf') "{{{
 
     command! Cd call s:select_directory_fzf()
     nnoremap <Space>d :<C-u>Cd<CR>
-
   endif
 endif
 "}}}
@@ -1434,6 +1437,11 @@ if s:plug.is_installed('vim-anzu') " {{{
   nmap * <Plug>(anzu-star-with-echo) zz
   nmap # <Plug>(anzu-sharp-with-echo) zz
   nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+else
+  nmap n nzz
+  nmap N Nzz
+  nmap * *zz
+  nmap # #zz
 endif
 " }}}
 
@@ -1762,12 +1770,12 @@ if s:plug.is_installed('lightline.vim') " {{{
         \   },
         \   'colorscheme': 'wombat',
         \   'component': {
-        \     'readonly': '%{&readonly?"\u2b64":""}',
+        \     'readonly': '[RO]',
         \   },
-        \   'separator': { 'left': "\u2b80", 'right': "\u2b82" },
-        \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
+        \   'separator': { 'left': "|", 'right': "|" },
+        \   'subseparator': { 'left': ":", 'right': ":" },
         \   'active': {
-        \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
+        \     'left':  [ [ 'mode', 'paste', 'capstatus'  ],
         \                [ 'anzu', 'fugitive' ],
         \                [ 'filename' ] ],
         \     'right': [ [ 'qfstatusline' ],
@@ -1791,6 +1799,18 @@ if s:plug.is_installed('lightline.vim') " {{{
         \ }
 
   let g:Qfstatusline#UpdateCmd = function('lightline#update')
+
+  " gitbranch名
+  function! MyFugitive()
+    try
+      if &ft !~? 'vimfiler\|gundo' && strlen(fugitive#head())
+        let s:_ = fugitive#head()
+        return strlen(s:_) ? s:_ : ''
+      endif
+    catch
+    endtry
+    return ''
+  endfunction
 
   function! MyMode()
     let fname = expand('%:t')
@@ -1873,18 +1893,6 @@ if s:plug.is_installed('vim-gitgutter') " {{{
   let g:gitgutter_sign_modified = '*'
   let g:gitgutter_sign_removed  = '-'
   let g:gitgutter_map_keys = 0
-
-  " gitbranch名
-  function! MyFugitive()
-    try
-      if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
-        let _ = fugitive#head()
-        return strlen(_) ? '⭠ '._ : ''
-      endif
-    catch
-    endtry
-    return ''
-  endfunction
 
   function! MyGitGutter()
     if ! exists('*GitGutterGetHunkSummary')
@@ -2214,9 +2222,9 @@ set foldmethod =marker " 折りたたみ方法:マーカ
 set foldcolumn =0      " 折りたたみの補助線幅
 set foldlevel  =0      " foldをどこまで一気に開くか
 if (!exists('FoldCCText'))
-  let g:foldCCtext_maxchars = 78
-  let g:foldCCtext_tail = 'printf("   %s[%4d lines  Lv%-2d]%s",
-      \ v:folddashes,  v:foldend-v:foldstart+1,  v:foldlevel,  v:folddashes)'
+  let g:foldCCtext_maxchars = 80
+  let g:foldCCtext_tail = 'printf("   [%4d lines  Lv%-2d]",
+      \ v:foldend - v:foldstart+1,  v:foldlevel)'
   set foldtext=FoldCCtext()
 endif
 " }}}
@@ -2499,7 +2507,7 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " 7.7. QuickFix
 Autocmd QuickFixCmdPost make,*grep* cwindow
 
-Autocmd BufRead * if &buftype ==# 'terminal' | set nolist | endif
+Autocmd BufEnter * if &buftype ==# 'terminal' | set nolist | startinsert | endif
 
 " }}}
 
@@ -2706,10 +2714,10 @@ nnoremap <C-e> $
 " }}}
 
 " 9.A. search {{{
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
+" nnoremap n nzz
+" nnoremap N Nzz
+" nnoremap * *zz
+" nnoremap # #zz
 " }}}
 
 " 9.B. split window {{{
