@@ -322,7 +322,6 @@ call plug#begin('~/.vim/plugged')
 " Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
 " Plug 'rhysd/endwize.vim'
 " Plug 'rhysd/vim-textobj-ruby'
-" Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 " Plug 't9md/vim-quickhl'
 " Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
@@ -380,7 +379,7 @@ Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
 Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'jistr/vim-nerdtree-tabs'                     " タブを超えたツリーファイラ
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }         " fzf
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}           " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-altr'
@@ -395,8 +394,8 @@ Plug 'lambdalisue/vim-manpager'
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
 Plug 'mattn/webapi-vim'                                        " vimでget, post
-Plug 'mbbill/undotree'                                               " undo履歴
-Plug 'mhinz/vim-signify'                  " signつけるやつ git-gutterとの選択
+Plug 'mbbill/undotree', {'on' : 'UndotreeToggle'}                    " undo履歴
+Plug 'mhinz/vim-signify'                    " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
 Plug 'osyo-manga/unite-quickfix'
@@ -404,6 +403,7 @@ Plug 'pocke/vim-hier'                         " Quick-fixハイライト，fork�
 Plug 'prabirshrestha/async.vim'                              " job async utilty
 Plug 'rhysd/committia.vim'                             " Rich vim commit editor
 Plug 'sf1/devdoc-vim'                                                  " devdoc
+Plug 'soramugi/auto-ctags.vim'
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
 Plug 'thinca/vim-ref'
@@ -411,7 +411,7 @@ Plug 'thinca/vim-textobj-function-javascript'             " js function textobj
 Plug 'tpope/vim-dispatch'                           " vimからtmuxのペイン切る奴
 Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
 Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
-Plug 'tyru/caw.vim'                                    " コメントアウトするマン
+Plug 'tyru/caw.vim', {'on' : '<Plug>(caw:hatpos:toggle)'}      " コメントアウト
 " 3.1.4 END}}}
 
 " 3.1.5. for html {{{
@@ -511,6 +511,7 @@ Plug 'dag/vim-fish', {'for' : ['fish']}
 " 3.1.H. only vim {{{
 if !has('nvim')
   Plug 'osyo-manga/vim-watchdogs'              " 各種lintをQuickRunを通して実行
+  Plug 'metakirby5/codi.vim', {'on' : 'Codi'}
 endif
 " }}}
 
@@ -522,11 +523,14 @@ endif
 
 if has('gui_running') || has('nvim')
   Plug 'artur-shaik/vim-javacomplete2', {'for' : 'java'}
-  Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
   Plug 'morhetz/gruvbox'
-  Plug 'wakatime/vim-wakatime'
-  Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
+endif
+
+if has('gui_running')
+" Plug 'wakatime/vim-wakatime'
 " Plug 'osyo-manga/vim-brightest'                " カーソル下のワードハイライト
+  Plug 'osyo-manga/vim-anzu'                             " 検索時の該当個数表示
+  Plug 'itchyny/lightline.vim'                     " かっこいいステータスライン
 endif
 
 " 3.1.J. etc {{{
@@ -1423,11 +1427,10 @@ endif
 "}}}
 
 if s:plug.is_installed('incsearch.vim') "{{{
-  " map /  <Plug>(incsearch-forward)
-  " map ?  <Plug>(incsearch-backward)
-  " map g/ <Plug>(incsearch-stay)
-  " nnoremap ;/ /
-  " nnoremap ;? ?
+  map /  <Plug>(incsearch-forward)
+  map ?  <Plug>(incsearch-backward)
+  nnoremap ;/ /
+  nnoremap ;? ?
 endif
 "}}}
 
@@ -1470,6 +1473,7 @@ if s:plug.is_installed('auto-ctags.vim') "{{{
   let g:auto_ctags_tags_args = '--tag-relative --recurse --sort=yes'
   let g:auto_ctags_bin_path = '/usr/local/bin/ctags'
   let g:auto_ctags_tags_name = 'tags'
+  " let g:auto_ctags_filetype_mode = 1
 
   augroup AutoCtags
     autocmd!
@@ -1583,9 +1587,10 @@ endif
 
 if s:plug.is_installed('alpaca_tags') " {{{
   let g:alpaca_tags#config = {
-        \   '_' : '--recurse=yes --sort=yes --append=yes',
+        \   '_' : '--tag-relative --recurse=yes --sort=yes --append=yes',
         \   'ruby' : '--exclude=.bundle,vendor/bundle --languages=+Ruby',
         \   'javascript' : '--exclude=node_modules --exclude=packages/*/.build/'
+        \    . '--exclude=bundle --exclude=public'
         \ }
   augroup AlpacaTags
     autocmd!
@@ -1892,7 +1897,7 @@ endif
 " }}}
 
 if s:plug.is_installed('ultisnips')  " {{{
-  let g:UltiSnipsExpandTrigger = '<C-k>'
+  let g:UltiSnipsExpandTrigger = '<C-Space>'
   let g:UltiSnipsJumpForwardTrigger = '<C-n>'
   let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
   " If you want :UltiSnipsEdit to split your window.
@@ -1977,7 +1982,7 @@ if s:plug.is_installed('neomake') "{{{
 
   let g:neomake_javascript_eslint_marker = {
         \   'exe': 'eslint_d',
-        \   'args': ['-f', 'compact', '--fix'],
+        \   'args': ['-f', 'compact'],
         \   'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
         \   '%W%f: line %l\, col %c\, Warning - %m'
         \ }
@@ -1989,7 +1994,7 @@ if s:plug.is_installed('neomake') "{{{
   Autocmd VimLeave *.js !eslint_d stop
   Autocmd VimLeave *.jsx !eslint_d stop
   Autocmd BufWrite,BufEnter * :Neomake
-  Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
+  " Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
   function! s:Neomake_callback(options)
     if &filetype ==# 'javascript' || &filetype ==# 'ruby' || &filetype ==# 'javascript.jsx'
       edit
@@ -2091,7 +2096,7 @@ set undofile
 set undolevels=200
 " }}}
 
-" 4.7 colorcolumn {{{
+" 4.7. colorcolumn {{{
 " See: http://mattn.kaoriya.net/software/vim/20150209151638.htm
 if (exists('+colorcolumn'))
   set colorcolumn=80,100
@@ -2262,7 +2267,7 @@ let g:vim_json_syntax_conceal = 0
 
 " 5.1. s:set_filetype() {{{
 function! s:set_filetype(...)
-  execute 'Autocmd BufNewFile,BufRead ' . '*'.a:1 . ' set filetype=' . a:2
+  execute 'Autocmd BufNewFile,BufRead ' . '*'.a:1 . ' setlocal filetype=' . a:2
 endfunction
 " }}}
 
@@ -2582,8 +2587,8 @@ xnoremap < <gv
 
 " 9.8.1. emacs like {{{
 inoremap <C-a> <Home>
-inoremap <C-k> <ESC>C
-inoremap <C-u> <ESC>cal
+inoremap <C-k> <ESC>c$
+inoremap <C-u> <ESC>^c$
 inoremap <C-e> <End>
 inoremap <C-h> <BS>
 inoremap <C-d> <Del>
@@ -2598,7 +2603,8 @@ inoremap <C-m> <CR>
 function! s:indent_braces()
   let s:nowletter = getline(".")[col(".")-1]
   let s:beforeletter = getline(".")[col(".")-2]
-  if s:nowletter == "}" && s:beforeletter == "{" || s:nowletter == "]" && s:beforeletter == "["
+  if s:nowletter == "}" && s:beforeletter == "{" ||
+        \ s:nowletter == "]" && s:beforeletter == "["
     let s:res = "\<C-]>\n\t\n\<UP>\<RIGHT>\<ESC>\A"
   elseif s:beforeletter == ' '
     let s:res = "\<C-]>\n\<ESC>\:RemoveWhiteSpace\n\ii\<ESC>==xa"
@@ -2610,11 +2616,17 @@ endfunction
 inoremap <silent> <expr> <CR> <SID>indent_braces()
 "}}}
 
-" 9.9.3. quick paste mode (windows like)
+" 9.9.3. quick copy and paste (windows like)
 inoremap <C-v> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
+vnoremap <C-c> "+y
 
 " 9.9.4. comma
 inoremap , ,<Space>
+
+" 9.9.5. abbr
+inoremap . <C-]>.
+inoremap : :<C-]>
+inoremap <Space> <C-]><Space>
 
 " }}}
 
@@ -2770,7 +2782,7 @@ nnoremap <F1> <Nop>
 
 " A.1. wrapper function {{{
 function! s:cnoreabbrev_wrap(...)
-  execute a:1 . 'noreabbrev ' . a:2 . ' ' . a:3
+  execute a:1 . 'abbrev ' . a:2 . ' ' . a:3
 endfunction
 command! -nargs=* Abbr call s:cnoreabbrev_wrap(<f-args>)
 " }}}
@@ -2780,7 +2792,6 @@ let s:abbrs = [
       \   {'type': 'i', 'before' : 'edn',       'after' : 'end'},
       \   {'type': 'i', 'before' : 'REact',     'after' : 'React'},
       \   {'type': 'i', 'before' : '):',        'after' : ');'},
-      \   {'type': 'i', 'before' : '= =',       'after' : '=='},
       \   {'type': 'i', 'before' : 'initalize', 'after' : 'initialize'},
       \   {'type': 'c', 'before' : 'fzf',       'after' : 'FZF'},
       \   {'type': 'c', 'before' : 'cdu',       'after' : 'Cdu'},
@@ -2884,8 +2895,8 @@ catch
 endtry
 Autocmd VimEnter * highlight MyGlashy ctermbg=48 term=bold,reverse guibg=#00FF00
 Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=underline
-Autocmd VimEnter * highlight clear CursorLine
-Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
+" Autocmd VimEnter * highlight clear CursorLine
+" Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
 " }}}
 
 " Z. END {{{
