@@ -361,6 +361,7 @@ Plug 'ryanpineo/neocomplete-ultisnips'
 
 " 3.1.4. common {{{
 Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番にスイッチング
+Plug 'Kocha/vim-unite-tig'
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
 Plug 'Shougo/neomru.vim'                             " uniteやneocompleteの依存
@@ -376,13 +377,14 @@ Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげ�
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
-Plug 'haya14busa/vim-operator-flashy', {'on' : '<Plug>(operator-flashy)'}
+Plug 'haya14busa/vim-operator-flashy'
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'jistr/vim-nerdtree-tabs'                     " タブを超えたツリーファイラ
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}           " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-altr'
+Plug 'kana/vim-niceblock'
 Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
 Plug 'kana/vim-smartinput'                              " ( -> (|) とかするやつ
@@ -394,7 +396,7 @@ Plug 'lambdalisue/vim-manpager'
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
 Plug 'mattn/webapi-vim'                                        " vimでget, post
-Plug 'mbbill/undotree', {'on' : 'UndotreeToggle'}                    " undo履歴
+Plug 'mbbill/undotree'                                               " undo履歴
 Plug 'mhinz/vim-signify'                    " signつけるやつ git-gutterとの選択
 Plug 'mhinz/vim-startify'                                        " 起動画面拡張
 Plug 'osyo-manga/shabadou.vim'                        " QuickFixの汎用hooks提供
@@ -411,7 +413,7 @@ Plug 'thinca/vim-textobj-function-javascript'             " js function textobj
 Plug 'tpope/vim-dispatch'                           " vimからtmuxのペイン切る奴
 Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
 Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
-Plug 'tyru/caw.vim', {'on' : '<Plug>(caw:hatpos:toggle)'}      " コメントアウト
+Plug 'tyru/caw.vim' ", {'on' : '<Plug>(caw:hatpos:toggle)'}      コメントアウト
 " 3.1.4 END}}}
 
 " 3.1.5. for html {{{
@@ -584,11 +586,7 @@ endfunction
 
 " 3.3.1. END }}}
 
-if s:plug.is_installed('rails.vim') " {{{
-  let g:rails_level = 4
-  let g:rails_defalut_database = 'postgresql'
-endif
-" }}}
+" auto complete and complete func {{{
 
 if s:plug.is_installed('neocomplcache.vim') " {{{
   "neocomplcacheを有効化
@@ -631,6 +629,8 @@ if s:plug.is_installed('neocomplcache.vim') " {{{
   " inoremap <expr><C-l> neocomplcache#complete_common_string()
 endif
 " }}}
+
+" neocomplete {{{
 
 if s:plug.is_installed('neocomplete.vim') " {{{
   " Disable AutoComplPop
@@ -706,6 +706,20 @@ if s:plug.is_installed('neocomplete-php.vim') " {{{
 endif
 " }}}
 
+if s:plug.is_installed('neocomplete-rsense.vim') "{{{
+  if !exists('g:neocomplcache_omni_patterns')
+    let g:neocomplcache_omni_patterns = {}
+  endif
+  let g:rsenseUseOmniFunc = 1
+  if filereadable(expand('/usr/local/bin/rsense'))
+    let g:rsenseHome = expand('/usr/local/bin/rsense')
+    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+  endif
+endif
+" }}}
+
+" }}}
+
 if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#enable_at_startup = 1
   imap <silent><expr> <TAB>
@@ -766,6 +780,75 @@ if s:plug.is_installed('deoplete.nvim') " {{{
 endif
 " }}}
 
+if s:plug.is_installed('YouCompleteMe') " {{{
+  let g:ycm_collect_identifiers_from_tags_files = 1
+  let g:EclimCompletionMethod = 'omnifunc'
+  AutocmdFT javascript nnoremap ,gd :<C-u>YcmCompleter GetDoc<CR>
+  AutocmdFT javascript nnoremap ,gt :<C-u>YcmCompleter GoTo<CR>
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  " autocmd FileType ruby setlocal omnifunc=
+endif
+" }}}
+
+if s:plug.is_installed('tern_for_vim') " {{{
+  let tern#is_show_argument_hints_enabled = 1
+  AutocmdFT javascript setlocal omnifunc=tern#Complete
+  Autocmd BufEnter *.js call tern#Enable()
+  Autocmd BufEnter * set completeopt-=preview
+  nnoremap <buffer><C-]> :<C-u>TernDef<CR>
+endif " }}}
+
+if s:plug.is_installed('jscomplete-vim') "{{{
+  AutocmdFT javascript setlocal omnifunc=jscomplete#CompleteJS
+  AutocmdFT coffee     setlocal omnifunc=jscomplete#CompleteJS
+endif
+"}}}
+
+if s:plug.is_installed('vim-monster') " {{{
+  let g:monster#completion#rcodetools#backend = "async_rct_complete"
+  let g:neocomplete#sources#omni#input_patterns = {
+        \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
+        \}
+endif
+" }}}
+
+if s:plug.is_installed('vim-marching') " {{{
+  if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+  endif
+  let g:neocomplete#force_omni_input_patterns.cpp =
+        \   '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+  let g:marching_enable_neocomplete = 1
+endif
+" }}}
+
+if s:plug.is_installed('phpcomplete-extended') " {{{
+  let g:phpcomplete_index_composer_command = 'composer'
+  AutocmdFT php setlocal omnifunc=phpcomplete_extended
+endif
+" }}}
+
+if s:plug.is_installed('vim-javacomplete2') " {{{
+  AutocmdFT java setlocal omnifunc=javacomplete#Complete
+  nmap <F5> <Plug>(JavaComplete-Imports-AddSmart)
+  imap <F5> <Plug>(JavaComplete-Imports-AddSmart)
+  nmap <F6> <Plug>(JavaComplete-Imports-Add)
+  imap <F6> <Plug>(JavaComplete-Imports-Add)
+  nmap <F7> <Plug>(JavaComplete-Imports-AddMissing)
+  imap <F7> <Plug>(JavaComplete-Imports-AddMissing)
+  nmap <F8> <Plug>(JavaComplete-Imports-RemoveUnused)
+  imap <F8> <Plug>(JavaComplete-Imports-RemoveUnused)
+endif
+" }}}
+
+" }}}
+
+" snippet "{{{
+
 if s:plug.is_installed('neosnippet') " {{{
   " let g:neosnippet#snipqets_directory='~/.vim/snippets'
   imap <C-s> <Plug>(neosnippet_expand_or_jump)
@@ -773,165 +856,18 @@ if s:plug.is_installed('neosnippet') " {{{
 endif
 " }}}
 
-if s:plug.is_installed('lightline.vim') " {{{
-  let g:lightline = {
-        \   'mode_map': {
-        \     'n' : 'N',
-        \     'i' : 'I',
-        \     'R' : 'R',
-        \     'v' : 'V',
-        \     'V' : 'V-L',
-        \     'c' : 'COMMAND',
-        \     "\<C-v>": 'V-B',
-        \     's' : 'SELECT',
-        \     'S' : 'S-L',
-        \     "\<C-s>": 'S-B',
-        \   },
-        \   'colorscheme': 'wombat',
-        \   'component': {
-        \     'readonly': '%{&readonly?"\u2b64":""}',
-        \   },
-        \   'separator': { 'left': "\u2b80", 'right': "\u2b82" },
-        \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
-        \   'active': {
-        \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
-        \                [ 'anzu', 'fugitive' ],
-        \                [ 'filename' ] ],
-        \     'right': [ [ 'qfstatusline' ],
-        \                [ 'filetype' ],
-        \                [ 'fileencoding' ],
-        \                [ 'fileformat' ] ]
-        \   },
-        \   'component_expand': {
-        \     'syntastic': 'SyntasticStatuslineFlag',
-        \     'qfstatusline' : 'qfstatusline#Update'
-        \   },
-        \   'component_type': {
-        \     'syntastic': 'error',
-        \     'qfstatusline': 'error',
-        \   },
-        \   'component_function': {
-        \     'anzu' : 'anzu#search_status',
-        \     'fugitive' : 'MyFugitive',
-        \     'mode' : 'MyMode'
-        \   }
-        \ }
-
-  let g:Qfstatusline#UpdateCmd = function('lightline#update')
-
-  function! MyMode()
-    let fname = expand('%:t')
-    return  fname =~ 'NERD_tree' ? 'NERDTree' :
-          \ &ft == 'unite' ? 'Unite' :
-          \ &ft == 'vimfiler' ? 'VimFiler' :
-          \ &ft == 'vimshell' ? 'VimShell' :
-          \ &ft == 'undotree' ? 'UndoTree' :
-          \ &ft == 'dirvish' ? 'Dirvish' :
-          \ winwidth(0) > 60 ? lightline#mode() : ''
-  endfunction
-
+if s:plug.is_installed('ultisnips')  " {{{
+  let g:UltiSnipsExpandTrigger = '<C-Space>'
+  let g:UltiSnipsJumpForwardTrigger = '<C-n>'
+  let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
+  " If you want :UltiSnipsEdit to split your window.
+  let g:UltiSnipsEditSplit="vertical"
 endif
+" }}}
+
 "}}}
 
-if s:plug.is_installed('The-NERD-tree') " {{{
-  " バッファがNERDTreeのみになったときNERDTreeをとじる
-  Autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
-        \ && b:NERDTreeType == "primary") | q | endif
-  " NERDTREE ignor'e
-  let g:NERDTreeIgnore = [
-        \  '\.log, \.clean$', '\.swp$', '\.bak$', '\~$',
-        \  '\.z\.*', '\.DS_Store'
-        \]
-  let g:NERDTreeShowHidden = 1
-  let g:NERDTreeDirArrows = 0
-  let g:NERDTreeWinSize = 20
-  nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
-  nnoremap <leader>t :<C-u>NERDTreeFind<CR>
-endif
-"}}}
-
-if s:plug.is_installed('vim-nerdtree-tabs') " {{{
-  nnoremap <silent>,n :<C-u>NERDTreeTabsToggle<CR>
-endif
-"}}}
-
-if s:plug.is_installed('vim-dirvish') " {{{
-  Autocmd BufEnter * if (winnr("$") == 1 && &ft == 'dirvish') | q | endif
-  let g:dirvish_window = -1
-  function! s:toggle_dirvish()
-    if (g:dirvish_window == -1 && &ft != 'dirvish')
-      leftabove topleft vsplit .
-      let g:dirvish_window = bufwinnr('$')
-      vertical resize 20
-      wincmd p
-    else
-      exe g:dirvish_window . 'quit'
-      let g:dirvish_window = -1
-    endif
-  endfunction
-  command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
-  nnoremap <silent>,n :<C-u> ToggleDirvish<CR>
-endif
-"}}}
-
-if s:plug.is_installed('indentLine') " {{{
-  let g:indentLine_color_term = 239
-  let g:indentLine_color_tty_light = 59
-  let g:indentLine_color_dark = 1
-  let g:indentLine_bufNameExclude = ['NERD_tree.*']
-endif
-" }}}
-
-if s:plug.is_installed('vim-quickrun') " {{{
-  let g:quickrun_config = {
-        \  '_': {
-        \     'runner' : 'vimproc',
-        \     'runner/vimproc/updatetime' : 60,
-        \     'outputter/buffer/split' : '',
-        \     'outputter/quickfix/open_cmd' : "",
-        \     'hook/time/enable': '1',
-        \     "hook/back_window/enable" : 1,
-        \     "hook/back_window/enable_exit" : 1,
-        \   }
-        \ }
-  let g:quickrun_config['slim'] = {'command' : 'slimrb', 'exec' : ['%c -p %s']}
-  nnoremap <silent><C-q> :QuickRun<CR>
-  nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
-endif
-" }}}
-
-if s:plug.is_installed('syntastic') "{{{
-  let g:syntastic_javascript_checkers = ['jsxhint']
-  let g:syntastic_coffee_checkers     = ['jsxhint']
-  " depend on Unite, Unite-QuickFix
-  let g:syntastic_always_populate_loc_list=1
-  let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-  nnoremap [unite]e :<C-u>Unite location_list -winheight=5<CR>
-endif
-" }}}
-
-if s:plug.is_installed('undotree') " {{{
-  let g:undotree_SetFocusWhenToggle = 1
-  let g:undotree_SplitWidth = 35
-  let g:undotree_diffAutoOpen = 1
-  let g:undotree_diffpanelHeight = 25
-  let g:undotree_RelativeTimestamp = 1
-  let g:undotree_TreeNodeShape = '*'
-  let g:undotree_HighlightChangedText = 1
-  nnoremap ,u :UndotreeToggle<CR>
-endif
-" }}}
-
-if s:plug.is_installed('yankround.vim') "{{{
-  nmap p <Plug>(yankround-p)
-  xmap P <Plug>(yankround-P)
-  nmap gp <Plug>(yankround-gp)
-  xmap gp <Plug>(yankround-gp)
-  " nmap <C-n> <Plug>(yankround-next)
-  " nmap <C-p> <Plug>(yankround-prev)
-  nnoremap ,y :Unite yankround<CR>
-endif
-" }}}
+" unite {{{
 
 if s:plug.is_installed('unite.vim') "{{{
   " nnoremap m  <nop>
@@ -980,151 +916,42 @@ if s:plug.is_installed('unite-outline') "{{{
 endif
 " }}}
 
-if s:plug.is_installed('caw.vim') "{{{
-  let g:caw_no_default_keymappings = 1
-  nmap ,c <Plug>(caw:hatpos:toggle)
-  vmap ,c <Plug>(caw:hatpos:toggle)
-endif
-" }}}
-
-if s:plug.is_installed('TweetVim') "{{{
-  nnoremap ,tt :<C-u>Unite tweetvim<CR>
-  nnoremap ,ts :<C-u>TweetVimSay<CR>
-endif
-" }}}
-
-if s:plug.is_installed('w3m.vim') "{{{
-  let g:w3m#external_browser = 'firefox'
-  let g:w3m#hit_a_hint_key = 'f'
-  nnoremap <F8> [w3m]
-  xnoremap <F8> [w3m]
-  nnoremap [w3m]s :W3mTab google
-  " rails デバッグ用
-  nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
-endif
-" }}}
-
-if s:plug.is_installed('vim-gitgutter') " {{{
-  let g:gitgutter_sign_added    = '+'
-  let g:gitgutter_sign_modified = '*'
-  let g:gitgutter_sign_removed  = '-'
-  let g:gitgutter_map_keys = 0
-
-  " gitbranch名
-  function! MyFugitive()
-    try
-      if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
-        let _ = fugitive#head()
-        return strlen(_) ? '⭠ '._ : ''
-      endif
-    catch
-    endtry
-    return ''
-  endfunction
-
-  function! MyGitGutter()
-    if ! exists('*GitGutterGetHunkSummary')
-          \ || ! get(g:, 'gitgutter_enabled', 0)
-          \ || winwidth('.') <= 90
-      return ''
-    endif
-    let symbols = [
-          \ g:gitgutter_sign_added . ' ',
-          \ g:gitgutter_sign_modified . ' ',
-          \ g:gitgutter_sign_removed . ' '
-          \ ]
-    let hunks = GitGutterGetHunkSummary()
-    let ret = []
-    for s:i in [0, 1, 2]
-      if hunks[s:i] > 0
-        call add(ret, symbols[s:i] . hunks[s:i])
-      endif
-    endfor
-    return join(ret, ' ')
-  endfunction
-endif
-" }}}
-
-if s:plug.is_installed('vim-over') " {{{
-  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//gc<Left><Left><Left>
-  xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///gc<Left><Left><Left>
-else
-  nnoremap sub :%s/<C-r><C-w>//gc<Left><Left><Left>
-  xnoremap s :<C-u>'<,'>s///gc<Left><Left><Left><Left><Left>
-endif
-" }}}
-
-if s:plug.is_installed('vim-anzu') " {{{
-  nmap n <Plug>(anzu-n-with-echo) zz
-  nmap N <Plug>(anzu-N-with-echo) zz
-  nmap * <Plug>(anzu-star-with-echo) zz
-  nmap # <Plug>(anzu-sharp-with-echo) zz
-  nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
-endif
-" }}}
-
-if s:plug.is_installed('vim-easymotion') " {{{
-  " configure
-  let g:EasyMotion_do_mapping = 0
-  let g:EasyMotion_smartcase = 1
-  let g:EasyMotion_startofline = 0
-  let g:EasyMotion_keys = 'hjklasdgyuiopqwertnmzxcvb;:f'
-  let g:EasyMotion_use_upper = 1
-  let g:EasyMotion_enter_jump_first = 1
-  let g:EasyMotion_space_jump_first = 1
-  let g:EasyMotion_use_migemo = 1
-  " keymapping
-  nmap ss <Plug>(easymotion-s2)
-  xmap ss <Plug>(easymotion-s2)
-  nmap sj <Plug>(easymotion-j)
-  nmap sk <Plug>(easymotion-k)
-  nmap f <Plug>(easymotion-fl)
-  nmap F <Plug>(easymotion-Fl)
-  xmap f <Plug>(easymotion-fl)
-  xmap F <Plug>(easymotion-Fl)
-
-  highlight EasyMotionTarget guifg=#80a0ff guibg=#80a0ff ctermfg=81 ctermbg=14
-endif
-" }}}
-
-if s:plug.is_installed('vim-easy-align') "{{{
-  vnoremap <Enter> :EasyAlign<CR>
+if s:plug.is_installed('vim-unite-tig') "{{{
+  command! Tig :Unite tig -no-split
 endif
 "}}}
 
-if s:plug.is_installed('vim-altr') " {{{
-  call altr#define('autoload/%.vim', 'doc/%-doc.txt', 'plugin/%.vim')
-  call altr#define('actions/%Action.coffee', 'stores/%Store.coffee')
-  call altr#define('actions/%Action.js', 'stores/%Store.js')
-  call altr#define('src/%.cpp', 'src/include/%.h')
-  nmap ,a <Plug>(altr-forward)
+"}}}
+
+" runner, checker "{{{
+
+if s:plug.is_installed('vim-quickrun') " {{{
+  let g:quickrun_config = {
+        \  '_': {
+        \     'runner' : 'vimproc',
+        \     'runner/vimproc/updatetime' : 60,
+        \     'outputter/buffer/split' : '',
+        \     'outputter/quickfix/open_cmd' : "",
+        \     'hook/time/enable': '1',
+        \     "hook/back_window/enable" : 1,
+        \     "hook/back_window/enable_exit" : 1,
+        \   }
+        \ }
+  let g:quickrun_config['slim'] = {'command' : 'slimrb', 'exec' : ['%c -p %s']}
+  nnoremap <silent><C-q> :QuickRun<CR>
+  nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "<C-c>"
 endif
 " }}}
 
-if s:plug.is_installed('vim-ruby') " {{{
-  let g:rubycomplete_rails = 1
-  let g:rubycomplete_buffer_loading = 1
-  let g:rubycomplete_classes_in_global = 1
-  let g:rubycomplete_include_object = 1
-  let g:rubycomplete_include_object_space = 1
-endif
-" }}}
-
-if s:plug.is_installed('vim-monster') " {{{
-  let g:monster#completion#rcodetools#backend = "async_rct_complete"
-  let g:neocomplete#sources#omni#input_patterns = {
-        \   "ruby" : '[^. *\t]\.\w*\|\h\w*::',
-        \}
-endif
-" }}}
-
-if s:plug.is_installed('vim-marching') " {{{
-  if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
+if s:plug.is_installed('syntastic') "{{{
+  let g:syntastic_javascript_checkers = ['jsxhint']
+  let g:syntastic_coffee_checkers     = ['jsxhint']
+  " depend on Unite, Unite-QuickFix
+  if s:plug.is_installed('unite-quickfix')
+    let g:syntastic_always_populate_loc_list=1
+    let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+    nnoremap ,l :<C-u>Unite location_list -winheight=5<CR>
   endif
-  let g:neocomplete#force_omni_input_patterns.cpp =
-        \   '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-  let g:marching_enable_neocomplete = 1
 endif
 " }}}
 
@@ -1235,17 +1062,167 @@ if s:plug.is_installed('vim-watchdogs') "{{{
 endif
 " }}}
 
-if s:plug.is_installed('vim-qfstatusline') " {{{
-  function! StatuslineUpdate()
-    return qfstatusline#Update()
+if s:plug.is_installed('neomake') "{{{
+  let g:neomake_javascript_enabled_makers = [
+        \   'eslint'
+        \ ]
+
+  let g:neomake_jsx_enabled_makers = [
+        \   'eslint'
+        \ ]
+
+  let g:neomake_javascript_eslint_marker = {
+        \   'exe': 'eslint_d',
+        \   'args': ['-f', 'compact'],
+        \   'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+        \   '%W%f: line %l\, col %c\, Warning - %m'
+        \ }
+
+  nnoremap <F4> :<C-u>lprev<CR>
+  nnoremap <F5> :<C-u>lnext<CR>
+  nnoremap ,l :<C-u>Unite location_list<CR>
+
+  Autocmd VimLeave *.js !eslint_d stop
+  Autocmd VimLeave *.jsx !eslint_d stop
+  Autocmd BufWrite,BufEnter * :Neomake
+  " Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
+  function! s:Neomake_callback(options)
+    if &filetype ==# 'javascript' || &filetype ==# 'ruby' || &filetype ==# 'javascript.jsx'
+      edit
+    endif
   endfunction
-  let g:Qfstatusline#UpdateCmd = function('StatuslineUpdate')
+endif
+"}}}
+
+"}}}
+
+" terminal"{{{
+
+if s:plug.is_installed('neoterm') "{{{
+  command! -nargs=+ Tg :T git <args>
 endif
 " }}}
 
-if s:plug.is_installed('vim-quickhl') " {{{
-  map ,m <Plug>(quickhl-manual-this)
-  map ,M <Plug>(quickhl-manual-reset)
+"}}}
+
+" filer {{{
+
+if s:plug.is_installed('The-NERD-tree') " {{{
+  " バッファがNERDTreeのみになったときNERDTreeをとじる
+  Autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType")
+        \ && b:NERDTreeType == "primary") | q | endif
+  " NERDTREE ignor'e
+  let g:NERDTreeIgnore = [
+        \  '\.log, \.clean$', '\.swp$', '\.bak$', '\~$',
+        \  '\.z\.*', '\.DS_Store'
+        \]
+  let g:NERDTreeShowHidden = 1
+  let g:NERDTreeDirArrows = 0
+  let g:NERDTreeWinSize = 20
+  nnoremap <silent>,n :<C-u>NERDTreeToggle<CR>
+  nnoremap <leader>t :<C-u>NERDTreeFind<CR>
+endif
+"}}}
+
+if s:plug.is_installed('vim-nerdtree-tabs') " {{{
+  nnoremap <silent>,n :<C-u>NERDTreeTabsToggle<CR>
+endif
+"}}}
+
+if s:plug.is_installed('vim-dirvish') " {{{
+  Autocmd BufEnter * if (winnr("$") == 1 && &ft == 'dirvish') | q | endif
+  let g:dirvish_window = -1
+  function! s:toggle_dirvish()
+    if (g:dirvish_window == -1 && &ft != 'dirvish')
+      leftabove topleft vsplit .
+      let g:dirvish_window = bufwinnr('$')
+      vertical resize 20
+      wincmd p
+    else
+      exe g:dirvish_window . 'quit'
+      let g:dirvish_window = -1
+    endif
+  endfunction
+  command! -nargs=0 ToggleDirvish call s:toggle_dirvish()
+  nnoremap <silent>,n :<C-u> ToggleDirvish<CR>
+endif
+"}}}
+
+"}}}
+
+" filetype (syntax, indent) "{{{
+
+if s:plug.is_installed('vim-ruby') " {{{
+  let g:rubycomplete_rails = 1
+  let g:rubycomplete_buffer_loading = 1
+  let g:rubycomplete_classes_in_global = 1
+  let g:rubycomplete_include_object = 1
+  let g:rubycomplete_include_object_space = 1
+endif
+" }}}
+
+if s:plug.is_installed('rails.vim') " {{{
+  let g:rails_level = 4
+  let g:rails_defalut_database = 'postgresql'
+endif
+" }}}
+
+if s:plug.is_installed('vim-tmng') " {{{
+  let g:tmng#student_id = 's12t241'
+  let g:tmng#title_template    = '課題ページ'
+  let g:tmng#subtitle_template = ''
+  let g:neosnippet#snippets_directory = '~/.vim/plugged/vim-tmng/snippets'
+  Autocmd BufWrite *.txt,*.tmng
+        \ :TmngReplaceDotAndComma
+endif
+" }}}
+
+if s:plug.is_installed('vim-jsx') " {{{
+  let g:jsx_ext_required = 0
+  let g:jsx_pragma_required = 0
+endif
+" }}}
+
+if s:plug.is_installed('vim-jsx-utils') "{{{
+  nnoremap ,ja :call JSXEncloseReturn()<CR>
+  nnoremap ,ji :call JSXEachAttributeInLine()<CR>
+  nnoremap ,je :call JSXExtractPartialPrompt()<CR>
+  nnoremap ,jc :call JSXChangeTagPrompt()<CR>
+  nnoremap ,js :call JSXSelectTag()<CR>
+endif
+command! React :map ,j
+" }}}
+
+if s:plug.is_installed('php.vim') "{{{
+  function! PhpSyntaxOverride()
+    hi! def link phpDocTags  phpDefine
+    hi! def link phpDocParam phpType
+  endfunction
+
+  augroup phpSyntaxOverride
+    autocmd!
+    autocmd FileType php call PhpSyntaxOverride()
+  augroup END
+endif
+"}}}
+
+if s:plug.is_installed('PDV--phpDocumentor-for-Vim') "{{{
+  nnoremap <Leader>p :set formatoptions&<CR>:call PhpDocSingle()<CR>kv/func<CR>k=:%s/\s\+$//e<CR><C-o>
+  let g:pdv_re_indent=''
+endif
+"}}}
+
+if s:plug.is_installed('vim-go') " {{{
+  let g:go_highlight_functions = 1
+  let g:go_highlight_methods = 1
+  let g:go_highlight_structs = 1
+  let g:go_highlight_operators = 1
+  let g:go_highlight_build_constraints = 1
+endif
+" }}}
+
+if s:plug.is_installed('vim-css-colors') " {{{
+  let g:cssColorVimDoNotMessMyUpdatetime = 1
 endif
 " }}}
 
@@ -1274,199 +1251,39 @@ if s:plug.is_installed('vim-markdown-quote-syntax') "{{{
 endif
 "}}}
 
-if s:plug.is_installed('vim-startify') " {{{
-  let g:startify_custom_header = [
-        \ '',
-        \ '                                    ..',
-        \ '                                  .::::.',
-        \ '                     ___________ :;;;;:`____________',
-        \ '                     \_________/ ?????L \__________/',
-        \ '                       |.....| ????????> :.......,',
-        \ '                       |:::::| $$$$$$$`.:::::::; ,',
-        \ '                      ,|:::::| $$$$$`.:::::::; .OOS.',
-        \ '                    ,7D|;;;;;| $$$`.;;;;;;;; .OOO888S.',
-        \ '                  .GDDD|;;;;;| ?`.;;;;;;;; .OO8DDDDDNNS.',
-        \ '                   `DDO|IIIII| .7IIIII7` .DDDDDDDDNNNF`',
-        \ '                     `D|IIIIII7IIIII7` .DDDDDDDDNNNF`',
-        \ '                       |EEEEEEEEEE7` .DDDDDDDNNNNF`',
-        \ '                       |EEEEEEEEZ` .DDDDDDDDNNNF`',
-        \ '                       |888888Z` .DDDDDDDDNNNF`',
-        \ '                       |8888Z` ,DDDDDDDNNNNF`',
-        \ '                       |88Z`    "DNNNNNNN"',
-        \ '                       `"`        "MMMM"',
-        \ '                                    ""',
-        \ '',
-        \ '',
-        \ ]
-endif
-" }}}
-
-if s:plug.is_installed('vim-tmng') " {{{
-  let g:tmng#student_id = 's12t241'
-  let g:tmng#title_template    = '課題ページ'
-  let g:tmng#subtitle_template = ''
-  let g:neosnippet#snippets_directory = '~/.vim/plugged/vim-tmng/snippets'
-  Autocmd BufWrite *.txt,*.tmng
-        \ :TmngReplaceDotAndComma
-endif
-" }}}
-
-if s:plug.is_installed('vim-jsx') " {{{
-  let g:jsx_ext_required = 0
-  let g:jsx_pragma_required = 0
-endif
-" }}}
-
-if s:plug.is_installed('phpcomplete-extended') " {{{
-  let g:phpcomplete_index_composer_command = 'composer'
-  AutocmdFT php setlocal omnifunc=phpcomplete_extended
-endif
-" }}}
-
-if s:plug.is_installed('splitjoin.vim') " {{{
-  let g:splitjoin_join_mapping = ',j'
-  let g:splitjoin_split_mapping = ',s'
-endif
 "}}}
 
-if s:plug.is_installed('switch.vim') " {{{
-  let g:switch_custom_definitions =
-        \  [
-        \     {
-        \         '\(\k\+\)'    : '''\1''',
-        \       '''\(.\{-}\)''' :  '"\1"',
-        \        '"\(.\{-}\)"'  :   '\1',
-        \     },
-        \     {
-        \       'true'  : 'false',
-        \       'false' : 'true',
-        \     },
-        \     {
-        \       'if'     : 'unless',
-        \       'unless' : 'if',
-        \     },
-        \     {
-        \       '='  : '\ =\ ',
-        \       '\ =\ ' : '\ ==\ ',
-        \       '\ ==\ ' : '=',
-        \     },
-        \     {
-        \       '->'  : '=>',
-        \       '=>' : '->',
-        \     },
-        \     {
-        \       '-'  : '\ -\ ',
-        \       '\ -\ ' : '-',
-        \     },
-        \     {
-        \       '+'  : '\ +\ ',
-        \       '\ +\ ' : '+',
-        \     },
-        \     {
-        \       '/'  : '\ /\ ',
-        \       '\ /\ ' : '/',
-        \     },
-        \     {
-        \       '\*'  : '\ \*\ ',
-        \       '\ \*\ ' : '\*',
-        \     },
-        \     {
-        \       ')'  : ');',
-        \       ');' : ')',
-        \     },
-        \     {
-        \       '}'  : '};',
-        \       '};' : '},',
-        \       '},' : '}',
-        \     },
-        \     {
-        \       ']'  : '];',
-        \       '];' : ']',
-        \     },
-        \  ]
-  nnoremap <C-s> :<C-u>Switch<CR>
-  nnoremap <Space>sw :<C-u>Switch<CR>
-  " <C-o> 使わんし上書き
-  inoremap <C-o> <ESC>`^:<C-u>Switch<CR>i
-endif
-"}}}
+" indent guides "{{{
 
-if s:plug.is_installed('surround.vim') "{{{
-  nmap ,( csw(
-  nmap ,) csw)
-  nmap ,{ csw{
-  nmap ,} csw}
-  nmap ,[ csw[
-  nmap ,] csw]
-  nmap ,' csw'
-  nmap ," csw"
+if s:plug.is_installed('indentLine') " {{{
+  let g:indentLine_color_term = 239
+  let g:indentLine_color_tty_light = 59
+  let g:indentLine_color_dark = 1
+  let g:indentLine_bufNameExclude = ['NERD_tree.*']
 endif
 " }}}
 
-if s:plug.is_installed('vim-singleton') && has('clientserver') " {{{
-  call singleton#enable()
-endif
-" }}}
-
-if s:plug.is_installed('SrcExpr') " {{{
-  " プレビューウインドウの高さ
-  let g:SrcExpl_WinHeight     = 9
-  " tagsは自動で作成する
-  let g:SrcExpl_UpdateTags    = 1
-  " マッピング
-  let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
-  let g:SrcExpl_RefreshMapKey = "<Space>"
-  let g:SrcExpl_GoBackMapKey  = "<C-b>"
-  nmap <F8> :SrcExplToggle<CR>
-endif
-" }}}
-
-if s:plug.is_installed('codic-vim') "{{{
-  nnoremap <Space>c :<C-u>Codic<CR>
-endif
-"}}}
-
-if s:plug.is_installed('incsearch.vim') "{{{
-  map /  <Plug>(incsearch-forward)
-  map ?  <Plug>(incsearch-backward)
-  nnoremap ;/ /
-  nnoremap ;? ?
-endif
-"}}}
-
-if s:plug.is_installed('clever-f.vim') " {{{
-  let g:clever_f_use_migemo            = 1   " migemo likeな検索
-  let g:clever_f_ignore_case           = 1   " ignore case
-  let g:clever_f_fix_key_direction     = 1   " 行方向固定
-  let g:clever_f_across_no_line        = 1   " 行をまたがない
-  let g:clever_f_chars_match_any_signs = ';' " 記号は;
-endif
-" }}}
-
-if s:plug.is_installed('neocomplete-rsense.vim') "{{{
-  if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
+if s:plug.is_installed('vim-indent-guides') " {{{
+  let g:indent_guides_enable_on_vim_startup = 1
+  if has('gui_running')
+    let g:indent_guides_auto_colors  = 1
+    let g:indent_guides_color_change_percent = 20
+  else
+    let g:indent_guides_auto_colors  = 0
+    augroup Indent
+      autocmd!
+      autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=235
+      autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
+    augroup END
   endif
-  let g:rsenseUseOmniFunc = 1
-  if filereadable(expand('/usr/local/bin/rsense'))
-    let g:rsenseHome = expand('/usr/local/bin/rsense')
-    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-  endif
+  let g:indent_guides_guide_size = &shiftwidth
+  let g:indent_guides_start_level = 1
 endif
 " }}}
 
-if s:plug.is_installed('php.vim') "{{{
-  function! PhpSyntaxOverride()
-    hi! def link phpDocTags  phpDefine
-    hi! def link phpDocParam phpType
-  endfunction
-
-  augroup phpSyntaxOverride
-    autocmd!
-    autocmd FileType php call PhpSyntaxOverride()
-  augroup END
-endif
 "}}}
+
+" ctags "{{{
 
 if s:plug.is_installed('auto-ctags.vim') "{{{
   let g:auto_ctags = 1
@@ -1484,11 +1301,25 @@ if s:plug.is_installed('auto-ctags.vim') "{{{
 endif
 "}}}
 
-if s:plug.is_installed('PDV--phpDocumentor-for-Vim') "{{{
-  nnoremap <Leader>p :set formatoptions&<CR>:call PhpDocSingle()<CR>kv/func<CR>k=:%s/\s\+$//e<CR><C-o>
-  let g:pdv_re_indent=''
+if s:plug.is_installed('alpaca_tags') " {{{
+  let g:alpaca_tags#config = {
+        \   '_' : '--tag-relative --recurse=yes --sort=yes --append=yes',
+        \   'ruby' : '--exclude=.bundle,vendor/bundle --languages=+Ruby',
+        \   'javascript' : '--exclude=node_modules --exclude=packages/*/.build/'
+        \    . '--exclude=bundle --exclude=public'
+        \ }
+  augroup AlpacaTags
+    autocmd!
+  augroup END
+  command! -nargs=* AutoAlpaca autocmd AlpacaTags <args>
+  AutoAlpaca BufWritePost Gemfile AlpacaTagsBundle
+  AutoAlpaca BufEnter * AlpacaTagsSet
+  AutoAlpaca BufWritePost * AlpacaTagsUpdate
 endif
+" }}}
 "}}}
+
+" index search"{{{
 
 if s:plug.is_installed('ctrlp.vim') "{{{
   let g:ctrlp_map = '<C-p>'
@@ -1499,28 +1330,168 @@ if s:plug.is_installed('ctrlp.vim') "{{{
 endif
 " }}}
 
-if s:plug.is_installed('hl_matchit.vim') " {{{
-  let g:hl_matchit_enable_on_vim_startup = 1
-  let g:hl_matchit_hl_groupname = 'cursorlinenr'
+if s:plug.is_installed('Command-T') "{{{
+  let s:commandTHeight=18
+  let g:CommandTMaxHeight=s:commandTHeight
+  let g:CommandTMinHeight=s:commandTHeight
+  let g:CommandTClearMap=['<C-u>', '<C-w>']
+  let g:CommandTCancelMap=['<C-[>', '<C-c>', '<Esc>']
+  let g:CommandTMaxDepth=20
+  nnoremap ,t :CommandTFlush<CR>\|:CommandT<Space><UP>
+  nnoremap <silent> ,l :CommandTFlush<CR>\|:CommandT<CR>
+  nnoremap <silent> ,b :CommandTFlush<CR>\|:CommandTBuffer<CR>
 endif
 " }}}
 
-if s:plug.is_installed('jscomplete-vim') "{{{
-  AutocmdFT javascript setlocal omnifunc=jscomplete#CompleteJS
-  AutocmdFT coffee     setlocal omnifunc=jscomplete#CompleteJS
+if s:plug.is_installed('fzf') "{{{
+  if has('gui_running')
+    set runtimepath+=~/.fzf'
+    let g:fzf_launcher = "In_a_new_term_function %s"
+  endif
+  if s:plug.is_installed('fzf.vim')
+    " my mapping
+    nnoremap <Space>a :<C-u>Ag <C-r><C-w><CR>
+    nnoremap <Space>b :<C-u>Buffers<CR>
+    nnoremap <Space>c :<C-u>BCommits<CR>
+    nnoremap <Space>g :<C-u>GFiles<CR>
+    nnoremap <Space>s :<C-u>GFiles?<CR>
+    nnoremap <Space>t :<C-u>Filetypes<CR>
+    nnoremap <Space>w :<C-u>Windows<CR>
+
+    function! s:ls_open_file_callback(candidate) abort
+      execute 'edit ' . a:candidate
+    endfunction
+
+    function! s:ls_open_file_fzf() abort
+      call fzf#run({
+            \ 'source':  'ls -1awF',
+            \ 'sink': function('s:ls_open_file_callback'),
+            \ 'down': 20
+            \ })
+    endfunction
+
+    command! LsOpen call s:ls_open_file_fzf()
+    nnoremap <Space>f :<C-u>LsOpen<CR>
+
+    function! s:cd_fzf_callback(candidate) abort
+      let s:directory = substitute(a:candidate, ' ', '\ ', 'g')
+      execute 'cd ' . s:directory
+    endfunction
+
+    function! s:select_directory_fzf()
+      call fzf#run({
+            \ 'source': 'find * -type d',
+            \ 'sink': function('s:cd_fzf_callback'),
+            \ 'down': 20
+            \ })
+    endfunction
+
+    command! Cd call s:select_directory_fzf()
+    nnoremap <Space>d :<C-u>Cd<CR>
+
+  endif
 endif
 "}}}
 
-if s:plug.is_installed('tagbar') " {{{
-  let g:tagbar_width = 20
-  nnoremap <silent> ,o :TagbarToggle<CR>
-endif
-" " }}}
+"}}}
 
-if s:plug.is_installed('vim-css-colors') " {{{
-  let g:cssColorVimDoNotMessMyUpdatetime = 1
+" operator {{{
+
+if s:plug.is_installed('vim-operator-flashy') " {{{
+  let g:operator#flashy#group = 'MyGlashy'
+  if exists('g:nyaovim_version')
+    let g:operator#flashy#flash_time = 30
+  else
+    let g:operator#flashy#flash_time = 300
+  endif
+  map y <Plug>(operator-flashy)
+  nmap Y <Plug>(operator-flashy)$
 endif
 " }}}
+
+if s:plug.is_installed('vim-operator-replace') "{{{
+  nmap R <Plug>(operator-replace)
+  xmap R <Plug>(operator-replace)
+endif
+"}}}
+
+" }}}
+
+" search and replace"{{{
+
+if s:plug.is_installed('vim-over') " {{{
+  nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//gc<Left><Left><Left>
+  xnoremap s :<C-u>OverCommandLine<CR>'<,'>s///gc<Left><Left><Left>
+else
+  nnoremap sub :%s/<C-r><C-w>//gc<Left><Left><Left>
+  xnoremap s :<C-u>'<,'>s///gc<Left><Left><Left><Left><Left>
+endif
+" }}}
+
+if s:plug.is_installed('vim-anzu') " {{{
+  nmap n <Plug>(anzu-n-with-echo) zz
+  nmap N <Plug>(anzu-N-with-echo) zz
+  nmap * <Plug>(anzu-star-with-echo) zz
+  nmap # <Plug>(anzu-sharp-with-echo) zz
+  nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+endif
+" }}}
+
+if s:plug.is_installed('incsearch.vim') "{{{
+  map /  <Plug>(incsearch-forward)
+  map ?  <Plug>(incsearch-backward)
+  nnoremap ;/ /
+  nnoremap ;? ?
+endif
+"}}}
+
+if s:plug.is_installed('incsearch-migemo') " {{{
+  map ,/ <Plug>(incsearch-migemo-/)
+  map ,? <Plug>(incsearch-migemo-?)
+  map ,m/ <Plug>(incsearch-migemo-stay)
+endif
+" }}}
+
+"}}}
+
+" jump cursor"{{{
+
+if s:plug.is_installed('clever-f.vim') " {{{
+  let g:clever_f_use_migemo            = 1   " migemo likeな検索
+  let g:clever_f_ignore_case           = 1   " ignore case
+  let g:clever_f_fix_key_direction     = 1   " 行方向固定
+  let g:clever_f_across_no_line        = 1   " 行をまたがない
+  let g:clever_f_chars_match_any_signs = ';' " 記号は;
+endif
+" }}}
+
+if s:plug.is_installed('vim-easymotion') " {{{
+  " configure
+  let g:EasyMotion_do_mapping = 0
+  let g:EasyMotion_smartcase = 1
+  let g:EasyMotion_startofline = 0
+  let g:EasyMotion_keys = 'hjklasdgyuiopqwertnmzxcvb;:f'
+  let g:EasyMotion_use_upper = 1
+  let g:EasyMotion_enter_jump_first = 1
+  let g:EasyMotion_space_jump_first = 1
+  let g:EasyMotion_use_migemo = 1
+  " keymapping
+  nmap ss <Plug>(easymotion-s2)
+  xmap ss <Plug>(easymotion-s2)
+  nmap sj <Plug>(easymotion-j)
+  nmap sk <Plug>(easymotion-k)
+  nmap f <Plug>(easymotion-fl)
+  nmap F <Plug>(easymotion-Fl)
+  xmap f <Plug>(easymotion-fl)
+  xmap F <Plug>(easymotion-Fl)
+
+  highlight EasyMotionTarget guifg=#80a0ff guibg=#80a0ff ctermfg=81 ctermbg=14
+endif
+" }}}
+
+"}}}
+
+" auto close bracket "{{{
 
 if s:plug.is_installed('lexima.vim') " {{{
   let g:lexima_enable_basic_rules = 1
@@ -1544,101 +1515,6 @@ if s:plug.is_installed('lexima.vim') " {{{
         \   "char" : '<Enter>',
         \   "input" : '<BS><Enter>',
         \})
-endif
-" }}}
-
-if s:plug.is_installed('tagbar') " {{{
-  let g:tagbar_width = 20
-  nnoremap <silent> <leader>t :TagbarToggle<CR>
-endif
-" " }}}
-
-if s:plug.is_installed('vim-css-colors') " {{{
-  let g:cssColorVimDoNotMessMyUpdatetime = 1
-endif
-" }}}
-
-if s:plug.is_installed('vim-go') " {{{
-  let g:go_highlight_functions = 1
-  let g:go_highlight_methods = 1
-  let g:go_highlight_structs = 1
-  let g:go_highlight_operators = 1
-  let g:go_highlight_build_constraints = 1
-endif
-" }}}
-
-if s:plug.is_installed('vim-indent-guides') " {{{
-  let g:indent_guides_enable_on_vim_startup = 1
-  if has('gui_running')
-    let g:indent_guides_auto_colors  = 1
-    let g:indent_guides_color_change_percent = 20
-  else
-    let g:indent_guides_auto_colors  = 0
-    augroup Indent
-      autocmd!
-      autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=235
-      autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=234
-    augroup END
-  endif
-  let g:indent_guides_guide_size = &shiftwidth
-  let g:indent_guides_start_level = 1
-endif
-" }}}
-
-if s:plug.is_installed('alpaca_tags') " {{{
-  let g:alpaca_tags#config = {
-        \   '_' : '--tag-relative --recurse=yes --sort=yes --append=yes',
-        \   'ruby' : '--exclude=.bundle,vendor/bundle --languages=+Ruby',
-        \   'javascript' : '--exclude=node_modules --exclude=packages/*/.build/'
-        \    . '--exclude=bundle --exclude=public'
-        \ }
-  augroup AlpacaTags
-    autocmd!
-  augroup END
-  command! -nargs=* AutoAlpaca autocmd AlpacaTags <args>
-  AutoAlpaca BufWritePost Gemfile AlpacaTagsBundle
-  AutoAlpaca BufEnter * AlpacaTagsSet
-  AutoAlpaca BufWritePost * AlpacaTagsUpdate
-endif
-" }}}
-
-if s:plug.is_installed('incsearch-migemo') " {{{
-  map ,/ <Plug>(incsearch-migemo-/)
-  map ,? <Plug>(incsearch-migemo-?)
-  map ,m/ <Plug>(incsearch-migemo-stay)
-endif
-" }}}
-
-if s:plug.is_installed('vim-operator-flashy') " {{{
-  let g:operator#flashy#group = 'MyGlashy'
-  if exists('g:nyaovim_version')
-    let g:operator#flashy#flash_time = 30
-  else
-    let g:operator#flashy#flash_time = 300
-  endif
-  map y <Plug>(operator-flashy)
-  nmap Y <Plug>(operator-flashy)$
-endif
-" }}}
-
-if s:plug.is_installed('vim-signify') " {{{
-  nmap <Leader>gj <Plug>(signify-next-hunk)zz
-  nmap <Leader>gk <Plug>(signify-prev-hunk)zz
-  nmap <Leader>gh <Plug>(signify-toggle-highlight)
-  nmap <Leader>gt <Plug>(signify-toggle)
-endif
-" }}}
-
-if s:plug.is_installed('tern_for_vim') " {{{
-  let tern#is_show_argument_hints_enabled = 1
-  AutocmdFT javascript setlocal omnifunc=tern#Complete
-  Autocmd BufEnter *.js call tern#Enable()
-  Autocmd BufEnter * set completeopt-=preview
-  nnoremap <buffer><C-]> :<C-u>TernDef<CR>
-endif " }}}
-
-if s:plug.is_installed('endwise') " {{{
-  inoremap <silent><CR> <CR><Plug>DiscretionaryEnd
 endif
 " }}}
 
@@ -1861,17 +1737,230 @@ if s:plug.is_installed('vim-smartinput') "{{{
 endif
 " }}}
 
-if s:plug.is_installed('YouCompleteMe') " {{{
-  let g:ycm_collect_identifiers_from_tags_files = 1
-  let g:EclimCompletionMethod = 'omnifunc'
-  AutocmdFT javascript nnoremap ,gd :<C-u>YcmCompleter GetDoc<CR>
-  AutocmdFT javascript nnoremap ,gt :<C-u>YcmCompleter GoTo<CR>
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  " autocmd FileType ruby setlocal omnifunc=
+if s:plug.is_installed('endwise') " {{{
+  inoremap <silent><CR> <CR><Plug>DiscretionaryEnd
+endif
+" }}}
+
+"}}}
+
+" status line"{{{
+
+if s:plug.is_installed('lightline.vim') " {{{
+  let g:lightline = {
+        \   'mode_map': {
+        \     'n' : 'N',
+        \     'i' : 'I',
+        \     'R' : 'R',
+        \     'v' : 'V',
+        \     'V' : 'V-L',
+        \     'c' : 'COMMAND',
+        \     "\<C-v>": 'V-B',
+        \     's' : 'SELECT',
+        \     'S' : 'S-L',
+        \     "\<C-s>": 'S-B',
+        \   },
+        \   'colorscheme': 'wombat',
+        \   'component': {
+        \     'readonly': '%{&readonly?"\u2b64":""}',
+        \   },
+        \   'separator': { 'left': "\u2b80", 'right': "\u2b82" },
+        \   'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
+        \   'active': {
+        \     'left':  [ [ 'mode', 'paste', 'capstatus' ],
+        \                [ 'anzu', 'fugitive' ],
+        \                [ 'filename' ] ],
+        \     'right': [ [ 'qfstatusline' ],
+        \                [ 'filetype' ],
+        \                [ 'fileencoding' ],
+        \                [ 'fileformat' ] ]
+        \   },
+        \   'component_expand': {
+        \     'syntastic': 'SyntasticStatuslineFlag',
+        \     'qfstatusline' : 'qfstatusline#Update'
+        \   },
+        \   'component_type': {
+        \     'syntastic': 'error',
+        \     'qfstatusline': 'error',
+        \   },
+        \   'component_function': {
+        \     'anzu' : 'anzu#search_status',
+        \     'fugitive' : 'MyFugitive',
+        \     'mode' : 'MyMode'
+        \   }
+        \ }
+
+  let g:Qfstatusline#UpdateCmd = function('lightline#update')
+
+  function! MyMode()
+    let fname = expand('%:t')
+    return  fname =~ 'NERD_tree' ? 'NERDTree' :
+          \ &ft == 'unite' ? 'Unite' :
+          \ &ft == 'vimfiler' ? 'VimFiler' :
+          \ &ft == 'vimshell' ? 'VimShell' :
+          \ &ft == 'undotree' ? 'UndoTree' :
+          \ &ft == 'dirvish' ? 'Dirvish' :
+          \ winwidth(0) > 60 ? lightline#mode() : ''
+  endfunction
+
+endif
+"}}}
+
+if s:plug.is_installed('vim-qfstatusline') " {{{
+  function! StatuslineUpdate()
+    return qfstatusline#Update()
+  endfunction
+  let g:Qfstatusline#UpdateCmd = function('StatuslineUpdate')
+endif
+" }}}
+
+"}}}
+
+if s:plug.is_installed('undotree') " {{{
+  let g:undotree_SetFocusWhenToggle = 1
+  let g:undotree_SplitWidth = 35
+  let g:undotree_diffAutoOpen = 1
+  let g:undotree_diffpanelHeight = 25
+  let g:undotree_RelativeTimestamp = 1
+  let g:undotree_TreeNodeShape = '*'
+  let g:undotree_HighlightChangedText = 1
+  nnoremap ,u :UndotreeToggle<CR>
+endif
+" }}}
+
+if s:plug.is_installed('yankround.vim') "{{{
+  nmap p <Plug>(yankround-p)
+  xmap P <Plug>(yankround-P)
+  nmap gp <Plug>(yankround-gp)
+  xmap gp <Plug>(yankround-gp)
+  " nmap <C-n> <Plug>(yankround-next)
+  " nmap <C-p> <Plug>(yankround-prev)
+  nnoremap ,y :Unite yankround<CR>
+endif
+" }}}
+
+if s:plug.is_installed('caw.vim') "{{{
+  let g:caw_no_default_keymappings = 1
+  nmap ,c <Plug>(caw:hatpos:toggle)
+  vmap ,c <Plug>(caw:hatpos:toggle)
+endif
+" }}}
+
+if s:plug.is_installed('codic-vim') "{{{
+  nnoremap <Space>c :<C-u>Codic<CR>
+endif
+"}}}
+
+if s:plug.is_installed('TweetVim') "{{{
+  nnoremap ,tt :<C-u>Unite tweetvim<CR>
+  nnoremap ,ts :<C-u>TweetVimSay<CR>
+endif
+" }}}
+
+if s:plug.is_installed('w3m.vim') "{{{
+  let g:w3m#external_browser = 'firefox'
+  let g:w3m#hit_a_hint_key = 'f'
+  nnoremap <F8> [w3m]
+  xnoremap <F8> [w3m]
+  nnoremap [w3m]s :W3mTab google
+  " rails デバッグ用
+  nnoremap [w3m]r :W3mTab http://localhost:3000<CR>
+endif
+" }}}
+
+if s:plug.is_installed('vim-gitgutter') " {{{
+  let g:gitgutter_sign_added    = '+'
+  let g:gitgutter_sign_modified = '*'
+  let g:gitgutter_sign_removed  = '-'
+  let g:gitgutter_map_keys = 0
+
+  " gitbranch名
+  function! MyFugitive()
+    try
+      if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head') && strlen(fugitive#head())
+        let _ = fugitive#head()
+        return strlen(_) ? '⭠ '._ : ''
+      endif
+    catch
+    endtry
+    return ''
+  endfunction
+
+  function! MyGitGutter()
+    if ! exists('*GitGutterGetHunkSummary')
+          \ || ! get(g:, 'gitgutter_enabled', 0)
+          \ || winwidth('.') <= 90
+      return ''
+    endif
+    let symbols = [
+          \ g:gitgutter_sign_added . ' ',
+          \ g:gitgutter_sign_modified . ' ',
+          \ g:gitgutter_sign_removed . ' '
+          \ ]
+    let hunks = GitGutterGetHunkSummary()
+    let ret = []
+    for s:i in [0, 1, 2]
+      if hunks[s:i] > 0
+        call add(ret, symbols[s:i] . hunks[s:i])
+      endif
+    endfor
+    return join(ret, ' ')
+  endfunction
+endif
+" }}}
+
+if s:plug.is_installed('vim-easy-align') "{{{
+  vnoremap <Enter> :EasyAlign<CR>
+endif
+"}}}
+
+if s:plug.is_installed('vim-altr') " {{{
+  call altr#define('autoload/%.vim', 'doc/%-doc.txt', 'plugin/%.vim')
+  call altr#define('actions/%Action.coffee', 'stores/%Store.coffee')
+  call altr#define('actions/%Action.js', 'stores/%Store.js')
+  call altr#define('src/%.cpp', 'src/include/%.h')
+  nmap ,a <Plug>(altr-forward)
+endif
+" }}}
+
+if s:plug.is_installed('vim-quickhl') " {{{
+  map ,m <Plug>(quickhl-manual-this)
+  map ,M <Plug>(quickhl-manual-reset)
+endif
+" }}}
+
+if s:plug.is_installed('vim-startify') " {{{
+  let g:startify_custom_header = [
+        \ '',
+        \ '                                    ..',
+        \ '                                  .::::.',
+        \ '                     ___________ :;;;;:`____________',
+        \ '                     \_________/ ?????L \__________/',
+        \ '                       |.....| ????????> :.......,',
+        \ '                       |:::::| $$$$$$$`.:::::::; ,',
+        \ '                      ,|:::::| $$$$$`.:::::::; .OOS.',
+        \ '                    ,7D|;;;;;| $$$`.;;;;;;;; .OOO888S.',
+        \ '                  .GDDD|;;;;;| ?`.;;;;;;;; .OO8DDDDDNNS.',
+        \ '                   `DDO|IIIII| .7IIIII7` .DDDDDDDDNNNF`',
+        \ '                     `D|IIIIII7IIIII7` .DDDDDDDDNNNF`',
+        \ '                       |EEEEEEEEEE7` .DDDDDDDNNNNF`',
+        \ '                       |EEEEEEEEZ` .DDDDDDDDNNNF`',
+        \ '                       |888888Z` .DDDDDDDDNNNF`',
+        \ '                       |8888Z` ,DDDDDDDNNNNF`',
+        \ '                       |88Z`    "DNNNNNNN"',
+        \ '                       `"`        "MMMM"',
+        \ '                                    ""',
+        \ '',
+        \ '',
+        \ ]
+endif
+" }}}
+
+if s:plug.is_installed('vim-signify') " {{{
+  nmap <Leader>gj <Plug>(signify-next-hunk)zz
+  nmap <Leader>gk <Plug>(signify-prev-hunk)zz
+  nmap <Leader>gh <Plug>(signify-toggle-highlight)
+  nmap <Leader>gt <Plug>(signify-toggle)
 endif
 " }}}
 
@@ -1883,85 +1972,10 @@ if s:plug.is_installed('vim-brightest') " {{{
 endif
 " }}}
 
-if s:plug.is_installed('vim-javacomplete2') " {{{
-  AutocmdFT java setlocal omnifunc=javacomplete#Complete
-  nmap <F5> <Plug>(JavaComplete-Imports-AddSmart)
-  imap <F5> <Plug>(JavaComplete-Imports-AddSmart)
-  nmap <F6> <Plug>(JavaComplete-Imports-Add)
-  imap <F6> <Plug>(JavaComplete-Imports-Add)
-  nmap <F7> <Plug>(JavaComplete-Imports-AddMissing)
-  imap <F7> <Plug>(JavaComplete-Imports-AddMissing)
-  nmap <F8> <Plug>(JavaComplete-Imports-RemoveUnused)
-  imap <F8> <Plug>(JavaComplete-Imports-RemoveUnused)
+if s:plug.is_installed('vim-singleton') && has('clientserver') " {{{
+  call singleton#enable()
 endif
 " }}}
-
-if s:plug.is_installed('ultisnips')  " {{{
-  let g:UltiSnipsExpandTrigger = '<C-Space>'
-  let g:UltiSnipsJumpForwardTrigger = '<C-n>'
-  let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-  " If you want :UltiSnipsEdit to split your window.
-  let g:UltiSnipsEditSplit="vertical"
-endif
-" }}}
-
-if s:plug.is_installed('vim-operator-replace') "{{{
-  nmap R <Plug>(operator-replace)
-  xmap R <Plug>(operator-replace)
-endif
-"}}}
-
-if s:plug.is_installed('emmet-vim') "{{{
-  let g:user_emmet_settings = {
-        \  'javascript' : {
-        \      'extends' : 'jsx',
-        \  },
-        \}
-endif
-" }}}
-
-if s:plug.is_installed('vim-jsx-utils') "{{{
-  nnoremap ,ja :call JSXEncloseReturn()<CR>
-  nnoremap ,ji :call JSXEachAttributeInLine()<CR>
-  nnoremap ,je :call JSXExtractPartialPrompt()<CR>
-  nnoremap ,jc :call JSXChangeTagPrompt()<CR>
-  nnoremap ,js :call JSXSelectTag()<CR>
-endif
-command! React :map ,j
-" }}}
-
-if s:plug.is_installed('Command-T') "{{{
-  let s:commandTHeight=18
-  let g:CommandTMaxHeight=s:commandTHeight
-  let g:CommandTMinHeight=s:commandTHeight
-  let g:CommandTClearMap=['<C-u>', '<C-w>']
-  let g:CommandTCancelMap=['<C-[>', '<C-c>', '<Esc>']
-  let g:CommandTMaxDepth=20
-  nnoremap ,t :CommandTFlush<CR>\|:CommandT<Space><UP>
-  nnoremap <silent> ,l :CommandTFlush<CR>\|:CommandT<CR>
-  nnoremap <silent> ,b :CommandTFlush<CR>\|:CommandTBuffer<CR>
-endif
-" }}}
-
-if s:plug.is_installed('fzf') "{{{
-  nnoremap <silent> <C-@> :<C-u>FZF<CR>
-  if has('gui_running')
-    set runtimepath+=~/.fzf'
-    let g:fzf_launcher = "In_a_new_term_function %s"
-  endif
-  if s:plug.is_installed('fzf.vim')
-    " my mapping
-    nnoremap <Space>a :<C-u>Ag <C-r><C-w><CR>
-    nnoremap <Space>b :<C-u>Buffers<CR>
-    nnoremap <Space>c :<C-u>BCommits<CR>
-    nnoremap <Space>g :<C-u>GFiles<CR>
-    nnoremap <Space>s :<C-u>GFiles?<CR>
-    nnoremap <Space>t :<C-u>Filetypes<CR>
-    nnoremap <Space>w :<C-u>Windows<CR>
-  endif
-  nnoremap <Space>f :<C-u>FZF<CR>
-endif
-"}}}
 
 if s:plug.is_installed('vim-signature') "{{{
   let g:SignatureMarkTextHLDynamic = 1
@@ -1971,40 +1985,123 @@ if s:plug.is_installed('vim-signature') "{{{
 endif
 "}}}
 
-if s:plug.is_installed('neomake') "{{{
-  let g:neomake_javascript_enabled_makers = [
-        \   'eslint'
-        \ ]
-
-  let g:neomake_jsx_enabled_makers = [
-        \   'eslint'
-        \ ]
-
-  let g:neomake_javascript_eslint_marker = {
-        \   'exe': 'eslint_d',
-        \   'args': ['-f', 'compact'],
-        \   'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-        \   '%W%f: line %l\, col %c\, Warning - %m'
-        \ }
-
-  nnoremap <F4> :<C-u>lprev<CR>
-  nnoremap <F5> :<C-u>lnext<CR>
-  nnoremap ,l :<C-u>Unite location_list<CR>
-
-  Autocmd VimLeave *.js !eslint_d stop
-  Autocmd VimLeave *.jsx !eslint_d stop
-  Autocmd BufWrite,BufEnter * :Neomake
-  " Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
-  function! s:Neomake_callback(options)
-    if &filetype ==# 'javascript' || &filetype ==# 'ruby' || &filetype ==# 'javascript.jsx'
-      edit
-    endif
-  endfunction
+if s:plug.is_installed('vim-niceblock') "{{{
+  xmap I  <Plug>(niceblock-I)
+  xmap A  <Plug>(niceblock-A)
 endif
 "}}}
 
-if s:plug.is_installed('neoterm') "{{{
-  command! -nargs=+ Tg :T git <args>
+if s:plug.is_installed('surround.vim') "{{{
+  nmap ,( csw(
+  nmap ,) csw)
+  nmap ,{ csw{
+  nmap ,} csw}
+  nmap ,[ csw[
+  nmap ,] csw]
+  nmap ,' csw'
+  nmap ," csw"
+endif
+" }}}
+
+if s:plug.is_installed('splitjoin.vim') " {{{
+  let g:splitjoin_join_mapping = ',j'
+  let g:splitjoin_split_mapping = ',s'
+endif
+"}}}
+
+if s:plug.is_installed('switch.vim') " {{{
+  let g:switch_custom_definitions =
+        \  [
+        \     {
+        \         '\(\k\+\)'    : '''\1''',
+        \       '''\(.\{-}\)''' :  '"\1"',
+        \        '"\(.\{-}\)"'  :   '\1',
+        \     },
+        \     {
+        \       'true'  : 'false',
+        \       'false' : 'true',
+        \     },
+        \     {
+        \       'if'     : 'unless',
+        \       'unless' : 'if',
+        \     },
+        \     {
+        \       '='  : '\ =\ ',
+        \       '\ =\ ' : '\ ==\ ',
+        \       '\ ==\ ' : '=',
+        \     },
+        \     {
+        \       '->'  : '=>',
+        \       '=>' : '->',
+        \     },
+        \     {
+        \       '-'  : '\ -\ ',
+        \       '\ -\ ' : '-',
+        \     },
+        \     {
+        \       '+'  : '\ +\ ',
+        \       '\ +\ ' : '+',
+        \     },
+        \     {
+        \       '/'  : '\ /\ ',
+        \       '\ /\ ' : '/',
+        \     },
+        \     {
+        \       '\*'  : '\ \*\ ',
+        \       '\ \*\ ' : '\*',
+        \     },
+        \     {
+        \       ')'  : ');',
+        \       ');' : ')',
+        \     },
+        \     {
+        \       '}'  : '};',
+        \       '};' : '},',
+        \       '},' : '}',
+        \     },
+        \     {
+        \       ']'  : '];',
+        \       '];' : ']',
+        \     },
+        \  ]
+  nnoremap <C-s> :<C-u>Switch<CR>
+  nnoremap <Space>sw :<C-u>Switch<CR>
+  " <C-o> 使わんし上書き
+  inoremap <C-o> <ESC>`^:<C-u>Switch<CR>i
+endif
+"}}}
+
+if s:plug.is_installed('SrcExpr') " {{{
+  " プレビューウインドウの高さ
+  let g:SrcExpl_WinHeight     = 9
+  " tagsは自動で作成する
+  let g:SrcExpl_UpdateTags    = 1
+  " マッピング
+  let g:SrcExpl_updateTagsCmd = "ctags --sort=foldcase -R ."
+  let g:SrcExpl_RefreshMapKey = "<Space>"
+  let g:SrcExpl_GoBackMapKey  = "<C-b>"
+  nmap <F8> :SrcExplToggle<CR>
+endif
+" }}}
+
+if s:plug.is_installed('hl_matchit.vim') " {{{
+  let g:hl_matchit_enable_on_vim_startup = 1
+  let g:hl_matchit_hl_groupname = 'cursorlinenr'
+endif
+" }}}
+
+if s:plug.is_installed('tagbar') " {{{
+  let g:tagbar_width = 20
+  nnoremap <silent> ,o :TagbarToggle<CR>
+endif
+" " }}}
+
+if s:plug.is_installed('emmet-vim') "{{{
+  let g:user_emmet_settings = {
+        \  'javascript' : {
+        \      'extends' : 'jsx',
+        \  },
+        \}
 endif
 " }}}
 
@@ -2402,6 +2499,8 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " 7.7. QuickFix
 Autocmd QuickFixCmdPost make,*grep* cwindow
 
+Autocmd BufRead * if &buftype ==# 'terminal' | set nolist | endif
+
 " }}}
 
 " 8. my command {{{
@@ -2450,35 +2549,6 @@ if executable('git')
   endfunction
 
   command! Cdu :execute 'cd' . s:cd_gitroot()
-endif
-" }}}
-
-" 8.9. cd-fzf {{{
-if executable('fzf-tmux') && executable('fzf') && !has('gui_running')
-  function! s:get_current_path()
-    redir! => s:current_path
-    silent pwd
-    redir END
-    return s:current_path
-  endfunction
-
-  function! s:select_directory_tmux_fzf()
-    let s:current_path = s:get_current_path()
-    try
-      let directory = system('find * -type d | fzf-tmux')
-    catch
-    endtry
-    if empty(directory)
-      let directory = '.'
-    endif
-    let directory = substitute(directory, ' ', '\ ', 'g')
-    execute 'cd ' . directory
-    unsilent pwd
-    unlet directory
-  endfunction
-
-  command! Cd :call s:select_directory_tmux_fzf()
-  nnoremap <silent> <Space>d :<C-u>Cd<CR>
 endif
 " }}}
 
@@ -2536,8 +2606,6 @@ nnoremap <Up> <C-w>+
 " }}}
 
 " 9.3. tab {{{
-nmap g <Nop>
-nmap g g
 nnoremap ge :<C-u>tabedit<Space>.<CR>
 nnoremap <silent> gc :<C-u>tablast <bar> tabnew<CR>
 nnoremap <silent> gn :<C-u>tabnew<CR>
@@ -2796,6 +2864,7 @@ let s:abbrs = [
       \   {'type': 'c', 'before' : 'fzf',       'after' : 'FZF'},
       \   {'type': 'c', 'before' : 'cdu',       'after' : 'Cdu'},
       \   {'type': 'c', 'before' : 'unite',     'after' : 'Unite'},
+      \   {'type': 'c', 'before' : 'tig',       'after' : 'Tig'},
       \   {'type': 'c', 'before' : 'ag',        'after' : 'Ags'},
       \   {'type': 'c', 'before' : 'ggrep',     'after' : 'Ggrep'},
       \   {'type': 'c', 'before' : 'gist',      'after' : 'Gist'},

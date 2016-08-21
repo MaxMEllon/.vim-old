@@ -4,7 +4,8 @@ let &rtp = expand('~/.vim/') . ', '
 runtime! plugin/python_setup.vim
 
 let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = '/usr/local/bin/python3'
+" let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/Users/maxmellon/.pyenv/shims/python3'
 
 tnoremap <C-w>h <C-\><C-n><C-w>h
 tnoremap <C-w>j <C-\><C-n><C-w>j
