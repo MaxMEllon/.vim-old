@@ -2424,7 +2424,7 @@ endif
 
 " 8.5. eslint
 if executable('eslint')
-  command! EsFix %!eslint_d --fix
+  command! EsFix !eslint_d --fix %
   command! EsFixAsync  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
 endif
 
