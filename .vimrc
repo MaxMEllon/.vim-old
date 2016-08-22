@@ -351,9 +351,11 @@ endif
 " 3.1.2 END }}}
 
 " 3.1.3. snippets {{{
-Plug 'SirVer/ultisnips'
+if !has('nvim') && !has('gui_running')
+  Plug 'SirVer/ultisnips'
+  Plug 'ryanpineo/neocomplete-ultisnips'
+endif
 Plug 'honza/vim-snippets'
-Plug 'ryanpineo/neocomplete-ultisnips'
 " Plug 'Shougo/neosnippet'
 " Plug 'Shougo/neosnippet-snippets'
 " END }}}
@@ -856,11 +858,13 @@ endif
 " }}}
 
 if s:plug.is_installed('ultisnips')  " {{{
-  let g:UltiSnipsExpandTrigger = '<C-Space>'
-  let g:UltiSnipsJumpForwardTrigger = '<C-n>'
-  let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-  " If you want :UltiSnipsEdit to split your window.
-  let g:UltiSnipsEditSplit="vertical"
+  if !has('nvim') && !has('gui_running')
+    let g:UltiSnipsExpandTrigger = '<C-Space>'
+    let g:UltiSnipsJumpForwardTrigger = '<C-n>'
+    let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
+    " If you want :UltiSnipsEdit to split your window.
+    let g:UltiSnipsEditSplit="vertical"
+  endif
 endif
 " }}}
 
@@ -1086,8 +1090,8 @@ if s:plug.is_installed('neomake') "{{{
   nnoremap <F5> :<C-u>lnext<CR>
   nnoremap ,l :<C-u>Unite location_list<CR>
 
-  Autocmd VimLeave *.js !eslint_d stop
-  Autocmd VimLeave *.jsx !eslint_d stop
+  Autocmd VimLeave * !eslint_d stop
+  Autocmd VimEnter * :call vimproc#system_bg('eslint_d start')
   Autocmd BufWrite,BufEnter * :Neomake
   " Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
   function! s:Neomake_callback(options)
@@ -1776,7 +1780,7 @@ if s:plug.is_installed('lightline.vim') " {{{
         \   'subseparator': { 'left': ":", 'right': ":" },
         \   'active': {
         \     'left':  [ [ 'mode', 'paste', 'capstatus'  ],
-        \                [ 'anzu', 'fugitive' ],
+        \                [ 'anzu', 'fugitive', 'neomake' ],
         \                [ 'filename' ] ],
         \     'right': [ [ 'qfstatusline' ],
         \                [ 'filetype' ],
@@ -1794,6 +1798,7 @@ if s:plug.is_installed('lightline.vim') " {{{
         \   'component_function': {
         \     'anzu' : 'anzu#search_status',
         \     'fugitive' : 'MyFugitive',
+        \     'neomake' : 'MyNeomake',
         \     'mode' : 'MyMode'
         \   }
         \ }
@@ -1823,6 +1828,30 @@ if s:plug.is_installed('lightline.vim') " {{{
           \ winwidth(0) > 60 ? lightline#mode() : ''
   endfunction
 
+  function! MyNeomake()
+    if !exists('*neomake#statusline#LoclistCounts')
+      return ''
+    endif
+
+    " Count all the errors, warnings
+    let total = 0
+
+    for v in values(neomake#statusline#LoclistCounts())
+      let total += v
+    endfor
+
+    for v in items(neomake#statusline#QflistCounts())
+      let total += v
+    endfor
+
+    if total == 0
+      return ''
+    endif
+
+    unlet v
+
+    return 'Errors : ' . total
+  endfunction
 endif
 "}}}
 
@@ -2155,7 +2184,7 @@ set pastetoggle    =<F11>
 set report         =1               " 変更された行数の報告がでる最小値
 set ruler
 set scrolloff      =10              " 常に10行表示
-set showcmd                         " ステータスラインに常にコメンド表示
+set noshowcmd                       " ステータスラインに常にコメンド表示
 set showmatch                       " 閉じ括弧を入力時，開き括弧に一瞬ジャンプ
 set splitbelow                      " 横分割時、新しいウィンドウは下
 set splitright                      " 縦分割時、新しいウィンドウは右
@@ -2485,7 +2514,7 @@ Autocmd VimEnter COMMIT_EDITMSG setlocal spell
 " }}}
 
 " 7.2. auto complete html close tag
-AutocmdFT html     inoremap <silent> <buffer> </ </<C-x><C-o>
+AutocmdFT html inoremap <silent> <buffer> </ </<C-x><C-o>
 
 " 7.3. modify iskeyword in css
 AutocmdFT sass,scss,css,stylus setlocal iskeyword+=-
@@ -2507,7 +2536,7 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " 7.7. QuickFix
 Autocmd QuickFixCmdPost make,*grep* cwindow
 
-Autocmd BufEnter * if &buftype ==# 'terminal' | set nolist | startinsert | endif
+Autocmd BufEnter * if &buftype ==# 'terminal' | setlocal nolist | startinsert | endif
 
 " }}}
 
@@ -2531,13 +2560,13 @@ endif
 
 " 8.5. eslint
 if executable('eslint')
-  command! EsFix !eslint_d --fix %
+  command! EsFix :! eslint_d --fix %
   command! EsFixAsync  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
 endif
 
 " 8.6. rubocop
 if executable('rubocop')
-  command! Rubocop %!rubocop -a
+  command! Rubocop !rubocop -a %
   command! RubocopAsync :call vimproc#system_bg("rubocop -a " . expand("%"))
 endif
 
@@ -2918,8 +2947,6 @@ function! s:GetHighlight(hi)
 endfunction
 
 " See: http://qiita.com/kotashiratsuka/items/dcd1f4231385dc9c78e7
-" ステータスラインにコマンドを表示
-set showcmd
 " ステータスラインを常に表示
 set laststatus=2
 " ファイルナンバー表示
@@ -2978,7 +3005,7 @@ Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=un
 
 " Z. END {{{
 syntax on
-filetype indent on
+filetype indent plugin on
 set secure " vimrcの最後に記述 vimhelpより
 " }}}
 

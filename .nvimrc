@@ -15,12 +15,13 @@ tnoremap <F2> <C-\><C-n>:<C-u>tabnext<CR>
 tnoremap <F3> <C-\><C-n>:<C-u>tabprevious<CR>
 tnoremap jj <C-\><C-n>
 tnoremap <ESC> <C-\><C-n>
-nnoremap <Space>sh :<C-u>sp<CR>:<C-u>terminal<CR>
+" nnoremap <Space>sh :<C-u>sp<CR>:<C-u>terminal<CR>
 
 try
   " nvim-qt config
-  command SetWin set lines=60 | set columns=100
-  command -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+  command! SetWin set lines=80 | set columns=120
+  command! -nargs=? Guifont call rpcnotify(0, 'Gui', 'SetFont', "<args>") | let g:Guifont="<args>"
+  SetWin
   Guifont Ubuntu Mono:h14
 catch
 endtry
