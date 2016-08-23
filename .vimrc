@@ -324,6 +324,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'supermomonga/vimshell-pure.vim'
 " Plug 't9md/vim-quickhl'
 " Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
+" Plug 'thinca/vim-textobj-function-javascript'           " js function textobj
 " Plug 'tmhedberg/matchit'
 " Plug 'toyamarinyon/vim-swift', {'for' : 'swift'}
 " Plug 'tpope/vim-rails'
@@ -351,7 +352,7 @@ endif
 " 3.1.2 END }}}
 
 " 3.1.3. snippets {{{
-if !has('nvim') && !has('gui_running')
+if !has('nvim') || !has('gui_running') " ignore nvim-dot-app
   Plug 'SirVer/ultisnips'
   Plug 'ryanpineo/neocomplete-ultisnips'
 endif
@@ -374,11 +375,9 @@ Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidと�
 Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
 Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
-Plug 'ervandew/eclim'                      " eclipse-backendとvimをつなげるやつ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
-Plug 'haya14busa/vim-operator-flashy'
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'jistr/vim-nerdtree-tabs'                     " タブを超えたツリーファイラ
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}           " fzf
@@ -410,7 +409,6 @@ Plug 'soramugi/auto-ctags.vim'
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
 Plug 'thinca/vim-ref'
-Plug 'thinca/vim-textobj-function-javascript'             " js function textobj
 Plug 'tpope/vim-dispatch'                           " vimからtmuxのペイン切る奴
 Plug 'tpope/vim-fugitive'                                     " Gdiffとかを提供
 Plug 'tyru/capture.vim', {'on' : 'Capture'}    " コマンドの結果をバッファに出力
@@ -514,6 +512,8 @@ Plug 'dag/vim-fish', {'for' : ['fish']}
 " 3.1.H. only vim {{{
 if !has('nvim')
   Plug 'osyo-manga/vim-watchdogs'              " 各種lintをQuickRunを通して実行
+  Plug 'ervandew/eclim'                    " eclipse-backendとvimをつなげるやつ
+  Plug 'haya14busa/vim-operator-flashy'
   Plug 'metakirby5/codi.vim', {'on' : 'Codi'}
 endif
 " }}}
@@ -723,23 +723,26 @@ endif
 
 if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#enable_at_startup = 1
-  imap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ deoplete#mappings#manual_complete()
   function! s:check_back_space() abort "{{{
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
   endfunction "}}}
 
-  " <S-TAB>: completion back.
-  inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+  inoremap <expr><Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr><S-Tab> pumvisible() ? "\<C-n>" : "\<S-TAB>"
   " <C-h>, <BS>: close popup and delete backword char.
   inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
   inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 
+  imap <silent><C-k> <C-r>=deoplete#mappings#close_popup()<CR>
+  imap <silent><CR> <C-r>=<SID>my_cr_function()<CR>
+
   function! s:my_cr_function() abort
-    return deoplete#mappings#close_popup() . "\<CR>"
+    if pumvisible()
+      return deoplete#mappings#close_popup()
+    else
+      return "\<CR>"
+    endif
   endfunction
 
   call deoplete#custom#set('_', 'converters', [
@@ -858,13 +861,12 @@ endif
 " }}}
 
 if s:plug.is_installed('ultisnips')  " {{{
-  if !has('nvim') && !has('gui_running')
-    let g:UltiSnipsExpandTrigger = '<C-Space>'
-    let g:UltiSnipsJumpForwardTrigger = '<C-n>'
-    let g:UltiSnipsJumpBackwardTrigger = '<C-b>'
-    " If you want :UltiSnipsEdit to split your window.
-    let g:UltiSnipsEditSplit="vertical"
-  endif
+  let g:UltiSnipsExpandTrigger = '<C-t>'
+  let g:UltiSnipsListSnippets = '<C-d>'
+  let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+  let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+  " If you want :UltiSnipsEdit to split your window.
+  let g:UltiSnipsEditSplit="vertical"
 endif
 " }}}
 
@@ -2536,7 +2538,12 @@ Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
 " 7.7. QuickFix
 Autocmd QuickFixCmdPost make,*grep* cwindow
 
-Autocmd BufEnter * if &buftype ==# 'terminal' | setlocal nolist | startinsert | endif
+" 7.8. for nvim
+if has('nvim')
+  " 7.8.1. terminal mode
+  Autocmd BufRead,BufEnter * if &buftype ==# 'terminal'
+        \| setlocal nolist | startinsert | endif
+endif
 
 " }}}
 
@@ -2692,7 +2699,7 @@ xnoremap < <gv
 
 " 9.8.1. emacs like {{{
 inoremap <C-a> <Home>
-inoremap <C-k> <ESC>c$
+" inoremap <C-k> <ESC>c$
 inoremap <C-u> <ESC>^c$
 inoremap <C-e> <End>
 inoremap <C-h> <BS>
@@ -2714,16 +2721,28 @@ function! s:indent_braces()
   elseif s:beforeletter == ' '
     let s:res = "\<C-]>\n\<ESC>\:RemoveWhiteSpace\n\ii\<ESC>==xa"
   else
-    let s:res = "\<C-]>\n"
+    if pumvisible()
+      let s:res = "\<ESC>a"
+    else
+      let s:res = "\<C-]>\n"
+    endif
   endif
   return s:res
 endfunction
+
 inoremap <silent> <expr> <CR> <SID>indent_braces()
 "}}}
 
-" 9.9.3. quick copy and paste (windows like)
+" 9.9.3. quick copy and paste (windows like) {{{
+
 inoremap <C-v> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 vnoremap <C-c> "+y
+if has('nvim')
+  inoremap <D-V> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
+  vnoremap <D-C> "+y
+endif
+
+" }}}
 
 " 9.9.4. comma
 inoremap , ,<Space>
@@ -2972,6 +2991,7 @@ set statusline+=%=
 " ファイルタイプ表示
 " 現在行が全体行の何%目か表示
 set statusline+=%15(%c%V\ %p%%%)
+
 " filetype
 set statusline+=%y
 " 文字バイト数/カラム番号
@@ -2991,8 +3011,8 @@ try
     colorscheme molokai
   else
     colorscheme molokai
-    Autocmd VimEnter * highlight FoldColumn ctermfg=67  ctermbg=16
-    Autocmd VimEnter * highlight Folded     ctermfg=67  ctermbg=16
+    Autocmd VimEnter * highlight FoldColumn ctermfg=67 ctermbg=16
+    Autocmd VimEnter * highlight Folded     ctermfg=67 ctermbg=16
   endif
 catch
   colorscheme pablo
