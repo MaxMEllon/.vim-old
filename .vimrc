@@ -501,7 +501,7 @@ Plug 'samuelsimoes/vim-jsx-utils'                       " jsxの整形などを�
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
-Plug 'dag/vim-fish', {'for' : ['fish']}
+Plug 'rhysd/vim-gfm-syntax'
 " }}}
 
 " 3.1.G. for nyaovim {{{
@@ -542,6 +542,11 @@ if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 
 " }}}
 
+" 3.1.J. shell {{{
+Plug 'dag/vim-fish', {'for' : ['fish']}
+Plug 'zplug/vim-zplug'
+" }}}
+
 " 3.1. END }}}
 
 " 3.2. load plugins (local) {{{
@@ -551,6 +556,9 @@ if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 " s:maxmellon_plug()
 " @args {String} plugin directory name
 function! s:maxmellon_plug(...) abort
+  if !isdirectory(expand('~/.vim/localPlugged'))
+    call mkdir($HOME . '/.vim/localPlugged')
+  endif
   let plugin = '~/.vim/localPlugged/' . a:1
   Plug plugin
   unlet plugin
@@ -569,7 +577,7 @@ MyPlug 'vim-cmus'
 MyPlug 'vim-jsx-pretty'
 MyPlug 'molokai'
 MyPlug 'vim-react-snippets'
-" 3.2.2. END}}}
+" 3.2.2. END }}}
 
 " 3.2. END }}}
 
@@ -580,6 +588,10 @@ call plug#end()
 " 3.3.1. s:plug.is_installed() "{{{
 " @args {String} plugin name
 
+let g:p = { "plugs": get(g:, 'plugs', {}) }
+function! g:p.is_installed(name)
+  return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
+endfunction
 let s:plug = { "plugs": get(g:, 'plugs', {}) }
 function! s:plug.is_installed(name)
   return has_key(self.plugs, a:name) ? isdirectory(self.plugs[a:name].dir) : 0
@@ -758,8 +770,8 @@ if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#keyword_patterns = {}
   let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
   let g:deoplete#omni#input_patterns = {}
-  let g:deoplete#omni#input_patterns.ruby =
-        \ ['[^. *\t]\.\w*', '[a-zA-Z_]\w*::']
+  let g:monster#completion#rcodetools#backend = "async_rct_complete"
+  let g:deoplete#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
   let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
   let g:deoplete#omni#input_patterns.javascript = '\%(\h\w*\|[^. \t]\.\w*\)'
   let g:deoplete#omni#input_patterns.php =
@@ -1261,6 +1273,14 @@ if s:plug.is_installed('vim-markdown-quote-syntax') "{{{
 endif
 "}}}
 
+if s:plug.is_installed('vim-gfm-syntax')  " {{{
+  let g:gfm_syntax_enable = 1
+  let g:gfm_syntax_enable_filetypes = ['markdown.gfm']
+  " let g:markdown_fenced_languages = ['cpp', 'ruby', 'json', 'javascript']
+  Autocmd BufRead,BufNew,BufNewFile *.md setlocal filetype=markdown.gfm
+endif
+" }}}
+
 "}}}
 
 " indent guides "{{{
@@ -1358,6 +1378,14 @@ if s:plug.is_installed('fzf') "{{{
     set runtimepath+=~/.fzf'
     let g:fzf_launcher = "In_a_new_term_function %s"
   endif
+
+  let g:fzf_action = {
+        \ 'ctrl-t': 'tab split',
+        \ 'ctrl-x': 'tab split',
+        \ 'ctrl-v': 'tab split' }
+
+  let g:fzf_layout = { 'up' : '~40%', 'options': '--reverse' }
+
   if s:plug.is_installed('fzf.vim')
     " my mapping
     nnoremap <Space>a :<C-u>Ag <C-r><C-w><CR>
@@ -2144,6 +2172,11 @@ if s:plug.is_installed('emmet-vim') "{{{
 endif
 " }}}
 
+if s:plug.is_installed('vim-ref')
+  AutocmdFT ruby
+        \ let g:ref_refe_cmd = $HOME.'/.rbenv/shims/refe' "refeコマンドのパス
+endif
+
 " 3.3. END }}}
 
 " 3. END }}}
@@ -2413,7 +2446,6 @@ command! -nargs=* SetFileType call s:set_filetype(<f-args>)
 
 " 5.3. regist filetypes {{{
 let s:MyFileTypes = [
-      \   {'file' : '.md',       'type' : 'markdown'},
       \   {'file' : '.slim',     'type' : 'slim'},
       \   {'file' : '.less',     'type' : 'less'},
       \   {'file' : '.coffee',   'type' : 'coffee'},
@@ -2831,9 +2863,10 @@ nnoremap : ;
 vnoremap : ;
 " }}}
 
-" 9.F. command mode {{{
+" 9.F. command line mode {{{
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+cnoremap <expr> j getcmdline()[getcmdpos()-2] ==# 'j' ? "\<BS>\<C-c>" : 'j'
 " cnoremap <Tab> <C-d>
 nnoremap <SID>(command-line-enter) q:
 xnoremap <SID>(command-line-enter) q:
@@ -2967,41 +3000,40 @@ endfunction
 
 " See: http://qiita.com/kotashiratsuka/items/dcd1f4231385dc9c78e7
 " ステータスラインを常に表示
-set laststatus=2
-" ファイルナンバー表示
-set statusline=[%n]
-" ファイル名表示
-set statusline+=%<%t:
-" git branch
-if s:plug.is_installed('fugitive')
-  set statusline+=%{fugitive#statusline()}
-endif
-" 構文チェック
-if s:plug.is_installed('syntastic')
-  set statusline+=%{SyntasticStatuslineFlag()}
-endif
-" 変更のチェック表示
-set statusline+=%m
-" 読み込み専用かどうか表示
-set statusline+=%r
-" プレビューウインドウなら[Prevew]と表示
-set statusline+=%w
-" ここからツールバー右側
-set statusline+=%=
-" ファイルタイプ表示
-" 現在行が全体行の何%目か表示
-set statusline+=%15(%c%V\ %p%%%)
+if s:plug.is_installed('lightline.vim') == s:false
+  set statusline=[%n]
+  " ファイル名表示
+  set statusline+=%<%t:
+  " git branch
+  if s:plug.is_installed('fugitive')
+    set statusline+=%{fugitive#statusline()}
+  endif
+  " 構文チェック
+  if s:plug.is_installed('syntastic')
+    set statusline+=%{SyntasticStatuslineFlag()}
+  endif
+  " 変更のチェック表示
+  set statusline+=%m
+  " 読み込み専用かどうか表示
+  set statusline+=%r
+  " プレビューウインドウなら[Prevew]と表示
+  set statusline+=%w
+  " ここからツールバー右側
+  set statusline+=%=
+  " ファイルタイプ表示
+  " 現在行が全体行の何%目か表示
+  set statusline+=%15(%c%V\ %p%%%)
 
-" filetype
-set statusline+=%y
-" 文字バイト数/カラム番号
-" set statusline+=[ASCII=%B]
-" set statusline+=%{system('battery')}
-" 現在文字列/全体列表示
-" set statusline+=[C=%c/%{col('$')-1}]
-" 現在文字行/全体行表示
-set statusline+=[L=%l/%L]
-
+  " filetype
+  set statusline+=%y
+  " 文字バイト数/カラム番号
+  " set statusline+=[ASCII=%B]
+  " set statusline+=%{system('battery')}
+  " 現在文字列/全体列表示
+  " set statusline+=[C=%c/%{col('$')-1}]
+  " 現在文字行/全体行表示
+  set statusline+=[L=%l/%L]
+endif
 " }}}
 
 " C. color {{{
@@ -3028,4 +3060,3 @@ syntax on
 filetype indent plugin on
 set secure " vimrcの最後に記述 vimhelpより
 " }}}
-
