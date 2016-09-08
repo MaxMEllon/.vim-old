@@ -453,7 +453,7 @@ Plug 'StanAngeloff/php.vim', {'for' : 'php'}
 
 " 3.1.A. for elixir {{{
 Plug 'elixir-lang/vim-elixir', {'for' : 'elixir'}
-if has('nvim')
+if has('nvim') && executable('mix')
   Plug 'awetzel/elixir.nvim', { 'do': 'yes \| ./install.sh' }
 endif
 "   }}}
@@ -513,7 +513,9 @@ Plug 'rhysd/vim-gfm-syntax'
 " 3.1.H. only vim {{{
 if !has('nvim')
   Plug 'osyo-manga/vim-watchdogs'              " 各種lintをQuickRunを通して実行
-  Plug 'ervandew/eclim'                    " eclipse-backendとvimをつなげるやつ
+  if IsMac()
+    Plug 'ervandew/eclim'                    " eclipse-backendとvimをつなげるやつ
+  endif
   Plug 'haya14busa/vim-operator-flashy'
   Plug 'metakirby5/codi.vim', {'on' : 'Codi'}
 endif
