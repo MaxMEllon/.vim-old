@@ -340,7 +340,7 @@ if has('nvim')
   function! DoRemote(arg)
     UpdateRemotePlugins
   endfunction
-  Plug 'Shougo/deoplete.nvim',  { 'do': function('DoRemote')  }
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote')  }
   Plug 'carlitux/deoplete-ternjs'
 elseif has('gui_running')
   " Plug 'Valloric/YouCompleteMe' " clang, python2依存 optional: msbuild, eclim等
@@ -374,6 +374,7 @@ Plug 'The-NERD-tree'
 Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
 Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
 Plug 'dannyob/quickfixstatus'
+Plug 'chase/vim-ansible-yaml'
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
@@ -522,6 +523,7 @@ endif
 if has('nvim')
   Plug 'neomake/neomake'
   Plug 'kassio/neoterm'
+  Plug 'Shougo/denite.nvim', { 'do': function('DoRemote') }
 endif
 
 if has('gui_running') || has('nvim')
