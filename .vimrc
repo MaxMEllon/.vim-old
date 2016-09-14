@@ -97,10 +97,10 @@ if !has('nvim') && !has('gui_running') && !empty($PYENV_ROOT)
   " let &pythondll = s:python2dll
   " let $PYTHONHOME = s:python2home
 
-  let s:python3home = $PYENV_ROOT . '/versions/3.5.1'
-  let s:python3dll  = $PYENV_ROOT . '/versions/3.5.1/lib/libpython3.5m.dylib'
-  let &pythonthreedll = s:python3dll
-  let $PYTHONHOME = s:python3home
+  " let s:python3home = $PYENV_ROOT . '/versions/3.5.1'
+  " let s:python3dll  = $PYENV_ROOT . '/versions/3.5.1/lib/libpython3.5m.dylib'
+  " let &pythonthreedll = s:python3dll
+  " let $PYTHONHOME = s:python3home
 endif
 
 " 1.6. END }}}
@@ -353,8 +353,8 @@ endif
 
 " 3.1.3. snippets {{{
 if !has('nvim') || !has('gui_running') " ignore nvim-dot-app
-  Plug 'SirVer/ultisnips'
-  Plug 'ryanpineo/neocomplete-ultisnips'
+  " Plug 'SirVer/ultisnips'
+  " Plug 'ryanpineo/neocomplete-ultisnips'
 endif
 Plug 'honza/vim-snippets'
 " Plug 'Shougo/neosnippet'
@@ -1278,7 +1278,7 @@ endif
 "}}}
 
 if s:plug.is_installed('vim-gfm-syntax')  " {{{
-  let g:gfm_syntax_enable = 1
+  let g:gfm_syntax_enable_always = 1
   let g:gfm_syntax_enable_filetypes = ['markdown.gfm']
   " let g:markdown_fenced_languages = ['cpp', 'ruby', 'json', 'javascript']
   Autocmd BufRead,BufNew,BufNewFile *.md setlocal filetype=markdown.gfm
@@ -2630,6 +2630,18 @@ if executable('git')
 
   command! Cdu :execute 'cd' . s:cd_gitroot()
 endif
+" }}}
+
+" 8.9. jq {{{
+function! s:Jq(...)
+  if 0 == a:0
+    let l:arg = "."
+  else
+    let l:arg = a:1
+  endif
+  execute "%! jq \"" . l:arg . "\""
+endfunction
+command! -nargs=? Jq call s:Jq(<f-args>)
 " }}}
 
 " }}}
