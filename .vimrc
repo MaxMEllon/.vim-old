@@ -503,6 +503,7 @@ Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
 Plug 'rhysd/vim-gfm-syntax'
+Plug 'evanmiller/nginx-vim-syntax'
 " }}}
 
 " 3.1.G. for nyaovim {{{
