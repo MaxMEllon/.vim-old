@@ -268,7 +268,6 @@ call plug#begin('~/.vim/plugged')
 " Plug '5t111111/alt-gtags.vim'
 " Plug 'Command-T'                 " ruby のバージョンが異なるのか，vimが落ちる
 " Plug 'KazuakiM/vim-qfstatusline'
-" Plug 'MaxMEllon/molokai'
 " Plug 'MaxMEllon/vim-css-color', {'for' : ['css', 'sass', 'scss', 'stylus']}
 " Plug 'MaxMEllon/vim-dirvish'
 " Plug 'PDV--phpDocumentor-for-Vim', {'on' : 'PhpDocSingle', 'for' : 'php'}
@@ -294,6 +293,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'isRuslan/vim-es6', {'for' : 'javascript'}
 " Plug 'itchyny/vim-cursorword'              " カーソル下の同じワードハイライト
 " Plug 'jelera/vim-javascript-syntax', {'for' : 'javascript'}
+" Plug 'junegunn/limelight.vim'
 " Plug 'justinj/vim-react-snippets'
 " Plug 'justinmk/vim-dirvish'
 " Plug 'kana/vim-textobj-fold'
@@ -366,6 +366,7 @@ Plug 'AndrewRadev/switch.vim'              " 決まった文字列を順番に�
 Plug 'Kocha/vim-unite-tig'
 Plug 'LeafCage/foldCC.vim'                        " fold のスタイルをいい感じに
 Plug 'LeafCage/yankround.vim'                " yank履歴 optional-depends: unite
+Plug 'MaxMEllon/molokai'
 Plug 'Shougo/neomru.vim'                             " uniteやneocompleteの依存
 Plug 'Shougo/unite-outline'                    " ソースコードのアウトライン表示
 Plug 'Shougo/unite.vim'                            " 統合ユーザインターフェース
@@ -373,15 +374,15 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}               " :system() を非同�
 Plug 'The-NERD-tree'
 Plug 'Yggdroot/indentLine'                 " indentごとに線 indent-guidとの選択
 Plug 'basyura/unite-rails'                              " railsのM-V-C 移動強化
+Plug 'chase/vim-ansible-yaml', {'for' : 'ansible'}
 Plug 'dannyob/quickfixstatus'
-Plug 'chase/vim-ansible-yaml'
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
 Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'jistr/vim-nerdtree-tabs'                     " タブを超えたツリーファイラ
-Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}           " fzf
+Plug 'junegunn/fzf'                                                       " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-altr'
@@ -565,7 +566,9 @@ function! s:maxmellon_plug(...) abort
     call mkdir($HOME . '/.vim/localPlugged')
   endif
   let plugin = '~/.vim/localPlugged/' . a:1
-  Plug plugin
+  if isdirectory(expand(plugin))
+    Plug plugin
+  endif
   unlet plugin
 endfunction
 
@@ -580,7 +583,7 @@ command! -nargs=* MyPlug call s:maxmellon_plug(<args>)
 " MyPlug 'music.nyaovim'
 MyPlug 'vim-cmus'
 MyPlug 'vim-jsx-pretty'
-MyPlug 'molokai'
+" MyPlug 'molokai'
 MyPlug 'vim-react-snippets'
 " 3.2.2. END }}}
 
@@ -2177,10 +2180,26 @@ if s:plug.is_installed('emmet-vim') "{{{
 endif
 " }}}
 
-if s:plug.is_installed('vim-ref')
+if s:plug.is_installed('vim-ref') " {{{
   AutocmdFT ruby
         \ let g:ref_refe_cmd = $HOME.'/.rbenv/shims/refe' "refeコマンドのパス
 endif
+" }}}
+
+if s:plug.is_installed('limelight.vim') " {{{
+  " Color name (:help cterm-colors) or ANSI code
+  let g:limelight_conceal_ctermfg = 'gray'
+  let g:limelight_conceal_ctermfg = 240
+
+  " Color name (:help gui-colors) or RGB color
+  let g:limelight_conceal_guifg = 'DarkGray'
+  let g:limelight_conceal_guifg = '#777777'
+
+  let g:limelight_bop = '^\s'
+  let g:limelight_eop = '\ze\n^\s'
+  LimeLight
+endif
+" }}}
 
 " 3.3. END }}}
 
@@ -2257,8 +2276,8 @@ if !isdirectory(expand('~/.vim/_swap'))
 endif
 set directory=~/.vim/_swap
 set backupdir=~/.vim/_swap
-set swapfile
-set backup
+set noswapfile
+set nobackup
 " }}}
 
 " 4.6. undofile {{{
@@ -2602,17 +2621,55 @@ if executable('shiba')
   command! Shiba  :! shiba % &>/dev/null 2>&1 &
 endif
 
-" 8.5. eslint
-if executable('eslint')
-  command! EsFix :! eslint_d --fix %
-  command! EsFixAsync  :call vimproc#system_bg("eslint_d --fix " . expand("%"))
-endif
+" 8.5. eslint {{{
+function! Eslintfix()
+  let rootdir = system('git rev-parse --show-toplevel')
+  let rootdir = substitute(rootdir, '\n', '', 'gc')
+  let eslint = rootdir . '/node_modules/.bin/eslint'
+  if executable(eslint)
+    let argv = [eslint, '--fix', expand('%')]
 
-" 8.6. rubocop
-if executable('rubocop')
-  command! Rubocop !rubocop -a %
-  command! RubocopAsync :call vimproc#system_bg("rubocop -a " . expand("%"))
-endif
+    function! s:callback()
+      let file = expand('%')
+      execute 'edit ' . file
+      unlet file
+    endfunction
+
+    let job = async#job#start(argv, {
+          \ 'on_stdout': function('s:callback'),
+          \})
+
+  endif
+  unlet argv
+  unlet rootdir
+endfunction
+command! EsFix call Eslintfix()
+" }}}
+
+" 8.6. rubocop "{{{
+function! Rubocopfix()
+  let rootdir = system('git rev-parse --show-toplevel')
+  let rootdir = substitute(rootdir, '\n', '', 'gc')
+  execute 'cd ' . rootdir
+  if executable('rubocop')
+    let argv = ['bundle', 'exec', 'rubocop', '-a', expand('%')]
+
+    function! s:callback()
+      let file = expand('%')
+      execute 'edit ' . file
+      unlet file
+    endfunction
+
+    let job = async#job#start(argv, {
+          \ 'on_stdout': function('s:callback'),
+          \})
+
+  endif
+  unlet argv
+  unlet rootdir
+endfunction
+command! Rubocop call Rubocopfix()
+" }}}
 
 " 8.7. google
 if executable('google')
@@ -3055,21 +3112,17 @@ endif
 
 " C. color {{{
 try
-  if has('gui_running')
-    set background=dark
-    colorscheme molokai
-  else
-    colorscheme molokai
-    Autocmd VimEnter * highlight FoldColumn ctermfg=67 ctermbg=16
-    Autocmd VimEnter * highlight Folded     ctermfg=67 ctermbg=16
-  endif
+  colorscheme molokai
 catch
-  colorscheme pablo
+  colorscheme slate
 endtry
+
 Autocmd VimEnter * highlight MyGlashy ctermbg=48 term=bold,reverse guibg=#00FF00
 Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=underline
-" Autocmd VimEnter * highlight clear CursorLine
-" Autocmd VimEnter * highlight CursorLine ctermbg=17 cterm=bold
+Autocmd VimEnter * highlight FoldColumn ctermfg=67 ctermbg=16 guifg=#465457 guibg=#000000
+Autocmd VimEnter * highlight Folded     ctermfg=67 ctermbg=16 guifg=#465457 guibg=#000000
+Autocmd VimEnter * highlight Normal ctermbg=none guifg=#F8F8F2 guibg=#272822
+Autocmd VimEnter * highlight LineNr ctermbg=none
 " }}}
 
 " Z. END {{{
