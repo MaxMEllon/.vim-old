@@ -1112,15 +1112,15 @@ if s:plug.is_installed('neomake') "{{{
   nnoremap <F5> :<C-u>lnext<CR>
   nnoremap ,l :<C-u>Unite location_list<CR>
 
-  Autocmd VimLeave * !eslint_d stop
-  Autocmd VimEnter * :call vimproc#system_bg('eslint_d start')
+  Autocmd VimLeave *.js !eslint_d stop
+  Autocmd VimEnter *.js :call vimproc#system_bg('eslint_d start')
   Autocmd BufWrite,BufEnter * :Neomake
   " Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
-  function! s:Neomake_callback(options)
-    if &filetype ==# 'javascript' || &filetype ==# 'ruby' || &filetype ==# 'javascript.jsx'
-      edit
-    endif
-  endfunction
+  " function! s:Neomake_callback(options)
+  "   if &filetype ==# 'javascript' || &filetype ==# 'ruby' || &filetype ==# 'javascript.jsx'
+  "     edit
+  "   endif
+  " endfunction
 endif
 "}}}
 
@@ -2622,53 +2622,67 @@ if executable('shiba')
 endif
 
 " 8.5. eslint {{{
+function! s:eslint_fix_callback(job_id, data, event_type)
+  edit
+endfunction
+
 function! Eslintfix()
   let rootdir = system('git rev-parse --show-toplevel')
   let rootdir = substitute(rootdir, '\n', '', 'gc')
-  let eslint = rootdir . '/node_modules/.bin/eslint'
-  if executable(eslint)
-    let argv = [eslint, '--fix', expand('%')]
-
-    function! s:callback()
-      let file = expand('%')
-      execute 'edit ' . file
-      unlet file
-    endfunction
+  let eslint = rootdir + '/node_modules/.bin/eslint'
+  execute 'cd ' . rootdir
+  if executable('eslint_d')
+    let argv = ['eslint_d', '--fix', '--format', 'compact', expand('%')]
 
     let job = async#job#start(argv, {
-          \ 'on_stdout': function('s:callback'),
+          \ 'on_exit': function('s:eslint_fix_callback'),
           \})
 
   endif
   unlet argv
   unlet rootdir
 endfunction
-command! EsFix call Eslintfix()
+command! EslintAutoFix call Eslintfix()
+augroup Eslint
+  autocmd BufWritePost *.js EslintAutoFix
+augroup END
 " }}}
 
 " 8.6. rubocop "{{{
+function! s:rubocop_fix_callback(job_id, data, event_type)
+  let flag = s:false
+
+  for e in a:data
+    if match(a:data, '[Corrected]') != -1
+      let flag = s:true
+    endif
+  endfor
+
+  if flag == s:true
+    edit
+  endif
+  unlet flag
+endfunction
+
 function! Rubocopfix()
   let rootdir = system('git rev-parse --show-toplevel')
   let rootdir = substitute(rootdir, '\n', '', 'gc')
   execute 'cd ' . rootdir
   if executable('rubocop')
-    let argv = ['bundle', 'exec', 'rubocop', '-a', expand('%')]
-
-    function! s:callback()
-      let file = expand('%')
-      execute 'edit ' . file
-      unlet file
-    endfunction
-
+    let argv = ['bundle', 'exec', 'rubocop', '-a', '--format', 'simple', expand('%')]
     let job = async#job#start(argv, {
-          \ 'on_stdout': function('s:callback'),
+          \ 'on_stdout': function('s:rubocop_fix_callback'),
           \})
-
   endif
+
   unlet argv
   unlet rootdir
 endfunction
-command! Rubocop call Rubocopfix()
+command! RubocopAutoFix call Rubocopfix()
+
+augroup Rubocop
+  autocmd BufWritePost *.rb RubocopAutoFix
+augroup END
 " }}}
 
 " 8.7. google
