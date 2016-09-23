@@ -477,7 +477,7 @@ Plug 'vim-jp/syntax-vim-ex'
 
 " 3.1.E.1.1 out {{{
 " Plug 'mxw/vim-jsx'
-" Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 " Plug 'jelera/vim-javascript-syntax'
 " Plug 'MaxMEllon/vim-jsx-pretty' " 自作プラグインはローカルのを読み込む
 " Plug 'othree/xml.vim' " See: https://github.com/othree/es.next.syntax.vim/issues/5
@@ -488,7 +488,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
-Plug 'othree/yajs.vim'
+" Plug 'othree/yajs.vim'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
 Plug 'rhysd/npm-debug-log.vim'
@@ -1112,8 +1112,6 @@ if s:plug.is_installed('neomake') "{{{
   nnoremap <F5> :<C-u>lnext<CR>
   nnoremap ,l :<C-u>Unite location_list<CR>
 
-  Autocmd VimLeave *.js !eslint_d stop
-  Autocmd VimEnter *.js :call vimproc#system_bg('eslint_d start')
   Autocmd BufWrite,BufEnter * :Neomake
   " Autocmd BufWritePost * call neomake#Make(1, [], function('s:Neomake_callback'))
   " function! s:Neomake_callback(options)
@@ -2588,7 +2586,7 @@ Autocmd BufNewFile,BufRead,VimEnter,WinEnter
 Autocmd InsertLeave * set nopaste
 
 " 7.6. before cursor postion
-Autocmd BufRead * if line("'\"") > 0 && line("'\"") <= line("$")
+Autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
       \ | exe "normal g`\"" | endif
 
 " 7.7. QuickFix
@@ -2600,6 +2598,10 @@ if has('nvim')
   Autocmd BufRead,BufEnter * if &buftype ==# 'terminal'
         \| setlocal nolist | startinsert | endif
 endif
+
+" 7.9, boot eslint daemon
+Autocmd VimLeave *.js !eslint_d stop
+Autocmd VimEnter *.js :call vimproc#system_bg('eslint_d start')
 
 " }}}
 
@@ -2634,7 +2636,7 @@ function! Eslintfix()
   if executable('eslint_d')
     let argv = ['eslint_d', '--fix', '--format', 'compact', expand('%')]
 
-    let job = async#job#start(argv, {
+    call async#job#start(argv, {
           \ 'on_exit': function('s:eslint_fix_callback'),
           \})
 
@@ -2655,6 +2657,7 @@ function! s:rubocop_fix_callback(job_id, data, event_type)
   for e in a:data
     if match(a:data, '[Corrected]') != -1
       let flag = s:true
+      break
     endif
   endfor
 
@@ -2670,7 +2673,7 @@ function! Rubocopfix()
   execute 'cd ' . rootdir
   if executable('rubocop')
     let argv = ['bundle', 'exec', 'rubocop', '-a', '--format', 'simple', expand('%')]
-    let job = async#job#start(argv, {
+    call async#job#start(argv, {
           \ 'on_stdout': function('s:rubocop_fix_callback'),
           \})
   endif
@@ -2715,6 +2718,46 @@ function! s:Jq(...)
 endfunction
 command! -nargs=? Jq call s:Jq(<f-args>)
 " }}}
+
+" 8.A. syntax info {{{
+function! s:get_syn_id(transparent)
+  let synid = synID(line("."), col("."), 1)
+  if a:transparent
+    return synIDtrans(synid)
+  else
+    return synid
+  endif
+endfunction
+function! s:get_syn_attr(synid)
+  let name = synIDattr(a:synid, "name")
+  let ctermfg = synIDattr(a:synid, "fg", "cterm")
+  let ctermbg = synIDattr(a:synid, "bg", "cterm")
+  let guifg = synIDattr(a:synid, "fg", "gui")
+  let guibg = synIDattr(a:synid, "bg", "gui")
+  return {
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
+endfunction
+function! s:get_syn_info()
+  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo "name: " . baseSyn.name .
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
+  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  echo "link to"
+  echo "name: " . linkedSyn.name .
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
+endfunction
+command! SyntaxInfo call s:get_syn_info()
+ "}}}
 
 " }}}
 
@@ -3132,11 +3175,39 @@ catch
 endtry
 
 Autocmd VimEnter * highlight MyGlashy ctermbg=48 term=bold,reverse guibg=#00FF00
-Autocmd VimEnter * highlight MyBrightest ctermfg=11 ctermbg=18 cterm=bold gui=underline
-Autocmd VimEnter * highlight FoldColumn ctermfg=67 ctermbg=16 guifg=#465457 guibg=#000000
-Autocmd VimEnter * highlight Folded     ctermfg=67 ctermbg=16 guifg=#465457 guibg=#000000
+Autocmd VimEnter * highlight MyBrightest ctermfg=11cterm=bold gui=underline
+Autocmd VimEnter * highlight FoldColumn ctermfg=67 ctermbg=none guifg=#465457
+Autocmd VimEnter * highlight Folded ctermfg=67 ctermbg=none ctermbg=16 guifg=#465457 guibg=#000000
 Autocmd VimEnter * highlight Normal ctermbg=none guifg=#F8F8F2 guibg=#272822
 Autocmd VimEnter * highlight LineNr ctermbg=none
+" Autocmd VimEnter * highlight ColorColumn ctermbg=000
+
+" if exists('+colorcolumn')
+"   function! s:DimInactiveWindows()
+"     for i in range(1, tabpagewinnr(tabpagenr(), '$'))
+"       let l:range = ""
+"       if i != winnr()
+"         if &wrap
+"          " HACK: when wrapping lines is enabled, we use the maximum number
+"          " of columns getting highlighted. This might get calculated by
+"          " looking for the longest visible line and using a multiple of
+"          " winwidth().
+"          let l:width=256 " max
+"         else
+"          let l:width=winwidth(i)
+"         endif
+"         let l:range = join(range(1, l:width), ',')
+"       endif
+"       call setwinvar(i, '&colorcolumn', l:range)
+"     endfor
+"     unlet i
+"   endfunction
+"
+"   augroup DimInactiveWindows
+"     autocmd!
+"     autocmd WinEnter * call s:DimInactiveWindows()
+"   augroup END
+" endif
 " }}}
 
 " Z. END {{{
