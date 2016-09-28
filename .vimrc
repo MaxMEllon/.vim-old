@@ -321,6 +321,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'rhysd/clever-f.vim'                                    " f, F, t, Tを強化
 " Plug 'rhysd/endwize.vim'
 " Plug 'rhysd/vim-textobj-ruby'
+" Plug 'soramugi/auto-ctags.vim'
 " Plug 'supermomonga/vimshell-pure.vim'
 " Plug 't9md/vim-quickhl'
 " Plug 'thinca/vim-scouter', {'on' : 'Scouter'}
@@ -407,7 +408,6 @@ Plug 'pocke/vim-hier'                         " Quick-fixハイライト，fork�
 Plug 'prabirshrestha/async.vim'                              " job async utilty
 Plug 'rhysd/committia.vim'                             " Rich vim commit editor
 Plug 'sf1/devdoc-vim'                                                  " devdoc
-Plug 'soramugi/auto-ctags.vim'
 Plug 'surround.vim'                  " () や{} でテキストオブジェクトを囲うマン
 Plug 'thinca/vim-quickrun'                               " コンパイル＆ランナー
 Plug 'thinca/vim-ref'
@@ -477,18 +477,18 @@ Plug 'vim-jp/syntax-vim-ex'
 
 " 3.1.E.1.1 out {{{
 " Plug 'mxw/vim-jsx'
-Plug 'pangloss/vim-javascript'
 " Plug 'jelera/vim-javascript-syntax'
 " Plug 'MaxMEllon/vim-jsx-pretty' " 自作プラグインはローカルのを読み込む
 " Plug 'othree/xml.vim' " See: https://github.com/othree/es.next.syntax.vim/issues/5
 " Plug 'othree/vim-jsx'
+" Plug 'othree/yajs.vim'
 " }}}
 
 Plug 'leafgarland/typescript-vim'
 Plug 'kchmck/vim-coffee-script', {'for' : 'coffee'}
 Plug 'mtscout6/vim-cjsx', {'for' : 'coffee'}
 Plug 'moll/vim-node'
-" Plug 'othree/yajs.vim'
+Plug 'pangloss/vim-javascript'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/es.next.syntax.vim'
 Plug 'rhysd/npm-debug-log.vim'
@@ -789,16 +789,16 @@ if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#omni#input_patterns = {}
   let g:deoplete#omni#functions = {}
 
-  let g:tern#command = ["tern"]
-  let g:tern#arguments = ["--persistent"]
-
   " let g:deoplete#enable_refresh_always = 1
   let g:deoplete#enable_camel_case = 1
   let g:deoplete#auto_complete_start_length = 3
 
   let g:deoplete#ignore_sources = {'_': ['tag']}
+
   let g:tern_request_timeout = 1
   let g:tern_show_signature_in_pum = 0
+  let g:tern#command = ["tern"]
+  let g:tern#arguments = ["--persistent"]
 
   Autocmd BufEnter * set completeopt-=preview
 endif
@@ -1296,6 +1296,9 @@ if s:plug.is_installed('indentLine') " {{{
   let g:indentLine_color_tty_light = 59
   let g:indentLine_color_dark = 1
   let g:indentLine_bufNameExclude = ['NERD_tree.*']
+  " let g:indentLine_char = '│'
+  " let g:indentLine_char = '┆'
+  let g:indentLine_char = '|'
 endif
 " }}}
 
@@ -2600,7 +2603,7 @@ if has('nvim')
 endif
 
 " 7.9, boot eslint daemon
-Autocmd VimLeave *.js !eslint_d stop
+" Autocmd VimLeave *.js !eslint_d stop
 Autocmd VimEnter *.js :call vimproc#system_bg('eslint_d start')
 
 " }}}
@@ -2646,6 +2649,7 @@ function! Eslintfix()
 endfunction
 command! EslintAutoFix call Eslintfix()
 augroup Eslint
+  autocmd!
   autocmd BufWritePost *.js EslintAutoFix
 augroup END
 " }}}
@@ -2684,6 +2688,7 @@ endfunction
 command! RubocopAutoFix call Rubocopfix()
 
 augroup Rubocop
+  autocmd!
   autocmd BufWritePost *.rb RubocopAutoFix
 augroup END
 " }}}
