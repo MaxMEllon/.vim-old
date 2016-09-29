@@ -285,6 +285,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'cohama/lexima.vim'
 " Plug 'cohama/vim-smartinput-endwise'
 " Plug 'ctrlpvim/ctrlp.vim'                                          " ファイラ
+" Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 " Plug 'glts/vim-textobj-comment'
 " Plug 'haya14busa/incsearch-easymotion.vim'
 " Plug 'haya14busa/incsearch-fuzzy.vim'
@@ -379,7 +380,6 @@ Plug 'chase/vim-ansible-yaml', {'for' : 'ansible'}
 Plug 'dannyob/quickfixstatus'
 Plug 'easymotion/vim-easymotion'                 " 画面内の文字に自由にジャンプ
 Plug 'eugen0329/vim-esearch'               " 複数ファイルに対して一括置換，検索
-Plug 'gabesoft/vim-ags', {'on' : 'Ags'}             " vim内でag，QuickFixに出力
 Plug 'gerw/vim-HiLinkTrace', {'on' : 'HLT'}                       " syntax-info
 Plug 'iyuuya/unite-rails-fat'                           " unite-railsを更に強化
 Plug 'jistr/vim-nerdtree-tabs'                     " タブを超えたツリーファイラ
@@ -445,7 +445,9 @@ if executable('rct-complete')
   " Plug 'supermomonga/neocomplete-rsense.vim', {'for' : 'ruby'}
 endif
 " Plug 'keith/rspec.vim'
-if has('ruby') | Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'} | endif
+if has('ruby')
+  " Plug 'todesking/ruby_hl_lvar.vim', {'for' : 'ruby'}
+endif
 "   }}}
 
 " 3.1.9. for php {{{
@@ -798,7 +800,7 @@ if s:plug.is_installed('deoplete.nvim') " {{{
   let g:tern_request_timeout = 1
   let g:tern_show_signature_in_pum = 0
   let g:tern#command = ["tern"]
-  let g:tern#arguments = ["--persistent"]
+  " let g:tern#arguments = ["--persistent"]
 
   Autocmd BufEnter * set completeopt-=preview
 endif
@@ -2239,7 +2241,7 @@ set modeline                        " vim:set tx=4 sw=4..みたいな設定を�
 set modelines      =2               " 上の設定をファイル先頭2行にあるかないか調べる
 set nrformats      =alpha,hex       " アルファベットと16シンスうをC-a C-xで増減可能に
 set noequalalways                   " vs, spの時のwindow幅
-set pumheight      =5               " 補完ウィンドウの行数
+set pumheight      =30              " 補完ウィンドウの行数
 set pastetoggle    =<F11>
 set report         =1               " 変更された行数の報告がでる最小値
 set ruler
@@ -2603,8 +2605,9 @@ if has('nvim')
 endif
 
 " 7.9, boot eslint daemon
-" Autocmd VimLeave *.js !eslint_d stop
-Autocmd VimEnter *.js :call vimproc#system_bg('eslint_d start')
+" Autocmd VimLeave *.js :call vimproc#system_bg('!eslint_d stop')
+" Autocmd VimEnter *.js :call vimproc#system_bg('eslint_d start')
+" Autocmd VimEnter *.js :call vimproc#system_bg('tern')
 
 " }}}
 
