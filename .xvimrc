@@ -1,0 +1,49 @@
+inoremap jj <Esc>`^
+cnoremap jj <Esc>`^
+inoremap <silent> <Esc>  <Esc>`^
+inoremap <silent> <C-[>  <Esc>`^
+inoremap <C-c> <Esc>`^
+inoremap <C-j> j
+nnoremap ge :<C-u>tabedit<Space>.<CR>
+nnoremap <silent> gc :<C-u>tablast <bar> tabnew<CR>
+nnoremap <silent> gn :<C-u>tabnew<CR>
+nnoremap <silent> gx :<C-u>tabclose<CR>
+nnoremap <silent> gn :<C-u>tabnext<CR>
+nnoremap <silent> <F3>   :<C-u>tabnext<CR>
+nnoremap <silent> gp :<C-u>tabprevious<CR>
+nnoremap <silent> <F2>   :<C-u>tabprevious<CR>
+nnoremap <silent> gp o<ESC>p^
+nnoremap <silent> gP O<ESC>P^
+xnoremap <silent> gp o<ESC>p^
+xnoremap <silent> gP O<ESC>P^
+nnoremap > >>
+nnoremap < <<
+xnoremap > >gv
+xnoremap < <gv
+inoremap <C-a> <Home>
+inoremap <C-u> <ESC>^c$
+inoremap <C-e> <End>
+inoremap <C-h> <BS>
+inoremap <C-d> <Del>
+inoremap <C-p> <UP>
+inoremap <C-n> <Down>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
+inoremap <C-m> <CR>
+nnoremap <expr> 0
+      \ col('.') ==# 1 ? '^' : '0'
+nnoremap <C-h> ^
+nnoremap <C-e> $
+nnoremap _ :<C-u>sp .<CR>
+nnoremap <bar> :<C-u>vsp .<CR>
+noremap + <C-a>
+noremap - <C-x>
+vnoremap <C-a> <C-a>gv
+vnoremap <C-x> <C-x>gv
+nnoremap M m
+nnoremap Q q
+nnoremap K  <Nop>
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+nnoremap <F1> <Nop>
+set clipboard=unnamed

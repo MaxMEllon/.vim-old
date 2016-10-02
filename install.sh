@@ -3,6 +3,7 @@
 # vim
 ln -fs ~/.vim/.vimrc ~/ &> /dev/null
 ln -fs ~/.vim/.vimshrc ~/ &> /dev/null
+ln -fs ~/.vim/.xvimrc ~/ &> /dev/null
 # neovim
 mkdir -p ~/.config/nvim
 touch ~/.config/nvim/init.vim

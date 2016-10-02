@@ -501,7 +501,15 @@ Plug 'heavenshell/vim-jsdoc'
 Plug 'samuelsimoes/vim-jsx-utils'                       " jsxの整形などを手助け
 " }}}
 
-" 3.1.F. for etc language {{{
+" 3.1.F. for swift {{{
+
+Plug 'landaire/deoplete-swift'
+Plug 'kballard/vim-swift'
+Plug 'keith/swift.vim'
+
+" }}}
+
+" 3.1.Z. for etc language {{{
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
 Plug 'tmux-plugins/vim-tmux', {'for' : ['tmux', 'conf']}
@@ -509,12 +517,12 @@ Plug 'rhysd/vim-gfm-syntax'
 Plug 'evanmiller/nginx-vim-syntax'
 " }}}
 
-" 3.1.G. for nyaovim {{{
+" 3.1.nyao. for nyaovim {{{
 " Plug 'rhysd/nyaovim-mini-browser'
 " Plug 'MaxMEllon/nyaovim-nicolive-comment-viewer', {'do': 'npm install nicolive@0.0.4'}
 "   }}}
 
-" 3.1.H. only vim {{{
+" 3.1.vim. only vim {{{
 if !has('nvim')
   Plug 'osyo-manga/vim-watchdogs'              " 各種lintをQuickRunを通して実行
   if IsMac()
@@ -525,7 +533,7 @@ if !has('nvim')
 endif
 " }}}
 
-" 3.1.I. only gui, neo {{{
+" 3.1.gui,neo. only gui, neo {{{
 if has('nvim')
   Plug 'neomake/neomake'
   Plug 'kassio/neoterm'
@@ -550,7 +558,7 @@ if has('clientserver') | Plug 'thinca/vim-singleton' | endif
 
 " }}}
 
-" 3.1.J. shell {{{
+" 3.1.shell. shell {{{
 Plug 'dag/vim-fish', {'for' : ['fish']}
 Plug 'zplug/vim-zplug'
 " }}}
@@ -780,9 +788,12 @@ if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#keyword_patterns = {}
   let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
   let g:deoplete#omni#input_patterns = {}
+
   let g:monster#completion#rcodetools#backend = "async_rct_complete"
+
   let g:deoplete#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
   let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
+  let g:deoplete#omni#input_patterns.swift = '[^. *\t]\.\w*'
   let g:deoplete#omni#input_patterns.javascript = '\%(\h\w*\|[^. \t]\.\w*\)'
   let g:deoplete#omni#input_patterns.php =
         \ '\w+|[^. \t]->\w*|\w+::\w*'
@@ -2546,19 +2557,25 @@ command! -nargs=* IndentFT call s:set_indent(<f-args>)
 
 " 6.3. set indent width by filetype {{{
 
-IndentFT python     4 s:false
-IndentFT java       4 s:true
-IndentFT php        4 s:false
-IndentFT make       4 s:false
-IndentFT yaml       2 s:true
-IndentFT conf       4 s:false
-IndentFT coffee     2 s:true
-IndentFT slim       2 s:true
-IndentFT fish       2 s:true
-IndentFT toml       4 s:true
-IndentFT plantuml   2 s:true
-IndentFT javascript 2 s:true
-IndentFT ruby       2 s:true
+let s:MyIndentConfigs = [
+      \   {'type': 'python',     'width': '4', 'is_space': s:false},
+      \   {'type': 'java',       'width': '4', 'is_space': s:true},
+      \   {'type': 'php',        'width': '4', 'is_space': s:false},
+      \   {'type': 'make',       'width': '4', 'is_space': s:false},
+      \   {'type': 'yaml',       'width': '2', 'is_space': s:true},
+      \   {'type': 'conf',       'width': '4', 'is_space': s:false},
+      \   {'type': 'coffee',     'width': '2', 'is_space': s:true},
+      \   {'type': 'slim',       'width': '2', 'is_space': s:true},
+      \   {'type': 'fish',       'width': '2', 'is_space': s:true},
+      \   {'type': 'toml',       'width': '2', 'is_space': s:true},
+      \   {'type': 'plantuml',   'width': '2', 'is_space': s:true},
+      \   {'type': 'javascript', 'width': '2', 'is_space': s:true},
+      \   {'type': 'ruby',       'width': '2', 'is_space': s:true},
+      \ ]
+
+for s:e in s:MyIndentConfigs
+  execute 'IndentFT ' . s:e['type'] . ' ' . s:e['width'] . ' ' s:e['is_space']
+endfor
 
 "}}}
 
