@@ -509,6 +509,12 @@ Plug 'keith/swift.vim'
 
 " }}}
 
+" 3.1.G. for c sharp {{{
+if executable('xbuild') && has('gui_running')
+  Plug 'OmniSharp/omnisharp-vim', {'do': 'xbuild server/OmniSharp.sln'}
+endif
+" }}}
+
 " 3.1.Z. for etc language {{{
 Plug 'MaxMEllon/plantuml-syntax', {'for' : 'plantuml'}
 Plug 'MaxMEllon/vim-tmng', {'for' : ['txt', 'tmng']}
@@ -692,6 +698,7 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   let g:neocomplete#sources#omni#input_patterns.javascript = '\%(\h\w*\|[^. \t]\.\w*\)'
   let g:neocomplete#sources#omni#input_patterns.markdown = ''
   let g:neocomplete#sources#omni#input_patterns.gitcommit = ''
+  let g:neocomplete#sources#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
 
   " Plugin key-mappings.
   inoremap <expr><C-g> neocomplete#undo_completion()
@@ -721,7 +728,7 @@ if s:plug.is_installed('neocomplete.vim') " {{{
   autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
   autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType ruby          setlocal omnifunc=monster#omnifunc
+  " autocmd FileType ruby          setlocal omnifunc=monster#omnifunc
 
   " let g:jscomplete_use = ['dom',  'moz']
   " let g:nodejs_complete_config = {
@@ -795,6 +802,7 @@ if s:plug.is_installed('deoplete.nvim') " {{{
   let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
   let g:deoplete#omni#input_patterns.swift = '[^. *\t]\.\w*'
   let g:deoplete#omni#input_patterns.javascript = '\%(\h\w*\|[^. \t]\.\w*\)'
+  let g:deoplete#omni#input_patterns.cs = '[^.]\.\%(\u\{2,}\)\?'
   let g:deoplete#omni#input_patterns.php =
         \ '\w+|[^. \t]->\w*|\w+::\w*'
 
@@ -2500,6 +2508,7 @@ let s:MyFileTypes = [
       \   {'file' : '.fish',     'type' : 'fish'},
       \   {'file' : '.babelrc',  'type' : 'json'},
       \   {'file' : '.eslintrc', 'type' : 'yaml'},
+      \   {'file' : '.zsh',      'type' : 'zplug.zsh'},
       \ ]
 
 for s:e in s:MyFileTypes
@@ -3193,19 +3202,13 @@ endif
 " }}}
 
 " C. color {{{
-try
+" try
+if has('gui_running')
   colorscheme molokai
-catch
-  colorscheme slate
-endtry
-
-Autocmd VimEnter * highlight MyGlashy ctermbg=48 term=bold,reverse guibg=#00FF00
-Autocmd VimEnter * highlight MyBrightest ctermfg=11cterm=bold gui=underline
-Autocmd VimEnter * highlight FoldColumn ctermfg=67 ctermbg=none guifg=#465457
-Autocmd VimEnter * highlight Folded ctermfg=67 ctermbg=none ctermbg=16 guifg=#465457 guibg=#000000
-Autocmd VimEnter * highlight Normal ctermbg=none guifg=#F8F8F2 guibg=#272822
-Autocmd VimEnter * highlight LineNr ctermbg=none
-" Autocmd VimEnter * highlight ColorColumn ctermbg=000
+endif
+" catch
+"   colorscheme slate
+" endtry
 
 " if exists('+colorcolumn')
 "   function! s:DimInactiveWindows()
