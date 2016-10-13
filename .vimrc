@@ -387,6 +387,7 @@ Plug 'junegunn/fzf'                                                       " fzf
 Plug 'junegunn/fzf.vim'                                 " fzf-powerfull utility
 Plug 'junegunn/vim-easy-align', {'on' : 'EasyAlign'} " 縦にいい感じに揃えるやつ
 Plug 'kana/vim-altr'
+Plug 'kana/vim-fakeclip'
 Plug 'kana/vim-niceblock'
 Plug 'kana/vim-operator-replace'                              " text-object拡張
 Plug 'kana/vim-operator-user'        " オレオレディレクトリ構成を自由にジャンプ
@@ -513,6 +514,10 @@ Plug 'keith/swift.vim'
 if executable('xbuild') && has('gui_running')
   Plug 'OmniSharp/omnisharp-vim', {'do': 'xbuild server/OmniSharp.sln'}
 endif
+" }}}
+
+" 3.1.H. for c/cpp {{{
+Plug 'zchee/deoplete-clang'
 " }}}
 
 " 3.1.Z. for etc language {{{
@@ -1114,13 +1119,8 @@ if s:plug.is_installed('neomake') "{{{
   let g:neomake_error_sign   = {'text': 'X', 'texthl': 'Statement'}
   let g:neomake_info_sign    = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
 
-  let g:neomake_javascript_enabled_makers = [
-        \   'eslint'
-        \ ]
-
-  let g:neomake_jsx_enabled_makers = [
-        \   'eslint'
-        \ ]
+  let g:neomake_javascript_enabled_makers = ['eslint']
+  let g:neomake_jsx_enabled_makers = ['eslint']
 
   let g:neomake_javascript_eslint_marker = {
         \   'exe': 'eslint_d',
@@ -1128,6 +1128,9 @@ if s:plug.is_installed('neomake') "{{{
         \   'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
         \   '%W%f: line %l\, col %c\, Warning - %m'
         \ }
+
+  let g:neomake_cpp_enable_markers = ['clang']
+  let g:neomake_cpp_clang_args = ['-std=c++14', '-Wextra', '-Wall', '-fsanitize=undefined', '-g']
 
   nnoremap <F4> :<C-u>lprev<CR>
   nnoremap <F5> :<C-u>lnext<CR>
@@ -1162,8 +1165,7 @@ if s:plug.is_installed('The-NERD-tree') " {{{
         \ && b:NERDTreeType == "primary") | q | endif
   " NERDTREE ignor'e
   let g:NERDTreeIgnore = [
-        \  '\.log, \.clean$', '\.swp$', '\.bak$', '\~$',
-        \  '\.z\.*', '\.DS_Store'
+        \  '\.log, \.clean$', '\.swp$', '\.bak$', '\~$', '\.DS_Store'
         \]
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeDirArrows = 0
@@ -1307,6 +1309,10 @@ if s:plug.is_installed('vim-gfm-syntax')  " {{{
   Autocmd BufRead,BufNew,BufNewFile *.md setlocal filetype=markdown.gfm
 endif
 " }}}
+
+if s:plug.is_installed('vim-jsx-pretty')
+  let g:vim_jsx_pretty_colorful_config = 1
+endif
 
 "}}}
 
@@ -1542,7 +1548,7 @@ if s:plug.is_installed('vim-easymotion') " {{{
   let g:EasyMotion_do_mapping = 0
   let g:EasyMotion_smartcase = 1
   let g:EasyMotion_startofline = 0
-  let g:EasyMotion_keys = 'hjklasdgyuiopqwertnmzxcvb;:f'
+  let g:EasyMotion_keys = '123456789-=,./;[]\'
   let g:EasyMotion_use_upper = 1
   let g:EasyMotion_enter_jump_first = 1
   let g:EasyMotion_space_jump_first = 1
