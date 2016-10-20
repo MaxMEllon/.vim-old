@@ -396,6 +396,7 @@ Plug 'kana/vim-textobj-function'                            " text obj function
 Plug 'kana/vim-textobj-line'                            " text-object拡張(line)
 Plug 'kana/vim-textobj-user'                                  " text-object拡張
 Plug 'kshenoy/vim-signature'                                       " markを表示
+Plug 'lambdalisue/vim-gita', {'on' : 'Gita'}
 Plug 'lambdalisue/vim-manpager'
 Plug 'mattn/emmet-vim'                                     " htmlに展開するマン
 Plug 'mattn/gist-vim', {'on' : 'Gist'}               " カレントバッファをGistに
@@ -895,6 +896,12 @@ if s:plug.is_installed('vim-javacomplete2') " {{{
 endif
 " }}}
 
+if s:plug.is_installed('deoplete-clang')
+  let g:deoplete#sources#clang#libclang_path
+        \= '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+  let g:deoplete#sources#clang#clang_header = '/usr/bin/clang'
+endif
+
 " }}}
 
 " snippet "{{{
@@ -1121,6 +1128,8 @@ if s:plug.is_installed('neomake') "{{{
 
   let g:neomake_javascript_enabled_makers = ['eslint']
   let g:neomake_jsx_enabled_makers = ['eslint']
+
+  let g:neomake_ruby_enabled_makers = ['rubocop']
 
   let g:neomake_javascript_eslint_marker = {
         \   'exe': 'eslint_d',
@@ -2586,6 +2595,7 @@ let s:MyIndentConfigs = [
       \   {'type': 'plantuml',   'width': '2', 'is_space': s:true},
       \   {'type': 'javascript', 'width': '2', 'is_space': s:true},
       \   {'type': 'ruby',       'width': '2', 'is_space': s:true},
+      \   {'type': 'gitconfig',  'width': '2', 'is_space': s:false},
       \ ]
 
 for s:e in s:MyIndentConfigs
@@ -2709,16 +2719,18 @@ endfunction
 function! Rubocopfix()
   let rootdir = system('git rev-parse --show-toplevel')
   let rootdir = substitute(rootdir, '\n', '', 'gc')
-  execute 'cd ' . rootdir
-  if executable('rubocop')
-    let argv = ['bundle', 'exec', 'rubocop', '-a', '--format', 'simple', expand('%')]
-    call async#job#start(argv, {
-          \ 'on_stdout': function('s:rubocop_fix_callback'),
-          \})
-  endif
-
-  unlet argv
-  unlet rootdir
+  try
+    execute 'cd ' . rootdir
+    if executable('rubocop')
+      let argv = ['bundle', 'exec', 'rubocop', '-a', '--format', 'simple', expand('%')]
+      call async#job#start(argv, {
+            \ 'on_stdout': function('s:rubocop_fix_callback'),
+            \})
+    endif
+    unlet argv
+    unlet rootdir
+  catch
+  endtry
 endfunction
 command! RubocopAutoFix call Rubocopfix()
 
@@ -2914,7 +2926,7 @@ inoremap <C-b> <Left>
 inoremap <C-m> <CR>
 " }}}
 
-" 9.9.2. indent braces {{{
+" 9.8.2. indent braces {{{
 function! s:indent_braces()
   let s:nowletter = getline(".")[col(".")-1]
   let s:beforeletter = getline(".")[col(".")-2]
@@ -2936,7 +2948,7 @@ endfunction
 inoremap <silent> <expr> <CR> <SID>indent_braces()
 "}}}
 
-" 9.9.3. quick copy and paste (windows like) {{{
+" 9.8.3. quick copy and paste (windows like) {{{
 
 inoremap <C-v> <C-o>:set paste<CR><C-r>*<C-o>:set nopaste<CR>
 vnoremap <C-c> "+y
@@ -2947,13 +2959,17 @@ endif
 
 " }}}
 
-" 9.9.4. comma
+" 9.8.4. comma
 inoremap , ,<Space>
 
-" 9.9.5. abbr
+" 9.8.5. abbr
 inoremap . <C-]>.
 inoremap : :<C-]>
 inoremap <Space> <C-]><Space>
+
+" 9.8.6. tab
+inoremap <S-Tab> <C-Tab-v>
+
 
 " }}}
 
